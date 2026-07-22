@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>AI-ONE 홈 — 재정경제부 AI 플랫폼</title>
+	<link rel="stylesheet" as="style" crossorigin
+		href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+	<link rel="stylesheet" href="css/common.css" />
+	<link rel="stylesheet" href="css/ai-home.css" />
+</head>
+
+<body data-page="home" data-root-path=".">
+
+	<!-- 공통 사이드바: common.js가 components/sidebar.html을 로드합니다. -->
+	<div data-include="sidebar/sidebar" data-include-source="html"></div>
+
+	<!-- Start: 메인 콘텐츠 -->
+	<div class="main-wrap" id="mainWrap">
+		<!-- Start: 배경 효과 -->
+		<div class="home-bg-effects" aria-hidden="true">
+			<div class="bg-orb bg-orb-1"></div>
+			<div class="bg-orb bg-orb-2"></div>
+			<div class="bg-orb bg-orb-3"></div>
+			<div class="bg-shape bg-shape-1"></div>
+			<div class="bg-shape bg-shape-2"></div>
+			<div class="bg-shape bg-shape-3"></div>
+			<div class="bg-shape bg-shape-4"></div>
+			<div class="bg-shape bg-shape-5"></div>
+			<div class="bg-dots"></div>
+		</div>
+		<!-- //End: 배경 효과 -->
+		<div class="home-wrap">
+			<header class="home-header">
+				<div class="home-brand-inline">
+					<span class="home-brand-text">AI-ONE Platform</span>
+				</div>
+				<h1 class="home-title">환영합니다, 박재정 주무관님!</h1>
+				<p class="home-subtitle">무엇을 도와드릴까요?</p>
+			</header>
+
+			<!-- Start: AI 검색박스 -->
+			<form class="home-search" id="homeSearchForm" role="search">
+				<img width="29" height="34" aria-hidden="true" data-icon="ai-search" alt="" />
+				<input type="text" class="home-search-input" id="homeSearch" name="query" aria-label="생성형 AI 대화 입력"
+					placeholder="생성형 AI와 대화를 시작합니다." />
+				<button type="submit" class="icon-button icon-button-ghost icon-button-lg home-search-btn"
+					id="homeSearchBtn" aria-label="대화 시작">
+					<!-- 마이크 아이콘 -->
+					<img class="icon icon-xlarge" aria-hidden="true" data-icon="microphone" alt="" />
+				</button>
+			</form>
+			<!-- //End: AI 검색박스 -->
+
+			<!-- Start: 서비스 카드 목록 -->
+			<ul class="service-cards" aria-label="AI 서비스">
+				<li class="service-item">
+					<a href="pages/ai-intake.html" class="service-card">
+						<div class="service-card-top">
+							<div class="service-icon blue">
+								<img src="assets/icons/service-question-classification.svg" width="38" height="38" alt="" aria-hidden="true" />
+							</div>
+						</div>
+						<h3 class="service-title">국회 질의 분류</h3>
+						<p class="service-desc">
+							문서 업로드 · OCR/파싱 · 질의 분류 · 매칭부서 확인
+						</p>
+					</a>
+				</li>
+				<li class="service-item">
+					<a href="pages/ai-answer.html" class="service-card">
+						<div class="service-card-top">
+							<div class="service-icon green"><img src="assets/icons/service-answer-draft.svg" width="38" height="38" alt="" aria-hidden="true" />
+							</div>
+						</div>
+						<h3 class="service-title">국회 답변서 초안 생성</h3>
+						<p class="service-desc">자료 분석 · 유사답변서 추천 · 초안 생성 · 편집</p>
+
+					</a>
+				</li>
+				<li class="service-item">
+					<a href="#" class="service-card" aria-disabled="true">
+						<div class="service-card-top">
+							<div class="service-icon orange"> <img src="assets/icons/service-economic-trends.svg" width="38" height="38" alt="" aria-hidden="true" />
+							</div>
+						</div>
+						<h3 class="service-title">경제동향 분석 보고서</h3>
+						<p class="service-desc">데이터 수집 · 동향 분석 · 보고서 초안 · 검토</p>
+					</a>
+				</li>
+				<li class="service-item">
+					<a href="#" class="service-card" aria-disabled="true">
+						<div class="service-card-top">
+							<div class="service-icon purple">
+								<img src="assets/icons/service-chatbot.svg" width="38" height="38" alt="" aria-hidden="true" />
+							</div>
+						</div>
+						<h3 class="service-title">세수예측 및 시나리오 시뮬레이션</h3>
+						<p class="service-desc">시나리오별 세수 예측</p>
+					</a>
+				</li>
+			</ul>
+			<!-- //End: 서비스 카드 목록 -->
+
+			<!-- Start: 최근 사용 이력 목록 -->
+			<div class="home-history">
+				<div class="history-header">
+					<h2 class="history-title">최근 사용 이력</h2>
+					<button class="history-more" type="button" aria-haspopup="dialog" aria-controls="historyModal">전체 이력
+						보기 ›</button>
+				</div>
+				<div class="history-table-wrap">
+					<table class="history-table" aria-label="최근 사용 이력">
+						<thead>
+							<tr>
+								<th scope="col">서비스명</th>
+								<th scope="col">유형</th>
+								<th scope="col">최근 작업명</th>
+								<th scope="col">최근 이용일</th>
+								<th scope="col">상태</th>
+								<th scope="col">등록일</th>
+								<th scope="col" aria-label="행 작업"></th>
+							</tr>
+						</thead>
+						<tbody id="historyBody">
+							<!-- 개발 연동 시 이 영역을 최근 사용 이력 데이터로 반복 출력합니다. -->
+							<tr>
+								<td>
+									<span class="svc-icon">
+										<img aria-hidden="true" data-icon="document" alt="" />
+										국회 답변서 초안 작성
+									</span>
+								</td>
+								<td><span class="type-badge ai">AI초안</span></td>
+								<td>2025년 청년 고용 정책 관련 답변 초안</td>
+								<td>2025.05.20 10:24</td>
+								<td><span class="status-dot done">완료</span></td>
+								<td>2025.05.19</td>
+								<td><button class="icon-button icon-button-ghost icon-button-sm more-btn" type="button"
+										aria-label="2025년 청년 고용 정책 관련 답변 초안 더보기"><img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" /></button></td>
+							</tr>
+							<tr>
+								<td>
+									<span class="svc-icon">
+										<img aria-hidden="true" data-icon="search" alt="" />
+										국회 질의 자료 검색
+									</span>
+								</td>
+								<td><span class="type-badge search">검색</span></td>
+								<td>반도체 산업 지원 관련 질의</td>
+								<td>2025.05.20 09:15</td>
+								<td><span class="status-dot done">완료</span></td>
+								<td>2025.05.18</td>
+								<td><button class="icon-button icon-button-ghost icon-button-sm more-btn" type="button" aria-label="반도체 산업 지원 관련 질의 더보기"><img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" /></button>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="svc-icon">
+										<img aria-hidden="true" data-icon="chart-line" alt="" />
+										경제동향 분석 보고서
+									</span>
+								</td>
+								<td><span class="type-badge report">보고서</span></td>
+								<td>2025년 4월 경제동향 분석</td>
+								<td>2025.05.19 18:40</td>
+								<td><span class="status-dot progress">진행 중</span></td>
+								<td>2025.05.17</td>
+								<td><button class="icon-button icon-button-ghost icon-button-sm more-btn" type="button" aria-label="2025년 4월 경제동향 분석 더보기"><img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" /></button>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="svc-icon">
+										<img aria-hidden="true" data-icon="folder" alt="" />
+										내부자료 자산화 관리
+									</span>
+								</td>
+								<td><span class="type-badge doc">문서관리</span></td>
+								<td>국정 현안 보고자료 202505</td>
+								<td>2025.05.19 14:05</td>
+								<td><span class="status-dot done">완료</span></td>
+								<td>2025.05.16</td>
+								<td><button class="icon-button icon-button-ghost icon-button-sm more-btn" type="button" aria-label="국정 현안 보고자료 202505 더보기"><img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" /></button>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="svc-icon">
+										<img aria-hidden="true" data-icon="document" alt="" />
+										국회 답변서 초안 작성
+									</span>
+								</td>
+								<td><span class="type-badge ai">AI초안</span></td>
+								<td>디지털 전환 추진 정책 관련 답변 초안</td>
+								<td>2025.05.19 11:32</td>
+								<td><span class="status-dot done">완료</span></td>
+								<td>2025.05.15</td>
+								<td><button class="icon-button icon-button-ghost icon-button-sm more-btn" type="button"
+										aria-label="디지털 전환 추진 정책 관련 답변 초안 더보기"><img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" /></button></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- //End: 최근 사용 이력 목록 -->
+		</div>
+	</div>
+	<!-- //End: 메인 콘텐츠 -->
+
+	<!-- Start: 최근 사용 이력 모달 -->
+	<div class="history-modal-backdrop" id="historyModal" hidden>
+		<section class="history-modal" role="dialog" aria-modal="true" aria-labelledby="historyModalTitle"
+			tabindex="-1">
+			<div class="history-modal-header">
+				<h3 id="historyModalTitle">전체 사용 이력</h3>
+				<button class="icon-button icon-button-ghost history-modal-close" id="historyModalClose" type="button" aria-label="전체 사용 이력 닫기">
+					×
+				</button>
+			</div>
+			<div class="history-modal-body">
+				<table class="history-table compact" aria-label="전체 사용 이력">
+					<thead>
+						<tr>
+							<th scope="col">서비스</th>
+							<th scope="col">유형</th>
+							<th scope="col">작업 내용</th>
+							<th scope="col">작업일시</th>
+							<th scope="col">상태</th>
+							<th scope="col">등록일</th>
+						</tr>
+					</thead>
+					<tbody id="historyModalBody">
+						<!-- 개발 연동 시 이 영역을 전체 사용 이력 데이터로 반복 출력합니다. -->
+						<tr>
+							<td><span class="svc-icon"><img aria-hidden="true" data-icon="document" alt="" />국회 답변서 초안 작성</span></td>
+							<td><span class="type-badge ai">AI초안</span></td>
+							<td>2025년 청년 고용 정책 관련 답변 초안</td>
+							<td>2025.05.20 10:24</td>
+							<td><span class="status-dot done">완료</span></td>
+							<td>2025.05.19</td>
+						</tr>
+						<tr>
+							<td><span class="svc-icon"><img aria-hidden="true" data-icon="search" alt="" />국회 질의 자료 검색</span></td>
+							<td><span class="type-badge search">검색</span></td>
+							<td>반도체 산업 지원 관련 질의</td>
+							<td>2025.05.20 09:15</td>
+							<td><span class="status-dot done">완료</span></td>
+							<td>2025.05.18</td>
+						</tr>
+						<tr>
+							<td><span class="svc-icon"><img aria-hidden="true" data-icon="chart-line" alt="" />경제동향 분석 보고서</span></td>
+							<td><span class="type-badge report">보고서</span></td>
+							<td>2025년 4월 경제동향 분석</td>
+							<td>2025.05.19 18:40</td>
+							<td><span class="status-dot progress">진행 중</span></td>
+							<td>2025.05.17</td>
+						</tr>
+						<tr>
+							<td><span class="svc-icon"><img aria-hidden="true" data-icon="folder" alt="" />내부자료 자산화 관리</span></td>
+							<td><span class="type-badge doc">문서관리</span></td>
+							<td>국정 현안 보고자료 202505</td>
+							<td>2025.05.19 14:05</td>
+							<td><span class="status-dot done">완료</span></td>
+							<td>2025.05.16</td>
+						</tr>
+						<tr>
+							<td><span class="svc-icon"><img aria-hidden="true" data-icon="document" alt="" />국회 답변서 초안 작성</span></td>
+							<td><span class="type-badge ai">AI초안</span></td>
+							<td>디지털 전환 추진 정책 관련 답변 초안</td>
+							<td>2025.05.19 11:32</td>
+							<td><span class="status-dot done">완료</span></td>
+							<td>2025.05.15</td>
+						</tr>
+						<tr>
+							<td><span class="svc-icon"><img aria-hidden="true" data-icon="document" alt="" />국회 답변서 초안 작성</span></td>
+							<td><span class="type-badge ai">AI초안</span></td>
+							<td>지방채 인수 추경 편성 사유 답변 초안</td>
+							<td>2025.05.18 16:20</td>
+							<td><span class="status-dot done">완료</span></td>
+							<td>2025.05.14</td>
+						</tr>
+						<tr>
+							<td><span class="svc-icon"><img aria-hidden="true" data-icon="search" alt="" />국회 질의 자료 검색</span></td>
+							<td><span class="type-badge search">검색</span></td>
+							<td>세수추계 오차 분석 자료 검색</td>
+							<td>2025.05.18 14:10</td>
+							<td><span class="status-dot done">완료</span></td>
+							<td>2025.05.13</td>
+						</tr>
+						<tr>
+							<td><span class="svc-icon"><img aria-hidden="true" data-icon="chart-line" alt="" />경제동향 분석 보고서</span></td>
+							<td><span class="type-badge report">보고서</span></td>
+							<td>2025년 3월 경제동향 분석</td>
+							<td>2025.05.17 11:00</td>
+							<td><span class="status-dot done">완료</span></td>
+							<td>2025.05.12</td>
+						</tr>
+						<tr>
+							<td><span class="svc-icon"><img aria-hidden="true" data-icon="document" alt="" />국회 답변서 초안 작성</span></td>
+							<td><span class="type-badge ai">AI초안</span></td>
+							<td>공공기관 경영평가 관련 답변 초안</td>
+							<td>2025.05.16 09:30</td>
+							<td><span class="status-dot done">완료</span></td>
+							<td>2025.05.11</td>
+						</tr>
+						<tr>
+							<td><span class="svc-icon"><img aria-hidden="true" data-icon="folder" alt="" />내부자료 자산화 관리</span></td>
+							<td><span class="type-badge doc">문서관리</span></td>
+							<td>재정건전성 보고자료 정리</td>
+							<td>2025.05.15 17:45</td>
+							<td><span class="status-dot done">완료</span></td>
+							<td>2025.05.10</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+	</div>
+	<!-- //End: 최근 사용 이력 모달 -->
+
+	<!-- 공통 컴포넌트 로드 후 페이지 스크립트를 초기화합니다. -->
+	<script src="js/common.js"></script>
+	<script src="js/ai-home.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,457 @@
+/* Integrated component catalog styles. Do not ship this file as application CSS. */
+body.component-catalog-page {
+	display: block;
+	height: auto;
+	min-height: 100vh;
+	padding: 32px;
+	overflow: auto;
+	background: var(--bg);
+}
+.component-catalog {
+	width: min(100%, 1440px);
+	margin: 0 auto;
+}
+.component-catalog-header {
+	margin-bottom: 24px;
+	padding: 24px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	background: var(--surface);
+}
+.component-catalog-title {
+	margin-bottom: 8px;
+	font-size: 22px;
+}
+.component-catalog-desc {
+	color: var(--text-sub);
+	font-size: 13px;
+	line-height: 1.7;
+}
+.component-catalog-nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 16px;
+}
+.component-catalog-nav a {
+	padding: 6px 10px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-sm);
+	background: var(--surface);
+	color: var(--text-sub);
+	font-size: 12px;
+}
+.component-catalog-section + .component-catalog-section {
+	margin-top: 28px;
+}
+.component-catalog-heading {
+	margin-bottom: 12px;
+	font-size: 16px;
+}
+.component-catalog-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+}
+.component-catalog-card {
+	min-width: 0;
+	padding: 16px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	background: var(--surface);
+	box-shadow: var(--shadow);
+}
+.component-catalog-card-wide {
+	grid-column: 1 / -1;
+}
+.component-catalog-card-header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 12px;
+}
+.component-catalog-card-title {
+	font-size: 14px;
+}
+.component-catalog-card-meta {
+	margin-top: 4px;
+	color: var(--text-muted);
+	font-size: 11px;
+}
+.component-catalog-links {
+	display: flex;
+	gap: 6px;
+	flex-shrink: 0;
+}
+.component-catalog-links a {
+	color: var(--primary);
+	font-size: 11px;
+}
+.component-catalog-preview {
+	min-width: 0;
+	padding: 8px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	background: var(--bg);
+	overflow: hidden;
+}
+.component-action-preview {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 10px;
+	min-height: 96px;
+}
+
+/* Form state catalog */
+.form-preview-guide {
+	display: grid;
+	gap: 4px;
+	margin-bottom: 12px;
+	padding: 12px 14px;
+	border: 1px solid rgba(9, 105, 218, 0.2);
+	border-radius: var(--radius-sm);
+	background: rgba(9, 105, 218, 0.04);
+	color: var(--text-sub);
+	font-size: 12px;
+	line-height: 1.5;
+}
+.form-preview-guide strong {
+	color: var(--text);
+}
+.form-state-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+	margin-top: 8px;
+}
+.field-state-card {
+	min-width: 0;
+	padding: 16px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	background: #fff;
+}
+.field-state-name {
+	display: block;
+	margin-bottom: 12px;
+	color: var(--text-muted);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.4px;
+	text-transform: uppercase;
+}
+/* Forced interaction states are catalog-only. Production uses :hover and :focus. */
+.field.is-hover > :is(.form-input, .form-textarea, .form-select) {
+	border-color: var(--text-muted);
+}
+.field.is-focus > :is(.form-input, .form-textarea, .form-select) {
+	outline: none;
+	border-color: var(--primary);
+	box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.12);
+}
+.field.is-focus > .form-textarea {
+	box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.08);
+}
+.component-catalog-preview .file-upload-zone {
+	width: 100%;
+	margin: 0;
+}
+
+/* Layout previews */
+.component-layout-preview {
+	display: flex;
+	width: 100%;
+	height: 340px;
+}
+.component-layout-preview > .panel-component,
+.component-layout-preview > .resize-panel-layout,
+.component-layout-preview > .three-panel {
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+	flex: 1;
+}
+.component-layout-preview > .panel-component {
+	border: 0;
+	border-radius: 0;
+}
+.component-three-panel-preview > .three-panel {
+	grid-template-columns: minmax(160px, 0.8fr) 4px minmax(220px, 1.4fr) 4px minmax(160px, 0.8fr);
+	padding: 0;
+}
+.component-slot-preview {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+	min-width: 0;
+	min-height: 0;
+	padding: 16px;
+	color: var(--text-muted);
+	font-size: 12px;
+	text-align: center;
+}
+.split-handler-left > .component-slot-preview,
+.split-handler-right > .component-slot-preview,
+.resize-panel-left > .component-slot-preview {
+	flex: 1;
+}
+.component-split-handler-preview > .component-handler-panel {
+	width: 100%;
+	height: 100%;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+}
+.component-handler-panel-body {
+	display: flex;
+	flex: 1;
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+}
+.component-handler-panel-body > .split-handler {
+	width: 100%;
+	height: 100%;
+}
+.component-split-handler-preview .split-handler-handle {
+	margin: 16px 0;
+}
+.component-resize-handler-preview > .resize-panel-layout {
+	background: var(--bg);
+}
+.component-resize-handler-preview .resize-panel {
+	min-width: 0;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	background: var(--surface);
+	box-shadow: var(--shadow);
+}
+/* Navigation previews */
+.component-topbar-preview .app-topbar {
+	width: 100%;
+	background: var(--surface);
+}
+.component-sidebar-preview {
+	display: flex;
+	justify-content: center;
+	height: 600px;
+	background: var(--bg);
+}
+.component-sidebar-preview .sidebar {
+	position: relative;
+	top: auto;
+	left: auto;
+	z-index: 0;
+	width: min(100%, var(--sidebar-w));
+	height: 100%;
+	transform: none;
+	flex: 0 0 min(100%, var(--sidebar-w));
+}
+.component-sidebar-preview-standard {
+	--sidebar-w: 220px;
+}
+.component-sidebar-preview-chatbot {
+	--sidebar-w: 220px;
+}
+.component-sidebar-preview .app-sidebar.collapsed {
+	width: 56px;
+	flex-basis: 56px;
+}
+.component-sidebar-preview .app-sidebar.collapsed .sidebar-brand {
+	display: none;
+}
+.component-sidebar-preview .app-sidebar.collapsed .sidebar-collapse-btn {
+	display: flex;
+}
+.component-sidebar-preview .app-sidebar.collapsed .collapse-icon {
+	transform: rotate(180deg);
+}
+
+/* Button detail catalogs */
+html.button-preview-root {
+	height: auto;
+	overflow: auto;
+}
+body.button-preview-page {
+	display: block;
+	height: auto;
+	min-height: 100vh;
+	padding: 32px;
+	overflow: visible;
+	background: var(--bg);
+}
+.button-preview {
+	width: min(100%, 960px);
+	margin: 0 auto;
+	padding: 24px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	background: var(--surface);
+	box-shadow: var(--shadow);
+}
+.button-preview-header {
+	margin-bottom: 24px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid var(--border);
+}
+.button-preview-header-row {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 16px;
+}
+.button-preview-title {
+	font-size: 20px;
+}
+.button-preview-desc {
+	margin-top: 8px;
+	color: var(--text-sub);
+	font-size: 12px;
+	line-height: 1.6;
+}
+.button-preview-back {
+	flex-shrink: 0;
+	padding: 6px 10px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-sm);
+	color: var(--text-sub);
+	font-size: 12px;
+	font-weight: 600;
+}
+.button-preview-back:hover {
+	border-color: var(--text-muted);
+	background: var(--surface-el);
+	color: var(--text);
+}
+.button-preview-section + .button-preview-section {
+	margin-top: 28px;
+}
+.button-preview-section-title {
+	font-size: 14px;
+}
+.button-preview-section-desc {
+	margin-top: 5px;
+	color: var(--text-muted);
+	font-size: 11px;
+	line-height: 1.5;
+}
+.button-use-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 12px;
+	margin-top: 12px;
+}
+.button-use-case {
+	min-width: 0;
+	padding: 14px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	background: #fff;
+}
+.button-use-case-wide {
+	grid-column: 1 / -1;
+}
+.button-use-label {
+	display: block;
+	margin-bottom: 10px;
+	color: var(--text-sub);
+	font-size: 11px;
+	font-weight: 700;
+}
+.button-use-sample {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	min-height: 40px;
+}
+.button-use-inline-sample {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+.button-use-class {
+	display: block;
+	margin-top: 10px;
+	color: var(--primary);
+	font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+	font-size: 10px;
+	line-height: 1.45;
+	word-break: break-all;
+}
+.button-use-spec {
+	display: block;
+	margin-top: 4px;
+	color: var(--text-muted);
+	font-size: 10px;
+}
+.button-use-fluid-sample {
+	width: 100%;
+}
+.button-use-intake-modal {
+	--workspace-primary-button-padding: 7px 16px;
+	--workspace-primary-button-radius: var(--radius-sm);
+}
+.button-use-panel-context .panel-action-btn {
+	padding: 4px 10px;
+	border-radius: var(--radius-sm);
+	color: var(--text-muted);
+	font-size: 12px;
+	transition: var(--transition);
+}
+.button-use-panel-context .panel-action-btn:hover {
+	background: var(--surface-el);
+	color: var(--text);
+}
+.button-use-panel-context .panel-action-btn.icon-button {
+	padding: 0;
+}
+.icon-button-catalog .button-use-case {
+	min-width: 168px;
+}
+
+@media (max-width: 900px) {
+	.component-catalog-grid {
+		grid-template-columns: 1fr;
+	}
+	.component-catalog-card-wide {
+		grid-column: auto;
+	}
+	.form-state-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.component-three-panel-preview {
+		overflow-x: auto;
+	}
+	.component-three-panel-preview > .three-panel {
+		min-width: 760px;
+	}
+}
+@media (max-width: 600px) {
+	.component-catalog-page {
+		padding: 16px;
+	}
+	.button-preview-page {
+		padding: 16px;
+	}
+	.button-preview {
+		padding: 18px;
+	}
+	.button-preview-header-row {
+		flex-direction: column;
+	}
+	.component-catalog-card-header {
+		flex-direction: column;
+	}
+	.form-state-grid {
+		grid-template-columns: 1fr;
+	}
+	.component-topbar-preview {
+		overflow-x: auto;
+	}
+	.component-topbar-preview .app-topbar {
+		min-width: 720px;
+	}
+}

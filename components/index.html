@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>AI-ONE 컴포넌트 카탈로그</title>
+	<link rel="icon" href="../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
+	<link rel="stylesheet" href="../css/common.css" />
+	<link rel="stylesheet" href="../css/ai-chatbot.css" />
+	<link rel="stylesheet" href="_preview/component-preview.css" />
+</head>
+<body class="component-catalog-page" data-page="intake" data-root-path=".." data-topbar-title="AI 워크스페이스" data-topbar-subtitle="공통 상단바 미리보기">
+	<main class="component-catalog">
+		<header class="component-catalog-header">
+			<h1 class="component-catalog-title">AI-ONE Component Catalog</h1>
+			<p class="component-catalog-desc">별도 demo 파일이나 HTML include 없이 모든 컴포넌트의 대표 형태를 한 페이지에서 직접 확인합니다. Button과 Icon Button의 전체 목록은 각 카드의 더보기에서, 복사용 마크업과 개발 규칙은 README에서 확인합니다. 실제 페이지가 공통으로 사용하는 큰 컴포넌트만 Fragment를 유지합니다.</p>
+			<nav class="component-catalog-nav" aria-label="컴포넌트 분류">
+				<a href="#actions">Actions</a>
+				<a href="#forms">Forms</a>
+				<a href="#layouts">Layouts</a>
+				<a href="#navigation">Navigation</a>
+			</nav>
+		</header>
+
+		<section class="component-catalog-section" id="actions">
+			<h2 class="component-catalog-heading">Actions</h2>
+			<div class="component-catalog-grid">
+				<article class="component-catalog-card">
+					<header class="component-catalog-card-header">
+						<div><h3 class="component-catalog-card-title">Button</h3><p class="component-catalog-card-meta">CSS: common.css · JS: 없음</p></div>
+						<div class="component-catalog-links"><a href="button/button.html">더보기</a></div>
+					</header>
+					<div class="component-catalog-preview component-action-preview">
+						<button type="button" class="button button-primary">저장</button>
+						<button type="button" class="button button-outline">확인</button>
+						<button type="button" class="button button-ghost"><img class="icon icon-small" data-icon="plus" alt="" aria-hidden="true" />룰 추가</button>
+						<button type="button" class="button button-danger">삭제</button>
+						<button type="button" class="button button-primary" disabled>비활성</button>
+					</div>
+				</article>
+
+				<article class="component-catalog-card">
+					<header class="component-catalog-card-header">
+						<div><h3 class="component-catalog-card-title">Icon Button</h3><p class="component-catalog-card-meta">CSS: common.css · JS: icon resolver</p></div>
+						<div class="component-catalog-links"><a href="button/icon-button.html">더보기</a></div>
+					</header>
+					<div class="component-catalog-preview component-action-preview">
+						<button type="button" class="icon-button icon-button-ghost icon-button-sm" aria-label="패널 접기" title="패널 접기"><img class="icon icon-small" data-icon="panel-collapse" alt="" aria-hidden="true" /></button>
+						<button type="button" class="icon-button" aria-label="패널 위치 변경" title="패널 위치 변경"><img class="icon icon-primary" data-icon="panel-swap" alt="" aria-hidden="true" /></button>
+						<button type="button" class="icon-button icon-button-primary" aria-label="새로 추가" title="새로 추가"><img class="icon icon-primary" data-icon="plus" alt="" aria-hidden="true" /></button>
+						<button type="button" class="icon-button icon-button-danger" aria-label="삭제" title="삭제"><img class="icon icon-primary" data-icon="delete" alt="" aria-hidden="true" /></button>
+						<button type="button" class="icon-button icon-button-send" aria-label="전송" title="전송"><img class="icon icon-primary" data-icon="send" alt="" aria-hidden="true" /></button>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<section class="component-catalog-section" id="forms">
+			<h2 class="component-catalog-heading">Forms</h2>
+			<div class="component-catalog-grid">
+				<article class="component-catalog-card component-catalog-card-wide">
+					<header class="component-catalog-card-header">
+						<div><h3 class="component-catalog-card-title">Input</h3><p class="component-catalog-card-meta">Default · Hover · Focus/Active · Error · Success · Disabled</p></div>
+						<div class="component-catalog-links"><a href="input/README.md">README</a></div>
+					</header>
+					<div class="form-preview-guide" role="note"><strong>상태 확인 방법</strong><span><code>.is-hover</code>, <code>.is-focus</code>는 카탈로그 전용이며 실제 화면은 CSS 상호작용으로 동작합니다. Error와 Success는 검증 결과에 따라 적용합니다.</span></div>
+					<div class="form-state-grid">
+						<article class="field-state-card"><span class="field-state-name">Default</span><div class="field"><label class="field-label" for="input-default">워크스페이스 이름</label><input class="form-input" id="input-default" type="text" placeholder="이름을 입력하세요" /><p class="field-help">한글, 영문, 숫자를 사용할 수 있습니다.</p></div></article>
+						<article class="field-state-card"><span class="field-state-name">Hover</span><div class="field is-hover"><label class="field-label" for="input-hover">워크스페이스 이름</label><input class="form-input" id="input-hover" type="text" placeholder="이름을 입력하세요" /><p class="field-help">마우스를 올리면 테두리가 강조됩니다.</p></div></article>
+						<article class="field-state-card"><span class="field-state-name">Focus / Active</span><div class="field is-focus"><label class="field-label" for="input-focus">워크스페이스 이름</label><input class="form-input" id="input-focus" type="text" value="국회질의 분류" /><p class="field-help">입력 중인 활성 상태입니다.</p></div></article>
+						<article class="field-state-card"><span class="field-state-name">Error · .is-error</span><div class="field is-error"><label class="field-label" for="input-error">워크스페이스 이름 <span class="field-required" aria-hidden="true">*</span></label><input class="form-input" id="input-error" name="inputError" type="text" required aria-invalid="true" aria-describedby="input-error-help" /><p class="field-help" id="input-error-help" role="alert">워크스페이스 이름을 입력해 주세요.</p></div></article>
+						<article class="field-state-card"><span class="field-state-name">Success · .is-success</span><div class="field is-success"><label class="field-label" for="input-success">워크스페이스 이름</label><input class="form-input" id="input-success" type="text" value="국회질의 분류" aria-describedby="input-success-help" /><p class="field-help" id="input-success-help">사용 가능한 이름입니다.</p></div></article>
+						<article class="field-state-card"><span class="field-state-name">Disabled</span><div class="field"><label class="field-label" for="input-disabled">워크스페이스 이름</label><input class="form-input" id="input-disabled" type="text" value="국회질의 분류" disabled /><p class="field-help">현재 수정할 수 없는 항목입니다.</p></div></article>
+					</div>
+				</article>
+
+				<article class="component-catalog-card component-catalog-card-wide">
+					<header class="component-catalog-card-header">
+						<div><h3 class="component-catalog-card-title">Select</h3><p class="component-catalog-card-meta">Default · Hover · Focus/Active · Error · Success · Disabled</p></div>
+						<div class="component-catalog-links"><a href="select/README.md">README</a></div>
+					</header>
+					<div class="form-preview-guide" role="note"><strong>상태 확인 방법</strong><span><code>.is-hover</code>, <code>.is-focus</code>는 카탈로그 전용이며 실제 화면은 CSS 상호작용으로 동작합니다. Error와 Success는 검증 결과에 따라 적용합니다.</span></div>
+					<div class="form-state-grid">
+						<article class="field-state-card"><span class="field-state-name">Default</span><div class="field"><label class="field-label" for="select-default">추천 실국</label><select class="form-select" id="select-default"><option value="">실국을 선택하세요</option><option>예산실</option><option>세제실</option></select><p class="field-help">목록에서 하나의 항목을 선택합니다.</p></div></article>
+						<article class="field-state-card"><span class="field-state-name">Hover</span><div class="field is-hover"><label class="field-label" for="select-hover">추천 실국</label><select class="form-select" id="select-hover"><option value="">실국을 선택하세요</option><option>예산실</option><option>세제실</option></select><p class="field-help">마우스를 올리면 테두리가 강조됩니다.</p></div></article>
+						<article class="field-state-card"><span class="field-state-name">Focus / Active</span><div class="field is-focus"><label class="field-label" for="select-focus">추천 실국</label><select class="form-select" id="select-focus"><option>예산실</option><option>세제실</option></select><p class="field-help">선택 중인 활성 상태입니다.</p></div></article>
+						<article class="field-state-card"><span class="field-state-name">Error · .is-error</span><div class="field is-error"><label class="field-label" for="select-error">추천 실국 <span class="field-required" aria-hidden="true">*</span></label><select class="form-select" id="select-error" name="selectError" required aria-invalid="true" aria-describedby="select-error-help"><option value="">실국을 선택하세요</option><option>예산실</option><option>세제실</option></select><p class="field-help" id="select-error-help" role="alert">추천 실국을 선택해 주세요.</p></div></article>
+						<article class="field-state-card"><span class="field-state-name">Success · .is-success</span><div class="field is-success"><label class="field-label" for="select-success">추천 실국</label><select class="form-select" id="select-success" aria-describedby="select-success-help"><option>세제실</option><option>예산실</option></select><p class="field-help" id="select-success-help">선택 가능한 실국입니다.</p></div></article>
+						<article class="field-state-card"><span class="field-state-name">Disabled</span><div class="field"><label class="field-label" for="select-disabled">추천 실국</label><select class="form-select" id="select-disabled" disabled><option>세제실</option></select><p class="field-help">확정된 항목은 변경할 수 없습니다.</p></div></article>
+					</div>
+				</article>
+
+				<article class="component-catalog-card component-catalog-card-wide">
+					<header class="component-catalog-card-header">
+						<div><h3 class="component-catalog-card-title">Textarea</h3><p class="component-catalog-card-meta">Default · Hover · Focus/Active · Error · Success · Disabled</p></div>
+						<div class="component-catalog-links"><a href="textarea/README.md">README</a></div>
+					</header>
+					<div class="form-preview-guide" role="note"><strong>상태 확인 방법</strong><span><code>.is-hover</code>, <code>.is-focus</code>는 카탈로그 전용이며 실제 화면은 CSS 상호작용으로 동작합니다. Error와 Success는 검증 결과에 따라 적용합니다.</span></div>
+					<div class="form-state-grid">
+						<article class="field-state-card"><span class="field-state-name">Default</span><div class="field" data-character-count><label class="field-label" for="textarea-default">운영 메모</label><textarea class="form-textarea" id="textarea-default" rows="4" maxlength="200" placeholder="운영 메모를 입력하세요"></textarea><div class="field-meta"><p class="field-help">최대 200자까지 입력할 수 있습니다.</p><span class="field-count"><span data-character-current>0</span>/200</span></div></div></article>
+						<article class="field-state-card"><span class="field-state-name">Hover</span><div class="field is-hover" data-character-count><label class="field-label" for="textarea-hover">운영 메모</label><textarea class="form-textarea" id="textarea-hover" rows="4" maxlength="200" placeholder="운영 메모를 입력하세요"></textarea><div class="field-meta"><p class="field-help">마우스를 올리면 테두리가 강조됩니다.</p><span class="field-count"><span data-character-current>0</span>/200</span></div></div></article>
+						<article class="field-state-card"><span class="field-state-name">Focus / Active</span><div class="field is-focus" data-character-count><label class="field-label" for="textarea-focus">운영 메모</label><textarea class="form-textarea" id="textarea-focus" rows="4" maxlength="200">세제 관련 키워드가 포함된 질의는 세제실로 우선 보정합니다.</textarea><div class="field-meta"><p class="field-help">입력 중인 활성 상태입니다.</p><span class="field-count"><span data-character-current>0</span>/200</span></div></div></article>
+						<article class="field-state-card"><span class="field-state-name">Error · .is-error</span><div class="field is-error" data-character-count><label class="field-label" for="textarea-error">운영 메모 <span class="field-required" aria-hidden="true">*</span></label><textarea class="form-textarea" id="textarea-error" name="textareaError" rows="4" maxlength="200" required aria-invalid="true" aria-describedby="textarea-error-help"></textarea><div class="field-meta"><p class="field-help" id="textarea-error-help" role="alert">운영 메모를 입력해 주세요.</p><span class="field-count"><span data-character-current>0</span>/200</span></div></div></article>
+						<article class="field-state-card"><span class="field-state-name">Success · .is-success</span><div class="field is-success" data-character-count><label class="field-label" for="textarea-success">운영 메모</label><textarea class="form-textarea" id="textarea-success" rows="4" maxlength="200" aria-describedby="textarea-success-help">검토가 완료된 운영 메모입니다.</textarea><div class="field-meta"><p class="field-help" id="textarea-success-help">저장 가능한 내용입니다.</p><span class="field-count"><span data-character-current>0</span>/200</span></div></div></article>
+						<article class="field-state-card"><span class="field-state-name">Disabled</span><div class="field" data-character-count><label class="field-label" for="textarea-disabled">운영 메모</label><textarea class="form-textarea" id="textarea-disabled" rows="4" maxlength="200" disabled>확정된 항목은 수정할 수 없습니다.</textarea><div class="field-meta"><p class="field-help">현재 수정할 수 없는 항목입니다.</p><span class="field-count"><span data-character-current>0</span>/200</span></div></div></article>
+					</div>
+				</article>
+
+				<article class="component-catalog-card component-catalog-card-wide">
+					<header class="component-catalog-card-header">
+						<div><h3 class="component-catalog-card-title">File Upload</h3><p class="component-catalog-card-meta">CSS: common.css · JS: file upload event</p></div>
+						<div class="component-catalog-links"><a href="file-upload/file-upload.html">Fragment</a><a href="file-upload/README.md">README</a></div>
+					</header>
+					<div class="component-catalog-preview">
+						<div class="file-upload-zone" id="catalogUploadZone" data-file-upload-zone role="button" tabindex="0" aria-label="파일을 드래그하거나 선택하여 업로드" aria-describedby="catalogFileUploadHints">
+							<span class="file-upload-icon" aria-hidden="true">＋</span>
+							<p class="file-upload-title">파일을 드래그하거나 클릭하여 업로드</p>
+							<div class="file-upload-hints" id="catalogFileUploadHints"><span class="file-upload-hint">PDF, DOCX, HWP 파일</span></div>
+							<input type="file" aria-label="파일 선택" />
+						</div>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<section class="component-catalog-section" id="layouts">
+			<h2 class="component-catalog-heading">Layouts</h2>
+			<div class="component-catalog-grid">
+				<article class="component-catalog-card">
+					<header class="component-catalog-card-header">
+						<div><h3 class="component-catalog-card-title">Panel</h3><p class="component-catalog-card-meta">Slot: content</p></div>
+						<div class="component-catalog-links"><a href="panel/panel.html">Fragment</a><a href="panel/README.md">README</a></div>
+					</header>
+					<div class="component-catalog-preview component-layout-preview">
+						<section class="panel panel-component" data-component="panel">
+							<header class="panel-head"><h3 class="panel-title"><span class="panel-title-text">패널 제목</span></h3><div class="panel-actions"><button type="button" class="icon-button icon-button-ghost icon-button-sm panel-action-btn" data-panel-action="refresh" title="새로고침" aria-label="새로고침"><img class="icon icon-small" data-icon="reset" alt="" aria-hidden="true" /></button><button type="button" class="icon-button icon-button-ghost panel-collapse-btn" data-panel-action="collapse" title="패널 접기" aria-label="패널 접기" aria-expanded="true"><img class="icon icon-small" data-icon="panel-collapse" alt="" aria-hidden="true" /></button></div></header>
+							<div class="panel-component-body"><div class="panel-component-empty">이곳에 패널 내용을 넣어 사용합니다.</div></div>
+						</section>
+					</div>
+				</article>
+
+				<article class="component-catalog-card component-catalog-card-wide">
+					<header class="component-catalog-card-header">
+						<div><h3 class="component-catalog-card-title">Three Panel</h3><p class="component-catalog-card-meta">Slots: left, center, right</p></div>
+						<div class="component-catalog-links"><a href="panel/three-panel.html">Fragment</a><a href="panel/README.md">README</a></div>
+					</header>
+					<div class="component-catalog-preview component-layout-preview component-three-panel-preview">
+						<div class="three-panel" data-component="three-panel">
+							<section class="panel panel-component" data-component="panel" data-panel="left" aria-label="왼쪽 패널"><header class="panel-head"><h3 class="panel-title">왼쪽 패널</h3></header><div class="panel-component-body component-slot-preview">왼쪽 패널 내용</div></section>
+							<div class="panel-resize-handle" data-resize="0" role="separator" aria-label="왼쪽 패널 크기 조절" aria-orientation="vertical" tabindex="0"></div>
+							<section class="panel panel-component" data-component="panel" data-panel="center" aria-label="가운데 패널"><header class="panel-head"><h3 class="panel-title">가운데 패널</h3></header><div class="panel-component-body component-slot-preview">가운데 패널 내용</div></section>
+							<div class="panel-resize-handle" data-resize="1" role="separator" aria-label="오른쪽 패널 크기 조절" aria-orientation="vertical" tabindex="0"></div>
+							<section class="panel panel-component" data-component="panel" data-panel="right" aria-label="오른쪽 패널"><header class="panel-head"><h3 class="panel-title">오른쪽 패널</h3></header><div class="panel-component-body component-slot-preview">오른쪽 패널 내용</div></section>
+						</div>
+					</div>
+				</article>
+
+				<article class="component-catalog-card">
+					<header class="component-catalog-card-header">
+						<div><h3 class="component-catalog-card-title">Split Handler</h3><p class="component-catalog-card-meta">한 패널 내부를 left, right 영역으로 분리</p></div>
+						<div class="component-catalog-links"><a href="handler/split-handler.html">Fragment</a><a href="handler/README.md">README</a></div>
+					</header>
+					<div class="component-catalog-preview component-layout-preview component-split-handler-preview">
+						<section class="panel panel-component component-handler-panel">
+							<header class="panel-head"><h3 class="panel-title">하나의 패널</h3></header>
+							<div class="component-handler-panel-body">
+								<div class="split-handler" data-component="split-handler" data-split-min="120">
+									<div class="split-handler-left"><div class="sub-head"><span class="sub-title">추천 목록</span></div><div class="component-slot-preview">같은 패널의 왼쪽 영역</div></div>
+									<div class="split-handler-handle" role="separator" aria-label="패널 내부 좌우 영역 크기 조절" aria-orientation="vertical" tabindex="0"></div>
+									<div class="split-handler-right"><div class="sub-head"><span class="sub-title">상세 목록</span></div><div class="component-slot-preview">같은 패널의 오른쪽 영역</div></div>
+								</div>
+							</div>
+						</section>
+					</div>
+				</article>
+
+				<article class="component-catalog-card">
+					<header class="component-catalog-card-header">
+						<div><h3 class="component-catalog-card-title">Resize Handler</h3><p class="component-catalog-card-meta">독립된 두 패널의 너비를 조절</p></div>
+						<div class="component-catalog-links"><a href="handler/resize-handler.html">Fragment</a><a href="handler/README.md">README</a></div>
+					</header>
+					<div class="component-catalog-preview component-layout-preview component-resize-handler-preview">
+						<div class="resize-panel-layout" data-component="resize-panel-layout" data-split-min="220">
+							<section class="resize-panel" data-component="resize-panel"><div class="resize-panel-left"><div class="sub-head"><span class="sub-title">왼쪽 패널</span></div><div class="component-slot-preview">왼쪽 내용</div></div></section>
+							<div class="panel-resize-handle" data-resize="0" role="separator" aria-label="좌우 패널 크기 조절" aria-orientation="vertical" tabindex="0" aria-valuemin="220"></div>
+							<section class="resize-panel" data-component="resize-panel"><div class="resize-panel-left"><div class="sub-head"><span class="sub-title">오른쪽 패널</span></div><div class="component-slot-preview">오른쪽 내용</div></div></section>
+						</div>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<section class="component-catalog-section" id="navigation">
+			<h2 class="component-catalog-heading">Navigation</h2>
+			<div class="component-catalog-grid">
+				<article class="component-catalog-card component-catalog-card-wide">
+					<header class="component-catalog-card-header">
+						<div><h3 class="component-catalog-card-title">Topbar</h3><p class="component-catalog-card-meta">Singleton · body page context 사용</p></div>
+						<div class="component-catalog-links"><a href="topbar/topbar.html">Fragment</a><a href="topbar/README.md">README</a></div>
+					</header>
+					<div class="component-catalog-preview component-topbar-preview">
+						<header class="topbar app-topbar">
+							<div class="topbar-left"><button type="button" class="brand-icon-button topbar-logo-btn hidden" id="catalogTopbarLogoBtn" data-pages="intake,answer" aria-label="일반 모드로 복귀" title="일반 모드로 복귀"><img class="topbar-logo-icon icon icon-brand" aria-hidden="true" data-icon="ai-one-logo" alt="" /></button><button type="button" class="btn-hamburger" id="catalogSidebarToggle" data-pages="intake,answer" aria-label="사이드바 메뉴 토글"><span></span><span></span><span></span></button><h3 class="topbar-title" data-topbar-title></h3><p class="topbar-sub" data-topbar-subtitle></p></div>
+							<div class="topbar-right"><button type="button" class="icon-button icon-button-accent" id="catalogRunDrawerBtn" data-pages="intake" aria-label="실행 목록" title="실행 목록"><img class="icon icon-primary" aria-hidden="true" data-icon="activity" alt="" /></button><button type="button" class="icon-button icon-button-purple" id="catalogRuleManageBtn" data-pages="intake" aria-label="룰 설정" title="룰 설정"><img class="icon icon-primary" aria-hidden="true" data-icon="edit-compact" alt="" /></button><button type="button" class="icon-button" id="catalogPanelSwapBtn" aria-label="패널 위치 변경" title="패널 위치 변경"><img class="icon icon-primary" aria-hidden="true" data-icon="panel-swap" alt="" /></button><button type="button" class="icon-button" id="catalogLayoutResetBtn" aria-label="레이아웃 초기화" title="레이아웃 초기화"><img class="icon icon-primary" aria-hidden="true" data-icon="layout-columns" alt="" /></button><button type="button" class="icon-button" id="catalogResetBtn" aria-label="초기화" title="초기화"><img class="icon icon-primary" aria-hidden="true" data-icon="reset" alt="" /></button></div>
+						</header>
+					</div>
+				</article>
+
+				<article class="component-catalog-card">
+					<header class="component-catalog-card-header">
+						<div><h3 class="component-catalog-card-title">Sidebar</h3><p class="component-catalog-card-meta">Singleton · 기본 화면</p></div>
+						<div class="component-catalog-links"><a href="sidebar/sidebar.html">Fragment</a><a href="sidebar/README.md">README</a></div>
+					</header>
+					<div class="component-catalog-preview component-sidebar-preview component-sidebar-preview-standard">
+						<aside class="sidebar app-sidebar" id="catalogSidebar">
+							<div class="sidebar-top-bar"><div class="sidebar-brand"><div class="brand-logo"><img class="brand-symbol" alt="AI-ONE" data-icon="ai-one-logo" /></div><div class="brand-text"><span class="brand-name">AI-ONE</span><span class="brand-sub">재정경제부 AI 플랫폼</span></div></div><button type="button" class="icon-button icon-button-ghost sidebar-collapse-btn" id="catalogSidebarCollapseBtn" aria-label="사이드바 접기/펼치기" aria-expanded="true" title="사이드바 접기"><img class="collapse-icon icon icon-primary" data-icon="sidebar-collapse" alt="" aria-hidden="true" /></button></div>
+							<nav class="sidebar-nav" aria-label="메인 네비게이션 미리보기"><div class="nav-group"><a class="nav-link" href="../ai-home.html" data-route="home" data-page="home"><img data-icon="home" alt="" aria-hidden="true" /><span class="nav-text">AI-ONE 홈</span></a></div><div class="nav-group"><span class="nav-group-label">AI 서비스</span><a class="nav-link active" href="../pages/ai-intake.html" data-route="intake" data-page="intake"><img data-icon="document" alt="" aria-hidden="true" /><span class="nav-text">국회질의분류</span></a><a class="nav-link" href="../pages/ai-answer.html" data-route="answer" data-page="answer"><img data-icon="edit" alt="" aria-hidden="true" /><span class="nav-text">국회 답변서 초안 생성</span></a><a class="nav-link" href="#navigation" data-page="economy" aria-disabled="true"><img data-icon="economy-trend" alt="" aria-hidden="true" /><span class="nav-text">경제동향 분석 보고서 생성</span></a></div><div class="nav-group"><a class="nav-link" href="../pages/ai-chatbot.html" data-route="chatbot" data-page="chatbot"><img data-icon="chat" alt="" aria-hidden="true" /><span class="nav-text">AI-ONE 챗봇</span></a></div></nav>
+							<div class="sidebar-footer"><div class="user-card"><button type="button" class="user-avatar logout-btn" aria-label="로그아웃" title="로그아웃"><img class="icon icon-primary" data-icon="user" alt="" aria-hidden="true" /></button><div class="user-info"><span class="user-name">박재정 담당자</span><span class="user-dept">재정분석과</span></div><button type="button" class="icon-button icon-button-ghost settings-btn" aria-label="환경설정" title="환경설정"><img class="icon icon-small" data-icon="settings-alt" alt="" aria-hidden="true" /></button></div></div>
+						</aside>
+					</div>
+				</article>
+
+				<article class="component-catalog-card">
+					<header class="component-catalog-card-header">
+						<div><h3 class="component-catalog-card-title">Chatbot Sidebar</h3><p class="component-catalog-card-meta">Singleton · 챗봇 화면</p></div>
+						<div class="component-catalog-links"><a href="sidebar/sidebar-chatbot.html">Fragment</a><a href="sidebar/README.md">README</a></div>
+					</header>
+					<div class="component-catalog-preview component-sidebar-preview component-sidebar-preview-chatbot">
+						<aside class="sidebar chatbot-sidebar" id="catalogChatbotSidebar" data-sidebar-variant="chatbot">
+							<div class="sidebar-top-bar"><div class="sidebar-brand"><div class="brand-logo"><img class="brand-symbol" alt="AI-ONE" data-icon="ai-one-logo" /></div><div class="brand-text"><span class="brand-name">AI-ONE</span><span class="brand-sub">재정경제부 AI 플랫폼</span></div></div><button class="icon-button icon-button-ghost sidebar-new-chat-btn" type="button" aria-label="새 채팅" title="새 채팅"><img class="icon icon-primary" data-icon="new-chat" alt="" aria-hidden="true" /></button></div>
+							<nav class="sidebar-nav" aria-label="챗봇 메뉴 미리보기"><div class="nav-group"><a class="nav-link" href="../ai-home.html"><img data-icon="home" alt="" aria-hidden="true" /><span class="nav-text">AI-ONE 홈</span></a></div><div class="nav-group"><button class="nav-link active" type="button"><img class="icon icon-primary" data-icon="add-circle" alt="" aria-hidden="true" /><span class="nav-text">새 채팅</span></button><a class="nav-link" href="#navigation"><img data-icon="search" alt="" aria-hidden="true" /><span class="nav-text">채팅 검색</span></a><a class="nav-link" href="#navigation"><img data-icon="image" alt="" aria-hidden="true" /><span class="nav-text">이미지</span></a><a class="nav-link" href="#navigation"><img data-icon="library" alt="" aria-hidden="true" /><span class="nav-text">라이브러리</span></a></div><div class="nav-group"><span class="nav-group-label">최근</span><a class="nav-link" href="#navigation"><span class="nav-text">국회 질의 분류 자동화 방안</span></a><a class="nav-link" href="#navigation"><span class="nav-text">지방채 인수 추경 편성 분석</span></a></div></nav>
+							<div class="sidebar-footer"><div class="user-card"><button class="icon-button user-avatar logout-btn" type="button" aria-label="로그아웃" title="로그아웃"><img class="icon icon-small" data-icon="user" alt="" aria-hidden="true" /></button><span class="user-name-sm">박재정</span><button class="icon-button icon-button-ghost settings-btn" type="button" aria-label="환경설정" title="환경설정"><img class="icon icon-small" data-icon="settings" alt="" aria-hidden="true" /></button></div></div>
+						</aside>
+					</div>
+				</article>
+			</div>
+		</section>
+	</main>
+
+	<script src="../js/common.js"></script>
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			const sidebar = document.getElementById("catalogSidebar");
+			const collapseButton = document.getElementById("catalogSidebarCollapseBtn");
+			if (!sidebar || !collapseButton) return;
+
+			sidebar.classList.remove("collapsed");
+			collapseButton.setAttribute("aria-expanded", "true");
+			collapseButton.addEventListener("click", (event) => {
+				event.stopPropagation();
+				const isCollapsed = sidebar.classList.toggle("collapsed");
+				collapseButton.setAttribute("aria-expanded", String(!isCollapsed));
+				collapseButton.title = isCollapsed ? "사이드바 펼치기" : "사이드바 접기";
+			});
+		});
+	</script>
+</body>
+</html>

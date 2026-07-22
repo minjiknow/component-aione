@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>국회 답변서 초안 생성 AI — AI-ONE</title>
+	<link rel="stylesheet" as="style" crossorigin
+		href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+	<link rel="stylesheet" href="../css/common.css" />
+	<link rel="stylesheet" href="../css/ai-answer.css" />
+</head>
+
+<body data-page="answer" data-root-path=".." data-topbar-title="국회 답변서 초안 생성 AI 워크스페이스"
+	data-topbar-subtitle="자료 분석 · 유사답변서 추천 · 초안 생성 · AI 채팅">
+
+	<!-- Common Sidebar -->
+	<div data-include="sidebar/sidebar" data-include-source="html"></div>
+
+	<!-- ── Main ── -->
+	<div class="main-wrap" id="mainWrap">
+		<!-- Common Topbar -->
+		<div data-include="topbar/topbar" data-include-source="html"></div>
+
+		<!-- Common 3-Panel Layout: Left / Center / Right -->
+		<div data-include="panel/three-panel" data-include-source="html">
+			<!-- LEFT PANEL: 자료 폴더 -->
+			<div data-include="panel/panel" data-include-source="html" class="panel-folder" data-slot="left"
+				aria-label="AI 참조소스" data-panel="left">
+				<div class="panel-head">
+					<h2 class="panel-title"><img data-icon="library" alt="" aria-hidden="true" />AI 참조소스</h2>
+					<div class="panel-actions"><button type="button" class="icon-button icon-button-ghost icon-button-sm panel-action-btn" data-panel-action="refresh"
+							title="새로고침" aria-label="새로고침"><img class="icon icon-small" data-icon="reset" alt="" aria-hidden="true" /></button><button type="button" class="icon-button icon-button-ghost panel-collapse-btn"
+							id="leftPanelCollapseBtn" data-panel-action="collapse" title="패널 접기" aria-label="패널 접기"><img class="icon icon-small"
+								data-icon="panel-collapse" alt="" aria-hidden="true" /></button></div>
+				</div>
+
+				<div class="folder-upload-section">
+					<div class="folder-upload-head"><span>파일 추가</span><span class="selected-refs-count"
+							id="fileCount">3</span></div>
+					<div data-include="file-upload/file-upload" data-include-source="html">
+						<template data-slot="title">
+							<p class="file-upload-title">파일을 드래그하거나 선택하세요</p>
+						</template>
+						<template data-slot="hints">
+							<p class="file-upload-hint">TXT는 OCR 없이 텍스트 파싱으로 처리됩니다.</p>
+							<p class="file-upload-hint">PDF/이미지는 OCR/파싱 대상으로 표시됩니다.</p>
+						</template>
+						<template data-slot="input">
+							<input type="file" id="fileInput" multiple
+								accept=".pdf,.hwp,.docx,.txt,.xlsx,.pptx,.png,.jpg" hidden />
+						</template>
+					</div>
+					<div class="upload-guide">
+						<p class="upload-guide-title">답변서 초안 생성에 참조할 문서를 첨부해 보세요</p>
+						<p class="upload-guide-desc">첨부 없이도 과거 답변서 기반으로 초안 생성이 가능합니다</p>
+					</div>
+					<ul class="file-list" id="fileList"></ul>
+					<button type="button" class="icon-button icon-button-ghost collapsed-add-btn" id="collapsedAddBtn" title="파일 추가" aria-label="파일 추가"><img class="icon icon-small" data-icon="plus" alt="" aria-hidden="true" /></button>
+				</div>
+				<div class="left-panel-resize-handle" id="leftPanelResizeHandle"></div>
+				<div class="selected-refs" id="selectedRefsSection">
+					<div class="selected-refs-head">
+						<span class="selected-refs-title">선택된 관련자료</span>
+						<span class="selected-refs-count" id="selectedRefsCount">0</span>
+					</div>
+					<div class="selected-refs-guide">
+						<p class="selected-refs-guide-title">관련자료 추천 목록에서 추가할 자료를 선택해 보세요</p>
+						<p class="selected-refs-guide-desc">선택된 자료를 기반으로 초안에 반영이 가능합니다</p>
+					</div>
+					<ul class="selected-refs-list" id="selectedRefsList"></ul>
+					<div class="selected-refs-footer hidden" id="selectedRefsFooter">
+						<span class="refs-footer-icon">✓</span>
+						<span class="refs-footer-text">초안에 반영 가능 — 선택된 소스를 근거로 답변서를 생성합니다</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- CENTER PANEL -->
+			<div data-include="panel/panel" data-include-source="html" class="panel-center" data-slot="center"
+				aria-label="관련자료 추천 및 답변서" data-panel="center">
+				<!-- Center Panel Header (탭) -->
+				<div class="center-header">
+					<span class="center-header-title">관련자료 추천 · 답변서 초안생성</span>
+					<div class="center-tabs">
+						<button class="top-tab active" data-tab="recommend">관련자료 추천 <span class="tab-count"
+								id="tabCountRecommend">8</span></button>
+						<button class="top-tab" data-tab="draft">답변서 초안 <span class="tab-count"
+								id="tabCountDraft">1</span></button>
+						<button class="top-tab" data-tab="compare">답변서 비교 <span class="tab-count"
+								id="tabCountCompare">1</span></button>
+					</div>
+				</div>
+
+				<!-- Tab Content -->
+				<div class="center-body" id="centerBody">
+					<div data-include="handler/split-handler" data-include-source="html" class="center-split"
+						id="tabRecommend" data-split-min="100">
+						<div class="split-handler-left center-left" data-slot="left">
+							<div class="sub-head">
+								<span class="sub-title">관련자료 추천 목록</span>
+								<label class="rec-select-all"><input type="checkbox"
+										id="recSelectAll" /><span>전체선택</span></label>
+								<span class="sub-badge">유사도순</span>
+							</div>
+							<div class="filter-bar">
+								<button class="filter-chip active" data-f="all">전체</button>
+								<button class="filter-chip" data-f="similar">유사답변서</button>
+								<button class="filter-chip" data-f="reference">참고자료</button>
+							</div>
+							<div class="recommend-list" id="recommendList"></div>
+							<div class="rec-apply-bar"><button class="btn-outline" id="applyToChat">선택 자료 초안에
+									반영</button></div>
+						</div>
+						<div class="split-handler-right center-right" data-slot="right">
+							<div class="sub-head">
+								<span class="sub-title">문서 미리보기</span><span class="sub-badge blue">유사도 94%</span>
+							</div>
+							<div class="preview-body" id="previewBody"></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 추천 카드 마크업 템플릿: JS는 데이터와 상태만 주입 -->
+				<template id="recommendationCardTemplate">
+					<article class="panel-card rec-card" data-id="">
+						<div class="rec-card-head">
+							<label class="rec-checkbox">
+								<input type="checkbox" data-rec-id="" />
+								<span class="rec-check-mark"></span>
+							</label>
+							<span class="rec-title" data-rec-title></span>
+							<span class="rec-score" data-rec-score></span>
+						</div>
+						<span class="rec-top-badge hidden" data-rec-rank></span>
+						<div class="rec-meta" data-rec-meta></div>
+						<div class="rec-desc" data-rec-desc></div>
+						<div class="rec-tags" data-rec-tags></div>
+					</article>
+				</template>
+				<template id="recommendationTagTemplate">
+					<span class="rec-tag"></span>
+				</template>
+			</div>
+
+			<!-- RIGHT PANEL: AI 채팅 -->
+			<div data-include="panel/panel" data-include-source="html" class="panel-chat" data-slot="right"
+				aria-label="AI 채팅" data-panel="right">
+				<div class="panel-head">
+					<h2 class="panel-title">AI 채팅</h2>
+					<div class="chat-head-actions"><button class="panel-action-btn" id="newChatBtn"
+							data-panel-action="new-chat">+ 새 채팅</button><button class="panel-action-btn"
+							id="chatListToggle" data-panel-action="chat-list">목록</button></div>
+				</div>
+
+				<div class="chat-messages" id="chatMessages"></div>
+				<div class="chat-input-area">
+					<div class="chat-tags">
+						<span class="chat-tags-label">추천 프롬프트</span>
+						<button class="chat-tag">요약</button>
+						<button class="chat-tag">항목 정리</button>
+						<button class="chat-tag">문단 다듬기</button>
+						<button class="chat-tag">표로 정리</button>
+						<button class="chat-tag">관계 찾기</button>
+						<button class="chat-tag">국회질답 재검색해줘</button>
+						<button class="chat-tag">유사사례 더 찾아줘</button>
+					</div>
+					<div class="chat-input-row">
+						<input type="text" class="chat-input" id="chatInput" placeholder="질문을 입력하세요..." />
+						<button type="button" class="icon-button icon-button-primary icon-button-send chat-send" id="chatSendBtn" aria-label="전송"><img class="icon icon-primary"
+								data-icon="send" alt="" aria-hidden="true" /></button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="drawer-backdrop hidden" id="chatDrawerBackdrop"></div>
+	<aside class="chat-drawer hidden" id="chatDrawer" aria-label="채팅 목록 패널">
+		<div class="drawer-header">
+			<div>
+				<h3 class="drawer-title">채팅 목록</h3>
+				<p class="drawer-desc">AI 채팅 대화 이력을 확인하고 전환합니다.</p>
+			</div>
+			<button type="button" class="icon-button icon-button-ghost drawer-close" id="chatDrawerClose" aria-label="채팅 목록 닫기">×</button>
+		</div>
+		<div class="drawer-position-toggle">
+			<button class="drawer-pos-btn" id="drawerPosBtn" title="드로우 위치 전환">
+				<img class="icon icon-small" data-icon="panel-position" alt="" aria-hidden="true" />
+				<span id="drawerPosLabel">좌측으로 이동</span>
+			</button>
+		</div>
+		<div class="drawer-body">
+			<div class="chat-drawer-list" id="chatTopics"></div>
+		</div>
+	</aside>
+
+	<div class="toast hidden" id="toast"></div>
+	<script src="../js/common.js"></script>
+	<script src="../js/ai-answer.js"></script>
+</body>
+
+</html>

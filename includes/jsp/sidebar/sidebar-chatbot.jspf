@@ -1,0 +1,2 @@
+<%-- HTML source: components/sidebar/sidebar-chatbot.html --%>
+<%@ include file="../../../components/sidebar/sidebar-chatbot.html" %>

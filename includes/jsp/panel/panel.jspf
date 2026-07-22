@@ -1,0 +1,2 @@
+<%-- Canonical HTML source --%>
+<%@ include file="../../../components/panel/panel.html" %>

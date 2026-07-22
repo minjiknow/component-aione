@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>AI-ONE : 국회질의분류 AI 워크스페이스</title>
+	<!-- Start: Pretendard 폰트 -->
+	<link rel="stylesheet" as="style" crossorigin
+		href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+	<!-- //End: Pretendard 폰트 -->
+	<!-- Start: 공통 css -->
+	<link rel="stylesheet" href="../css/common.css" />
+	<!-- //End: 공통 css -->
+	<!-- Start: 메인페이지 css -->
+	<link rel="stylesheet" href="../css/ai-intake.css" />
+	<!-- //End: 메인페이지 css -->
+</head>
+
+<body data-page="intake" data-root-path=".." data-topbar-title="국회질의분류 AI 워크스페이스"
+	data-topbar-subtitle="문서 업로드 · OCR/파싱 · 질의 분류 · 매칭부서 확인">
+
+	<!-- Common Sidebar -->
+	<div data-include="sidebar/sidebar" data-include-source="html"></div>
+
+	<!-- ── Main ── -->
+	<div class="main-wrap" id="mainWrap">
+
+		<!-- Common Topbar -->
+		<div data-include="topbar/topbar" data-include-source="html"></div>
+
+		<!-- Common 3-Panel Layout -->
+		<div data-include="panel/three-panel" data-include-source="html">
+			<!-- ===== LEFT PANEL: Upload ===== -->
+			<div data-include="panel/panel" data-include-source="html" class="panel-left" data-slot="left"
+				aria-label="문서 업로드" data-panel="left">
+				<div class="panel-head">
+					<h2 class="panel-title">
+						<img data-icon="upload" alt="" aria-hidden="true" />
+						질의 업로드
+					</h2>
+					<div class="panel-actions"><button type="button" class="icon-button icon-button-ghost icon-button-sm panel-action-btn" id="leftResetBtn" title="초기화"
+							aria-label="초기화" data-panel-action="refresh"><img class="icon icon-small" data-icon="reset" alt="" aria-hidden="true" /></button><button type="button" class="icon-button icon-button-ghost panel-collapse-btn"
+							id="leftPanelCollapseBtn" data-panel-action="collapse" title="패널 접기" aria-label="패널 접기"><img
+								class="icon icon-small" data-icon="panel-collapse" alt=""
+								aria-hidden="true" /></button></div>
+				</div>
+
+					<div data-include="file-upload/file-upload" data-include-source="html">
+					<template data-slot="title">
+						<p class="file-upload-title">파일을 드래그하거나 선택하세요</p>
+					</template>
+					<template data-slot="hints">
+						<p class="file-upload-hint">TXT는 OCR 없이 텍스트 파싱으로 처리됩니다.</p>
+						<p class="file-upload-hint">PDF/이미지는 OCR/파싱 대상으로 표시됩니다.</p>
+					</template>
+					<template data-slot="input">
+						<input type="file" id="fileInput" multiple
+							accept=".pdf,.hwp,.docx,.txt,.png,.jpg,.jpeg,.tif,.tiff" hidden />
+					</template>
+				</div>
+
+				<div class="file-list-section">
+					<div class="file-list-header">
+						<span class="file-list-title">질의 업로드 목록</span>
+						<span class="file-list-count" id="fileCount">0건</span>
+					</div>
+					<ul class="file-list" id="fileList"></ul>
+				</div>
+
+				<div class="support-info">
+					<h3 class="support-title">지원 기능</h3>
+					<ul class="support-list">
+						<li>업로드 파일 유형에 따라 OCR/파싱 또는 텍스트 파싱 처리</li>
+						<li>중앙 문서 영역에서 추출 질의 하이라이트 표시</li>
+						<li>우측 질의 목록에서 단일소관/복수소관/비소관 구분</li>
+						<li>추출 및 매칭된 전체 목록 엑셀 다운로드</li>
+					</ul>
+				</div>
+			</div>
+
+			<!-- ===== CENTER PANEL: Document View ===== -->
+			<div data-include="panel/panel" data-include-source="html" class="panel-center" data-slot="center"
+				aria-label="문서 뷰어" data-panel="center">
+				<div class="panel-head">
+					<div class="panel-head-top">
+						<h2 class="panel-title">
+							<img data-icon="document" alt="" aria-hidden="true" />
+							질의 원본 · 결과 비교
+						</h2>
+						<p class="panel-desc active-file-name" id="activeFileName">예산결산위_질의서_2024-0315.pdf</p>
+					</div>
+					<div class="doc-stats">
+						<span class="stat-item stat-total">전체 <strong id="statTotal">5</strong></span>
+						<span class="stat-item stat-single">단일 <strong id="statSingle">2</strong></span>
+						<span class="stat-item stat-multi">복수 <strong id="statMulti">2</strong></span>
+						<span class="stat-item stat-none">비소관 <strong id="statNone">1</strong></span>
+					</div>
+				</div>
+
+				<div data-include="handler/split-handler" data-include-source="html" class="doc-split-view"
+					data-split-min="100">
+					<div class="split-handler-left doc-split-left" data-slot="left">
+						<div class="sub-head"><span class="sub-title">원본 보기</span></div>
+						<div class="doc-content-original" id="docOriginal">
+							<div class="doc-placeholder">
+								<img class="placeholder-icon" data-icon="document" alt="" aria-hidden="true" />
+								<p>문서를 업로드하면 원본이 표시됩니다</p>
+							</div>
+						</div>
+					</div>
+					<div class="split-handler-right doc-split-right" data-slot="right">
+						<div class="sub-head"><span class="sub-title">질의 추출 결과</span><label class="doc-hl-toggle"><input
+									type="checkbox" id="docHighlightToggle" checked /><span>하이라이트 표시</span></label>
+						</div>
+						<div class="doc-content" id="docContent">
+							<div class="doc-placeholder">
+								<img class="placeholder-icon" data-icon="document" alt="" aria-hidden="true" />
+								<p>문서를 업로드하면 분석 결과가 표시됩니다</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- ===== RIGHT PANEL: Query List ===== -->
+			<div data-include="panel/panel" data-include-source="html" class="panel-right" data-slot="right"
+				aria-label="질의 목록" data-panel="right">
+				<div class="panel-head">
+					<h2 class="panel-title">
+						<img data-icon="list" alt="" aria-hidden="true" />
+						질의목록 · 추천실국
+					</h2>
+					<div class="panel-actions"><button type="button" class="button button-sm button-outline" id="newClassifyBtn" title="새 질의분류">+
+							새 질의분류</button></div>
+				</div>
+
+				<div class="query-action-bar">
+					<button type="button" class="button button-sm button-outline" id="aiReclassifyBtn" title="AI재분류">AI재분류</button>
+					<button type="button" class="button button-sm button-primary" id="confirmBtn" title="확정">확정</button>
+					<button type="button" class="button button-sm button-danger hidden" id="confirmCancelBtn" title="확정 취소">확정 취소</button>
+					<button class="icon-button icon-button-ghost panel-move-btn" id="queryExcelBtn"
+						aria-label="엑셀 다운로드" title="엑셀 다운로드"
+						style="margin-left:auto">
+						<img class="icon icon-small" data-icon="download" alt="" aria-hidden="true" />
+					</button>
+				</div>
+
+				<div class="query-filter-bar" role="toolbar" aria-label="질의 필터">
+					<button class="filter-btn active" data-filter="all">전체</button>
+					<button class="filter-btn" data-filter="single">단일소관</button>
+					<button class="filter-btn" data-filter="multi">복수소관</button>
+					<button class="filter-btn" data-filter="none">비소관</button>
+					<button class="filter-btn" data-filter="review">검토필요</button>
+				</div>
+
+				<div class="query-list" id="queryList"></div>
+
+				<!-- 질의 카드 마크업 템플릿: JS는 데이터와 상태만 주입 -->
+				<template id="queryCardTemplate">
+					<article class="panel-card query-card" data-qid="" data-type="">
+						<div class="query-card-head">
+							<span class="query-num" data-query-number></span>
+							<span class="query-type" data-query-type></span>
+							<span class="query-review-badge hidden" data-query-review>검토필요</span>
+						</div>
+						<div class="query-text" data-query-text></div>
+						<div class="query-dept">
+							<span class="dept-tag main" data-query-main-dept></span>
+							<span class="dept-tag hidden" data-query-coop-dept></span>
+							<span class="dept-tag hidden" data-query-org></span>
+						</div>
+						<div class="query-ai-reason">
+							<span class="ai-reason-label">AI 분류 근거:</span>
+							<span class="ai-reason-text" data-query-reason></span>
+						</div>
+						<div class="query-confidence-bar">
+							<span class="confidence-label">신뢰도</span>
+							<div class="confidence-bar-wrap">
+								<div class="confidence-bar-fill" data-query-confidence-bar></div>
+							</div>
+							<span class="confidence-value" data-query-confidence></span>
+						</div>
+						<div class="query-conflict hidden" data-query-conflict>
+							<span class="conflict-icon">⚡</span>
+							<span class="conflict-text">룰 충돌: <strong data-query-conflict-rule></strong><span
+									data-query-conflict-detail></span></span>
+						</div>
+						<div class="query-card-foot">
+							<button class="query-edit-btn" data-qid="">수정</button>
+						</div>
+					</article>
+				</template>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- ===== Run Drawer (실행 목록) ===== -->
+	<div class="drawer-backdrop hidden" id="drawerBackdrop"></div>
+	<aside class="run-drawer hidden" id="runDrawer" aria-label="실행 목록 패널">
+		<div class="drawer-header">
+			<div>
+				<h3 class="drawer-title">실행 목록</h3>
+				<p class="drawer-desc">업로드·파싱·부서추천 실행 이력을 확인합니다.</p>
+			</div>
+			<button type="button" class="icon-button icon-button-ghost drawer-close" id="drawerClose" aria-label="실행 목록 닫기">×</button>
+		</div>
+		<div class="drawer-position-toggle">
+			<button class="drawer-pos-btn" id="runDrawerPosBtn" title="드로우 위치 전환">
+				<img class="icon icon-small" data-icon="panel-position" alt="" aria-hidden="true" />
+				<span id="runDrawerPosLabel">좌측으로 이동</span>
+			</button>
+		</div>
+		<div class="drawer-body">
+			<div class="drawer-section">
+				<div class="drawer-section-head">
+					<span>실행 건 목록</span>
+					<span class="drawer-count" id="runCount">0건</span>
+				</div>
+				<ul class="run-list" id="runList"></ul>
+			</div>
+			<div class="drawer-section">
+				<div class="drawer-section-head">
+					<span>최근 작업 로그</span>
+					<span class="drawer-sort">최신순</span>
+				</div>
+				<ul class="work-log" id="workLog"></ul>
+			</div>
+		</div>
+	</aside>
+
+	<!-- ===== Edit Modal (매칭부서 수정) ===== -->
+	<div class="modal-backdrop hidden" id="editModal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+		<div class="edit-modal">
+			<div class="modal-header">
+				<h3 id="editModalTitle">질의분류 · 담당실국</h3>
+				<button type="button" class="icon-button icon-button-ghost modal-close" id="editModalClose" aria-label="모달 닫기">×</button>
+			</div>
+			<div class="modal-body">
+				<div class="field field-spaced">
+					<label class="field-label" for="editQueryText">질의 내용</label>
+					<textarea id="editQueryText" class="form-textarea" rows="3" placeholder="질의 내용을 수정하세요"></textarea>
+				</div>
+				<div class="field field-spaced">
+					<label class="field-label" for="editType">소관구분</label>
+					<select id="editType" class="form-select">
+						<option value="single">단일소관</option>
+						<option value="multi">복수소관</option>
+						<option value="none">비소관</option>
+						<option value="unclear">소관불명확</option>
+					</select>
+				</div>
+				<div class="field field-spaced">
+					<label class="field-label" for="editMainDept">주관부서</label>
+					<select id="editMainDept" class="form-select">
+						<option value="예산실">예산실</option>
+						<option value="재정정책국">재정정책국</option>
+						<option value="세제실">세제실</option>
+						<option value="공공정책국">공공정책국</option>
+						<option value="국제금융국">국제금융국</option>
+						<option value="경제정책국">경제정책국</option>
+						<option value="산업정책국">산업정책국</option>
+						<option value="고용정책과">고용정책과</option>
+						<option value="해당없음">해당없음</option>
+					</select>
+				</div>
+				<div class="field field-spaced">
+					<label class="field-label" for="editCoopDept">협조부서</label>
+					<input type="text" id="editCoopDept" class="form-input" placeholder="협조부서 입력" />
+				</div>
+				<div class="field field-spaced">
+					<label class="field-label" for="editOrg">소관기관</label>
+					<input type="text" id="editOrg" class="form-input" placeholder="소관기관 입력" />
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn-ghost" id="editCancel">취소</button>
+				<button class="btn-primary" id="editApply">수정 적용</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+
+	<!-- ===== Rule Drawer (분류 룰 설정) ===== -->
+	<div class="drawer-backdrop hidden" id="ruleDrawerBackdrop"></div>
+	<aside class="rule-drawer hidden" id="ruleDrawer" aria-label="분류 룰 설정">
+		<div class="drawer-header">
+			<div>
+				<h3 class="drawer-title">분류 룰 설정</h3>
+				<p class="drawer-desc">키워드·제외어·우선순위를 기준으로 AI 추천 실국을 자동 보정합니다.</p>
+			</div>
+			<button type="button" class="icon-button icon-button-ghost drawer-close" id="ruleDrawerClose" aria-label="룰 설정 닫기">×</button>
+		</div>
+		<div class="rule-drawer-body">
+			<!-- Left: Rule List -->
+			<div class="rule-drawer-left">
+				<div class="rule-list" id="ruleList"></div>
+			</div>
+			<!-- Right: Rule Detail -->
+			<div class="rule-drawer-right" id="ruleDetailPanel">
+				<div class="rule-detail-section">
+					<h4 class="rule-detail-title">룰 기본 정보</h4>
+					<div class="field field-spaced">
+						<label class="field-label">룰명</label>
+						<input type="text" id="ruleKeywords" class="form-input" placeholder="예: 세제 키워드 룰" />
+					</div>
+					<div class="form-row">
+						<div class="field field-spaced flex1">
+							<label class="field-label">추천 실국</label>
+							<select id="ruleDept" class="form-select">
+								<option>세제실</option>
+								<option>예산실</option>
+								<option>재정정책국</option>
+								<option>경제정책국</option>
+								<option>산업정책국</option>
+							</select>
+						</div>
+						<div class="field field-spaced" style="width:80px;">
+							<label class="field-label">우선순위</label>
+							<input type="number" id="rulePriority" class="form-input" value="1" min="1" max="10" />
+						</div>
+					</div>
+					<div class="field field-spaced">
+						<label class="field-label">룰 사용 여부</label>
+						<div class="toggle-row">
+							<span class="toggle-desc">OFF 처리 시 재실행 대상에서 제외됩니다.</span>
+							<label class="toggle-switch"><input type="checkbox" id="ruleActive" checked /><span
+									class="toggle-slider"></span></label>
+						</div>
+					</div>
+				</div>
+				<div class="rule-detail-section">
+					<h4 class="rule-detail-title">적용 조건</h4>
+					<div class="field field-spaced">
+						<label class="field-label">포함 키워드</label>
+						<input type="text" id="ruleIncludeKeywords" class="form-input"
+							placeholder="법인세, 소득세, 세액공제, 조세감면" />
+						<div class="keyword-tags" id="includeKeywordTags"></div>
+					</div>
+					<div class="field field-spaced">
+						<label class="field-label">제외 키워드</label>
+						<input type="text" id="ruleExcludeKeywords" class="form-input" placeholder="지방세, 관세" />
+						<div class="keyword-tags exclude" id="excludeKeywordTags"></div>
+					</div>
+					<div class="form-row">
+						<div class="field field-spaced flex1">
+							<label class="field-label">조건 방식</label>
+							<select id="ruleCondition" class="form-select">
+								<option>일부 포함</option>
+								<option>모두 포함</option>
+								<option>정확히 일치</option>
+							</select>
+						</div>
+						<div class="field field-spaced flex1">
+							<label class="field-label">적용 범위</label>
+							<select id="ruleScope" class="form-select">
+								<option>현재 실행 건</option>
+								<option>전체 적용</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="rule-detail-section">
+					<h4 class="rule-detail-title">AI 충돌 시 처리</h4>
+					<div class="field field-spaced">
+						<label class="radio-label"><input type="radio" name="ruleConflict" value="rule" checked /> 수동 룰
+							우선</label>
+						<label class="radio-label"><input type="radio" name="ruleConflict" value="both" /> 양쪽 모두 표시 (검토
+							필요)</label>
+					</div>
+				</div>
+				<div class="rule-detail-section">
+					<h4 class="rule-detail-title">설명 및 운영 메모</h4>
+					<textarea class="form-textarea" id="ruleMemo" rows="4"
+						placeholder="세목, 세액공제, 조세감면 등 세제 관련 키워드가 포함된 질의는 세제실로 우선 보정합니다."></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="rule-drawer-footer">
+			<span class="rule-drawer-hint">저장 후 '룰 적용 재실행'을 누르면 결과 목록에 반영됩니다.</span>
+			<button type="button" class="button button-ghost" id="addRuleBtn"><img class="icon icon-small"
+					data-icon="plus" alt="" aria-hidden="true" />룰 추가</button>
+			<button type="button" class="button button-primary" id="ruleFormSave">저장</button>
+			<button type="button" class="button button-dark" id="ruleApplyBtn"><img class="icon icon-small"
+					data-icon="regenerate" alt="" aria-hidden="true" />룰 적용 재실행</button>
+		</div>
+	</aside>
+
+	<script src="../js/common.js"></script>
+	<script src="../js/ai-intake.js"></script>
+</body>
+
+</html>
