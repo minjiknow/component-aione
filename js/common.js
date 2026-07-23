@@ -96,16 +96,22 @@
      ======================================================================== */
     function setSidebarCollapsed(sidebar, isCollapsed) {
         const collapseButton = sidebar.querySelector("#sidebarCollapseBtn");
+        const brandButton = sidebar.querySelector(".sidebar-brand");
 
         sidebar.classList.toggle("collapsed", isCollapsed);
         if (isCollapsed) localStorage.setItem("sidebar-collapsed", "true");
         else localStorage.removeItem("sidebar-collapsed");
 
         if (collapseButton) collapseButton.setAttribute("aria-expanded", String(!isCollapsed));
+        if (brandButton) {
+            const label = isCollapsed ? "사이드바 펼치기" : "AI-ONE 홈";
+            brandButton.setAttribute("aria-label", label);
+            brandButton.setAttribute("title", label);
+        }
     }
 
     function initSharedShell() {
-        const sidebar = document.querySelector("[data-sidebar-variant], .app-sidebar");
+        const sidebar = document.getElementById("sidebar");
         if (!sidebar) return;
 
         const variant = sidebar.dataset.sidebarVariant || "standard";
@@ -175,6 +181,7 @@
     const THREE_PANEL_HANDLE_WIDTH = 4;
     const THREE_PANEL_COLLAPSED_WIDTH = 44;
     const THREE_PANEL_FLEX_COLUMN = "minmax(0, 1fr)";
+    const THREE_PANEL_WIDTH_MODE = Object.freeze({ FIXED: "fixed", FLEX: "flex" });
     const THREE_PANEL_HEAD_SELECTOR = ".panel-head, .center-header";
     const THREE_PANEL_INTERACTIVE_SELECTOR = "button, input, select, textarea, a, [contenteditable]";
     const PANEL_COLLAPSE_BUTTON_SELECTOR = '[data-panel-action="collapse"], #leftPanelCollapseBtn';
@@ -208,69 +215,99 @@
         return getThreePanelChildren(container, "panel-resize-handle");
     }
 
-    function createThreePanelColumns(left, center, right) {
-        return `${left} ${THREE_PANEL_HANDLE_WIDTH}px ${center} ${THREE_PANEL_HANDLE_WIDTH}px ${right}`;
+    function ensureThreePanelWidthRoles(container) {
+        const panels = getThreePanelPanels(container);
+        let flexiblePanel = panels.find((panel) => panel.dataset.panelWidthMode === THREE_PANEL_WIDTH_MODE.FLEX);
+        if (!flexiblePanel) {
+            flexiblePanel = panels.find((panel) => panel.dataset.panel === "center") || panels[1] || panels[0] || null;
+        }
+
+        panels.forEach((panel, index) => {
+            panel.dataset.panelWidthMode = panel === flexiblePanel ? THREE_PANEL_WIDTH_MODE.FLEX : THREE_PANEL_WIDTH_MODE.FIXED;
+            panel.dataset.panelLayoutKey ||= panel.dataset.panel || `panel-${index}`;
+            panel.dataset.panelInitialIndex ||= String(index);
+        });
+        return flexiblePanel;
     }
 
-    function readThreePanelWidths(container) {
-        const columns = window.getComputedStyle(container).gridTemplateColumns.trim().split(/\s+/);
-        if (columns.length < 5) return null;
-
-        const left = Number.parseFloat(columns[0]);
-        const right = Number.parseFloat(columns[4]);
-        if (!Number.isFinite(left) || !Number.isFinite(right)) return null;
-        return { left: Math.round(left), right: Math.round(right) };
+    function readThreePanelPanelWidths(container) {
+        return new Map(
+            getThreePanelPanels(container).map((panel) => [panel, Math.round(panel.getBoundingClientRect().width)]),
+        );
     }
 
-    function getThreePanelResizeBounds(container) {
+    function createThreePanelColumns(panelColumns) {
+        return panelColumns
+            .flatMap((column, index) => (index < panelColumns.length - 1 ? [column, `${THREE_PANEL_HANDLE_WIDTH}px`] : [column]))
+            .join(" ");
+    }
+
+    function getThreePanelMinimum(container) {
         const style = window.getComputedStyle(container);
         const horizontalPadding = Number.parseFloat(style.paddingLeft) + Number.parseFloat(style.paddingRight);
         const handleWidth = getThreePanelHandles(container).length * THREE_PANEL_HANDLE_WIDTH;
         const availableWidth = Math.max(0, container.clientWidth - horizontalPadding - handleWidth);
-        const minimum = Math.min(THREE_PANEL_MIN, Math.floor(availableWidth / 3));
-        const maximumOuterWidth = Math.max(minimum * 2, availableWidth - minimum);
-        return { minimum, maximumOuterWidth };
+        return Math.min(THREE_PANEL_MIN, Math.floor(availableWidth / Math.max(1, getThreePanelPanels(container).length)));
     }
 
     function syncThreePanelAria(container) {
-        const widths = readThreePanelWidths(container);
-        if (!widths) return;
-
+        const panels = getThreePanelPanels(container);
         const handles = getThreePanelHandles(container);
-        const bounds = getThreePanelResizeBounds(container);
+        const minimum = getThreePanelMinimum(container);
         handles.forEach((handle, index) => {
-            const maximum = index === 0 ? bounds.maximumOuterWidth - widths.right : bounds.maximumOuterWidth - widths.left;
-            handle.setAttribute("aria-valuemin", String(bounds.minimum));
-            handle.setAttribute("aria-valuemax", String(Math.max(bounds.minimum, Math.round(maximum))));
-            handle.setAttribute("aria-valuenow", String(index === 0 ? widths.left : widths.right));
+            const leftPanel = panels[index];
+            const rightPanel = panels[index + 1];
+            if (!leftPanel || !rightPanel) return;
+
+            const leftWidth = Math.round(leftPanel.getBoundingClientRect().width);
+            const adjacentWidth = leftWidth + Math.round(rightPanel.getBoundingClientRect().width);
+            handle.setAttribute("aria-valuemin", String(minimum));
+            handle.setAttribute("aria-valuemax", String(Math.max(minimum, adjacentWidth - minimum)));
+            handle.setAttribute("aria-valuenow", String(leftWidth));
         });
     }
 
-    function applyThreePanelWidths(container, left, right, changedSide = null) {
-        const bounds = getThreePanelResizeBounds(container);
-        let safeLeft = Math.max(bounds.minimum, Math.round(left));
-        let safeRight = Math.max(bounds.minimum, Math.round(right));
+    function applyThreePanelLayout(container, requestedWidths = readThreePanelPanelWidths(container)) {
+        const flexiblePanel = ensureThreePanelWidthRoles(container);
+        const minimum = getThreePanelMinimum(container);
+        const columns = getThreePanelPanels(container).map((panel) => {
+            if (panel.classList.contains("panel-collapsed")) return `${THREE_PANEL_COLLAPSED_WIDTH}px`;
+            if (panel === flexiblePanel) return THREE_PANEL_FLEX_COLUMN;
 
-        if (safeLeft + safeRight > bounds.maximumOuterWidth) {
-            if (changedSide === "left") {
-                safeLeft = Math.max(bounds.minimum, bounds.maximumOuterWidth - safeRight);
-            } else if (changedSide === "right") {
-                safeRight = Math.max(bounds.minimum, bounds.maximumOuterWidth - safeLeft);
-            } else {
-                const adjustableWidth = Math.max(0, bounds.maximumOuterWidth - bounds.minimum * 2);
-                const requestedAdjustableWidth = Math.max(1, safeLeft + safeRight - bounds.minimum * 2);
-                safeLeft = bounds.minimum + Math.round((adjustableWidth * (safeLeft - bounds.minimum)) / requestedAdjustableWidth);
-                safeRight = bounds.maximumOuterWidth - safeLeft;
-            }
-        }
+            const requestedWidth = requestedWidths.get(panel) ?? Number.parseFloat(panel.dataset.panelWidth);
+            const safeWidth = Math.max(minimum, Math.round(Number.isFinite(requestedWidth) ? requestedWidth : minimum));
+            panel.dataset.panelWidth = String(safeWidth);
+            return `${safeWidth}px`;
+        });
 
-        container.style.gridTemplateColumns = createThreePanelColumns(`${safeLeft}px`, THREE_PANEL_FLEX_COLUMN, `${safeRight}px`);
+        container.style.gridTemplateColumns = createThreePanelColumns(columns);
         syncThreePanelAria(container);
     }
 
+    function applyThreePanelResize(container, handleIndex, requestedLeftWidth, adjacentWidth, baseWidths) {
+        const panels = getThreePanelPanels(container);
+        const leftPanel = panels[handleIndex];
+        const rightPanel = panels[handleIndex + 1];
+        if (!leftPanel || !rightPanel) return;
+
+        const minimum = Math.min(getThreePanelMinimum(container), Math.floor(adjacentWidth / 2));
+        const leftWidth = Math.min(Math.max(Math.round(requestedLeftWidth), minimum), adjacentWidth - minimum);
+        const widths = new Map(baseWidths);
+        widths.set(leftPanel, leftWidth);
+        widths.set(rightPanel, adjacentWidth - leftWidth);
+        applyThreePanelLayout(container, widths);
+    }
+
     function saveThreePanelLayout(container) {
-        const widths = readThreePanelWidths(container);
-        if (widths) container.dataset.panelWidths = JSON.stringify(widths);
+        ensureThreePanelWidthRoles(container);
+        const widths = readThreePanelPanelWidths(container);
+        const savedWidths = {};
+        getThreePanelPanels(container).forEach((panel) => {
+            if (panel.dataset.panelWidthMode === THREE_PANEL_WIDTH_MODE.FIXED) {
+                savedWidths[panel.dataset.panelLayoutKey] = widths.get(panel);
+            }
+        });
+        container.dataset.panelWidths = JSON.stringify(savedWidths);
     }
 
     function restoreThreePanelLayout(container = getThreePanel()) {
@@ -286,11 +323,15 @@
         }
 
         try {
-            const widths = JSON.parse(saved);
-            if (!Number.isFinite(Number(widths.left)) || !Number.isFinite(Number(widths.right))) {
-                throw new Error("저장된 패널 너비가 올바르지 않습니다.");
-            }
-            applyThreePanelWidths(container, widths.left, widths.right);
+            const savedWidths = JSON.parse(saved);
+            const widths = new Map();
+            getThreePanelPanels(container).forEach((panel) => {
+                if (panel.dataset.panelWidthMode !== THREE_PANEL_WIDTH_MODE.FIXED) return;
+                const width = Number(savedWidths[panel.dataset.panelLayoutKey]);
+                if (!Number.isFinite(width)) throw new Error("저장된 패널 너비가 올바르지 않습니다.");
+                widths.set(panel, width);
+            });
+            applyThreePanelLayout(container, widths);
             return true;
         } catch (error) {
             delete container.dataset.panelWidths;
@@ -305,30 +346,36 @@
 
         localStorage.removeItem(getThreePanelStorageKey());
         delete container.dataset.panelWidths;
-        container.style.removeProperty("grid-template-columns");
-        getThreePanelPanels(container).forEach((panel) => panel.classList.remove("panel-collapsed"));
+        const panels = getThreePanelPanels(container);
+        panels.forEach((panel) => panel.classList.remove("panel-collapsed"));
         container.querySelectorAll(PANEL_COLLAPSE_BUTTON_SELECTOR).forEach((button) => syncPanelCollapseButton(button, false));
-        syncThreePanelAria(container);
+
+        const isInitialOrder = panels.every((panel, index) => Number(panel.dataset.panelInitialIndex) === index);
+        if (isInitialOrder) {
+            panels.forEach((panel) => delete panel.dataset.panelWidth);
+            container.style.removeProperty("grid-template-columns");
+            syncThreePanelAria(container);
+        } else {
+            applyThreePanelLayout(container);
+            saveThreePanelLayout(container);
+        }
     }
 
     function setThreePanelCollapsed(panel, isCollapsed, container = getThreePanel()) {
         if (!container || !panel || panel.parentElement !== container) return;
 
         const panels = getThreePanelPanels(container);
-        const panelIndex = panels.indexOf(panel);
-        const widths = readThreePanelWidths(container);
-        if (panelIndex < 0 || !widths) return;
+        if (!panels.includes(panel)) return;
 
+        const widths = readThreePanelPanelWidths(container);
+        if (isCollapsed) saveThreePanelLayout(container);
         panel.classList.toggle("panel-collapsed", isCollapsed);
         syncPanelCollapseButton(panel.querySelector(PANEL_COLLAPSE_BUTTON_SELECTOR), isCollapsed);
 
         if (!isCollapsed) {
             restoreThreePanelLayout(container);
         } else {
-            const leftColumn = panelIndex === 0 ? `${THREE_PANEL_COLLAPSED_WIDTH}px` : `${widths.left}px`;
-            const centerColumn = panelIndex === 1 ? `${THREE_PANEL_COLLAPSED_WIDTH}px` : THREE_PANEL_FLEX_COLUMN;
-            const rightColumn = panelIndex === 2 ? `${THREE_PANEL_COLLAPSED_WIDTH}px` : `${widths.right}px`;
-            container.style.gridTemplateColumns = createThreePanelColumns(leftColumn, centerColumn, rightColumn);
+            applyThreePanelLayout(container, widths);
         }
         syncThreePanelAria(container);
     }
@@ -348,14 +395,32 @@
         });
     }
 
+    function moveThreePanel(container, panel, targetPanel) {
+        const panels = getThreePanelPanels(container);
+        const draggedIndex = panels.indexOf(panel);
+        const targetIndex = panels.indexOf(targetPanel);
+        if (draggedIndex < 0 || targetIndex < 0 || draggedIndex === targetIndex) return false;
+
+        expandCollapsedThreePanelPanels(container);
+        const widths = readThreePanelPanelWidths(container);
+        panels.splice(draggedIndex, 1);
+        panels.splice(targetIndex, 0, panel);
+        rebuildThreePanel(container, panels);
+        applyThreePanelLayout(container, widths);
+        saveThreePanelLayout(container);
+        return true;
+    }
+
     function rotateThreePanel(container) {
         const panels = getThreePanelPanels(container);
         if (panels.length < 2) return false;
 
         expandCollapsedThreePanelPanels(container);
+        const widths = readThreePanelPanelWidths(container);
         panels.push(panels.shift());
         rebuildThreePanel(container, panels);
-        syncThreePanelAria(container);
+        applyThreePanelLayout(container, widths);
+        saveThreePanelLayout(container);
         return true;
     }
 
@@ -418,16 +483,9 @@
                     clearDragState();
                     if (!isDragging || !dropTarget) return;
 
-                    const panels = getThreePanelPanels(container);
-                    const draggedIndex = panels.indexOf(panel);
-                    const targetIndex = panels.indexOf(dropTarget);
-                    if (draggedIndex < 0 || targetIndex < 0) return;
-
-                    expandCollapsedThreePanelPanels(container);
-                    [panels[draggedIndex], panels[targetIndex]] = [panels[targetIndex], panels[draggedIndex]];
-                    rebuildThreePanel(container, panels);
-                    syncThreePanelAria(container);
-                    showCommonToast("패널 위치가 변경되었습니다.");
+                    if (moveThreePanel(container, panel, dropTarget)) {
+                        showCommonToast("패널 순서가 변경되었습니다.");
+                    }
                 };
 
                 document.addEventListener("pointermove", onPointerMove, { passive: false });
@@ -444,22 +502,23 @@
 
             const handles = getThreePanelHandles(container);
             const handleIndex = handles.indexOf(handle);
-            const startWidths = readThreePanelWidths(container);
-            if (handleIndex < 0 || !startWidths) return;
+            const panels = getThreePanelPanels(container);
+            const leftPanel = panels[handleIndex];
+            const rightPanel = panels[handleIndex + 1];
+            if (handleIndex < 0 || !leftPanel || !rightPanel) return;
 
             event.preventDefault();
             const startX = event.clientX;
+            const startWidths = readThreePanelPanelWidths(container);
+            const startLeftWidth = startWidths.get(leftPanel);
+            const adjacentWidth = startLeftWidth + startWidths.get(rightPanel);
             handle.classList.add("active");
             document.body.style.cursor = "col-resize";
             document.body.style.userSelect = "none";
 
             const onMouseMove = (moveEvent) => {
                 const difference = moveEvent.clientX - startX;
-                if (handleIndex === 0) {
-                    applyThreePanelWidths(container, startWidths.left + difference, startWidths.right, "left");
-                } else {
-                    applyThreePanelWidths(container, startWidths.left, startWidths.right - difference, "right");
-                }
+                applyThreePanelResize(container, handleIndex, startLeftWidth + difference, adjacentWidth, startWidths);
             };
 
             const onMouseUp = () => {
@@ -481,16 +540,17 @@
             handle.addEventListener("keydown", (event) => {
                 if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
                 const handleIndex = getThreePanelHandles(container).indexOf(handle);
-                const widths = readThreePanelWidths(container);
-                if (handleIndex < 0 || !widths) return;
+                const panels = getThreePanelPanels(container);
+                const leftPanel = panels[handleIndex];
+                const rightPanel = panels[handleIndex + 1];
+                if (handleIndex < 0 || !leftPanel || !rightPanel) return;
 
                 event.preventDefault();
+                const widths = readThreePanelPanelWidths(container);
+                const leftWidth = widths.get(leftPanel);
+                const adjacentWidth = leftWidth + widths.get(rightPanel);
                 const difference = (event.key === "ArrowRight" ? 1 : -1) * (event.shiftKey ? 32 : 16);
-                if (handleIndex === 0) {
-                    applyThreePanelWidths(container, widths.left + difference, widths.right, "left");
-                } else {
-                    applyThreePanelWidths(container, widths.left, widths.right - difference, "right");
-                }
+                applyThreePanelResize(container, handleIndex, leftWidth + difference, adjacentWidth, widths);
                 saveThreePanelLayout(container);
             });
         });
@@ -658,6 +718,7 @@
         if (!container || container.dataset.initialized === "true") return;
         container.dataset.initialized = "true";
 
+        ensureThreePanelWidthRoles(container);
         restoreThreePanelLayout(container);
         bindThreePanelPointerResize(container);
         bindThreePanelKeyboardResize(container);

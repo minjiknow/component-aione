@@ -356,15 +356,6 @@ body.control-preview-page {
 	width: 56px;
 	flex-basis: 56px;
 }
-.component-sidebar-preview .app-sidebar.collapsed .sidebar-brand {
-	display: none;
-}
-.component-sidebar-preview .app-sidebar.collapsed .sidebar-collapse-btn {
-	display: flex;
-}
-.component-sidebar-preview .app-sidebar.collapsed .collapse-icon {
-	transform: rotate(180deg);
-}
 
 /* Button detail catalogs */
 html.button-preview-root {
