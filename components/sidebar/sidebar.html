@@ -1,15 +1,15 @@
 <!-- Sidebar component fragment: 화면당 한 번만 포함하는 singleton 컴포넌트입니다. -->
 <aside class="sidebar app-sidebar" id="sidebar">
 	<div class="sidebar-top-bar">
-		<div class="sidebar-brand">
-			<div class="brand-logo">
+		<button type="button" class="sidebar-brand" id="sidebarBrandButton" aria-label="AI-ONE 홈" title="AI-ONE 홈">
+			<span class="brand-logo">
 				<img class="brand-symbol" alt="AI-ONE" data-icon="ai-one-logo" />
-			</div>
-			<div class="brand-text">
+			</span>
+			<span class="brand-text">
 				<span class="brand-name">AI-ONE</span>
 				<span class="brand-sub">재정경제부 AI 플랫폼</span>
-			</div>
-		</div>
+			</span>
+		</button>
 		<button type="button" class="icon-button icon-button-ghost sidebar-collapse-btn" id="sidebarCollapseBtn"
 			aria-label="사이드바 접기/펼치기" title="사이드바 접기">
 			<img class="collapse-icon icon icon-primary" data-icon="sidebar-collapse" alt="" aria-hidden="true" />
