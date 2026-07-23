@@ -705,12 +705,6 @@
     cursor: pointer;
     margin-top: 2px;
 }
-.rec-checkbox input {
-    width: 14px;
-    height: 14px;
-    accent-color: var(--primary);
-    cursor: pointer;
-}
 .rec-top-badge {
     display: inline-block;
     font-size: 12px;

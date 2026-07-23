@@ -6,11 +6,11 @@
 
 - `README.md`: 복사용 마크업과 필수 CSS/JS, 상태, 슬롯, 이벤트, ID 규칙을 설명하는 개발 계약입니다.
 - `컴포넌트명.html`: 페이지가 실제로 include하는 실행형 컴포넌트에만 둡니다. `html`, `head`, `body`, CSS, JS를 포함하지 않습니다.
-- `button/button.html`, `button/icon-button.html`: Button 전체 변형을 확인하는 검수용 독립 페이지이며 include fragment가 아닙니다.
+- `button/button.html`, `button/icon-button.html`, `checkbox/checkbox.html`, `radio/radio.html`, `toggle/toggle.html`: 각 컴포넌트의 전체 상태를 확인하는 검수용 독립 페이지이며 include fragment가 아닙니다.
 - `_preview/component-preview.css`: 통합 카탈로그와 Button 상세 카탈로그에서만 사용합니다. 운영 페이지에는 포함하지 않습니다.
 - `index.html`: 모든 컴포넌트와 Form 상태의 대표 형태를 외부 include 없이 직접 확인하는 통합 검수 페이지입니다.
 
-Input, Select, Textarea, Button처럼 화면에 직접 작성하는 작은 컴포넌트는 별도 fragment를 만들지 않고 README의 마크업을 복사합니다. Button 상세 카탈로그 HTML도 시각 검수용일 뿐 include하지 않습니다. Topbar, Sidebar, Panel처럼 페이지가 include하는 컴포넌트만 HTML fragment를 유지합니다.
+Input, Select, Textarea, Button, Checkbox, Radio, Toggle처럼 화면에 직접 작성하는 작은 컴포넌트는 별도 fragment를 만들지 않고 README의 마크업을 복사합니다. 각 상세 카탈로그 HTML은 시각 검수용일 뿐 include하지 않습니다. Topbar, Sidebar, Panel처럼 페이지가 include하는 컴포넌트만 HTML fragment를 유지합니다.
 
 ## 공통 의존성
 
@@ -20,6 +20,13 @@ Input, Select, Textarea, Button처럼 화면에 직접 작성하는 작은 컴�
 ```
 
 JSP에서는 실제 프로젝트의 context path 정책에 맞게 경로만 변환합니다. README 예제와 실행형 fragment의 클래스명 및 `data-*` 속성은 변경하지 않습니다.
+
+## Vercel 배포
+
+- Root Directory는 `components`가 아니라 저장소 루트로 설정합니다.
+- Framework Preset은 `Other`, Build Command와 Output Directory는 비워 둡니다.
+- 루트의 `vercel.json`이 `/` 요청을 `/components/index.html`로 이동시킵니다.
+- `components`만 Root Directory로 지정하면 `../css`, `../js`, `../assets`가 배포 범위 밖이 되어 스타일과 스크립트를 불러올 수 없습니다.
 
 ## 상태 규칙
 

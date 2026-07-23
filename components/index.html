@@ -106,6 +106,42 @@
 					</div>
 				</article>
 
+				<article class="component-catalog-card">
+					<header class="component-catalog-card-header">
+						<div><h3 class="component-catalog-card-title">Checkbox</h3><p class="component-catalog-card-meta">16px · Small 14px · XSmall 12px</p></div>
+						<div class="component-catalog-links"><a href="checkbox/checkbox.html">상세</a><a href="checkbox/README.md">README</a></div>
+					</header>
+					<div class="component-catalog-preview component-control-preview">
+						<label class="checkbox-label"><input class="checkbox-control" type="checkbox" name="catalogCheckboxDefault" checked /><span class="choice-title">Default · 16px</span></label>
+						<label class="checkbox-label"><input class="checkbox-control checkbox-control-sm" type="checkbox" name="catalogCheckboxSmall" checked /><span class="choice-title">Small · 14px</span></label>
+						<label class="checkbox-label"><input class="checkbox-control checkbox-control-xs" type="checkbox" name="catalogCheckboxXSmall" checked /><span class="choice-title">XSmall · 12px</span></label>
+					</div>
+				</article>
+
+				<article class="component-catalog-card">
+					<header class="component-catalog-card-header">
+						<div><h3 class="component-catalog-card-title">Radio</h3><p class="component-catalog-card-meta">Native input · Single selection</p></div>
+						<div class="component-catalog-links"><a href="radio/radio.html">상세</a><a href="radio/README.md">README</a></div>
+					</header>
+					<div class="component-catalog-preview component-control-preview">
+						<fieldset class="choice-group">
+							<legend class="choice-group-label">처리 방식</legend>
+							<div class="choice-list"><label class="radio-label"><input type="radio" name="catalogProcessingMode" value="automatic" checked /><span class="choice-title">자동 처리</span></label><label class="radio-label"><input type="radio" name="catalogProcessingMode" value="manual" /><span class="choice-title">수동 검토</span></label><label class="radio-label"><input type="radio" name="catalogProcessingMode" value="locked" disabled /><span class="choice-title">선택 불가</span></label></div>
+						</fieldset>
+					</div>
+				</article>
+
+				<article class="component-catalog-card component-catalog-card-wide">
+					<header class="component-catalog-card-header">
+						<div><h3 class="component-catalog-card-title">Toggle</h3><p class="component-catalog-card-meta">Checkbox semantics · role=switch · On/Off</p></div>
+						<div class="component-catalog-links"><a href="toggle/toggle.html">상세</a><a href="toggle/README.md">README</a></div>
+					</header>
+					<div class="component-catalog-preview component-control-preview component-toggle-preview">
+						<label class="toggle-row"><span class="toggle-content"><span class="toggle-title">자동 분류</span><span class="toggle-desc">분류 규칙을 자동으로 적용합니다.</span></span><span class="toggle-switch"><input type="checkbox" name="catalogAutoClassification" role="switch" checked /><span class="toggle-slider" aria-hidden="true"></span></span></label>
+						<label class="toggle-row"><span class="toggle-content"><span class="toggle-title">잠긴 설정</span><span class="toggle-desc">권한이 없어 변경할 수 없습니다.</span></span><span class="toggle-switch"><input type="checkbox" name="catalogLockedSetting" role="switch" disabled /><span class="toggle-slider" aria-hidden="true"></span></span></label>
+					</div>
+				</article>
+
 				<article class="component-catalog-card component-catalog-card-wide">
 					<header class="component-catalog-card-header">
 						<div><h3 class="component-catalog-card-title">File Upload</h3><p class="component-catalog-card-meta">CSS: common.css · JS: file upload event</p></div>
