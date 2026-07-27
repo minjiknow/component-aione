@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" class="control-preview-root">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Checkbox 컴포넌트</title>
+	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
+	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
+	<link rel="stylesheet" href="../../css/common.css?v=20260727" />
+	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260727" />
+</head>
+<body class="control-preview-page">
+	<main class="control-preview">
+		<header class="control-preview-header">
+			<div>
+				<h1 class="control-preview-title">Checkbox</h1>
+				<p class="control-preview-desc">브라우저 기본 체크박스를 사용하고 공통 색상과 크기만 적용합니다.</p>
+			</div>
+			<a class="control-preview-back" href="../index.html#forms">컴포넌트 목록</a>
+		</header>
+
+		<section class="control-preview-section" aria-labelledby="checkbox-states-title">
+			<h2 class="control-preview-section-title" id="checkbox-states-title">상태</h2>
+			<div class="control-use-list">
+				<article class="control-use-case"><span class="control-use-label">Default</span><label class="checkbox-label"><input class="checkbox-control" type="checkbox" name="checkbox-default" /><span class="choice-title">선택 안 함</span></label></article>
+				<article class="control-use-case"><span class="control-use-label">Checked</span><label class="checkbox-label"><input class="checkbox-control" type="checkbox" name="checkbox-checked" checked /><span class="choice-title">선택됨</span></label></article>
+				<article class="control-use-case"><span class="control-use-label">Disabled</span><label class="checkbox-label"><input class="checkbox-control" type="checkbox" name="checkbox-disabled" disabled /><span class="choice-title">선택 불가</span></label></article>
+				<article class="control-use-case"><span class="control-use-label">Checked + Disabled</span><label class="checkbox-label"><input class="checkbox-control" type="checkbox" name="checkbox-checked-disabled" checked disabled /><span class="choice-title">선택 상태로 잠김</span></label></article>
+			</div>
+		</section>
+
+		<section class="control-preview-section" aria-labelledby="checkbox-sizes-title">
+			<h2 class="control-preview-section-title" id="checkbox-sizes-title">크기</h2>
+			<div class="control-use-list">
+				<article class="control-use-case"><span class="control-use-label">Default · 16px</span><label class="checkbox-label"><input class="checkbox-control" type="checkbox" name="checkbox-size-default" checked /><span class="choice-title">기본 체크박스</span></label></article>
+				<article class="control-use-case"><span class="control-use-label">Small · 14px</span><label class="checkbox-label"><input class="checkbox-control checkbox-control-sm" type="checkbox" name="checkbox-size-small" checked /><span class="choice-title">작은 체크박스</span></label></article>
+				<article class="control-use-case"><span class="control-use-label">XSmall · 13px</span><label class="checkbox-label"><input class="checkbox-control checkbox-control-xs" type="checkbox" name="checkbox-size-xsmall" checked /><span class="choice-title">아주 작은 체크박스</span></label></article>
+			</div>
+		</section>
+
+		<section class="control-preview-section" aria-labelledby="checkbox-group-title">
+			<h2 class="control-preview-section-title" id="checkbox-group-title">그룹</h2>
+			<fieldset class="choice-group">
+				<legend class="choice-group-label">알림 채널</legend>
+				<div class="choice-list">
+					<label class="checkbox-label"><input class="checkbox-control" type="checkbox" name="notificationChannel" value="email" checked /><span class="choice-content"><span class="choice-title">이메일</span><span class="choice-desc">업무 알림을 이메일로 받습니다.</span></span></label>
+					<label class="checkbox-label"><input class="checkbox-control" type="checkbox" name="notificationChannel" value="browser" /><span class="choice-content"><span class="choice-title">브라우저</span><span class="choice-desc">브라우저 안에서 알림을 받습니다.</span></span></label>
+				</div>
+			</fieldset>
+		</section>
+	</main>
+</body>
+</html>

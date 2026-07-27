@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" class="control-preview-root">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>FileList 컴포넌트</title>
+	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
+	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
+	<link rel="stylesheet" href="../../css/ai-intake.css?v=20260727" />
+	<link rel="stylesheet" href="../../css/ai-answer.css?v=20260727" />
+	<link rel="stylesheet" href="../../css/common.css?v=20260727" />
+	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260727" />
+</head>
+<body class="control-preview-page">
+	<main class="control-preview">
+		<header class="control-preview-header">
+			<div>
+				<h1 class="control-preview-title">FileList</h1>
+				<p class="control-preview-desc">AI Intake의 업로드 목록 전체 영역입니다. 헤더·업로드 현황·FileItem 목록을 함께 구성합니다.</p>
+			</div>
+			<a class="control-preview-back" href="../index.html#display">컴포넌트 목록</a>
+		</header>
+
+		<section class="control-preview-section" aria-labelledby="file-list-title">
+			<h2 class="control-preview-section-title" id="file-list-title">업로드 목록</h2>
+			<div class="file-list-section">
+				<div class="file-list-header">
+					<div class="file-list-heading"><span class="file-list-title">질의 업로드 목록</span></div>
+					<div class="upload-summary-inline" aria-label="업로드 현황"><span class="upload-summary-label">파일수/의원수</span><span class="upload-summary-value"><strong class="upload-summary-file-count match">2</strong> / <span class="upload-summary-member-count">2</span></span></div>
+				</div>
+				<ul class="file-list">
+					<li class="active" data-file-idx="0">
+						<button class="file-item-main" type="button" aria-label="예결위 질의서 박소연의원 파일 보기">
+							<div class="file-icon pdf">PDF</div>
+							<div class="file-info"><span class="file-name">예결위_질의서_박소연의원.pdf</span><span class="file-meta">1.3MB</span></div>
+						</button>
+						<div class="file-item-side">
+							<span class="file-status-group final"><span class="file-status parsed">청킹 완료</span><span class="file-status query-count final">질의 9건</span></span>
+							<div class="file-action-wrap"><button class="file-more-btn" type="button" aria-label="파일 옵션" aria-expanded="false" title="파일 옵션"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button></div>
+						</div>
+					</li>
+					<li data-file-idx="1">
+						<button class="file-item-main" type="button" aria-label="예결위 질의요지서 정예진의원 파일 보기">
+							<div class="file-icon docx">DOCX</div>
+							<div class="file-info"><span class="file-name">예결위_질의요지서_정예진의원.docx</span><span class="file-meta">1.4MB</span></div>
+						</button>
+						<div class="file-item-side">
+							<span class="file-status summarizing">SLM 자연어화</span>
+							<div class="file-action-wrap"><button class="file-more-btn" type="button" aria-label="파일 옵션" aria-expanded="false" title="파일 옵션"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button></div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</section>
+
+		<section class="control-preview-section" aria-labelledby="file-list-simple-title">
+			<h2 class="control-preview-section-title" id="file-list-simple-title">Simple 목록</h2>
+			<ul class="file-list simple" aria-label="간단 파일 목록">
+				<li class="file-item-simple">
+					<span class="file-dot" style="background:var(--red)" aria-hidden="true"></span>
+					<span class="file-name-simple">예결위_질의서_박소연의원.pdf</span>
+					<span class="file-status-badge done">청킹 완료 9청크</span>
+					<button class="file-remove-simple" type="button" aria-label="파일 삭제">×</button>
+				</li>
+				<li class="file-item-simple">
+					<span class="file-dot processing" style="background:var(--primary)" aria-hidden="true"></span>
+					<span class="file-name-simple">예결위_질의요지서_정예진의원.docx</span>
+					<span class="file-status-badge summarizing">SLM 자연어화</span>
+					<button class="file-remove-simple" type="button" aria-label="파일 삭제">×</button>
+				</li>
+			</ul>
+		</section>
+	</main>
+</body>
+</html>

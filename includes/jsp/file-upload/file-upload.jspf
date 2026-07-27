@@ -1,2 +1,0 @@
-<%-- Canonical HTML source --%>
-<%@ include file="../../../components/file-upload/file-upload.html" %>

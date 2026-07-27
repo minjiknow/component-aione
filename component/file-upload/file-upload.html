@@ -1,0 +1,7 @@
+<!-- File upload component fragment: 아이콘은 고정하고 title, content, input 슬롯을 전달합니다. -->
+<div class="upload-zone" data-file-upload-zone role="button" tabindex="0" aria-label="파일을 드래그하거나 클릭하여 업로드">
+	<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+	<p class="upload-text"><span data-slot="title"></span></p>
+	<span class="upload-hint"><span data-slot="content"></span></span>
+	<div data-slot="input"></div>
+</div>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" class="control-preview-root">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>FileItem 컴포넌트</title>
+	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
+	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
+	<link rel="stylesheet" href="../../css/ai-intake.css?v=20260727" />
+	<link rel="stylesheet" href="../../css/ai-answer.css?v=20260727" />
+	<link rel="stylesheet" href="../../css/common.css?v=20260727" />
+	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260727" />
+</head>
+<body class="control-preview-page">
+	<main class="control-preview">
+		<header class="control-preview-header">
+			<div>
+				<h1 class="control-preview-title">FileItem</h1>
+				<p class="control-preview-desc">FileList 안에서 파일 하나의 확장자·이름·용량·처리 상태·옵션을 표시하는 행입니다.</p>
+			</div>
+			<a class="control-preview-back" href="../index.html#display">컴포넌트 목록</a>
+		</header>
+
+		<section class="control-preview-section" aria-labelledby="file-item-title">
+			<h2 class="control-preview-section-title" id="file-item-title">완료 상태</h2>
+			<ul class="file-list">
+				<li class="active pinned" data-file-idx="0">
+					<button class="file-item-main" type="button" aria-label="예결위 자료요구서 신예린의원 파일 보기">
+						<div class="file-icon txt">TXT</div>
+						<div class="file-info"><span class="file-name">예결위_자료요구서_신예린의원.txt</span><span class="file-meta">0.5MB · 목록 고정</span></div>
+					</button>
+					<div class="file-item-side">
+						<span class="file-status-group final"><span class="file-status parsed">청킹 완료</span><span class="file-status query-count final">질의 5건</span></span>
+						<div class="file-action-wrap">
+							<button class="file-more-btn" type="button" aria-label="파일 옵션" aria-expanded="false" title="파일 옵션"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</section>
+
+		<section class="control-preview-section" aria-labelledby="file-item-progress-title">
+			<h2 class="control-preview-section-title" id="file-item-progress-title">처리 중 상태</h2>
+			<ul class="file-list">
+				<li data-file-idx="1">
+					<button class="file-item-main" type="button" aria-label="예결위 질의서 박소연의원 파일 보기">
+						<div class="file-icon pdf processing">PDF</div>
+						<div class="file-info"><span class="file-name">예결위_질의서_박소연의원.pdf</span><span class="file-meta">1.3MB</span></div>
+					</button>
+					<div class="file-item-side">
+						<span class="file-status parsing">파싱 중</span>
+						<div class="file-action-wrap"><button class="file-more-btn" type="button" aria-label="파일 옵션" aria-expanded="false" title="파일 옵션"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button></div>
+					</div>
+				</li>
+			</ul>
+		</section>
+
+		<section class="control-preview-section" aria-labelledby="file-item-simple-title">
+			<h2 class="control-preview-section-title" id="file-item-simple-title">Simple 상태</h2>
+			<ul class="file-list simple">
+				<li class="file-item-simple">
+					<span class="file-dot" style="background:var(--red)" aria-hidden="true"></span>
+					<span class="file-name-simple">예결위_질의서_박소연의원.pdf</span>
+					<span class="file-status-badge done">청킹 완료 9청크</span>
+					<button class="file-remove-simple" type="button" aria-label="파일 삭제">×</button>
+				</li>
+			</ul>
+		</section>
+	</main>
+</body>
+</html>

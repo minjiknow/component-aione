@@ -1,2 +1,0 @@
-<%-- HTML source: components/topbar/topbar.html --%>
-<%@ include file="../../../components/topbar/topbar.html" %>
