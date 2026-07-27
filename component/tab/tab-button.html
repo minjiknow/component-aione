@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" class="control-preview-root">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Tab Button 컴포넌트</title>
+	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
+	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
+	<link rel="stylesheet" href="../../css/common.css?v=20260727" />
+	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260727" />
+</head>
+<body class="control-preview-page">
+	<main class="control-preview">
+		<header class="control-preview-header">
+			<div>
+				<h1 class="control-preview-title">Tab Button</h1>
+				<p class="control-preview-desc">활성 항목을 채움 색상으로 구분하는 버튼형 탭입니다.</p>
+			</div>
+			<a class="control-preview-back" href="../index.html#navigation">컴포넌트 목록</a>
+		</header>
+
+		<section class="control-preview-section" aria-labelledby="button-tab-title">
+			<h2 class="control-preview-section-title" id="button-tab-title">버튼형</h2>
+			<div class="tabs" data-tabs>
+				<div class="tab-button-list" role="tablist" aria-label="답변서 작업">
+					<button type="button" class="tab-button is-active" id="buttonTabRecommend" role="tab" aria-selected="true" aria-controls="buttonTabPanelRecommend" data-tab-value="recommend">관련자료 추천</button>
+					<button type="button" class="tab-button" id="buttonTabDraft" role="tab" aria-selected="false" aria-controls="buttonTabPanelDraft" tabindex="-1" data-tab-value="draft">답변서 초안</button>
+					<button type="button" class="tab-button" id="buttonTabCompare" role="tab" aria-selected="false" aria-controls="buttonTabPanelCompare" tabindex="-1" data-tab-value="compare">답변서 비교</button>
+					<button type="button" class="tab-button" id="buttonTabLocked" role="tab" aria-selected="false" aria-controls="buttonTabPanelLocked" aria-disabled="true" tabindex="-1" disabled>비활성</button>
+				</div>
+				<div class="tab-panel tab-preview-panel is-active" id="buttonTabPanelRecommend" role="tabpanel" aria-labelledby="buttonTabRecommend" tabindex="0">
+					<p class="tab-preview-panel-title">관련자료 추천</p>
+					<p class="tab-preview-panel-desc">답변서 작성에 참고할 수 있는 관련자료를 표시합니다.</p>
+				</div>
+				<div class="tab-panel tab-preview-panel" id="buttonTabPanelDraft" role="tabpanel" aria-labelledby="buttonTabDraft" tabindex="0" hidden>
+					<p class="tab-preview-panel-title">답변서 초안</p>
+					<p class="tab-preview-panel-desc">선택한 자료를 바탕으로 생성한 초안을 표시합니다.</p>
+				</div>
+				<div class="tab-panel tab-preview-panel" id="buttonTabPanelCompare" role="tabpanel" aria-labelledby="buttonTabCompare" tabindex="0" hidden>
+					<p class="tab-preview-panel-title">답변서 비교</p>
+					<p class="tab-preview-panel-desc">답변서 버전별 변경 내용을 비교합니다.</p>
+				</div>
+				<div class="tab-panel tab-preview-panel" id="buttonTabPanelLocked" role="tabpanel" aria-labelledby="buttonTabLocked" tabindex="0" hidden>
+					<p class="tab-preview-panel-title">비활성</p>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<script src="../../js/common.js?v=20260723"></script>
+	<script src="../_preview/component-preview.js?v=20260723"></script>
+</body>
+</html>

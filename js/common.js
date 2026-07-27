@@ -1,996 +1,974 @@
 (function () {
-    "use strict";
+  'use strict';
 
-    /* ========================================================================
-     Route and page context
-     ======================================================================== */
-    const ROUTES = Object.freeze({
-        home: "ai-home.html",
-        intake: "pages/ai-intake.html",
-        answer: "pages/ai-answer.html",
-        chatbot: "pages/ai-chatbot.html",
-        login: "pages/login.html",
+  const STORAGE_KEY = 'ai-one-color-theme';
+  const NOTIFICATION_KEY = 'ai-one-long-task-notification';
+  const MENU_COMPLETION_KEY = 'ai-one-menu-completion-state';
+  const VALID_THEMES = ['system', 'dark', 'light'];
+  const systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  let currentPreference = 'system';
+  let activeMenu = null;
+  let activeButton = null;
+  let settingsLayerBackdrop = null;
+  let accountLayerBackdrop = null;
+  let accountLayerConfirmHandler = null;
+  let notificationEnabled = readNotificationPreference();
+  let menuCompletionState = readMenuCompletionState();
+
+  function readMenuCompletionState() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(MENU_COMPLETION_KEY) || '{}');
+      return saved && typeof saved === 'object' ? saved : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function persistMenuCompletionState() {
+    try { localStorage.setItem(MENU_COMPLETION_KEY, JSON.stringify(menuCompletionState)); }
+    catch (e) { /* 현재 화면에만 적용 */ }
+  }
+
+  function resolveMenuKeyFromLink(link) {
+    if (!link) return '';
+    if (link.dataset.page) return link.dataset.page;
+    const href = link.getAttribute('href') || '';
+    if (href.includes('ai-intake')) return 'intake';
+    if (href.includes('ai-answer')) return 'answer';
+    if (href.includes('ai-chatbot')) return 'chatbot';
+    if (href.includes('ai-economy')) return 'economy';
+    if (href.includes('ai-home')) return 'home';
+    return '';
+  }
+
+  function inferMenuKeyFromNotification(title) {
+    const text = String(title || '');
+    if (text.includes('질의 분류') || text.includes('질의 재분류')) return 'intake';
+    if (text.includes('답변서') || text.includes('관련자료')) return 'answer';
+    if (text.includes('경제')) return 'economy';
+    if (text.includes('챗봇')) return 'chatbot';
+    return '';
+  }
+
+  function renderMenuCompletionDots() {
+    document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+      const menuKey = resolveMenuKeyFromLink(link);
+      if (!menuKey) return;
+
+      let dot = link.querySelector('.nav-complete-dot');
+      if (!dot) {
+        dot = document.createElement('span');
+        dot.className = 'nav-complete-dot';
+        dot.setAttribute('aria-label', '완료된 작업 있음');
+        dot.setAttribute('title', '완료된 작업이 있습니다.');
+        link.appendChild(dot);
+      }
+
+      const isVisible = notificationEnabled && Boolean(menuCompletionState[menuKey]);
+      dot.classList.toggle('hidden', !isVisible);
+      link.classList.toggle('has-complete-status', isVisible);
+
+      if (link.dataset.completionBound !== 'true') {
+        link.dataset.completionBound = 'true';
+        link.addEventListener('click', () => {
+          const key = resolveMenuKeyFromLink(link);
+          if (!key || !menuCompletionState[key]) return;
+          delete menuCompletionState[key];
+          persistMenuCompletionState();
+          renderMenuCompletionDots();
+        });
+      }
+    });
+  }
+
+  function markMenuCompletion(menuKey) {
+    if (!notificationEnabled || !menuKey) return;
+    menuCompletionState[menuKey] = { completedAt: Date.now() };
+    persistMenuCompletionState();
+    renderMenuCompletionDots();
+  }
+
+  function clearMenuCompletionState() {
+    menuCompletionState = {};
+    persistMenuCompletionState();
+    renderMenuCompletionDots();
+  }
+
+  function readNotificationPreference() {
+    try { return localStorage.getItem(NOTIFICATION_KEY) === 'true'; }
+    catch (e) { return false; }
+  }
+
+  function saveNotificationPreference(enabled) {
+    notificationEnabled = Boolean(enabled);
+    try { localStorage.setItem(NOTIFICATION_KEY, String(notificationEnabled)); } catch (e) { /* 현재 화면에만 적용 */ }
+    if (!notificationEnabled) clearMenuCompletionState();
+    else renderMenuCompletionDots();
+    document.dispatchEvent(new CustomEvent('ai-one-notification-change', { detail: { enabled: notificationEnabled } }));
+  }
+
+  function readPreference() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return VALID_THEMES.includes(saved) ? saved : 'system';
+    } catch (e) {
+      return 'system';
+    }
+  }
+
+  function resolveTheme(preference) {
+    if (preference === 'system') return systemThemeQuery.matches ? 'dark' : 'light';
+    return preference;
+  }
+
+  function updateMenuSelection() {
+    document.querySelectorAll('.theme-option').forEach(option => {
+      const isActive = option.dataset.themeValue === currentPreference;
+      option.classList.toggle('active', isActive);
+      option.setAttribute('aria-checked', String(isActive));
+      const check = option.querySelector('.theme-option-check');
+      if (check) check.textContent = isActive ? '✓' : '';
+    });
+  }
+
+  function applyTheme(preference, persist) {
+    const normalized = VALID_THEMES.includes(preference) ? preference : 'system';
+    const resolved = resolveTheme(normalized);
+    currentPreference = normalized;
+
+    document.documentElement.dataset.themePreference = normalized;
+    document.documentElement.dataset.theme = resolved;
+    document.documentElement.style.colorScheme = resolved;
+
+    if (persist) {
+      try { localStorage.setItem(STORAGE_KEY, normalized); } catch (e) { /* 현재 화면에만 적용 */ }
+    }
+
+    updateMenuSelection();
+    document.dispatchEvent(new CustomEvent('ai-one-theme-change', {
+      detail: { preference: normalized, resolvedTheme: resolved }
+    }));
+  }
+
+  // 페이지가 그려지기 전에 저장된 테마를 먼저 적용한다.
+  currentPreference = readPreference();
+  applyTheme(currentPreference, false);
+
+  function themeIcon(type) {
+    if (type === 'system') {
+      return '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>';
+    }
+    if (type === 'dark') {
+      return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.5 6.5 0 0 0 21 12.8z"/></svg>';
+    }
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg>';
+  }
+
+  function createThemeMenu() {
+    const menu = document.createElement('div');
+    menu.className = 'settings-theme-menu hidden';
+    menu.setAttribute('role', 'dialog');
+    menu.setAttribute('aria-label', '환경설정');
+    menu.innerHTML = `
+      <div class="settings-theme-head">
+        <div>
+          <strong>환경설정</strong>
+        </div>
+        <button type="button" class="settings-theme-close" aria-label="설정 메뉴 닫기">×</button>
+      </div>
+      <div class="settings-section-title">화면 모드</div>
+      <div class="theme-option-list" role="radiogroup" aria-label="화면 모드 선택">
+        <button type="button" class="theme-option" data-theme-value="system" role="radio">
+          <span class="theme-option-icon">${themeIcon('system')}</span>
+          <span class="theme-option-text"><strong>시스템</strong><small>기기 설정에 맞춤</small></span>
+          <span class="theme-option-check" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="theme-option" data-theme-value="dark" role="radio">
+          <span class="theme-option-icon">${themeIcon('dark')}</span>
+          <span class="theme-option-text"><strong>다크 모드</strong><small>어두운 화면</small></span>
+          <span class="theme-option-check" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="theme-option" data-theme-value="light" role="radio">
+          <span class="theme-option-icon">${themeIcon('light')}</span>
+          <span class="theme-option-text"><strong>라이트 모드</strong><small>밝은 화면</small></span>
+          <span class="theme-option-check" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="settings-divider"></div>
+      <div class="settings-section-title">알림</div>
+      <div class="notification-setting-row">
+        <div class="notification-setting-text">
+          <strong>응답 완료 알림</strong>
+          <small>시간이 걸리는 요청에 응답할 때 알림을 받습니다.</small>
+          <span class="notification-setting-status" aria-live="polite"></span>
+        </div>
+        <button type="button" class="notification-toggle" role="switch" aria-checked="false" aria-label="응답 완료 알림 설정"><span></span></button>
+      </div>
+      <button type="button" class="notification-test-btn hidden">알림 테스트</button>`;
+    document.body.appendChild(menu);
+
+    menu.querySelector('.settings-theme-close').addEventListener('click', closeMenu);
+    menu.querySelectorAll('.theme-option').forEach(option => {
+      option.addEventListener('click', () => {
+        applyTheme(option.dataset.themeValue, true);
+      });
     });
 
-    function getRootPath() {
-        return document.body.dataset.rootPath || ".";
+    const notificationToggle = menu.querySelector('.notification-toggle');
+    const notificationStatus = menu.querySelector('.notification-setting-status');
+    const notificationTest = menu.querySelector('.notification-test-btn');
+
+    function updateNotificationUI(message) {
+      const isEnabled = notificationEnabled;
+      notificationToggle.classList.toggle('active', isEnabled);
+      notificationToggle.setAttribute('aria-checked', String(isEnabled));
+      notificationTest.classList.toggle('hidden', !isEnabled);
+      notificationStatus.textContent = message || (isEnabled ? '알림이 켜져 있습니다.' : '알림이 꺼져 있습니다.');
     }
 
-    const ICON_NAME_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+    notificationToggle.addEventListener('click', async () => {
+      if (notificationEnabled) {
+        saveNotificationPreference(false);
+        updateNotificationUI();
+        return;
+      }
 
-    function resolveIconReferences(root = document) {
-        const icons = [];
+      if ('Notification' in window && Notification.permission === 'default') {
+        try { await Notification.requestPermission(); } catch (e) { /* 브라우저 알림 미지원 */ }
+      }
+      if ('Notification' in window && Notification.permission === 'denied') {
+        saveNotificationPreference(false);
+        updateNotificationUI('브라우저 알림 권한이 차단되어 있습니다.');
+        return;
+      }
+      saveNotificationPreference(true);
+      updateNotificationUI();
+      showInAppNotification('알림 설정 완료', '시간이 걸리는 요청의 응답 완료 알림을 받습니다.');
+    });
 
-        if (root instanceof Element && root.matches("img[data-icon]")) icons.push(root);
-        if ("querySelectorAll" in root) icons.push(...root.querySelectorAll("img[data-icon]"));
+    notificationTest.addEventListener('click', () => {
+      notifyLongTask('AI-ONE 알림 테스트', '응답 완료 알림이 정상적으로 설정되었습니다.');
+    });
 
-        icons.forEach((icon) => {
-            const iconName = icon.dataset.icon;
-            if (!ICON_NAME_PATTERN.test(iconName)) return;
+    menu._updateNotificationUI = updateNotificationUI;
+    updateNotificationUI();
+    menu.addEventListener('click', event => event.stopPropagation());
+    return menu;
+  }
 
-            icon.src = `${getRootPath()}/assets/icons/${iconName}.svg`;
-            if (!icon.hasAttribute("alt")) icon.alt = "";
-        });
+
+  function ensureSettingsLayerBackdrop() {
+    if (settingsLayerBackdrop) return settingsLayerBackdrop;
+    settingsLayerBackdrop = document.createElement('div');
+    settingsLayerBackdrop.className = 'settings-layer-backdrop hidden';
+    settingsLayerBackdrop.setAttribute('aria-hidden', 'true');
+    settingsLayerBackdrop.addEventListener('click', closeMenu);
+    document.body.appendChild(settingsLayerBackdrop);
+    return settingsLayerBackdrop;
+  }
+
+  function ensureAccountLayer() {
+    if (accountLayerBackdrop) return accountLayerBackdrop;
+
+    accountLayerBackdrop = document.createElement('div');
+    accountLayerBackdrop.className = 'account-layer-backdrop hidden';
+    accountLayerBackdrop.setAttribute('aria-hidden', 'true');
+    accountLayerBackdrop.innerHTML = `
+      <div class="account-layer-dialog" role="dialog" aria-modal="true" aria-labelledby="accountLayerTitle">
+        <div class="account-layer-head">
+          <h3 id="accountLayerTitle"></h3>
+          <button type="button" class="account-layer-close" aria-label="레이어 닫기">×</button>
+        </div>
+        <div class="account-layer-body"></div>
+        <div class="account-layer-footer">
+          <button type="button" class="account-layer-cancel">취소</button>
+          <button type="button" class="account-layer-confirm">확인</button>
+        </div>
+      </div>`;
+
+    accountLayerBackdrop.addEventListener('click', event => {
+      if (event.target === accountLayerBackdrop) closeAccountLayer();
+    });
+    accountLayerBackdrop.querySelector('.account-layer-close').addEventListener('click', closeAccountLayer);
+    accountLayerBackdrop.querySelector('.account-layer-cancel').addEventListener('click', closeAccountLayer);
+    accountLayerBackdrop.querySelector('.account-layer-confirm').addEventListener('click', () => {
+      const handler = accountLayerConfirmHandler;
+      closeAccountLayer();
+      if (typeof handler === 'function') handler();
+    });
+    document.body.appendChild(accountLayerBackdrop);
+    return accountLayerBackdrop;
+  }
+
+  function closeAccountLayer() {
+    if (!accountLayerBackdrop) return;
+    accountLayerBackdrop.classList.add('hidden');
+    accountLayerBackdrop.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('account-layer-open');
+    accountLayerConfirmHandler = null;
+  }
+
+  function openAccountLayer(options = {}) {
+    const layer = ensureAccountLayer();
+    const title = layer.querySelector('#accountLayerTitle');
+    const body = layer.querySelector('.account-layer-body');
+    const cancel = layer.querySelector('.account-layer-cancel');
+    const confirm = layer.querySelector('.account-layer-confirm');
+
+    title.textContent = options.title || '';
+    body.innerHTML = options.body || '';
+    cancel.textContent = options.cancelText || '취소';
+    confirm.textContent = options.confirmText || '확인';
+    cancel.classList.toggle('hidden', options.hideCancel === true);
+    confirm.classList.toggle('danger', options.danger === true);
+    accountLayerConfirmHandler = options.onConfirm || null;
+
+    layer.classList.remove('hidden');
+    layer.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('account-layer-open');
+    requestAnimationFrame(() => confirm.focus());
+  }
+
+  function positionMenu(button, menu) {
+    const sidebar = button.closest('.sidebar');
+    const buttonRect = button.getBoundingClientRect();
+    const sidebarRect = sidebar ? sidebar.getBoundingClientRect() : buttonRect;
+    const menuWidth = 292;
+    const viewportPadding = 8;
+    const left = Math.max(viewportPadding, Math.min(sidebarRect.left + 8, window.innerWidth - menuWidth - viewportPadding));
+    const bottom = Math.max(viewportPadding, window.innerHeight - buttonRect.top + 8);
+    menu.style.left = left + 'px';
+    menu.style.bottom = bottom + 'px';
+  }
+
+  function openMenu(button) {
+    if (!activeMenu) activeMenu = createThemeMenu();
+    const backdrop = ensureSettingsLayerBackdrop();
+    activeButton = button;
+    activeMenu.classList.add('settings-layer-popup');
+    activeMenu.style.left = '';
+    activeMenu.style.bottom = '';
+    activeMenu.classList.remove('hidden');
+    backdrop.classList.remove('hidden');
+    backdrop.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('settings-layer-open');
+    if (button) {
+      button.classList.add('active');
+      button.setAttribute('aria-expanded', 'true');
     }
+    updateMenuSelection();
+    if (activeMenu._updateNotificationUI) activeMenu._updateNotificationUI();
+    requestAnimationFrame(() => activeMenu.querySelector('.settings-theme-close')?.focus());
+  }
 
-    function observeIconReferences() {
-        const observer = new MutationObserver((records) => {
-            records.forEach((record) => {
-                record.addedNodes.forEach((node) => {
-                    if (node instanceof Element) resolveIconReferences(node);
-                });
-            });
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
+  function closeMenu() {
+    if (activeMenu) activeMenu.classList.add('hidden');
+    if (settingsLayerBackdrop) {
+      settingsLayerBackdrop.classList.add('hidden');
+      settingsLayerBackdrop.setAttribute('aria-hidden', 'true');
     }
-
-    function resolveRoute(route) {
-        const path = ROUTES[route];
-        return path ? `${getRootPath()}/${path}` : "#";
+    document.body.classList.remove('settings-layer-open');
+    if (activeButton) {
+      activeButton.classList.remove('active');
+      activeButton.setAttribute('aria-expanded', 'false');
     }
+    activeButton = null;
+  }
 
-    function logout() {
-        localStorage.removeItem("sidebar-collapsed");
-        window.location.href = resolveRoute("login");
+  function showInAppNotification(title, body) {
+    let toast = document.querySelector('.ai-one-notification-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.className = 'ai-one-notification-toast';
+      toast.innerHTML = '<div class="ai-one-notification-icon">✓</div><div class="ai-one-notification-copy"><strong></strong><span></span></div><button type="button" aria-label="알림 닫기">×</button>';
+      document.body.appendChild(toast);
+      toast.querySelector('button').addEventListener('click', () => toast.classList.remove('show'));
     }
+    toast.querySelector('strong').textContent = title;
+    toast.querySelector('span').textContent = body;
+    toast.classList.add('show');
+    clearTimeout(toast._hideTimer);
+    toast._hideTimer = setTimeout(() => toast.classList.remove('show'), 4500);
+  }
 
-    function applyPageContext() {
-        const currentPage = document.body.dataset.page || "";
-
-        // Route URLs
-        document.querySelectorAll("[data-route]").forEach((link) => {
-            link.setAttribute("href", resolveRoute(link.dataset.route));
-        });
-
-        document.querySelectorAll('a[aria-disabled="true"]').forEach((link) => {
-            link.addEventListener("click", (event) => event.preventDefault());
-        });
-
-        // Sidebar active menu
-        document.querySelectorAll(".nav-link[data-page]").forEach((link) => {
-            const isCurrent = link.dataset.page === currentPage;
-            link.classList.toggle("active", isCurrent);
-            if (isCurrent) link.setAttribute("aria-current", "page");
-            else link.removeAttribute("aria-current");
-        });
-
-        // Page-specific common elements
-        document.querySelectorAll("[data-pages]").forEach((element) => {
-            const pages = element.dataset.pages.split(",").map((page) => page.trim());
-            if (!pages.includes(currentPage)) element.remove();
-        });
-
-        /* ----------------------------------------------------------------------
-       Topbar
-       ---------------------------------------------------------------------- */
-        // Page title and subtitle
-        // body에도 동일한 data 속성이 있으므로 렌더링된 topbar 내부로 범위를 제한한다.
-        const title = document.querySelector(".topbar [data-topbar-title]");
-        const subtitle = document.querySelector(".topbar [data-topbar-subtitle]");
-        if (title && document.body.dataset.topbarTitle) title.textContent = document.body.dataset.topbarTitle;
-        if (subtitle && document.body.dataset.topbarSubtitle) subtitle.textContent = document.body.dataset.topbarSubtitle;
+  function notifyLongTask(title, body, menuKey) {
+    if (!notificationEnabled) return false;
+    const resolvedMenuKey = menuKey || inferMenuKeyFromNotification(title);
+    if (resolvedMenuKey) markMenuCompletion(resolvedMenuKey);
+    showInAppNotification(title, body);
+    if ('Notification' in window && Notification.permission === 'granted' && document.hidden) {
+      try { new Notification(title, { body: body, tag: 'ai-one-long-task' }); } catch (e) { /* 인앱 알림으로 대체 */ }
     }
+    return true;
+  }
 
-    /* ========================================================================
-     Sidebar
-     ======================================================================== */
-    function setSidebarCollapsed(sidebar, isCollapsed) {
-        const collapseButton = sidebar.querySelector("#sidebarCollapseBtn");
-        const brandButton = sidebar.querySelector(".sidebar-brand");
+  window.AIOneNotifications = {
+    isEnabled: () => notificationEnabled,
+    notifyLongTask
+  };
 
-        sidebar.classList.toggle("collapsed", isCollapsed);
-        if (isCollapsed) localStorage.setItem("sidebar-collapsed", "true");
-        else localStorage.removeItem("sidebar-collapsed");
-
-        if (collapseButton) collapseButton.setAttribute("aria-expanded", String(!isCollapsed));
-        if (brandButton) {
-            const label = isCollapsed ? "사이드바 펼치기" : "AI-ONE 홈";
-            brandButton.setAttribute("aria-label", label);
-            brandButton.setAttribute("title", label);
+  function initSettingsButtons() {
+    renderMenuCompletionDots();
+    document.querySelectorAll('.settings-btn').forEach(button => {
+      if (button.dataset.themeBound === 'true') return;
+      button.dataset.themeBound = 'true';
+      button.setAttribute('aria-haspopup', 'dialog');
+      button.setAttribute('aria-expanded', 'false');
+      button.addEventListener('click', event => {
+        event.stopPropagation();
+        if (activeButton === button && activeMenu && !activeMenu.classList.contains('hidden')) {
+          closeMenu();
+        } else {
+          openMenu(button);
         }
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initSettingsButtons);
+  document.addEventListener('click', event => {
+    if (
+      activeMenu &&
+      !activeMenu.classList.contains('hidden') &&
+      !activeMenu.contains(event.target) &&
+      !event.target.closest('.settings-btn') &&
+      event.target !== settingsLayerBackdrop
+    ) closeMenu();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeMenu();
+  });
+  window.addEventListener('resize', () => {
+    if (
+      activeButton &&
+      activeMenu &&
+      !activeMenu.classList.contains('hidden') &&
+      !activeMenu.classList.contains('settings-layer-popup')
+    ) positionMenu(activeButton, activeMenu);
+  });
+
+  const onSystemThemeChange = () => {
+    if (currentPreference === 'system') applyTheme('system', false);
+  };
+  if (systemThemeQuery.addEventListener) systemThemeQuery.addEventListener('change', onSystemThemeChange);
+  else if (systemThemeQuery.addListener) systemThemeQuery.addListener(onSystemThemeChange);
+
+  // ─── 공통 보조도구 ───
+  const ACCESSORY_FONT_KEY = 'ai-one-font-scale';
+  const ACCESSORY_WINDOW_PARAM = 'aiOneFullscreenWindow';
+  const ACCESSORY_LAYOUT_KEYS = [
+    'panel-layout-intake-v8', 'panel-layout-intake-v7', 'panel-layout-intake-v6',
+    'panel-layout-answer-v7', 'panel-layout-answer-v6', 'panel-layout-answer-v5',
+    'panel-layout-economy-v4', 'panel-layout-economy-v3', 'panel-layout-economy-v2'
+  ];
+
+  function accessoryIcon(type) {
+    const icons = {
+      tools: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><path d="M17 14v6M14 17h6"/></svg>',
+      'tools-open': '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+      font: '<span class="accessory-font-symbol" aria-hidden="true"><small>A</small><strong>A</strong></span>',
+      swap: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7H4m0 0 4 4M4 7l4-4M16 17h4m0 0-4-4m4 4-4 4"/></svg>',
+      layout: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18"/></svg>',
+      reset: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v6h6"/></svg>',
+      fullscreen: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>'
+    };
+    return icons[type] || '';
+  }
+
+  function isAccessoryFullscreen() {
+    return Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+  }
+
+  async function toggleAccessoryFullscreen() {
+    try {
+      if (isAccessoryFullscreen()) {
+        const exit = document.exitFullscreen || document.webkitExitFullscreen;
+        if (exit) await exit.call(document);
+        return;
+      }
+      const target = document.documentElement;
+      const request = target.requestFullscreen || target.webkitRequestFullscreen;
+      if (!request) {
+        window.alert('현재 브라우저에서는 전체화면 기능을 사용할 수 없습니다.');
+        return;
+      }
+      try {
+        await request.call(target, { navigationUI: 'hide' });
+      } catch (optionError) {
+        await request.call(target);
+      }
+    } catch (error) {
+      window.alert('전체화면 전환에 실패했습니다. 브라우저 권한을 확인해 주세요.');
+    }
+  }
+
+  function readAccessoryFontPercent() {
+    try {
+      const scale = Number(localStorage.getItem(ACCESSORY_FONT_KEY));
+      if (Number.isFinite(scale)) return Math.min(150, Math.max(100, Math.round(scale * 100)));
+    } catch (e) { /* 현재 화면에만 적용 */ }
+    return 100;
+  }
+
+  function applyAccessoryFontPercent(percent) {
+    const next = Math.min(150, Math.max(100, Math.round(Number(percent) || 100)));
+    const scale = next / 100;
+    document.documentElement.style.setProperty('--ui-font-scale', String(scale));
+    try { localStorage.setItem(ACCESSORY_FONT_KEY, String(scale)); } catch (e) { /* 현재 화면에만 적용 */ }
+
+    document.querySelectorAll('[data-accessory-font-value]').forEach(el => { el.textContent = `${next}%`; });
+    document.querySelectorAll('[data-accessory-font-decrease]').forEach(el => { el.disabled = next <= 100; });
+    document.querySelectorAll('[data-accessory-font-increase]').forEach(el => { el.disabled = next >= 150; });
+
+    const hiddenValue = document.getElementById('fontSizeValue');
+    const hiddenInput = document.getElementById('fontSizeDirectInput');
+    if (hiddenValue) hiddenValue.textContent = `${next}%`;
+    if (hiddenInput) hiddenInput.value = String(next);
+
+    document.dispatchEvent(new CustomEvent('ai-one-font-size-change', { detail: { percent: next, scale } }));
+  }
+
+  function findAccessoryAnchor() {
+    const topbarRight = document.querySelector('.topbar-right');
+    if (topbarRight) return { anchor: topbarRight, floating: false };
+
+    const chatActions = document.getElementById('chatWindowActions') || document.querySelector('.chat-window-actions');
+    if (chatActions) return { anchor: chatActions, floating: false };
+
+    const floating = document.createElement('div');
+    floating.className = 'global-accessory-floating';
+    document.body.appendChild(floating);
+    return { anchor: floating, floating: true };
+  }
+
+  function sourceControl(id) {
+    return document.getElementById(id);
+  }
+
+  function closeAllAccessoryTools(except) {
+    document.querySelectorAll('.accessory-tool.open').forEach(tool => {
+      if (tool === except) return;
+      tool.classList.remove('open');
+      tool.querySelector('.accessory-trigger')?.classList.remove('active');
+      tool.querySelector('.accessory-trigger')?.setAttribute('aria-expanded', 'false');
+      const closedTrigger = tool.querySelector('.accessory-trigger');
+      if (closedTrigger) { closedTrigger.title = '보조도구 모음'; closedTrigger.setAttribute('aria-label', '보조도구 모음'); }
+      tool.querySelector('.accessory-font-panel')?.classList.add('hidden');
+    });
+  }
+
+  function runAccessoryAction(action, tool) {
+    const fontPanel = tool.querySelector('.accessory-font-panel');
+
+    if (action === 'font') {
+      fontPanel.classList.toggle('hidden');
+      return;
     }
 
-    function initSharedShell() {
-        const sidebar = document.getElementById("sidebar");
-        if (!sidebar) return;
+    fontPanel.classList.add('hidden');
 
-        const variant = sidebar.dataset.sidebarVariant || "standard";
-        const supportsCollapse = variant === "standard" && sidebar.classList.contains("app-sidebar");
-        const collapseButton = sidebar.querySelector("#sidebarCollapseBtn");
-        const brand = sidebar.querySelector(".sidebar-brand");
-        const mobileToggle = document.querySelector(".app-topbar #sidebarToggle");
+    if (action === 'fullscreen') {
+      toggleAccessoryFullscreen();
+    } else {
+      const sourceMap = {
+        swap: 'panelSwapBtn',
+        layout: 'layoutResetBtn',
+        reset: 'resetBtn'
+      };
+      const source = sourceControl(sourceMap[action]);
 
-        // Brand navigation
-        brand?.addEventListener("click", () => {
-            if (supportsCollapse && sidebar.classList.contains("collapsed")) {
-                setSidebarCollapsed(sidebar, false);
-                return;
-            }
-
-            if (document.body.dataset.page !== "home") {
-                window.location.href = resolveRoute("home");
-            }
+      if (source && !source.disabled) {
+        source.click();
+      } else if (action === 'layout') {
+        ACCESSORY_LAYOUT_KEYS.forEach(key => {
+          try { localStorage.removeItem(key); } catch (e) { /* 현재 화면에만 적용 */ }
         });
-
-        if (!supportsCollapse) return;
-
-        // Collapse state
-        const shouldStartCollapsed = document.body.dataset.page !== "home" && localStorage.getItem("sidebar-collapsed") === "true";
-        setSidebarCollapsed(sidebar, shouldStartCollapsed);
-
-        collapseButton?.addEventListener("click", (event) => {
-            event.stopPropagation();
-            setSidebarCollapsed(sidebar, !sidebar.classList.contains("collapsed"));
-        });
-
-        // Menu navigation
-        sidebar.querySelectorAll(".nav-link").forEach((link) => {
-            link.addEventListener("click", () => {
-                if (link.dataset.page !== "home") setSidebarCollapsed(sidebar, true);
-            });
-        });
-
-        // Topbar mobile sidebar toggle
-        mobileToggle?.addEventListener("click", () => {
-            const isOpen = sidebar.classList.toggle("open");
-            mobileToggle.setAttribute("aria-expanded", String(isOpen));
-        });
+        window.location.reload();
+      } else if (action === 'reset') {
+        window.location.reload();
+      }
     }
 
-    /* ========================================================================
-     Common toast
-     ======================================================================== */
-    let commonToastTimer;
+    // 기능 실행 후에도 보조도구 레일은 열린 상태를 유지합니다.
+    // 보조도구 트리거를 다시 클릭하거나 ESC를 눌렀을 때만 닫힙니다.
+  }
 
-    function showCommonToast(message) {
-        const toast = document.getElementById("toast");
-        if (!toast) return;
+  function initAccessoryTools() {
+    if (document.body.classList.contains('login-page') || /(^|\/)login\.html(?:$|\?)/.test(location.pathname + location.search)) return;
+    if (document.querySelector('[data-accessory-tools]')) return;
 
-        window.clearTimeout(commonToastTimer);
-        toast.textContent = message;
-        toast.setAttribute("role", "status");
-        toast.setAttribute("aria-live", "polite");
-        toast.classList.remove("hidden");
-        commonToastTimer = window.setTimeout(() => toast.classList.add("hidden"), 2200);
+    ['fontSizeTool', 'panelSwapBtn', 'layoutResetBtn', 'resetBtn', 'fullscreenBtn'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('accessory-source-control');
+    });
+
+    const { anchor, floating } = findAccessoryAnchor();
+    const tool = document.createElement('div');
+    tool.className = `accessory-tool${floating ? ' accessory-tool-floating' : ''}`;
+    tool.dataset.accessoryTools = 'true';
+    tool.innerHTML = `
+      <button type="button" class="accessory-trigger" aria-label="보조도구 모음" title="보조도구 모음" aria-haspopup="true" aria-expanded="false">
+        <span class="accessory-icon-closed">${accessoryIcon('tools')}</span><span class="accessory-icon-open">${accessoryIcon('tools-open')}</span>
+      </button>
+      <div class="accessory-rail" role="toolbar" aria-label="보조도구 기능">
+        <button type="button" class="accessory-action" data-accessory-action="font" aria-label="전체 글자크기" title="전체 글자크기">
+          <span class="accessory-action-icon">${accessoryIcon('font')}</span>
+        </button>
+        <button type="button" class="accessory-action" data-accessory-action="swap" aria-label="패널 위치 변경" title="패널 위치 변경">
+          <span class="accessory-action-icon">${accessoryIcon('swap')}</span>
+        </button>
+        <button type="button" class="accessory-action" data-accessory-action="layout" aria-label="레이아웃 초기화" title="레이아웃 초기화">
+          <span class="accessory-action-icon">${accessoryIcon('layout')}</span>
+        </button>
+        <button type="button" class="accessory-action" data-accessory-action="reset" aria-label="초기화" title="초기화">
+          <span class="accessory-action-icon">${accessoryIcon('reset')}</span>
+        </button>
+        <button type="button" class="accessory-action" data-accessory-action="fullscreen" aria-label="전체화면" title="전체화면">
+          <span class="accessory-action-icon">${accessoryIcon('fullscreen')}</span>
+        </button>
+      </div>
+      <div class="accessory-font-panel hidden" role="group" aria-label="전체 글자크기">
+        <div class="accessory-font-head"><strong>전체 글자크기</strong><span>100~150%</span></div>
+        <div class="accessory-font-control">
+          <button type="button" data-accessory-font-decrease aria-label="글자 작게">−</button>
+          <span data-accessory-font-value>100%</span>
+          <button type="button" data-accessory-font-increase aria-label="글자 크게">＋</button>
+        </div>
+        <button type="button" class="accessory-font-default">기본 크기로</button>
+      </div>`;
+
+    // 보조도구는 우측 상단 액션 영역의 가장 마지막에 배치합니다.
+    anchor.appendChild(tool);
+
+    const trigger = tool.querySelector('.accessory-trigger');
+    const fontPanel = tool.querySelector('.accessory-font-panel');
+    const swapAction = tool.querySelector('[data-accessory-action="swap"]');
+    const layoutAction = tool.querySelector('[data-accessory-action="layout"]');
+
+    const supportsPanelTools = Boolean(sourceControl('panelSwapBtn'));
+    if (!supportsPanelTools) {
+      [swapAction, layoutAction].forEach(button => {
+        button.classList.add('is-disabled');
+        button.setAttribute('aria-disabled', 'true');
+        button.title = '패널형 화면에서 사용할 수 있습니다.';
+      });
     }
 
-    /* ========================================================================
-     Three-panel layout
-     ======================================================================== */
-    const THREE_PANEL_MIN = 220;
-    const THREE_PANEL_HANDLE_WIDTH = 4;
-    const THREE_PANEL_COLLAPSED_WIDTH = 44;
-    const THREE_PANEL_FLEX_COLUMN = "minmax(0, 1fr)";
-    const THREE_PANEL_WIDTH_MODE = Object.freeze({ FIXED: "fixed", FLEX: "flex" });
-    const THREE_PANEL_HEAD_SELECTOR = ".panel-head, .center-header";
-    const THREE_PANEL_INTERACTIVE_SELECTOR = "button, input, select, textarea, a, [contenteditable]";
-    const PANEL_COLLAPSE_BUTTON_SELECTOR = '[data-panel-action="collapse"], #leftPanelCollapseBtn';
+    trigger.addEventListener('click', event => {
+      event.stopPropagation();
+      const opening = !tool.classList.contains('open');
+      closeAllAccessoryTools(opening ? tool : null);
+      tool.classList.toggle('open', opening);
+      trigger.classList.toggle('active', opening);
+      trigger.setAttribute('aria-expanded', String(opening));
+      trigger.title = '보조도구 모음';
+      trigger.setAttribute('aria-label', '보조도구 모음');
+      if (!opening) fontPanel.classList.add('hidden');
+    });
 
-    function syncPanelCollapseButton(button, isCollapsed) {
+    tool.querySelectorAll('[data-accessory-action]').forEach(button => {
+      button.addEventListener('click', event => {
+        event.stopPropagation();
+        if (button.classList.contains('is-disabled')) return;
+        runAccessoryAction(button.dataset.accessoryAction, tool);
+      });
+    });
+
+    tool.querySelector('[data-accessory-font-decrease]').addEventListener('click', event => {
+      event.stopPropagation();
+      applyAccessoryFontPercent(readAccessoryFontPercent() - 10);
+    });
+    tool.querySelector('[data-accessory-font-increase]').addEventListener('click', event => {
+      event.stopPropagation();
+      applyAccessoryFontPercent(readAccessoryFontPercent() + 10);
+    });
+    tool.querySelector('.accessory-font-default').addEventListener('click', event => {
+      event.stopPropagation();
+      applyAccessoryFontPercent(100);
+    });
+
+    fontPanel.addEventListener('click', event => event.stopPropagation());
+    applyAccessoryFontPercent(readAccessoryFontPercent());
+
+    // 외부 영역을 클릭해도 보조도구는 접히지 않습니다.
+    // 보조도구 버튼을 다시 누르거나 ESC를 눌렀을 때 숨깁니다.
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeAllAccessoryTools(null);
+    });
+  }
+
+
+  function initUserAccountMenus() {
+    document.querySelectorAll('.sidebar .user-card').forEach((card, index) => {
+      if (card.dataset.accountMenuReady === 'true') return;
+      card.dataset.accountMenuReady = 'true';
+      const avatar = card.querySelector('.user-avatar');
+      const info = card.querySelector('.user-info');
+      const settings = card.querySelector('.settings-btn');
+      const originalLogout = card.querySelector('.logout-btn');
+      const triggerParts = [avatar, info].filter(Boolean);
+      triggerParts.forEach(part => {
+        part.classList.add('user-profile-trigger');
+        part.setAttribute('role', 'button');
+        part.setAttribute('tabindex', '0');
+        part.setAttribute('aria-haspopup', 'menu');
+        part.setAttribute('aria-expanded', 'false');
+      });
+
+      const menu = document.createElement('div');
+      menu.className = 'user-account-menu hidden';
+      menu.setAttribute('role', 'menu');
+      menu.innerHTML = `
+        <div class="user-account-summary">
+          <strong>${card.querySelector('.user-name, .user-name-sm')?.textContent || '담당자'}</strong>
+          <span>${card.querySelector('.user-dept')?.textContent || ''}</span>
+        </div>
+        <button type="button" role="menuitem" data-account-action="profile">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></svg><span>내 정보</span>
+        </button>
+        <button type="button" role="menuitem" data-account-action="settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.8-.3A1.7 1.7 0 0 0 14 20.8V21h-4v-.2A1.7 1.7 0 0 0 8.9 19.3a1.7 1.7 0 0 0-1.8.3l-.1.1-2.8-2.8.1-.1a1.7 1.7 0 0 0 .3-1.8A1.7 1.7 0 0 0 3.2 14H3v-4h.2A1.7 1.7 0 0 0 4.7 8.9a1.7 1.7 0 0 0-.3-1.8L4.3 7 7.1 4.2l.1.1a1.7 1.7 0 0 0 1.8.3A1.7 1.7 0 0 0 10 3.2V3h4v.2a1.7 1.7 0 0 0 1.1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.8 1.7 1.7 0 0 0 1.4 1.1h.2v4h-.2a1.7 1.7 0 0 0-1.4 1z"/></svg><span>환경설정</span>
+        </button>
+        <button type="button" role="menuitem" data-account-action="logout" class="danger">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5"/></svg><span>로그아웃</span>
+        </button>`;
+      card.appendChild(menu);
+
+      const setOpen = open => {
+        document.querySelectorAll('.user-account-menu:not(.hidden)').forEach(other => {
+          if (other !== menu) other.classList.add('hidden');
+        });
+        menu.classList.toggle('hidden', !open);
+        triggerParts.forEach(part => part.setAttribute('aria-expanded', String(open)));
+      };
+      const toggle = event => {
+        event.stopPropagation();
+        setOpen(menu.classList.contains('hidden'));
+      };
+      triggerParts.forEach(part => {
+        part.addEventListener('click', toggle);
+        part.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            toggle(event);
+          }
+        });
+      });
+      menu.addEventListener('click', event => {
+        event.stopPropagation();
+        const button = event.target.closest('[data-account-action]');
         if (!button) return;
+        const action = button.dataset.accountAction;
+        setOpen(false);
 
-        const label = isCollapsed ? "패널 펼치기" : "패널 접기";
-        button.setAttribute("aria-expanded", String(!isCollapsed));
-        button.setAttribute("aria-label", label);
-        button.setAttribute("title", label);
-    }
+        const userName = card.querySelector('.user-name, .user-name-sm')?.textContent?.trim() || '박재정 주무관';
+        const userDept = card.querySelector('.user-dept')?.textContent?.trim() || '재정분석과';
+        const userRole = card.querySelector('.user-role-badge')?.textContent?.trim() || '국회담당자';
 
-    function getThreePanel() {
-        return document.querySelector('[data-component="three-panel"]');
-    }
-
-    function getThreePanelStorageKey() {
-        return `panel-layout-${document.body.dataset.page || "default"}-v3`;
-    }
-
-    function getThreePanelChildren(container, className) {
-        return [...container.children].filter((element) => element.classList.contains(className));
-    }
-
-    function getThreePanelPanels(container) {
-        return getThreePanelChildren(container, "panel");
-    }
-
-    function getThreePanelHandles(container) {
-        return getThreePanelChildren(container, "panel-resize-handle");
-    }
-
-    function ensureThreePanelWidthRoles(container) {
-        const panels = getThreePanelPanels(container);
-        let flexiblePanel = panels.find((panel) => panel.dataset.panelWidthMode === THREE_PANEL_WIDTH_MODE.FLEX);
-        if (!flexiblePanel) {
-            flexiblePanel = panels.find((panel) => panel.dataset.panel === "center") || panels[1] || panels[0] || null;
-        }
-
-        panels.forEach((panel, index) => {
-            panel.dataset.panelWidthMode = panel === flexiblePanel ? THREE_PANEL_WIDTH_MODE.FLEX : THREE_PANEL_WIDTH_MODE.FIXED;
-            panel.dataset.panelLayoutKey ||= panel.dataset.panel || `panel-${index}`;
-            panel.dataset.panelInitialIndex ||= String(index);
-        });
-        return flexiblePanel;
-    }
-
-    function readThreePanelPanelWidths(container) {
-        return new Map(
-            getThreePanelPanels(container).map((panel) => [panel, Math.round(panel.getBoundingClientRect().width)]),
-        );
-    }
-
-    function createThreePanelColumns(panelColumns) {
-        return panelColumns
-            .flatMap((column, index) => (index < panelColumns.length - 1 ? [column, `${THREE_PANEL_HANDLE_WIDTH}px`] : [column]))
-            .join(" ");
-    }
-
-    function getThreePanelMinimum(container) {
-        const style = window.getComputedStyle(container);
-        const horizontalPadding = Number.parseFloat(style.paddingLeft) + Number.parseFloat(style.paddingRight);
-        const handleWidth = getThreePanelHandles(container).length * THREE_PANEL_HANDLE_WIDTH;
-        const availableWidth = Math.max(0, container.clientWidth - horizontalPadding - handleWidth);
-        return Math.min(THREE_PANEL_MIN, Math.floor(availableWidth / Math.max(1, getThreePanelPanels(container).length)));
-    }
-
-    function syncThreePanelAria(container) {
-        const panels = getThreePanelPanels(container);
-        const handles = getThreePanelHandles(container);
-        const minimum = getThreePanelMinimum(container);
-        handles.forEach((handle, index) => {
-            const leftPanel = panels[index];
-            const rightPanel = panels[index + 1];
-            if (!leftPanel || !rightPanel) return;
-
-            const leftWidth = Math.round(leftPanel.getBoundingClientRect().width);
-            const adjacentWidth = leftWidth + Math.round(rightPanel.getBoundingClientRect().width);
-            handle.setAttribute("aria-valuemin", String(minimum));
-            handle.setAttribute("aria-valuemax", String(Math.max(minimum, adjacentWidth - minimum)));
-            handle.setAttribute("aria-valuenow", String(leftWidth));
-        });
-    }
-
-    function applyThreePanelLayout(container, requestedWidths = readThreePanelPanelWidths(container)) {
-        const flexiblePanel = ensureThreePanelWidthRoles(container);
-        const minimum = getThreePanelMinimum(container);
-        const columns = getThreePanelPanels(container).map((panel) => {
-            if (panel.classList.contains("panel-collapsed")) return `${THREE_PANEL_COLLAPSED_WIDTH}px`;
-            if (panel === flexiblePanel) return THREE_PANEL_FLEX_COLUMN;
-
-            const requestedWidth = requestedWidths.get(panel) ?? Number.parseFloat(panel.dataset.panelWidth);
-            const safeWidth = Math.max(minimum, Math.round(Number.isFinite(requestedWidth) ? requestedWidth : minimum));
-            panel.dataset.panelWidth = String(safeWidth);
-            return `${safeWidth}px`;
-        });
-
-        container.style.gridTemplateColumns = createThreePanelColumns(columns);
-        syncThreePanelAria(container);
-    }
-
-    function applyThreePanelResize(container, handleIndex, requestedLeftWidth, adjacentWidth, baseWidths) {
-        const panels = getThreePanelPanels(container);
-        const leftPanel = panels[handleIndex];
-        const rightPanel = panels[handleIndex + 1];
-        if (!leftPanel || !rightPanel) return;
-
-        const minimum = Math.min(getThreePanelMinimum(container), Math.floor(adjacentWidth / 2));
-        const leftWidth = Math.min(Math.max(Math.round(requestedLeftWidth), minimum), adjacentWidth - minimum);
-        const widths = new Map(baseWidths);
-        widths.set(leftPanel, leftWidth);
-        widths.set(rightPanel, adjacentWidth - leftWidth);
-        applyThreePanelLayout(container, widths);
-    }
-
-    function saveThreePanelLayout(container) {
-        ensureThreePanelWidthRoles(container);
-        const widths = readThreePanelPanelWidths(container);
-        const savedWidths = {};
-        getThreePanelPanels(container).forEach((panel) => {
-            if (panel.dataset.panelWidthMode === THREE_PANEL_WIDTH_MODE.FIXED) {
-                savedWidths[panel.dataset.panelLayoutKey] = widths.get(panel);
+        if (action === 'settings') {
+          openMenu(settings || button);
+        } else if (action === 'logout') {
+          openAccountLayer({
+            title: '로그아웃',
+            body: `
+              <div class="account-logout-message">
+                <span class="account-layer-icon danger" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5"/></svg>
+                </span>
+                <div>
+                  <strong>AI-ONE에서 로그아웃하시겠습니까?</strong>
+                </div>
+              </div>`,
+            confirmText: '로그아웃',
+            cancelText: '취소',
+            danger: true,
+            onConfirm: () => {
+              localStorage.removeItem('sidebar-collapsed');
+              window.location.href = 'login.html';
             }
-        });
-        container.dataset.panelWidths = JSON.stringify(savedWidths);
-    }
-
-    function restoreThreePanelLayout(container = getThreePanel()) {
-        if (!container) return false;
-
-        // v3까지 저장하던 영구 너비는 제거하고 현재 문서 안에서만 상태를 유지합니다.
-        localStorage.removeItem(getThreePanelStorageKey());
-        const saved = container.dataset.panelWidths;
-        if (!saved) {
-            container.style.removeProperty("grid-template-columns");
-            syncThreePanelAria(container);
-            return false;
+          });
+        } else if (action === 'profile') {
+          openAccountLayer({
+            title: '내 정보',
+            body: `
+              <div class="account-profile-summary">
+                <span class="account-profile-avatar" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></svg>
+                </span>
+                <div><strong>${userName}</strong><span>${userDept}</span></div>
+              </div>
+              <dl class="account-profile-list">
+                <div><dt>이름·직위</dt><dd>${userName}</dd></div>
+                <div><dt>소속 부서</dt><dd>${userDept}</dd></div>
+                <div><dt>사용자 권한</dt><dd><span class="account-role-tag">${userRole}</span></dd></div>
+                <div><dt>로그인 방식</dt><dd>통합 ID · SSO</dd></div>
+              </dl>`,
+            confirmText: '확인',
+            hideCancel: true
+          });
         }
-
-        try {
-            const savedWidths = JSON.parse(saved);
-            const widths = new Map();
-            getThreePanelPanels(container).forEach((panel) => {
-                if (panel.dataset.panelWidthMode !== THREE_PANEL_WIDTH_MODE.FIXED) return;
-                const width = Number(savedWidths[panel.dataset.panelLayoutKey]);
-                if (!Number.isFinite(width)) throw new Error("저장된 패널 너비가 올바르지 않습니다.");
-                widths.set(panel, width);
-            });
-            applyThreePanelLayout(container, widths);
-            return true;
-        } catch (error) {
-            delete container.dataset.panelWidths;
-            container.style.removeProperty("grid-template-columns");
-            syncThreePanelAria(container);
-            return false;
-        }
-    }
-
-    function resetThreePanelLayout(container = getThreePanel()) {
-        if (!container) return;
-
-        localStorage.removeItem(getThreePanelStorageKey());
-        delete container.dataset.panelWidths;
-        const panels = getThreePanelPanels(container);
-        panels.forEach((panel) => panel.classList.remove("panel-collapsed"));
-        container.querySelectorAll(PANEL_COLLAPSE_BUTTON_SELECTOR).forEach((button) => syncPanelCollapseButton(button, false));
-
-        const isInitialOrder = panels.every((panel, index) => Number(panel.dataset.panelInitialIndex) === index);
-        if (isInitialOrder) {
-            panels.forEach((panel) => delete panel.dataset.panelWidth);
-            container.style.removeProperty("grid-template-columns");
-            syncThreePanelAria(container);
-        } else {
-            applyThreePanelLayout(container);
-            saveThreePanelLayout(container);
-        }
-    }
-
-    function setThreePanelCollapsed(panel, isCollapsed, container = getThreePanel()) {
-        if (!container || !panel || panel.parentElement !== container) return;
-
-        const panels = getThreePanelPanels(container);
-        if (!panels.includes(panel)) return;
-
-        const widths = readThreePanelPanelWidths(container);
-        if (isCollapsed) saveThreePanelLayout(container);
-        panel.classList.toggle("panel-collapsed", isCollapsed);
-        syncPanelCollapseButton(panel.querySelector(PANEL_COLLAPSE_BUTTON_SELECTOR), isCollapsed);
-
-        if (!isCollapsed) {
-            restoreThreePanelLayout(container);
-        } else {
-            applyThreePanelLayout(container, widths);
-        }
-        syncThreePanelAria(container);
-    }
-
-    function expandCollapsedThreePanelPanels(container) {
-        getThreePanelPanels(container)
-            .filter((panel) => panel.classList.contains("panel-collapsed"))
-            .forEach((panel) => setThreePanelCollapsed(panel, false, container));
-    }
-
-    function rebuildThreePanel(container, panels) {
-        const handles = getThreePanelHandles(container);
-        container.replaceChildren();
-        panels.forEach((panel, index) => {
-            container.appendChild(panel);
-            if (index < panels.length - 1 && handles[index]) container.appendChild(handles[index]);
-        });
-    }
-
-    function moveThreePanel(container, panel, targetPanel) {
-        const panels = getThreePanelPanels(container);
-        const draggedIndex = panels.indexOf(panel);
-        const targetIndex = panels.indexOf(targetPanel);
-        if (draggedIndex < 0 || targetIndex < 0 || draggedIndex === targetIndex) return false;
-
-        expandCollapsedThreePanelPanels(container);
-        const widths = readThreePanelPanelWidths(container);
-        panels.splice(draggedIndex, 1);
-        panels.splice(targetIndex, 0, panel);
-        rebuildThreePanel(container, panels);
-        applyThreePanelLayout(container, widths);
-        saveThreePanelLayout(container);
-        return true;
-    }
-
-    function rotateThreePanel(container) {
-        const panels = getThreePanelPanels(container);
-        if (panels.length < 2) return false;
-
-        expandCollapsedThreePanelPanels(container);
-        const widths = readThreePanelPanelWidths(container);
-        panels.push(panels.shift());
-        rebuildThreePanel(container, panels);
-        applyThreePanelLayout(container, widths);
-        saveThreePanelLayout(container);
-        return true;
-    }
-
-    function initThreePanelDragDrop(container) {
-        getThreePanelPanels(container).forEach((panel) => {
-            const head = panel.querySelector(THREE_PANEL_HEAD_SELECTOR);
-            if (!head) return;
-
-            head.style.cursor = "grab";
-            head.style.touchAction = "none";
-            head.removeAttribute("draggable");
-            head.querySelectorAll(THREE_PANEL_INTERACTIVE_SELECTOR).forEach((element) => {
-                element.setAttribute("draggable", "false");
-            });
-
-            head.addEventListener("pointerdown", (event) => {
-                if (event.button !== 0) return;
-                if (event.target.closest(THREE_PANEL_INTERACTIVE_SELECTOR)) {
-                    return;
-                }
-
-                const pointerId = event.pointerId;
-                const startX = event.clientX;
-                const startY = event.clientY;
-                let isDragging = false;
-                let targetPanel = null;
-
-                const clearDragState = () => {
-                    panel.style.opacity = "";
-                    head.style.cursor = "grab";
-                    document.body.style.userSelect = "";
-                    getThreePanelPanels(container).forEach((item) => item.classList.remove("drag-over"));
-                };
-
-                const onPointerMove = (moveEvent) => {
-                    if (moveEvent.pointerId !== pointerId) return;
-
-                    const movedDistance = Math.hypot(moveEvent.clientX - startX, moveEvent.clientY - startY);
-                    if (!isDragging && movedDistance < 6) return;
-
-                    isDragging = true;
-                    moveEvent.preventDefault();
-                    panel.style.opacity = "0.5";
-                    head.style.cursor = "grabbing";
-                    document.body.style.userSelect = "none";
-
-                    const hoveredPanel = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY)?.closest(".panel");
-                    targetPanel = hoveredPanel?.parentElement === container && hoveredPanel !== panel ? hoveredPanel : null;
-                    getThreePanelPanels(container).forEach((item) => item.classList.toggle("drag-over", item === targetPanel));
-                };
-
-                const onPointerUp = (upEvent) => {
-                    if (upEvent.pointerId !== pointerId) return;
-
-                    document.removeEventListener("pointermove", onPointerMove);
-                    document.removeEventListener("pointerup", onPointerUp);
-                    document.removeEventListener("pointercancel", onPointerUp);
-
-                    const dropTarget = targetPanel;
-                    clearDragState();
-                    if (!isDragging || !dropTarget) return;
-
-                    if (moveThreePanel(container, panel, dropTarget)) {
-                        showCommonToast("패널 순서가 변경되었습니다.");
-                    }
-                };
-
-                document.addEventListener("pointermove", onPointerMove, { passive: false });
-                document.addEventListener("pointerup", onPointerUp);
-                document.addEventListener("pointercancel", onPointerUp);
-            });
-        });
-    }
-
-    function bindThreePanelPointerResize(container) {
-        container.addEventListener("mousedown", (event) => {
-            const handle = event.target.closest(".panel-resize-handle");
-            if (!handle || handle.parentElement !== container) return;
-
-            const handles = getThreePanelHandles(container);
-            const handleIndex = handles.indexOf(handle);
-            const panels = getThreePanelPanels(container);
-            const leftPanel = panels[handleIndex];
-            const rightPanel = panels[handleIndex + 1];
-            if (handleIndex < 0 || !leftPanel || !rightPanel) return;
-
-            event.preventDefault();
-            const startX = event.clientX;
-            const startWidths = readThreePanelPanelWidths(container);
-            const startLeftWidth = startWidths.get(leftPanel);
-            const adjacentWidth = startLeftWidth + startWidths.get(rightPanel);
-            handle.classList.add("active");
-            document.body.style.cursor = "col-resize";
-            document.body.style.userSelect = "none";
-
-            const onMouseMove = (moveEvent) => {
-                const difference = moveEvent.clientX - startX;
-                applyThreePanelResize(container, handleIndex, startLeftWidth + difference, adjacentWidth, startWidths);
-            };
-
-            const onMouseUp = () => {
-                handle.classList.remove("active");
-                document.body.style.cursor = "";
-                document.body.style.userSelect = "";
-                document.removeEventListener("mousemove", onMouseMove);
-                document.removeEventListener("mouseup", onMouseUp);
-                saveThreePanelLayout(container);
-            };
-
-            document.addEventListener("mousemove", onMouseMove);
-            document.addEventListener("mouseup", onMouseUp);
-        });
-    }
-
-    function bindThreePanelKeyboardResize(container) {
-        getThreePanelHandles(container).forEach((handle) => {
-            handle.addEventListener("keydown", (event) => {
-                if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-                const handleIndex = getThreePanelHandles(container).indexOf(handle);
-                const panels = getThreePanelPanels(container);
-                const leftPanel = panels[handleIndex];
-                const rightPanel = panels[handleIndex + 1];
-                if (handleIndex < 0 || !leftPanel || !rightPanel) return;
-
-                event.preventDefault();
-                const widths = readThreePanelPanelWidths(container);
-                const leftWidth = widths.get(leftPanel);
-                const adjacentWidth = leftWidth + widths.get(rightPanel);
-                const difference = (event.key === "ArrowRight" ? 1 : -1) * (event.shiftKey ? 32 : 16);
-                applyThreePanelResize(container, handleIndex, leftWidth + difference, adjacentWidth, widths);
-                saveThreePanelLayout(container);
-            });
-        });
-    }
-
-    function bindThreePanelCollapse(container) {
-        container.querySelectorAll(PANEL_COLLAPSE_BUTTON_SELECTOR).forEach((collapseButton) => {
-            syncPanelCollapseButton(collapseButton, false);
-            collapseButton.addEventListener("click", () => {
-                const panel = collapseButton.closest(".panel");
-                if (panel) setThreePanelCollapsed(panel, !panel.classList.contains("panel-collapsed"), container);
-            });
-        });
-    }
-
-    function initStandalonePanels() {
-        document.querySelectorAll('[data-component="panel"]').forEach((panel) => {
-            if (panel.closest('[data-component="three-panel"]')) return;
-
-            const collapseButton = panel.querySelector(PANEL_COLLAPSE_BUTTON_SELECTOR);
-            if (!collapseButton || collapseButton.dataset.collapseInitialized === "true") return;
-
-            collapseButton.dataset.collapseInitialized = "true";
-            syncPanelCollapseButton(collapseButton, panel.classList.contains("panel-collapsed"));
-            collapseButton.addEventListener("click", () => {
-                const isCollapsed = panel.classList.toggle("panel-collapsed");
-                syncPanelCollapseButton(collapseButton, isCollapsed);
-            });
-        });
-    }
-
-    function getSplitPanelParts(handle) {
-        const container = handle.closest('[data-component="split-handler"]');
-        if (!container) return null;
-
-        const left = [...container.children].find((element) => element.classList.contains("split-handler-left"));
-        const right = [...container.children].find((element) => element.classList.contains("split-handler-right"));
-        if (!left || !right) return null;
-
-        return { container, handle, left, right };
-    }
-
-    function getResizePanelParts(handle) {
-        const container = handle.closest('[data-component="resize-panel-layout"]');
-        if (!container || handle.parentElement !== container) return null;
-
-        const panels = [...container.children].filter((element) => element.classList.contains("resize-panel"));
-        if (panels.length !== 2) return null;
-
-        return { container, handle, left: panels[0], right: panels[1] };
-    }
-
-    function getTwoPaneResizeParts(handle) {
-        if (handle.classList.contains("split-handler-handle")) return getSplitPanelParts(handle);
-        if (handle.classList.contains("panel-resize-handle")) return getResizePanelParts(handle);
-        return null;
-    }
-
-    function getTwoPaneMinimum(container, totalWidth) {
-        const configuredMinimum = Number.parseFloat(container.dataset.splitMin);
-        const minimum = Number.isFinite(configuredMinimum) ? configuredMinimum : 160;
-        return Math.min(Math.max(0, minimum), Math.max(0, totalWidth / 2));
-    }
-
-    function syncTwoPaneAria(parts) {
-        const leftWidth = Math.round(parts.left.getBoundingClientRect().width);
-        const rightWidth = Math.round(parts.right.getBoundingClientRect().width);
-        const totalWidth = leftWidth + rightWidth;
-        const minimum = getTwoPaneMinimum(parts.container, totalWidth);
-
-        parts.handle.setAttribute("aria-valuemin", String(Math.round(minimum)));
-        parts.handle.setAttribute("aria-valuemax", String(Math.round(totalWidth - minimum)));
-        parts.handle.setAttribute("aria-valuenow", String(leftWidth));
-    }
-
-    function applyTwoPaneWidths(parts, requestedLeftWidth, totalWidth) {
-        const minimum = getTwoPaneMinimum(parts.container, totalWidth);
-        const leftWidth = Math.min(Math.max(requestedLeftWidth, minimum), totalWidth - minimum);
-        const rightWidth = totalWidth - leftWidth;
-
-        parts.left.style.flex = "none";
-        parts.left.style.width = `${Math.round(leftWidth)}px`;
-        parts.right.style.flex = "none";
-        parts.right.style.width = `${Math.round(rightWidth)}px`;
-        syncTwoPaneAria(parts);
-    }
-
-    function initTwoPaneResizers() {
-        if (document.documentElement.dataset.twoPaneResizersInitialized === "true") return;
-        document.documentElement.dataset.twoPaneResizersInitialized = "true";
-
-        document.querySelectorAll(".split-handler-handle, .resize-panel-layout > .panel-resize-handle").forEach((handle) => {
-            const parts = getTwoPaneResizeParts(handle);
-            if (parts) syncTwoPaneAria(parts);
-        });
-
-        document.addEventListener("pointerdown", (event) => {
-            const handle = event.target.closest(".split-handler-handle, .resize-panel-layout > .panel-resize-handle");
-            if (!handle || event.button !== 0) return;
-
-            const parts = getTwoPaneResizeParts(handle);
-            if (!parts) return;
-
-            event.preventDefault();
-            const pointerId = event.pointerId;
-            const startX = event.clientX;
-            const startLeftWidth = parts.left.getBoundingClientRect().width;
-            const startRightWidth = parts.right.getBoundingClientRect().width;
-            const totalWidth = startLeftWidth + startRightWidth;
-
-            handle.classList.add("active");
-            document.body.style.cursor = "col-resize";
-            document.body.style.userSelect = "none";
-
-            const onPointerMove = (moveEvent) => {
-                if (moveEvent.pointerId !== pointerId) return;
-                moveEvent.preventDefault();
-                applyTwoPaneWidths(parts, startLeftWidth + moveEvent.clientX - startX, totalWidth);
-            };
-
-            const onPointerUp = (upEvent) => {
-                if (upEvent.pointerId !== pointerId) return;
-
-                handle.classList.remove("active");
-                document.body.style.cursor = "";
-                document.body.style.userSelect = "";
-                document.removeEventListener("pointermove", onPointerMove);
-                document.removeEventListener("pointerup", onPointerUp);
-                document.removeEventListener("pointercancel", onPointerUp);
-            };
-
-            document.addEventListener("pointermove", onPointerMove, { passive: false });
-            document.addEventListener("pointerup", onPointerUp);
-            document.addEventListener("pointercancel", onPointerUp);
-        });
-
-        document.addEventListener("keydown", (event) => {
-            const handle = event.target.closest(".split-handler-handle, .resize-panel-layout > .panel-resize-handle");
-            if (!handle || (event.key !== "ArrowLeft" && event.key !== "ArrowRight")) return;
-
-            const parts = getTwoPaneResizeParts(handle);
-            if (!parts) return;
-
-            event.preventDefault();
-            const leftWidth = parts.left.getBoundingClientRect().width;
-            const rightWidth = parts.right.getBoundingClientRect().width;
-            const difference = (event.key === "ArrowRight" ? 1 : -1) * (event.shiftKey ? 32 : 16);
-            applyTwoPaneWidths(parts, leftWidth + difference, leftWidth + rightWidth);
-        });
-    }
-
-    function bindThreePanelToolbar(container) {
-        document.getElementById("panelSwapBtn")?.addEventListener("click", () => {
-            if (rotateThreePanel(container)) showCommonToast("패널 위치가 변경되었습니다.");
-        });
-
-        document.getElementById("layoutResetBtn")?.addEventListener("click", () => {
-            resetThreePanelLayout(container);
-            showCommonToast("레이아웃이 기본값으로 초기화되었습니다.");
-        });
-    }
-
-    function initThreePanel() {
-        const container = getThreePanel();
-        if (!container || container.dataset.initialized === "true") return;
-        container.dataset.initialized = "true";
-
-        ensureThreePanelWidthRoles(container);
-        restoreThreePanelLayout(container);
-        bindThreePanelPointerResize(container);
-        bindThreePanelKeyboardResize(container);
-        bindThreePanelCollapse(container);
-        bindThreePanelToolbar(container);
-        initThreePanelDragDrop(container);
-        syncThreePanelAria(container);
-    }
-
-    /* ========================================================================
-     Shared fragment include loader
-     ======================================================================== */
-    const INCLUDE_SOURCES = Object.freeze({
-        html: Object.freeze({
-            directory: "components",
-            extension: "html",
-        }),
-        jsp: Object.freeze({
-            directory: "includes/jsp",
-            extension: "jspf",
-        }),
-    });
-    function getIncludeUrl(componentPath, sourceName = "html") {
-        if (!/^[a-z0-9-]+(?:\/[a-z0-9-]+)*$/i.test(componentPath)) {
-            throw new Error(`잘못된 공통 컴포넌트 경로: ${componentPath}`);
-        }
-
-        const source = INCLUDE_SOURCES[sourceName];
-
-        if (!source) {
-            throw new Error(`지원하지 않는 공통 컴포넌트 형식: ${sourceName}`);
-        }
-
-        return `${getRootPath()}/${source.directory}/${componentPath}.${source.extension}`;
-    }
-
-    const INCLUDE_FETCH_ATTEMPTS = 3;
-    const INCLUDE_RETRY_DELAY = 120;
-    const INCLUDE_CONTROL_ATTRIBUTES = new Set(["data-include", "data-include-source"]);
-
-    async function fetchFragmentMarkup(componentName, sourceName) {
-        const url = getIncludeUrl(componentName, sourceName);
-        let lastError;
-
-        for (let attempt = 1; attempt <= INCLUDE_FETCH_ATTEMPTS; attempt += 1) {
-            try {
-                const response = await window.fetch(url, { cache: "no-cache" });
-                if (!response.ok) throw new Error(`${componentName} 공통 컴포넌트를 불러오지 못했습니다. (${response.status})`);
-                return await response.text();
-            } catch (error) {
-                lastError = error;
-
-                // Live Server가 파일 변경을 감지하는 순간에는 fragment 요청이 잠시 실패할 수 있습니다.
-                if (attempt < INCLUDE_FETCH_ATTEMPTS) {
-                    await new Promise((resolve) => window.setTimeout(resolve, INCLUDE_RETRY_DELAY * attempt));
-                }
-            }
-        }
-
-        throw lastError;
-    }
-
-    function applyIncludeHostAttributes(placeholder, fragment) {
-        const componentRoots = [...fragment.children];
-        if (componentRoots.length !== 1) return;
-
-        const componentRoot = componentRoots[0];
-        [...placeholder.attributes].forEach(({ name, value }) => {
-            if (INCLUDE_CONTROL_ATTRIBUTES.has(name)) return;
-
-            if (name === "class") {
-                componentRoot.classList.add(...placeholder.classList);
-                return;
-            }
-
-            if (name === "style") {
-                componentRoot.style.cssText = [componentRoot.style.cssText, value].filter(Boolean).join("; ");
-                return;
-            }
-
-            componentRoot.setAttribute(name, value);
-        });
-    }
-
-    async function loadFragment(placeholder) {
-        const componentName = placeholder.dataset.include;
-        const sourceName = placeholder.dataset.includeSource || "html";
-        const markup = await fetchFragmentMarkup(componentName, sourceName);
-
-        const slotContents = new Map();
-        placeholder.querySelectorAll("template[data-slot]").forEach((slotTemplate) => {
-            if (slotTemplate.closest("[data-include]") !== placeholder) return;
-            slotContents.set(slotTemplate.dataset.slot, slotTemplate.content.cloneNode(true));
-        });
-        [...placeholder.children].forEach((slotElement) => {
-            if (!slotElement.dataset.slot || slotElement.tagName === "TEMPLATE") return;
-
-            const content = document.createDocumentFragment();
-            const clonedElement = slotElement.cloneNode(true);
-            clonedElement.removeAttribute("data-slot");
-            content.appendChild(clonedElement);
-            slotContents.set(slotElement.dataset.slot, content);
-        });
-
-        const template = document.createElement("template");
-        if (sourceName === "html") {
-            const componentDocument = new DOMParser().parseFromString(markup, "text/html");
-
-            // 컴포넌트 HTML의 CSS/JS는 부모 페이지에서 한 번만 로드합니다.
-            componentDocument.querySelectorAll("script").forEach((script) => script.remove());
-            template.innerHTML = componentDocument.body.innerHTML.trim();
-        } else {
-            template.innerHTML = markup.trim();
-        }
-
-        const targetSlots = [...template.content.querySelectorAll("[data-slot]")];
-        if (!slotContents.size && targetSlots.length === 1 && targetSlots[0].dataset.slot === "content") {
-            const content = document.createDocumentFragment();
-            [...placeholder.childNodes].forEach((child) => content.appendChild(child.cloneNode(true)));
-            slotContents.set("content", content);
-        }
-
-        targetSlots.forEach((targetSlot) => {
-            const slotContent = slotContents.get(targetSlot.dataset.slot);
-            if (!slotContent) throw new Error(`${componentName} 컴포넌트의 ${targetSlot.dataset.slot} 슬롯이 비어 있습니다.`);
-            targetSlot.replaceWith(slotContent);
-        });
-
-        applyIncludeHostAttributes(placeholder, template.content);
-        placeholder.replaceWith(template.content);
-    }
-
-    async function loadAllFragments() {
-        const maxDepth = 10;
-
-        for (let depth = 0; depth < maxDepth; depth += 1) {
-            const allPlaceholders = [...document.querySelectorAll("[data-include]")];
-            if (!allPlaceholders.length) return;
-
-            const placeholders = allPlaceholders.filter((placeholder) => !placeholder.parentElement?.closest("[data-include]"));
-            if (!placeholders.length) break;
-            await Promise.all(placeholders.map(loadFragment));
-        }
-
-        if (document.querySelector("[data-include]")) {
-            throw new Error("공통 컴포넌트 include 중첩 깊이가 허용 범위를 초과했습니다.");
-        }
-    }
-
-    /* ========================================================================
-     File upload
-     ======================================================================== */
-    function initFileUploadZones() {
-        document.querySelectorAll("[data-file-upload-zone]").forEach((zone) => {
-            const input = zone.querySelector('input[type="file"]');
-            if (!input) return;
-
-            const emitFiles = (fileList, source) => {
-                const files = Array.from(fileList || []);
-                if (!files.length) return;
-                zone.dispatchEvent(
-                    new CustomEvent("app:file-upload", {
-                        detail: { files, source },
-                    }),
-                );
-            };
-
-            zone.addEventListener("click", (event) => {
-                if (event.target === input) return;
-                input.click();
-            });
-
-            zone.addEventListener("keydown", (event) => {
-                if (event.key !== "Enter" && event.key !== " ") return;
-                event.preventDefault();
-                input.click();
-            });
-
-            input.addEventListener("change", () => {
-                emitFiles(input.files, "picker");
-                input.value = "";
-            });
-
-            zone.addEventListener("dragenter", (event) => {
-                event.preventDefault();
-                zone.classList.add("dragover");
-            });
-
-            zone.addEventListener("dragover", (event) => {
-                event.preventDefault();
-                zone.classList.add("dragover");
-            });
-
-            zone.addEventListener("dragleave", (event) => {
-                if (event.relatedTarget && zone.contains(event.relatedTarget)) return;
-                zone.classList.remove("dragover");
-            });
-
-            zone.addEventListener("drop", (event) => {
-                event.preventDefault();
-                zone.classList.remove("dragover");
-                emitFiles(event.dataTransfer?.files, "drop");
-            });
-        });
-    }
-
-    /* ========================================================================
-    Form field components
-     ======================================================================== */
-    function initFormFields() {
-        document.querySelectorAll("[data-character-count]").forEach((field) => {
-            const textarea = field.querySelector("textarea[maxlength]");
-            const currentCount = field.querySelector("[data-character-current]");
-            if (!textarea || !currentCount) return;
-
-            const syncCharacterCount = () => {
-                currentCount.textContent = String(textarea.value.length);
-            };
-
-            textarea.addEventListener("input", syncCharacterCount);
-            syncCharacterCount();
-        });
-    }
-
-    /* ========================================================================
-     Application initialization and public API
-     ======================================================================== */
-    function notifyReady(isReady) {
-        document.documentElement.dataset.includesReady = isReady ? "true" : "error";
-        if (isReady) document.dispatchEvent(new CustomEvent("app:includes-ready"));
-    }
-
-    async function init() {
-        let isReady = false;
-
-        try {
-            observeIconReferences();
-            resolveIconReferences();
-            await loadAllFragments();
-            resolveIconReferences();
-            applyPageContext();
-            initSharedShell();
-            initThreePanel();
-            initStandalonePanels();
-            initTwoPaneResizers();
-            initFileUploadZones();
-            initFormFields();
-            isReady = true;
-        } catch (error) {
-            console.error("[AI-ONE] 공통 UI include 로드 실패:", error);
-            document.querySelectorAll("[data-include]").forEach((placeholder) => {
-                if (!placeholder.isConnected) return;
-                placeholder.innerHTML = '<p class="include-error" role="alert">공통 UI를 불러오지 못했습니다.</p>';
-            });
-        } finally {
-            notifyReady(isReady);
-        }
-    }
-
-    window.AppCommon = Object.freeze({
-        logout,
-        resolveRoute,
-        resetThreePanelLayout,
-        restoreThreePanelLayout,
-        setThreePanelCollapsed,
-        showToast: showCommonToast,
-        whenReady(callback) {
-            const status = document.documentElement.dataset.includesReady;
-            if (status === "true") callback();
-            else if (status !== "error") document.addEventListener("app:includes-ready", callback, { once: true });
-        },
+      });
     });
 
-    init();
+    document.addEventListener('click', event => {
+      if (!event.target.closest('.user-card')) {
+        document.querySelectorAll('.user-account-menu').forEach(menu => menu.classList.add('hidden'));
+        document.querySelectorAll('.user-profile-trigger').forEach(part => part.setAttribute('aria-expanded', 'false'));
+      }
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Escape') return;
+      document.querySelectorAll('.user-account-menu').forEach(menu => menu.classList.add('hidden'));
+      document.querySelectorAll('.user-profile-trigger').forEach(part => part.setAttribute('aria-expanded', 'false'));
+      closeAccountLayer();
+    });
+  }
+
+  function observeDrawerLayering() {
+    const selectors = '.run-drawer, .chat-drawer, .rule-drawer, .report-drawer';
+    const update = () => {
+      const open = Array.from(document.querySelectorAll(selectors)).some(drawer => !drawer.classList.contains('hidden'));
+      document.body.classList.toggle('drawer-layer-open', open);
+      if (open) closeAllAccessoryTools(null);
+    };
+    const drawers = document.querySelectorAll(selectors);
+    drawers.forEach(drawer => new MutationObserver(update).observe(drawer, { attributes: true, attributeFilter: ['class'] }));
+    update();
+  }
+
+  function initFormFields(root = document) {
+    root.querySelectorAll('[data-character-count]').forEach(field => {
+      if (field.dataset.characterCountReady === 'true') return;
+
+      const textarea = field.querySelector('textarea[maxlength]');
+      const currentCount = field.querySelector('[data-character-current]');
+      if (!textarea || !currentCount) return;
+
+      const syncCharacterCount = () => {
+        currentCount.textContent = String(textarea.value.length);
+      };
+
+      textarea.addEventListener('input', syncCharacterCount);
+      field.dataset.characterCountReady = 'true';
+      syncCharacterCount();
+    });
+  }
+
+  function initFilterButtons(root = document) {
+    root.querySelectorAll('.filter-bar').forEach(list => {
+      const getButtons = () => Array.from(list.querySelectorAll('.filter-btn'))
+        .filter(button => button.closest('.filter-bar') === list);
+      if (!getButtons().length) return;
+
+      const selectedButton = getButtons().find(button => button.classList.contains('active')) || getButtons().find(button => !button.disabled);
+      getButtons().forEach(button => button.setAttribute('aria-pressed', String(button === selectedButton)));
+      selectedButton?.classList.add('active');
+      list.dataset.filterButtonReady = 'true';
+    });
+
+    if (document.documentElement.dataset.filterButtonEventsReady === 'true') return;
+    document.addEventListener('click', event => {
+      const button = event.target.closest('.filter-btn');
+      const list = button?.closest('.filter-bar');
+      if (!button || !list || button.disabled || button.getAttribute('aria-disabled') === 'true') return;
+
+      const buttons = Array.from(list.querySelectorAll('.filter-btn'))
+        .filter(item => item.closest('.filter-bar') === list);
+      buttons.forEach(item => {
+        const isSelected = item === button;
+        item.classList.toggle('active', isSelected);
+        item.setAttribute('aria-pressed', String(isSelected));
+      });
+
+      list.dispatchEvent(new CustomEvent('filter-btn:change', {
+        bubbles: true,
+        detail: {
+          filter: button.dataset.filter || button.value || button.textContent.trim(),
+          button
+        }
+      }));
+    });
+    document.documentElement.dataset.filterButtonEventsReady = 'true';
+  }
+
+  function initMessageReactionButtons(root = document) {
+    root.querySelectorAll('.icon-button-message[data-action="like"], .icon-button-message[data-action="dislike"]').forEach(button => {
+      if (button.dataset.reactionButtonReady === 'true') return;
+
+      if (!button.hasAttribute('aria-pressed')) button.setAttribute('aria-pressed', 'false');
+      button.addEventListener('click', () => {
+        const isPressed = button.getAttribute('aria-pressed') === 'true';
+        button.setAttribute('aria-pressed', String(!isPressed));
+      });
+      button.dataset.reactionButtonReady = 'true';
+    });
+  }
+
+  function initFileUploadZones(root = document) {
+    root.querySelectorAll('[data-file-upload-zone]').forEach(zone => {
+      if (zone.dataset.fileUploadReady === 'true') return;
+
+      const input = zone.querySelector('input[type="file"]');
+      if (!input) return;
+
+      const emitFiles = (fileList, source) => {
+        const files = Array.from(fileList || []);
+        if (!files.length) return;
+        zone.dispatchEvent(new CustomEvent('app:file-upload', {
+          bubbles: true,
+          detail: { files, source }
+        }));
+      };
+
+      zone.addEventListener('click', event => {
+        if (event.target === input) return;
+        input.click();
+      });
+      zone.addEventListener('keydown', event => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        input.click();
+      });
+      input.addEventListener('change', () => {
+        emitFiles(input.files, 'picker');
+        input.value = '';
+      });
+      zone.addEventListener('dragenter', event => {
+        event.preventDefault();
+        zone.classList.add('dragover');
+      });
+      zone.addEventListener('dragover', event => {
+        event.preventDefault();
+        zone.classList.add('dragover');
+      });
+      zone.addEventListener('dragleave', event => {
+        if (event.relatedTarget && zone.contains(event.relatedTarget)) return;
+        zone.classList.remove('dragover');
+      });
+      zone.addEventListener('drop', event => {
+        event.preventDefault();
+        zone.classList.remove('dragover');
+        emitFiles(event.dataTransfer?.files, 'drop');
+      });
+
+      zone.dataset.fileUploadReady = 'true';
+    });
+  }
+
+  document.addEventListener('app:includes-ready', () => {
+    initFormFields();
+    initFilterButtons();
+    initMessageReactionButtons();
+    initFileUploadZones();
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    initAccessoryTools();
+    initUserAccountMenus();
+    observeDrawerLayering();
+    initFormFields();
+    initFilterButtons();
+    initMessageReactionButtons();
+    initFileUploadZones();
+  });
+
 })();

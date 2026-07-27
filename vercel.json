@@ -3,7 +3,7 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "/components/index.html",
+      "destination": "/component/index.html",
       "permanent": false
     }
   ]

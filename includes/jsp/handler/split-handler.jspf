@@ -1,2 +1,0 @@
-<%-- Canonical HTML source --%>
-<%@ include file="../../../components/handler/split-handler.html" %>

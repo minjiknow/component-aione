@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" class="control-preview-root">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>ChatMessage 컴포넌트</title>
+	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
+	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
+	<link rel="stylesheet" href="../../css/ai-chatbot.css?v=20260727" />
+	<link rel="stylesheet" href="../../css/common.css?v=20260727" />
+	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260727" />
+</head>
+<body class="control-preview-page">
+	<main class="control-preview">
+		<header class="control-preview-header">
+			<div>
+				<h1 class="control-preview-title">ChatMessage</h1>
+				<p class="control-preview-desc">AI-ONE 챗봇 대화내역에 표시되는 사용자 메시지와 AI 답변 메시지입니다.</p>
+			</div>
+			<a class="control-preview-back" href="../index.html#display">컴포넌트 목록</a>
+		</header>
+
+		<section class="control-preview-section" aria-labelledby="chat-message-title">
+			<h2 class="control-preview-section-title" id="chat-message-title">대화내역</h2>
+			<div class="chat-messages" aria-label="채팅 메시지 예시">
+				<div class="chat-msg user">2026년도 주요 재정지표를 알려줘.</div>
+				<div class="chat-msg ai">
+					<div class="msg-avatar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+					<div class="msg-content">2026년도 예산안의 총수입, 총지출, 관리재정수지와 국가채무비율을 정리해 드릴게요.</div>
+					<div class="msg-actions">
+						<button class="msg-action-btn" type="button" data-action="like" aria-label="좋아요" aria-pressed="false" title="좋아요"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>
+						<button class="msg-action-btn" type="button" data-action="dislike" aria-label="싫어요" aria-pressed="false" title="싫어요"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10zM17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>
+						<button class="msg-action-btn" type="button" data-action="retry" aria-label="다시 생성" title="다시 생성"><svg viewBox="0 0 24 24" width="14" height="14"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
+						<button class="msg-action-btn" type="button" data-action="copy" aria-label="복사" title="복사"><svg viewBox="0 0 24 24" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+</body>
+</html>
