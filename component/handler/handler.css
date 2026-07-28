@@ -1,0 +1,67 @@
+@charset "utf-8";
+
+.split-handler {
+    --split-handler-handle-margin: 0;
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+    flex: 1;
+    overflow: hidden;
+}
+
+.split-handler-left,
+.split-handler-right {
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+    flex: 1 1 0;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.split-handler-handle {
+    width: 4px;
+    margin: var(--split-handler-handle-margin);
+    border-radius: 2px;
+    background: var(--surface-el, #f0f3f6);
+    cursor: col-resize;
+    flex-shrink: 0;
+    touch-action: none;
+    transition: background 0.15s ease;
+}
+
+.resize-panel-layout {
+    display: flex;
+    padding: 0;
+    overflow: hidden;
+}
+
+.resize-panel,
+.resize-panel-left {
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+    flex: 1 1 0;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.panel-resize-handle {
+    position: relative;
+    width: 2px;
+    border-radius: 2px;
+    background: rgba(209, 217, 224, 0.38);
+    cursor: col-resize;
+    flex-shrink: 0;
+    touch-action: none;
+    transition: background 0.15s ease;
+}
+
+:is(.split-handler-handle, .panel-resize-handle):is(:hover, .active) {
+    background: var(--primary, #0969da);
+}
+
+:is(.split-handler-handle, .panel-resize-handle):focus-visible {
+    outline: 2px solid var(--primary, #0969da);
+    outline-offset: 2px;
+}

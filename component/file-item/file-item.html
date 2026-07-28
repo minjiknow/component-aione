@@ -6,9 +6,9 @@
 	<title>FileItem 컴포넌트</title>
 	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
 	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
-	<link rel="stylesheet" href="../../css/ai-intake.css?v=20260727" />
-	<link rel="stylesheet" href="../../css/ai-answer.css?v=20260727" />
-	<link rel="stylesheet" href="../../css/common.css?v=20260727" />
+	<link rel="stylesheet" href="../file-list/file-list.css?v=20260728-2" />
+	<link rel="stylesheet" href="file-item.css?v=20260728-2" />
+	<link rel="stylesheet" href="../dropdownmenu/dropdownmenu.css?v=20260728-3" />
 	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260727" />
 </head>
 <body class="control-preview-page">
@@ -18,7 +18,7 @@
 				<h1 class="control-preview-title">FileItem</h1>
 				<p class="control-preview-desc">FileList 안에서 파일 하나의 확장자·이름·용량·처리 상태·옵션을 표시하는 행입니다.</p>
 			</div>
-			<a class="control-preview-back" href="../index.html#display">컴포넌트 목록</a>
+			<a class="control-preview-back" href="../index.html#card-fileitem" target="_top">컴포넌트 목록</a>
 		</header>
 
 		<section class="control-preview-section" aria-labelledby="file-item-title">
@@ -31,8 +31,13 @@
 					</button>
 					<div class="file-item-side">
 						<span class="file-status-group final"><span class="file-status parsed">청킹 완료</span><span class="file-status query-count final">질의 5건</span></span>
-						<div class="file-action-wrap">
-							<button class="file-more-btn" type="button" aria-label="파일 옵션" aria-expanded="false" title="파일 옵션"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button>
+						<div class="file-action-wrap dropdown-menu-component" data-dropdown-menu>
+							<button class="file-more-btn" type="button" data-dropdown-trigger aria-haspopup="menu"
+								aria-label="파일 옵션" aria-expanded="false" aria-controls="fileItemMenu0" title="파일 옵션"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button>
+							<div class="dropdown-menu dropdown-menu-compact" id="fileItemMenu0" role="menu" data-placement="bottom-end" hidden>
+								<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="pin">목록 고정</button>
+								<button type="button" class="dropdown-menu-item danger" role="menuitem" data-menu-value="delete">삭제</button>
+							</div>
 						</div>
 					</div>
 				</li>
@@ -49,7 +54,14 @@
 					</button>
 					<div class="file-item-side">
 						<span class="file-status parsing">파싱 중</span>
-						<div class="file-action-wrap"><button class="file-more-btn" type="button" aria-label="파일 옵션" aria-expanded="false" title="파일 옵션"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button></div>
+						<div class="file-action-wrap dropdown-menu-component" data-dropdown-menu>
+							<button class="file-more-btn" type="button" data-dropdown-trigger aria-haspopup="menu"
+								aria-label="파일 옵션" aria-expanded="false" aria-controls="fileItemMenu1" title="파일 옵션"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button>
+							<div class="dropdown-menu dropdown-menu-compact" id="fileItemMenu1" role="menu" data-placement="bottom-end" hidden>
+								<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="pin">목록 고정</button>
+								<button type="button" class="dropdown-menu-item danger" role="menuitem" data-menu-value="delete">삭제</button>
+							</div>
+						</div>
 					</div>
 				</li>
 			</ul>
@@ -67,5 +79,6 @@
 			</ul>
 		</section>
 	</main>
+	<script src="../dropdownmenu/dropdownmenu.js?v=20260728-2"></script>
 </body>
 </html>

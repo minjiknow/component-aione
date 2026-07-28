@@ -2,8 +2,8 @@
 
 `FileList` 안에서 업로드 파일 하나를 표시하는 행입니다. 기본형은 AI Intake가 생성하는 `.file-item-main`, `.file-item-side`, `.file-status` 구조를 사용하고, `simple` 변형은 AI Answer의 dot·제목·상태 Badge 구조를 그대로 사용합니다.
 
-- 필수 CSS: 기본형 `css/ai-intake.css`, Simple형 `css/ai-answer.css`, 공통 `css/common.css`
-- 필수 JS: 선택·옵션·삭제 동작을 연결하는 화면 스크립트
+- 필수 CSS: `component/file-list/file-list.css`, `component/file-item/file-item.css`, `component/dropdownmenu/dropdownmenu.css`
+- 필수 JS: `component/dropdownmenu/dropdownmenu.js`, 선택·고정·삭제 결과를 처리하는 화면 스크립트
 - 검수 페이지: `component/file-item/file-item.html`
 - 행: `.file-list li`
 - 파일 선택 영역: `.file-item-main`
@@ -26,10 +26,19 @@
             <span class="file-status parsed">청킹 완료</span>
             <span class="file-status query-count final">질의 9건</span>
         </span>
-        <div class="file-action-wrap">
-            <button class="file-more-btn" type="button"
-                aria-label="파일 옵션" aria-expanded="false"
+        <div class="file-action-wrap dropdown-menu-component" data-dropdown-menu>
+            <button class="file-more-btn" type="button" data-dropdown-trigger
+                aria-haspopup="menu" aria-label="파일 옵션"
+                aria-expanded="false" aria-controls="fileActionMenu"
                 title="파일 옵션">...</button>
+            <div class="dropdown-menu dropdown-menu-compact"
+                id="fileActionMenu" role="menu"
+                data-placement="bottom-end" hidden>
+                <button type="button" class="dropdown-menu-item"
+                    role="menuitem" data-menu-value="pin">목록 고정</button>
+                <button type="button" class="dropdown-menu-item danger"
+                    role="menuitem" data-menu-value="delete">삭제</button>
+            </div>
         </div>
     </div>
 </li>

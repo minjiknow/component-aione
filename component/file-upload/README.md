@@ -4,7 +4,7 @@ AI Intake의 실제 `.upload-zone` 구조와 스타일을 사용하는 공통 �
 
 - 실제 fragment: `file-upload.html`
 - 검수 위치: `component/index.html`의 Forms 영역
-- 필수 CSS: `css/common.css`
+- 필수 CSS: `component/file-upload/file-upload.css`
 - 필수 JS: `js/common.js`
 - 고정 요소: AI Intake 업로드 SVG 아이콘
 - 필수 슬롯: `title`, `content`, `input`

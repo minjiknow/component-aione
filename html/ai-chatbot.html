@@ -6,11 +6,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<script src="../js/common.js?v=20260723"></script>
 	<title>AI-ONE 챗봇 — AI-ONE</title>
-	<link rel="stylesheet" href="../css/ai-chatbot.css?v=20260727" />
+	<link rel="stylesheet" href="../css/ai-chatbot.css?v=20260727-5" />
 	<link rel="stylesheet" href="../css/common.css?v=20260727" />
+	<link rel="stylesheet" href="../component/sidebar/sidebar.css?v=20260728-2" />
+	<link rel="stylesheet" href="../component/chat-message/chat-message.css?v=20260728" />
 </head>
 
-<body>
+<body class="ai-chatbot-page">
 
 	<!-- ── Sidebar ── -->
 	<aside class="sidebar chatbot-sidebar" id="sidebar" data-sidebar-variant="chatbot">
@@ -238,7 +240,7 @@
 				</div>
 			</div>
 			<!-- Messages -->
-			<div class="chat-messages" id="chatMessages"></div>
+			<div class="chat-messages" id="chatMessages" data-chat-message-list data-variant="chatbot"></div>
 		</div>
 		<!-- Input (shown when chatting) -->
 		<div class="chat-input-wrapper hidden" id="chatInputWrapper">
@@ -328,7 +330,8 @@
 		</div>
 	</aside>
 
-	<script src="../js/ai-chatbot.js?v=20260723"></script>
+	<script src="../component/chat-message/chat-message.js?v=20260728"></script>
+	<script src="../js/ai-chatbot.js?v=20260727-5"></script>
 </body>
 
 </html>

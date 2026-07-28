@@ -1465,7 +1465,6 @@
     const reason = getAIReason(q);
     const summary = getQuerySummary(q);
     const office = getRecommendOffice(q);
-    const barColor = q.confidence >= 90 ? 'var(--green)' : q.confidence >= 75 ? 'var(--primary)' : 'var(--orange)';
 
     const sourcePage = 1;
     const sourceParagraph = activeQueryIndex + 1;
@@ -1517,8 +1516,9 @@
         <div class="qd-confidence-section">
           <div class="qd-confidence-row">
             <span class="qd-confidence-label">신뢰도</span>
-            <div class="qd-confidence-bar-wrap">
-              <div class="qd-confidence-bar-fill" style="width:${q.confidence}%;background:${barColor}"></div>
+            <div class="progressbar progressbar-lg qd-confidence-bar-wrap" data-progressbar data-value="${q.confidence}"
+              role="progressbar" aria-label="신뢰도" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${q.confidence}">
+              <div class="progressbar-fill qd-confidence-bar-fill"></div>
             </div>
             <span class="qd-confidence-value">${q.confidence}%</span>
           </div>
@@ -1529,6 +1529,7 @@
         </div>
       </div>
     `;
+    window.AIOneProgressBar?.init(docContent);
 
     // 원문 연결 위치 클릭 → 원본 문서의 해당 문장으로 이동
     const sourceLinkCard = $('#sourceLinkCard');
@@ -1640,7 +1641,6 @@
 
     queryList.innerHTML = filtered.map(q => {
       const reason = getAIReason(q);
-      const barColor = q.confidence >= 90 ? 'var(--green)' : q.confidence >= 75 ? 'var(--primary)' : 'var(--orange)';
       const needsReview = q.confidence < 80;
       const reviewBadge = needsReview ? `<span class="query-review-badge">검토필요</span>` : '';
       return `
@@ -1662,8 +1662,9 @@
         </div>
         <div class="query-confidence-bar">
           <span class="confidence-label">신뢰도</span>
-          <div class="confidence-bar-wrap">
-            <div class="confidence-bar-fill" style="width:${q.confidence}%;background:${barColor}"></div>
+          <div class="progressbar confidence-bar-wrap" data-progressbar data-value="${q.confidence}"
+            role="progressbar" aria-label="신뢰도" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${q.confidence}">
+            <div class="progressbar-fill confidence-bar-fill"></div>
           </div>
           <span class="confidence-value">${q.confidence}%</span>
         </div>
@@ -1673,6 +1674,7 @@
         </div>
       </div>`;
     }).join('');
+    window.AIOneProgressBar?.init(queryList);
 
     // Edit buttons
     $$('.query-edit-btn', queryList).forEach(btn => {

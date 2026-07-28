@@ -1,0 +1,44 @@
+@charset "utf-8";
+
+.form-select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border, #d1d9e0);
+    border-radius: var(--radius-sm, 6px);
+    background: var(--bg, #f6f8fa);
+    color: var(--text, #1f2328);
+    font: inherit;
+    font-size: 13px;
+    transition:
+        border-color var(--transition, 0.15s ease),
+        box-shadow var(--transition, 0.15s ease);
+}
+
+.form-select:hover:not(:disabled) {
+    border-color: var(--text-muted, #8b949e);
+}
+
+.form-select:is(:focus, :active),
+.field:focus-within > .form-select {
+    border-color: var(--primary, #0969da);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.12);
+}
+
+.field.is-error > .form-select {
+    border-color: var(--red, #cf222e);
+    box-shadow: 0 0 0 3px rgba(207, 34, 46, 0.1);
+}
+
+.field.is-success > .form-select {
+    border-color: var(--green, #1a7f37);
+    box-shadow: 0 0 0 3px rgba(26, 127, 55, 0.1);
+}
+
+.form-select:disabled {
+    cursor: default;
+    background: var(--surface-el, #f0f3f6);
+    color: var(--text-muted, #8b949e);
+    box-shadow: none;
+    opacity: 0.72;
+}

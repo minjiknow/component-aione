@@ -1,0 +1,93 @@
+@charset "utf-8";
+
+body.component-index-page {
+	height: 100vh;
+	overflow: hidden;
+	background: var(--bg);
+}
+
+.component-index-shell {
+	min-height: 100%;
+}
+
+.component-index-sidebar .nav-link {
+	border: 0;
+	background: transparent;
+	text-align: left;
+}
+
+.component-index-sidebar .nav-link.active {
+	background: var(--app-sidebar-active-bg, rgba(9, 105, 218, 0.08));
+}
+
+.component-index-nav {
+	min-height: 0;
+	overflow-y: auto;
+}
+
+.component-index-nav-loading {
+	padding: 12px;
+	color: var(--text-muted);
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+.component-index-sidebar .user-avatar img[data-icon] {
+	width: 18px;
+	height: 18px;
+}
+
+.component-index-sidebar.collapsed .settings-btn {
+	display: none;
+}
+
+.component-index-main {
+	height: 100vh;
+	margin-left: var(--sidebar-w, 232px);
+	transition: margin-left 0.25s ease;
+}
+
+.component-index-sidebar.collapsed + .component-index-main {
+	margin-left: 56px;
+}
+
+.component-group-frame {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	background: var(--bg);
+}
+
+@media (max-width: 720px) {
+	.component-index-sidebar {
+		width: 56px;
+	}
+
+	.component-index-sidebar :is(.brand-text, .nav-text, .nav-group-label, .user-info, .sidebar-collapse-btn, .settings-btn) {
+		display: none;
+	}
+
+	.component-index-sidebar .sidebar-brand,
+	.component-index-sidebar .nav-link,
+	.component-index-sidebar .user-card {
+		justify-content: center;
+	}
+
+	.component-index-sidebar .sidebar-nav {
+		padding: 8px 4px;
+	}
+
+	.component-index-sidebar .nav-link {
+		padding: 10px 0;
+	}
+
+	.component-index-sidebar .sidebar-footer {
+		padding: 8px 4px;
+	}
+
+	.component-index-main,
+	.component-index-sidebar.collapsed + .component-index-main {
+		margin-left: 56px;
+	}
+}

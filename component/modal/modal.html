@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko" class="control-preview-root">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Modal 컴포넌트</title>
+	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
+	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
+	<link rel="stylesheet" href="../button/button.css?v=20260728" />
+	<link rel="stylesheet" href="../form-field/form-field.css?v=20260728" />
+	<link rel="stylesheet" href="modal.css?v=20260728-2" />
+	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260727-6" />
+</head>
+<body class="control-preview-page" data-root-path="../..">
+	<main class="control-preview">
+		<header class="control-preview-header">
+			<div>
+				<h1 class="control-preview-title">Modal</h1>
+				<p class="control-preview-desc">AI Answer의 작업 메뉴와 기존 확인·입력 모달을 Small, Medium, Large로 확인합니다.</p>
+			</div>
+			<a class="control-preview-back" href="../index.html#layouts">컴포넌트 목록</a>
+		</header>
+
+		<section class="control-preview-section" aria-labelledby="modal-variant-title">
+			<h2 class="control-preview-section-title" id="modal-variant-title">Variants</h2>
+			<div class="control-use-list">
+				<article class="control-use-case">
+					<span class="control-use-label">Small · 160px · 작업 메뉴</span>
+					<button type="button" class="button button-outline"
+						data-modal-open="smallActionModal">대화 작업 팝업</button>
+				</article>
+				<article class="control-use-case">
+					<span class="control-use-label">Medium · 380px · 확인</span>
+					<button type="button" class="button button-danger"
+						data-modal-open="mediumDeleteModal">삭제 팝업</button>
+				</article>
+				<article class="control-use-case">
+					<span class="control-use-label">Large · 960px · 입력</span>
+					<button type="button" class="button button-outline"
+						data-modal-open="largeRenameModal">이름변경 팝업</button>
+				</article>
+			</div>
+		</section>
+	</main>
+
+	<div class="custom-modal-backdrop modal-menu-backdrop" id="smallActionModal" data-modal hidden>
+		<section class="custom-modal modal-small" role="dialog" aria-modal="true" aria-label="대화 작업 메뉴">
+			<div class="modal-action-menu" role="menu">
+				<button type="button" class="modal-action-item" role="menuitem" data-modal-close>
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<circle cx="18" cy="5" r="3" />
+						<circle cx="6" cy="12" r="3" />
+						<circle cx="18" cy="19" r="3" />
+						<line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+						<line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+					</svg>
+					대화 공유
+				</button>
+				<button type="button" class="modal-action-item" role="menuitem" data-modal-close>
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path d="M12 2v20M12 2 8 6M12 2l4 4" />
+					</svg>
+					고정
+				</button>
+				<button type="button" class="modal-action-item" role="menuitem" data-modal-close>
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+					</svg>
+					이름 변경
+				</button>
+				<button type="button" class="modal-action-item danger" role="menuitem" data-modal-close>
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<polyline points="3 6 5 6 21 6" />
+						<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+					</svg>
+					삭제
+				</button>
+			</div>
+		</section>
+	</div>
+
+	<div class="custom-modal-backdrop" id="mediumDeleteModal" data-modal hidden>
+		<section class="custom-modal modal-medium" role="dialog" aria-modal="true"
+			aria-labelledby="mediumDeleteModalTitle" aria-describedby="mediumDeleteModalDescription">
+			<div class="custom-modal-icon danger" aria-hidden="true">⚠</div>
+			<div class="custom-modal-title" id="mediumDeleteModalTitle">작업을 삭제할까요?</div>
+			<div class="custom-modal-msg" id="mediumDeleteModalDescription">
+				선택한 작업과 연결된 실행 기록도 함께 삭제되며 다시 복구할 수 없습니다.
+			</div>
+			<div class="custom-modal-actions">
+				<button type="button" class="btn-cancel" data-modal-close>취소</button>
+				<button type="button" class="btn-confirm danger">삭제</button>
+			</div>
+		</section>
+	</div>
+
+	<div class="custom-modal-backdrop" id="largeRenameModal" data-modal hidden>
+		<section class="custom-modal notification-assignee-modal modal-large"
+			role="dialog" aria-modal="true"
+			aria-labelledby="largeRenameModalTitle" aria-describedby="largeRenameModalDescription">
+			<div class="notification-modal-head">
+				<div>
+					<div class="custom-modal-title notification-modal-title" id="largeRenameModalTitle">작업 이름 변경</div>
+					<div class="notification-modal-desc" id="largeRenameModalDescription">
+						목록에서 작업을 쉽게 구분할 수 있도록 이름을 변경합니다.
+					</div>
+				</div>
+				<button type="button" class="notification-modal-close" data-modal-close aria-label="닫기">×</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label for="largeRenameInput">작업 이름</label>
+					<input class="form-input" id="largeRenameInput" type="text"
+						value="2026년 청년 고용 정책 관련 답변 초안" maxlength="100" autofocus />
+					<p class="field-help">최대 100자까지 입력할 수 있습니다.</p>
+				</div>
+			</div>
+			<div class="custom-modal-actions notification-modal-actions">
+				<button type="button" class="btn-cancel" data-modal-close>취소</button>
+				<button type="button" class="btn-confirm">변경 저장</button>
+			</div>
+		</section>
+	</div>
+
+	<script src="../_shared/layer-controller.js?v=20260728-2"></script>
+	<script src="modal.js?v=20260728"></script>
+	<script src="../_preview/component-preview.js?v=20260727"></script>
+</body>
+</html>

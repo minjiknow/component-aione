@@ -2,7 +2,7 @@
 
 AI-ONE 홈에서 서비스 진입점을 표시하는 카드입니다. 현재 홈 화면의 마크업, SVG 아이콘, hover 스타일을 그대로 사용합니다.
 
-- 필수 CSS: `css/ai-home.css`, `css/common.css`
+- 필수 CSS: `component/service-card/service-card.css`
 - 검수 위치: `component/index.html`의 Actions 영역
 - 실행형 fragment: `component/service-card/service-card.html`
 

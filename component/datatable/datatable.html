@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko" class="control-preview-root">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>DataTable 컴포넌트</title>
+	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
+	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
+	<link rel="stylesheet" href="../badge/badge.css?v=20260728" />
+	<link rel="stylesheet" href="../dropdownmenu/dropdownmenu.css?v=20260728-3" />
+	<link rel="stylesheet" href="datatable.css?v=20260728-5" />
+	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260728-2" />
+</head>
+<body class="control-preview-page" data-root-path="../..">
+	<main class="control-preview control-preview-wide">
+		<header class="control-preview-header">
+			<div>
+				<h1 class="control-preview-title">DataTable</h1>
+				<p class="control-preview-desc">기존 홈 화면의 최근 사용 이력을 공통화한 DataTable입니다.</p>
+			</div>
+			<a class="control-preview-back" href="../index.html#display">컴포넌트 목록</a>
+		</header>
+
+		<section class="control-preview-section" aria-labelledby="datatable-default-title">
+			<h2 class="control-preview-section-title" id="datatable-default-title">Default</h2>
+			<div class="data-table-container">
+				<header class="data-table-header">
+					<h3 class="data-table-title">최근 사용 이력</h3>
+					<button type="button" class="data-table-more">전체 이력 보기 ›</button>
+				</header>
+				<div class="data-table-scroll">
+					<table class="data-table" data-datatable>
+						<caption>최근 사용 이력</caption>
+						<colgroup>
+							<col class="data-table-col-service" />
+							<col class="data-table-col-type" />
+							<col class="data-table-col-task" />
+							<col class="data-table-col-updated" />
+							<col class="data-table-col-status" />
+							<col class="data-table-col-created" />
+							<col class="data-table-col-actions" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col">서비스명</th>
+								<th scope="col">유형</th>
+								<th scope="col">최근 작업명</th>
+								<th scope="col">최근 이용일</th>
+								<th scope="col">상태</th>
+								<th scope="col">등록일</th>
+								<th class="data-table-actions"><span class="prompt-composer-file-input">행 메뉴</span></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><span class="data-table-service"><img class="icon" data-icon="document" alt=""
+									aria-hidden="true" /><span class="data-table-service-name">국회 답변서 초안 작성</span></span></td>
+								<td><span class="type-badge ai">AI초안</span></td>
+								<td>2026년 청년 고용 정책 관련 답변 초안</td>
+								<td>2026.05.20 10:24</td>
+								<td><span class="status-dot done">완료</span></td>
+								<td>2026.05.19</td>
+								<td class="data-table-actions">
+									<div class="dropdown-menu-component" data-dropdown-menu>
+										<button type="button" class="data-table-action-trigger"
+											data-dropdown-trigger aria-haspopup="menu" aria-expanded="false"
+											aria-controls="answerDraftRowMenu" aria-label="국회 답변서 초안 작성 메뉴">⋮</button>
+										<div class="dropdown-menu" id="answerDraftRowMenu" role="menu" data-placement="bottom-end" hidden>
+											<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="open">열기</button>
+											<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="rename">이름 변경</button>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><span class="data-table-service"><img class="icon" data-icon="search" alt=""
+									aria-hidden="true" /><span class="data-table-service-name">국회 질의 자료 검색</span></span></td>
+								<td><span class="type-badge search">검색</span></td>
+								<td>반도체 산업 지원 관련 질의</td>
+								<td>2026.05.20 09:15</td>
+								<td><span class="status-dot done">완료</span></td>
+								<td>2026.05.18</td>
+								<td class="data-table-actions">
+									<div class="dropdown-menu-component" data-dropdown-menu>
+										<button type="button" class="data-table-action-trigger"
+											data-dropdown-trigger aria-haspopup="menu" aria-expanded="false"
+											aria-controls="searchRowMenu" aria-label="국회 질의 자료 검색 메뉴">⋮</button>
+										<div class="dropdown-menu" id="searchRowMenu" role="menu" data-placement="bottom-end" hidden>
+											<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="open">열기</button>
+											<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="rename">이름 변경</button>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><span class="data-table-service"><img class="icon" data-icon="chart-line" alt=""
+									aria-hidden="true" /><span class="data-table-service-name">경제동향 분석 보고서</span></span></td>
+								<td><span class="type-badge report">보고서</span></td>
+								<td>2026년 4월 경제동향 분석</td>
+								<td>2026.05.19 18:40</td>
+								<td><span class="status-dot progress">진행 중</span></td>
+								<td>2026.05.17</td>
+								<td class="data-table-actions">
+									<div class="dropdown-menu-component" data-dropdown-menu>
+										<button type="button" class="data-table-action-trigger"
+											data-dropdown-trigger aria-haspopup="menu" aria-expanded="false"
+											aria-controls="reportRowMenu" aria-label="경제동향 분석 보고서 메뉴">⋮</button>
+										<div class="dropdown-menu" id="reportRowMenu" role="menu" data-placement="bottom-end" hidden>
+											<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="open">열기</button>
+											<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="rename">이름 변경</button>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><span class="data-table-service"><img class="icon" data-icon="folder" alt=""
+									aria-hidden="true" /><span class="data-table-service-name">내부자료 자산화 관리</span></span></td>
+								<td><span class="type-badge doc">문서관리</span></td>
+								<td>국정 현안 보고자료 202605</td>
+								<td>2026.05.19 14:05</td>
+								<td><span class="status-dot done">완료</span></td>
+								<td>2026.05.16</td>
+								<td class="data-table-actions">
+									<div class="dropdown-menu-component" data-dropdown-menu>
+										<button type="button" class="data-table-action-trigger"
+											data-dropdown-trigger aria-haspopup="menu" aria-expanded="false"
+											aria-controls="documentRowMenu" aria-label="내부자료 자산화 관리 메뉴">⋮</button>
+										<div class="dropdown-menu" id="documentRowMenu" role="menu" data-placement="bottom-end" hidden>
+											<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="open">열기</button>
+											<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="rename">이름 변경</button>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><span class="data-table-service"><img class="icon" data-icon="document" alt=""
+									aria-hidden="true" /><span class="data-table-service-name">국회 답변서 초안 작성</span></span></td>
+								<td><span class="type-badge ai">AI초안</span></td>
+								<td>디지털 전환 추진 정책 관련 답변 초안</td>
+								<td>2026.05.19 11:32</td>
+								<td><span class="status-dot done">완료</span></td>
+								<td>2026.05.15</td>
+								<td class="data-table-actions">
+									<div class="dropdown-menu-component" data-dropdown-menu>
+										<button type="button" class="data-table-action-trigger"
+											data-dropdown-trigger aria-haspopup="menu" aria-expanded="false"
+											aria-controls="digitalRowMenu" aria-label="디지털 전환 답변 초안 메뉴">⋮</button>
+										<div class="dropdown-menu" id="digitalRowMenu" role="menu" data-placement="bottom-end" hidden>
+											<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="open">열기</button>
+											<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="rename">이름 변경</button>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><span class="data-table-service"><img class="icon" data-icon="search" alt=""
+									aria-hidden="true" /><span class="data-table-service-name">국회 질의 자료 검색</span></span></td>
+								<td><span class="type-badge search">검색</span></td>
+								<td>인공지능 산업 육성 관련 질의</td>
+								<td>2026.05.18 17:20</td>
+								<td><span class="status-dot done">완료</span></td>
+								<td>2026.05.14</td>
+								<td class="data-table-actions">
+									<div class="dropdown-menu-component" data-dropdown-menu>
+										<button type="button" class="data-table-action-trigger"
+											data-dropdown-trigger aria-haspopup="menu" aria-expanded="false"
+											aria-controls="aiIndustryRowMenu" aria-label="인공지능 산업 육성 질의 메뉴">⋮</button>
+										<div class="dropdown-menu" id="aiIndustryRowMenu" role="menu" data-placement="bottom-end" hidden>
+											<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="open">열기</button>
+											<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="rename">이름 변경</button>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><span class="data-table-service"><img class="icon" data-icon="chart-line" alt=""
+									aria-hidden="true" /><span class="data-table-service-name">경제동향 분석 보고서</span></span></td>
+								<td><span class="type-badge report">보고서</span></td>
+								<td>2026년 상반기 물가동향 분석</td>
+								<td>2026.05.18 15:45</td>
+								<td><span class="status-dot progress">진행 중</span></td>
+								<td>2026.05.13</td>
+								<td class="data-table-actions">
+									<div class="dropdown-menu-component" data-dropdown-menu>
+										<button type="button" class="data-table-action-trigger"
+											data-dropdown-trigger aria-haspopup="menu" aria-expanded="false"
+											aria-controls="priceReportRowMenu" aria-label="상반기 물가동향 분석 메뉴">⋮</button>
+										<div class="dropdown-menu" id="priceReportRowMenu" role="menu" data-placement="bottom-end" hidden>
+											<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="open">열기</button>
+											<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="rename">이름 변경</button>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+
+		<section class="control-preview-section" aria-labelledby="datatable-empty-title">
+			<h2 class="control-preview-section-title" id="datatable-empty-title">Empty state</h2>
+			<div class="data-table-container" data-state="empty">
+				<header class="data-table-header">
+					<h3 class="data-table-title">최근 사용 이력</h3>
+					<button type="button" class="data-table-more">전체 이력 보기 ›</button>
+				</header>
+				<div class="data-table-scroll">
+					<table class="data-table" data-datatable>
+						<caption>최근 사용 이력 조회 결과</caption>
+						<colgroup>
+							<col class="data-table-col-service" />
+							<col class="data-table-col-type" />
+							<col class="data-table-col-task" />
+							<col class="data-table-col-updated" />
+							<col class="data-table-col-status" />
+							<col class="data-table-col-created" />
+							<col class="data-table-col-actions" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col">서비스명</th>
+								<th scope="col">유형</th>
+								<th scope="col">최근 작업명</th>
+								<th scope="col">최근 이용일</th>
+								<th scope="col">상태</th>
+								<th scope="col">등록일</th>
+								<th class="data-table-actions" scope="col"><span class="prompt-composer-file-input">행 메뉴</span></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="data-table-empty" colspan="7" role="status">데이터가 조회되지 않습니다</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<script src="../dropdownmenu/dropdownmenu.js?v=20260728"></script>
+	<script src="datatable.js?v=20260728-2"></script>
+	<script src="../_preview/component-preview.js?v=20260727"></script>
+</body>
+</html>

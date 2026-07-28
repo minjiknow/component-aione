@@ -4,13 +4,14 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<script src="../js/common.js?v=20260723"></script>
 	<title>국회 답변서 초안 생성 AI — AI-ONE</title>
-	<link rel="stylesheet" href="../css/ai-answer.css" />
-	<link rel="stylesheet" href="../css/common.css?v=20260727" />
+	<link rel="stylesheet" href="../css/ai-answer.css?v=20260727-6" />
+	<link rel="stylesheet" href="../css/common.css?v=20260727-4" />
+	<link rel="stylesheet" href="../component/toast/toast.css?v=20260728" />
+	<link rel="stylesheet" href="../component/chat-message/chat-message.css?v=20260728" />
 </head>
 
-<body>
+<body class="ai-answer-page">
 
 	<!-- ── Sidebar ── -->
 	<aside class="sidebar" id="sidebar">
@@ -330,19 +331,19 @@
 								<div class="preview-body doc-viewer-body" id="previewBody"></div>
 							</div>
 						</div>
-						<div class="draft-status-bar recommend-status-bar">
+						<div class="draft-status-bar recommend-status-bar" aria-label="관련자료 진행 정보">
 							<div class="draft-status-left">
 								<span class="draft-stat">관련자료 <strong id="recommendResultCount">8</strong>건</span>
-								<span class="draft-stat-sep">|</span>
+								<span class="draft-stat-sep" aria-hidden="true">|</span>
 								<span class="draft-stat">글자 수 <strong data-char-count>0</strong>자</span>
-								<span class="draft-stat-sep">|</span>
+								<span class="draft-stat-sep" aria-hidden="true">|</span>
 								<span class="draft-stat">페이지 <strong data-page-num>1</strong>/<strong
 										data-page-total>1</strong></span>
 							</div>
 							<div class="draft-status-right">
 								<button class="draft-zoom-btn" type="button" data-action="zoom-out"
 									aria-label="문서 미리보기 축소">−</button>
-								<span class="draft-zoom-val" data-zoom-val>100%</span>
+								<span class="draft-zoom-val" data-zoom-val aria-live="polite">100%</span>
 								<button class="draft-zoom-btn" type="button" data-action="zoom-in"
 									aria-label="문서 미리보기 확대">+</button>
 								<button class="draft-zoom-btn" type="button" data-action="fullscreen"
@@ -371,7 +372,7 @@
 					<div class="chat-head-actions"><button class="panel-action-btn" id="newChatBtn">+ 새
 							채팅</button><button class="panel-action-btn" id="chatListToggle">목록</button></div>
 				</div>
-				<div class="chat-messages" id="chatMessages"></div>
+				<div class="chat-messages" id="chatMessages" data-chat-message-list data-variant="answer"></div>
 				<div class="chat-input-area">
 					<div class="chat-tags">
 						<span class="chat-tags-label">추천 프롬프트</span>
@@ -492,8 +493,13 @@
 		</div>
 	</aside>
 
-	<div class="toast hidden" id="toast"></div>
-	<script src="../js/ai-answer.js?v=20260723"></script>
+	<div class="ai-one-toast" id="toast" data-toast role="status" aria-live="polite" aria-atomic="true" hidden>
+		<span class="ai-one-toast-message" data-toast-message></span>
+	</div>
+	<script src="../js/common.js"></script>
+	<script src="../component/chat-message/chat-message.js?v=20260728"></script>
+	<script src="../component/toast/toast.js?v=20260728"></script>
+	<script src="../js/ai-answer.js"></script>
 </body>
 
 </html>

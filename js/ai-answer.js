@@ -649,17 +649,17 @@
       </div>
     </div>
   </div>
-  <div class="draft-status-bar compare-status-bar" id="compareStatusBar">
+  <div class="draft-status-bar compare-status-bar" id="compareStatusBar" aria-label="답변서 비교 진행 정보">
     <div class="draft-status-left">
       <span class="draft-stat">비교 문서 <strong>2</strong>건</span>
-      <span class="draft-stat-sep">|</span>
+      <span class="draft-stat-sep" aria-hidden="true">|</span>
       <span class="draft-stat">글자 수 <strong id="compareCharCount">0</strong>자</span>
-      <span class="draft-stat-sep">|</span>
+      <span class="draft-stat-sep" aria-hidden="true">|</span>
       <span class="draft-stat"><strong id="compareActiveViewerLabel">기준 문서</strong> 페이지 <strong id="comparePageNum">1</strong>/<strong id="comparePageTotal">1</strong></span>
     </div>
     <div class="draft-status-right">
       <button class="draft-zoom-btn" type="button" id="compareZoomOut" aria-label="선택 문서 축소">−</button>
-      <span class="draft-zoom-val" id="compareZoomVal">100%</span>
+      <span class="draft-zoom-val" id="compareZoomVal" aria-live="polite">100%</span>
       <button class="draft-zoom-btn" type="button" id="compareZoomIn" aria-label="선택 문서 확대">+</button>
       <button class="draft-zoom-btn" type="button" id="compareFullscreen" aria-label="답변서 비교 전체보기" title="답변서 비교 전체보기">
         <svg viewBox="0 0 24 24" width="14" height="14"><path d="M3 3h5v2H5v3H3V3z M16 3h5v5h-2V5h-3V3z M3 16h2v3h3v2H3v-5z M19 19h-3v2h5v-5h-2v3z"/></svg>
@@ -1169,39 +1169,30 @@
       const actions = m.role === 'ai' && i !== 0 ? `<div class="msg-actions">
         <button class="msg-action-btn" data-action="like" data-idx="${i}" aria-label="좋아요" aria-pressed="false" title="좋아요"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>
         <button class="msg-action-btn" data-action="dislike" data-idx="${i}" aria-label="싫어요" aria-pressed="false" title="싫어요"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10zM17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>
-        <button class="msg-action-btn" data-action="retry" data-idx="${i}" title="다시 생성"><svg viewBox="0 0 24 24" width="14" height="14"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
-        <button class="msg-action-btn" data-action="copy" data-idx="${i}" title="복사"><svg viewBox="0 0 24 24" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
-        <button class="msg-action-btn msg-report-btn" data-action="report" data-idx="${i}" title="오류신고"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></button>
-        <button class="msg-action-btn" data-action="more" data-idx="${i}" title="더보기">···</button>
+        <button class="msg-action-btn" data-action="retry" data-idx="${i}" aria-label="다시 생성" title="다시 생성"><svg viewBox="0 0 24 24" width="14" height="14"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
+        <button class="msg-action-btn" data-action="copy" data-idx="${i}" aria-label="복사" title="복사"><svg viewBox="0 0 24 24" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+        <button class="msg-action-btn msg-report-btn" data-action="report" data-idx="${i}" aria-label="오류신고" title="오류신고"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></button>
+        <button class="msg-action-btn" data-action="more" data-idx="${i}" aria-label="더보기" title="더보기">···</button>
       </div>` : '';
       const isTyping = m.role === 'ai' && m.typing;
       const textHtml = isTyping ? '' : m.text.replace(/\n/g, '<br>');
-      return `<div class="chat-msg ${m.role}${isTyping ? ' is-typing' : ''}"><div class="msg-text">${textHtml}</div>${m.time ? `<span class="msg-time">${m.time}</span>` : ''}${actions}</div>`;
+      return `<div class="chat-msg ${m.role}${isTyping ? ' is-typing' : ''}" data-component="chat-message" data-variant="answer" data-role="${m.role}" data-status="${isTyping ? 'pending' : 'complete'}"><div class="msg-text">${textHtml}</div>${m.time ? `<span class="msg-time">${m.time}</span>` : ''}${actions}</div>`;
     }).join('');
     el.scrollTop = el.scrollHeight;
 
-    // Bind message action buttons
-    $$('.msg-action-btn', el).forEach(btn => {
+    window.ChatMessage?.bind(el, {
+      getText: ({ button }) => chatConversations[activeChatTopic][Number(button.dataset.idx)]?.text || '',
+      onFeedback: () => showToast('피드백이 반영되었습니다.'),
+      onRetry: () => showToast('답변을 다시 생성합니다.'),
+      onCopy: () => showToast('복사되었습니다.')
+    });
+
+    // Bind answer-page-only actions.
+    $$('.msg-action-btn[data-action="report"], .msg-action-btn[data-action="more"]', el).forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const action = btn.dataset.action;
-        const idx = parseInt(btn.dataset.idx);
-        if (action === 'like') {
-          const isActive = btn.classList.toggle('active');
-          btn.setAttribute('aria-pressed', String(isActive));
-          showToast('피드백이 반영되었습니다.');
-        } else if (action === 'dislike') {
-          const isActive = btn.classList.toggle('active');
-          btn.setAttribute('aria-pressed', String(isActive));
-          showToast('피드백이 반영되었습니다.');
-        } else if (action === 'retry') {
-          showToast('답변을 다시 생성합니다.');
-        } else if (action === 'copy') {
-          const msg = chatConversations[activeChatTopic][idx];
-          if (msg) {
-            navigator.clipboard.writeText(msg.text).then(() => showToast('복사되었습니다.')).catch(() => showToast('복사되었습니다.'));
-          }
-        } else if (action === 'more') {
+        if (action === 'more') {
           showToast('추가 옵션');
         } else if (action === 'report') {
           openReportDrawer();
@@ -1217,7 +1208,10 @@
       if (target) {
         typeWriterEffect(target, typingMsg.text, () => {
           typingMsg.typing = false;
-          if (wrap) wrap.classList.remove('is-typing');
+          if (wrap) {
+            wrap.classList.remove('is-typing');
+            wrap.dataset.status = 'complete';
+          }
           el.scrollTop = el.scrollHeight;
         }, el);
       }
@@ -1280,17 +1274,17 @@
             <div class="preview-body doc-viewer-body" id="previewBody"></div>
           </div>
         </div>
-        <div class="draft-status-bar recommend-status-bar">
+        <div class="draft-status-bar recommend-status-bar" aria-label="관련자료 진행 정보">
           <div class="draft-status-left">
             <span class="draft-stat">관련자료 <strong id="recommendResultCount">${recommendations.length}</strong>건</span>
-            <span class="draft-stat-sep">|</span>
+            <span class="draft-stat-sep" aria-hidden="true">|</span>
             <span class="draft-stat">글자 수 <strong data-char-count>0</strong>자</span>
-            <span class="draft-stat-sep">|</span>
+            <span class="draft-stat-sep" aria-hidden="true">|</span>
             <span class="draft-stat">페이지 <strong data-page-num>1</strong>/<strong data-page-total>1</strong></span>
           </div>
           <div class="draft-status-right">
             <button class="draft-zoom-btn" type="button" data-action="zoom-out" aria-label="문서 미리보기 축소">−</button>
-            <span class="draft-zoom-val" data-zoom-val>100%</span>
+            <span class="draft-zoom-val" data-zoom-val aria-live="polite">100%</span>
             <button class="draft-zoom-btn" type="button" data-action="zoom-in" aria-label="문서 미리보기 확대">+</button>
             <button class="draft-zoom-btn" type="button" data-action="fullscreen" aria-label="관련자료 추천 전체보기" title="관련자료 추천 전체보기">
               <svg viewBox="0 0 24 24" width="14" height="14"><path d="M3 3h5v2H5v3H3V3z M16 3h5v5h-2V5h-3V3z M3 16h2v3h3v2H3v-5z M19 19h-3v2h5v-5h-2v3z"/></svg>
@@ -1338,17 +1332,17 @@
           <span class="verify-legend red">빨강: 출처 누락</span>
         </div>
       </div>
-      ${(selectedDraftVersion?.content || draftContent).replace('>답변서 초안</span>', `>답변서 초안 · ${formatDraftVersionTab(selectedDraftVersion)}</span>`)}<div class="draft-status-bar">
+      ${(selectedDraftVersion?.content || draftContent).replace('>답변서 초안</span>', `>답변서 초안 · ${formatDraftVersionTab(selectedDraftVersion)}</span>`)}<div class="draft-status-bar" aria-label="답변서 초안 진행 정보">
         <div class="draft-status-left">
           <span class="draft-stat">글자 수: <strong id="draftCharCount">0</strong></span>
-          <span class="draft-stat-sep">|</span>
+          <span class="draft-stat-sep" aria-hidden="true">|</span>
           <span class="draft-stat">페이지 <strong id="draftPageNum">1</strong>/<strong id="draftPageTotal">1</strong></span>
         </div>
         <div class="draft-status-right">
-          <button class="draft-zoom-btn" id="draftZoomOut" aria-label="축소">−</button>
-          <span class="draft-zoom-val" id="draftZoomVal">100%</span>
-          <button class="draft-zoom-btn" id="draftZoomIn" aria-label="확대">+</button>
-          <button class="draft-zoom-btn" id="draftFitBtn" aria-label="전체화면" title="전체화면">
+          <button class="draft-zoom-btn" type="button" id="draftZoomOut" aria-label="축소">−</button>
+          <span class="draft-zoom-val" id="draftZoomVal" aria-live="polite">100%</span>
+          <button class="draft-zoom-btn" type="button" id="draftZoomIn" aria-label="확대">+</button>
+          <button class="draft-zoom-btn" type="button" id="draftFitBtn" aria-label="전체화면" title="전체화면">
             <svg viewBox="0 0 24 24" width="14" height="14"><path d="M3 3h5v2H5v3H3V3z M16 3h5v5h-2V5h-3V3z M3 16h2v3h3v2H3v-5z M19 19h-3v2h5v-5h-2v3z"/></svg>
           </button>
         </div>
@@ -3168,9 +3162,14 @@
 
   function showToast(msg) {
     const t = $('#toast');
-    t.textContent = msg;
-    t.classList.remove('hidden');
-    setTimeout(() => t.classList.add('hidden'), 2000);
+    if (!t) return;
+    if (window.AIOneToast) {
+      window.AIOneToast.show(msg, { target: t, duration: 2000 });
+      return;
+    }
+    const message = t.querySelector('[data-toast-message]') || t;
+    message.textContent = msg;
+    t.hidden = false;
   }
 
 

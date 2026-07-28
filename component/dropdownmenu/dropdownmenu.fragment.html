@@ -1,0 +1,19 @@
+<div class="dropdown-menu-component" data-component="dropdownmenu" data-dropdown-menu>
+	<button type="button" class="button dropdown-menu-model-trigger" data-dropdown-trigger
+		aria-haspopup="menu" aria-expanded="false" aria-controls="{{id}}-menu">
+		<span data-dropdown-label>기본</span>
+		<img class="icon icon-xsmall" data-icon="chevron-down" alt="" aria-hidden="true" />
+	</button>
+	<div class="dropdown-menu dropdown-menu-model" id="{{id}}-menu" role="menu"
+		data-placement="top-end" hidden>
+		<span class="dropdown-menu-label">모델 선택</span>
+		<div data-slot="items">
+			<button type="button" class="dropdown-menu-item" role="menuitemradio"
+				aria-checked="true" data-menu-value="default" data-menu-label="기본">
+				<span class="dropdown-model-name">기본</span>
+				<span class="dropdown-model-desc">추천</span>
+				<span class="dropdown-model-check" aria-hidden="true">✓</span>
+			</button>
+		</div>
+	</div>
+</div>

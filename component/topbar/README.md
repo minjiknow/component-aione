@@ -2,7 +2,7 @@
 
 - 실제 fragment: `topbar.html`
 - 검수 위치: `component/index.html`의 Navigation 영역
-- 필수 CSS: `css/common.css`
+- 필수 CSS: `component/button/button.css`, `component/topbar/topbar.css`
 - 필수 JS: `js/common.js`
 - 사용 방식: 화면당 한 번만 포함하는 singleton
 

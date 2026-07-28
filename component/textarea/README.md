@@ -2,7 +2,7 @@
 
 여러 줄 값을 입력하는 라벨+Textarea 조합입니다. 공통 외곽 구조는 `form-field/form-field.html`을 사용하고 `component/index.html`의 Forms 영역에서 전체 상태를 확인합니다.
 
-- 필수 CSS: `css/common.css`
+- 필수 CSS: `component/form-field/form-field.css`, `component/textarea/textarea.css`
 - 선택 JS: `js/common.js` (`data-character-count`를 사용하는 경우)
 - 변경 대상: `id`, `name`, label의 `for`, `maxlength`, 도움말/글자 수 ID
 - 실제 상태 클래스: `.is-error`, `.is-success`

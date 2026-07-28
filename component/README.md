@@ -5,32 +5,43 @@
 ## 파일 역할
 
 - `README.md`: 복사용 마크업과 필수 CSS/JS, 상태, 슬롯, 이벤트, ID 규칙을 설명하는 개발 계약입니다.
-- `컴포넌트명.html`: 페이지가 실제로 include하는 실행형 컴포넌트에만 둡니다. `html`, `head`, `body`, CSS, JS를 포함하지 않습니다.
-- `button/button.html`, `button/icon-button.html`, `checkbox/checkbox.html`, `radio/radio.html`, `toggle/toggle.html`, `filter-btn/filter-btn.html`, `chip/chip.html`, `badge/badge.html`, `count-badge/count-badge.html`, `status-badge/status-badge.html`, `file-list/file-list.html`, `file-item/file-item.html`, `chat-message/chat-message.html`, `tab/tab.html`, `tab/tab-button.html`: 각 컴포넌트의 전체 상태를 확인하는 검수용 독립 페이지이며 include fragment가 아닙니다.
+- `컴포넌트명.html`: 해당 컴포넌트만 독립적으로 확인하는 검수 페이지입니다.
+- `컴포넌트명.fragment.html`: 페이지 또는 JSP가 include하는 마크업입니다. `html`, `head`, `body`, CSS, JS를 포함하지 않습니다.
+- `컴포넌트명.css`: 해당 컴포넌트가 소유하는 스타일입니다. 화면 CSS인 `css/ai-*.css`를 의존하지 않습니다.
+- `컴포넌트명.js`: 해당 컴포넌트의 초기화, 상태, 이벤트 API를 소유합니다.
 - `form-field/form-field.html`: Input, Select, Textarea의 label, control, meta 슬롯을 묶는 공통 include fragment입니다.
 - `file-upload/file-upload.html`: AI Intake 업로드 영역을 기준으로 고정 아이콘과 변경 가능한 title, content, input 슬롯을 제공하는 공통 include fragment입니다.
 - `service-card/service-card.html`: AI-ONE 홈의 기존 Service Card 마크업을 재사용하는 include fragment입니다.
 - `_preview/component-preview.css`: 통합 카탈로그와 Button 상세 카탈로그에서만 사용합니다. 운영 페이지에는 포함하지 않습니다.
-- `index.html`: 모든 컴포넌트와 Form 상태의 대표 형태를 외부 include 없이 직접 확인하는 통합 검수 페이지입니다.
+- `index.html`: 기존 Sidebar 형태에서 `Actions`, `Display`, `Forms`, `Layouts`, `Navigation` 분류별 컴포넌트 메뉴를 선택하는 통합 검수 진입 페이지입니다. Button과 Icon Button은 상세 카탈로그를 바로 표시하고 나머지는 대표 카드를 표시합니다.
+- `componentgroup-card.html`: 모든 컴포넌트와 Form 상태의 대표 형태를 외부 include 없이 직접 렌더링하는 카드 모음 페이지입니다.
 
-Input, Select, Textarea는 `form-field` fragment에 각 컨트롤을 슬롯으로 전달합니다. Button, Checkbox, Radio, Toggle, Filter Button, Chip, Badge, CountBadge, StatusBadge, FileList, FileItem, ChatMessage, Tab처럼 화면에서 직접 작성하거나 데이터로 반복 렌더링하는 컴포넌트는 별도 fragment를 만들지 않고 README의 마크업을 복사합니다. 각 상세 카탈로그 HTML은 시각 검수용일 뿐 include하지 않습니다. Topbar, Sidebar, Panel처럼 페이지가 include하는 컴포넌트만 HTML fragment를 유지합니다.
+ProgressBar, Toast, ChatMessage, PromptComposer, DataTable, DropdownMenu, Modal, SidePop은 각 폴더의 `fragment.html`, CSS, JS를 한 묶음으로 관리합니다. `component-loader.js`는 선언된 컴포넌트의 자산을 문서당 한 번만 로드하고, 마크업 삽입 후 컴포넌트 초기화 이벤트를 발생시킵니다. React 런타임을 사용하는 것은 아니지만 컴포넌트별 소유권과 초기화 경계를 같은 방식으로 유지합니다.
 
-카탈로그에서는 include fragment 파일을 직접 열지 않고 각 컴포넌트의 `README`만 연결합니다. 실제 fragment 마크업은 해당 README의 `Fragment 소스` 영역에서 확인하고 복사합니다.
+DropdownMenu의 공식 예제는 기존 `html/ai-home.html`과 `html/ai-chatbot.html`의 모델 선택 메뉴를 공통화한 다크 단일 선택형입니다. 일반 라이트 액션 메뉴는 기존 화면 출처가 확인되지 않아 공식 기존 스타일 예제에서 제외합니다.
 
-## 공통 의존성
+Modal은 AI Answer의 `대화 작업 팝업` Small 160px, 기존 `삭제 팝업` Medium 380px, `이름변경 팝업` Large 960px의 3단계로 검수합니다. 기존 화면의 마크업과 시각 규칙은 재사용하되 스타일 소유권은 `component/modal/modal.css`에 둡니다.
+
+### ChatMessage 속성 규칙
+
+ChatMessage의 `data-variant`는 발화자가 아니라 화면별 표현 방식을 선택합니다. 허용값은 AI Answer의 `answer`와 AI-ONE 챗봇의 `chatbot`이며, 메시지 목록과 목록 안의 각 메시지에 같은 값을 적용합니다. 발화자는 `data-role="user|ai"`, 응답 상태는 `data-status="complete|pending"`로 구분합니다. 전체 마크업과 동작 계약은 `chat-message/README.md`를 기준으로 사용합니다.
+
+## 공통 기반과 컴포넌트 의존성
 
 ```html
 <link rel="stylesheet" href="${contextPath}/css/common.css" />
-<script src="${contextPath}/js/common.js"></script>
+<link rel="stylesheet" href="${contextPath}/component/<name>/<name>.css" />
+<script src="${contextPath}/component/component-loader.js" defer></script>
 ```
 
-JSP에서는 실제 프로젝트의 context path 정책에 맞게 경로만 변환합니다. README 예제와 실행형 fragment의 클래스명 및 `data-*` 속성은 변경하지 않습니다.
+`common.css`는 토큰, reset, 공통 환경만 담당합니다. 모든 컴포넌트는 `component/<name>/<name>.css`를 필수 엔트리로 가지며, 컴포넌트의 표현과 동작은 각 폴더의 CSS/JS에서 가져옵니다. 페이지에서 정적 include를 사용하는 경우에도 해당 컴포넌트 CSS/JS를 함께 한 번만 포함합니다.
 
 ## 폴더 구조
 
 - 실제 화면은 `html`, 화면별 스타일은 `css`, 화면별 스크립트는 `js`에 둡니다.
 - 공통 환경설정과 화면 모드는 `css/common.css`, `js/common.js`를 사용합니다.
-- 컴포넌트 검수 화면은 `component/index.html`에서 확인합니다.
+- 컴포넌트 전용 마크업, 스타일, 동작은 `component/<name>/` 안에서 함께 관리합니다.
+- 컴포넌트 검수는 `component/index.html`에서 메뉴를 선택하고, 실제 카드는 `component/componentgroup-card.html`에서 확인합니다.
 - `_preview` 파일은 컴포넌트 검수에만 사용하며 실제 화면에는 포함하지 않습니다.
 
 ## 상태 규칙
@@ -49,15 +60,23 @@ JSP에서는 실제 프로젝트의 context path 정책에 맞게 경로만 변�
 
 ## HTML include 규칙
 
-퍼블리싱 검수 환경에서는 다음 형식으로 fragment를 불러옵니다.
+퍼블리싱 검수 환경에서는 다음 형식으로 컴포넌트를 불러옵니다. `data-component-*`는 fragment의 `{{속성명}}`에 전달됩니다.
 
 ```html
-<div data-include="panel/panel" data-include-source="html">
-    <!-- 슬롯 내용 -->
+<div data-component-include="progressbar" data-component-value="82">
+    <template data-slot="label">신뢰도</template>
 </div>
+<script src="${contextPath}/component/component-loader.js" defer></script>
 ```
 
-JSP 개발에서는 `data-include` 로더를 그대로 사용할 필요가 없습니다. 같은 fragment를 JSP include, tag file 또는 layout template으로 치환하되 최종 렌더링 DOM이 `index.html`의 미리보기와 같도록 유지합니다.
+슬롯은 include 요소의 직계 자식인 `<template data-slot="...">`으로 전달합니다. Modal이나 SidePop처럼 외부 트리거와 ID를 맞춰야 하는 컴포넌트는 `data-component-id`를 지정합니다.
+
+```html
+<button type="button" data-modal-open="deleteWorkModal">삭제</button>
+<div data-component-include="modal" data-component-id="deleteWorkModal"></div>
+```
+
+JSP 개발에서는 로더를 그대로 사용할 필요가 없습니다. 같은 `*.fragment.html`을 JSP include, tag file 또는 layout template으로 치환하고 CSS/JS를 번들에서 한 번만 포함하되 최종 DOM과 `data-*` 계약은 유지합니다.
 
 ## 인계 전 체크리스트
 

@@ -2,7 +2,7 @@
 
 업무 유형처럼 짧은 분류 정보를 표시할 때 사용합니다. AI-ONE 홈의 기존 `.type-badge` 스타일을 공통 CSS로 옮겨 그대로 재사용합니다.
 
-- 필수 CSS: `css/common.css`
+- 필수 CSS: `component/badge/badge.css`
 - 필수 JS: 없음
 - 검수 페이지: `component/badge/badge.html`
 - 기본 클래스: `.type-badge`

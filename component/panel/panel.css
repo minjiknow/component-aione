@@ -1,0 +1,132 @@
+@charset "utf-8";
+
+.panel-component {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--border, #d1d9e0);
+    border-radius: var(--radius-lg, 12px);
+    background: var(--surface, #fff);
+    box-shadow: var(--shadow, 0 1px 3px rgba(31, 35, 40, 0.08));
+}
+
+.panel-component-slot {
+    display: contents;
+}
+
+.panel-component-body {
+    min-height: 0;
+    flex: 1;
+    padding: 16px;
+    overflow: auto;
+}
+
+.panel-component-empty {
+    display: flex;
+    min-height: 100%;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted, #8b949e);
+    font-size: 12px;
+    text-align: center;
+}
+
+.three-panel {
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+    flex: 1;
+    grid-template-columns: 360px 2px minmax(0, 1fr) 2px 360px;
+    gap: 0;
+    padding: 8px;
+    overflow: hidden;
+    background: var(--bg, #f6f8fa);
+}
+
+.three-panel > .panel {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--border, #d1d9e0);
+    border-radius: var(--radius-lg, 12px);
+    background: var(--surface, #fff);
+    box-shadow: 0 1px 3px rgba(31, 35, 40, 0.04);
+}
+
+.three-panel > .panel.drag-over {
+    outline: 2px dashed var(--primary, #0969da);
+    outline-offset: -2px;
+    background: rgba(9, 105, 218, 0.03);
+}
+
+:is(.three-panel, .panel-component) .panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border, #d1d9e0);
+    flex-shrink: 0;
+}
+
+:is(.three-panel, .panel-component) .panel-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text, #1f2328);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+:is(.three-panel, .panel-component) .panel-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+:is(.three-panel, .panel-component) .panel-action-btn {
+    padding: 4px 10px;
+    border-radius: var(--radius-sm, 6px);
+    color: var(--text-muted, #8b949e);
+    font-size: 12px;
+}
+
+:is(.three-panel, .panel-component) .panel-action-btn:hover {
+    background: var(--surface-el, #f0f3f6);
+    color: var(--text, #1f2328);
+}
+
+:is(.three-panel > .panel, .panel-component).panel-collapsed {
+    width: 44px;
+    min-width: 44px !important;
+    max-width: 44px !important;
+    align-items: center;
+    overflow: hidden;
+}
+
+:is(.three-panel > .panel, .panel-component).panel-collapsed .panel-title,
+:is(.three-panel > .panel, .panel-component).panel-collapsed .panel-action-btn,
+.panel-component.panel-collapsed .panel-component-body {
+    display: none;
+}
+
+.panel-card {
+    margin-bottom: 8px;
+    padding: 12px;
+    border: 1px solid var(--border, #d1d9e0);
+    border-radius: var(--radius, 10px);
+    background: var(--surface, #fff);
+}
+
+.panel-card:hover {
+    border-color: var(--primary, #0969da);
+}
+
+@media (max-width: 1120px) {
+    .three-panel {
+        grid-template-columns: 280px 2px minmax(0, 1fr) 2px 280px;
+    }
+}

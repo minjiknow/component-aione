@@ -1,0 +1,125 @@
+@charset "utf-8";
+
+.file-list-section {
+    min-width: 0;
+}
+
+.file-list-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.file-list-heading {
+    min-width: 0;
+    flex: 1;
+}
+
+.file-list-title {
+    color: var(--text, #1f2328);
+    font-size: calc(12px * var(--ui-font-scale, 1));
+    font-weight: 600;
+}
+
+.file-list-guide {
+    margin-top: 4px;
+    color: var(--text-muted, #8b949e);
+    font-size: calc(10px * var(--ui-font-scale, 1));
+    line-height: 1.5;
+    word-break: keep-all;
+}
+
+.upload-summary-inline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 0 0 auto;
+    color: var(--text-muted, #8b949e);
+    font-size: calc(10.5px * var(--ui-font-scale, 1));
+    line-height: 1.2;
+}
+
+.upload-summary-value {
+    color: var(--text-sub, #656d76);
+    font-weight: 700;
+}
+
+.upload-summary-file-count.match {
+    color: var(--green, #1a7f37);
+}
+
+.file-list {
+    min-height: 0;
+    max-height: calc(100vh - 352px);
+    padding: 0 0 4px;
+    overflow-y: auto;
+    list-style: none;
+}
+
+.file-list:has(.dropdown-menu-component.is-open) {
+    overflow: visible;
+}
+
+.file-list li {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 6px;
+    padding: 12px 12px 12px 10px;
+    border: 1px solid var(--border, #d1d9e0);
+    border-radius: var(--radius, 10px);
+    color: var(--text-sub, #656d76);
+    font-size: calc(11px * var(--ui-font-scale, 1));
+    transition: var(--transition, 0.15s ease);
+}
+
+.file-list li:hover,
+.file-list li.active {
+    border-color: var(--primary, #0969da);
+}
+
+.file-list li.active {
+    background: rgba(9, 105, 218, 0.03);
+}
+
+.file-list li.pinned::before {
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 0;
+    width: 3px;
+    border-radius: 999px;
+    background: var(--primary, #0969da);
+    content: "";
+}
+
+.file-list.simple {
+    max-height: none;
+}
+
+.file-list-empty {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+    border: 1px dashed var(--border, #d1d9e0) !important;
+    background: var(--bg, #f6f8fa);
+}
+
+.file-list-empty div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    color: var(--text-muted, #8b949e);
+    text-align: center;
+}
+
+@media (max-width: 760px) {
+    .file-list-header {
+        flex-direction: column;
+    }
+}

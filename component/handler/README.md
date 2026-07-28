@@ -4,7 +4,7 @@
 
 - `split-handler.html`, `resize-handler.html`: 실제 include fragment
 - 검수 위치: `component/index.html`의 Layouts 영역
-- 필수 CSS: `css/common.css`
+- 필수 CSS: `component/handler/handler.css`
 - 필수 JS: `js/common.js`
 
 ```html
@@ -28,7 +28,7 @@
 - `data-split-min`: 좌우 영역이 줄어들 수 있는 최소 너비입니다.
 - `.sub-head`, `.sub-title`: 각 영역의 제목 행과 제목에 사용하는 공통 클래스입니다. 제목 문구와 우측 옵션은 페이지 슬롯에서 작성합니다.
 - 마우스, 터치, `ArrowLeft`, `ArrowRight` 키로 너비를 조절할 수 있습니다.
-- 공통 구조와 스타일, 리사이즈 동작은 각각 `split-handler.html`, `common.css`, `common.js`에서 관리합니다.
+- 공통 구조와 스타일은 각각 `split-handler.html`, `handler.css`에서 관리하며, 현재 리사이즈 동작은 `common.js`를 사용합니다.
 - 페이지 CSS에는 간격이나 특정 영역의 고정 너비처럼 해당 화면에만 필요한 차이만 작성합니다.
 
 ## Resize handler

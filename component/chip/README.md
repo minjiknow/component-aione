@@ -1,8 +1,8 @@
 # Chip 컴포넌트
 
-필터 결과를 전환하는 Filter Button과 구분되는 일반 칩입니다. AI Answer의 기존 추천 프롬프트와 추천 키워드 스타일을 `common.css`로 옮겨 그대로 재사용합니다.
+필터 결과를 전환하는 Filter Button과 구분되는 일반 칩입니다. AI Answer의 기존 추천 프롬프트와 추천 키워드 스타일을 컴포넌트 전용 CSS로 분리해 재사용합니다.
 
-- 필수 CSS: `css/common.css`
+- 필수 CSS: `component/chip/chip.css`
 - 필수 JS: 없음
 - 검수 페이지: `component/chip/chip.html`
 - 클릭형 Action Chip: `.chat-tag`

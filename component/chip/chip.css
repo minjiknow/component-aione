@@ -1,0 +1,35 @@
+@charset "utf-8";
+
+.chat-tag {
+    padding: 4px 10px;
+    border: 1px solid var(--border, #d1d9e0);
+    border-radius: var(--radius-badge, 14px);
+    background: transparent;
+    color: var(--text-muted, #8b949e);
+    font: inherit;
+    font-size: calc(11px * var(--ui-font-scale, 1));
+    transition:
+        border-color var(--transition, 0.15s ease),
+        color var(--transition, 0.15s ease);
+}
+
+.chat-tag:hover {
+    border-color: var(--primary, #0969da);
+    color: var(--primary, #0969da);
+}
+
+.chat-tag:focus-visible {
+    outline: 2px solid rgba(9, 105, 218, 0.28);
+    outline-offset: 2px;
+}
+
+.rec-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm, 6px);
+    background: rgba(209, 217, 224, 0.32);
+    color: var(--text-muted, #8b949e);
+    font-size: calc(10px * var(--ui-font-scale, 1));
+    line-height: 1.5;
+}

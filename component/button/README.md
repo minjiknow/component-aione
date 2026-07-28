@@ -5,7 +5,7 @@
 - 대표 검수: `component/index.html`의 Actions 영역
 - 전체 일반 버튼: `component/button/button.html`
 - 전체 아이콘 버튼: `component/button/icon-button.html`
-- 필수 CSS: 공통 버튼은 `css/common.css`; 페이지 전용 버튼은 상세 카탈로그에 표시된 해당 페이지 CSS
+- 필수 CSS: `component/button/button.css`; 페이지 전용 버튼은 상세 카탈로그에 표시된 해당 페이지 CSS
 - JS: `data-icon` 아이콘 경로와 좋아요·싫어요 토글은 `js/common.js` 사용
 
 ## 일반 버튼

@@ -1,0 +1,94 @@
+@charset "utf-8";
+
+.tabs {
+    min-width: 0;
+}
+
+.tab-list {
+    display: flex;
+    align-items: stretch;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--border, #d1d9e0);
+    background: var(--surface, #fff);
+}
+
+.tab {
+    flex: 0 0 auto;
+    min-height: 38px;
+    margin-bottom: -1px;
+    padding: 0 14px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    color: var(--text-muted, #8b949e);
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.tab:is(.active, .is-active, [aria-selected="true"]) {
+    border-bottom-color: var(--primary, #0969da);
+    color: var(--primary, #0969da);
+    font-weight: 600;
+}
+
+.tab-button-list {
+    display: flex;
+    padding: 3px;
+    border: 1px solid var(--border, #d1d9e0);
+    border-radius: var(--radius, 10px);
+    background: var(--surface, #fff);
+    box-shadow: 0 1px 2px rgba(31, 35, 40, 0.04);
+}
+
+.tab-button {
+    padding: 6px 16px;
+    border: 0;
+    border-radius: var(--radius-sm, 6px);
+    background: transparent;
+    color: var(--text-muted, #8b949e);
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.tab-button:hover:not(.active, .is-active, [aria-selected="true"], :disabled, [aria-disabled="true"]) {
+    background: var(--surface-el, #f0f3f6);
+    color: var(--text, #1f2328);
+}
+
+.tab-button:is(.active, .is-active, [aria-selected="true"]) {
+    background: var(--primary, #0969da);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(9, 105, 218, 0.3);
+}
+
+.tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 16px;
+    height: 16px;
+    margin-left: 4px;
+    padding: 0 4px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.tab-button:not(.active, .is-active, [aria-selected="true"]) .tab-count {
+    background: var(--surface-el, #f0f3f6);
+    color: var(--text-muted, #8b949e);
+}
+
+:is(.tab, .tab-button):focus-visible {
+    z-index: 1;
+    outline: 2px solid var(--primary, #0969da);
+    outline-offset: 2px;
+}
+
+.tab-panel[hidden] {
+    display: none;
+}

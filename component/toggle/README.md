@@ -2,7 +2,7 @@
 
 기능을 즉시 켜거나 끄는 설정에 사용합니다. 내부 상태는 브라우저 기본 `<input type="checkbox">`로 관리하고 `role="switch"`로 스위치 의미를 전달합니다.
 
-- 필수 CSS: `css/common.css`
+- 필수 CSS: `component/toggle/toggle.css`
 - 필수 JS: 없음
 - 검수 페이지: `component/toggle/toggle.html`
 - 상태: `checked`, `disabled`

@@ -2,7 +2,7 @@
 
 목록이나 필터의 항목 수를 짧게 표시할 때 사용합니다. 기존 Filter Button에서 사용하는 `.filter-count`를 별도 컴포넌트로 문서화합니다.
 
-- 필수 CSS: `css/common.css`
+- 필수 CSS: `component/count-badge/count-badge.css`
 - 필수 JS: 없음
 - 검수 페이지: `component/count-badge/count-badge.html`
 - 클래스: `.filter-count`

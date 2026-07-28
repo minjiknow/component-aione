@@ -2,7 +2,7 @@
 
 여러 항목을 독립적으로 선택할 때 사용합니다. 별도 JS 컴포넌트를 만들지 않고 브라우저 기본 `<input type="checkbox">`를 유지해 폼 전송, 키보드 조작, 접근성 동작을 그대로 사용합니다.
 
-- 필수 CSS: `css/common.css`
+- 필수 CSS: `component/checkbox/checkbox.css`
 - 필수 JS: 없음
 - 검수 페이지: `component/checkbox/checkbox.html`
 - 상태: `checked`, `disabled`
