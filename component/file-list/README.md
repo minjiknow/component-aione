@@ -2,8 +2,8 @@
 
 파일 업로드 후 표시되는 목록 전체 영역입니다. 기본형은 AI Intake의 현재 `.file-list-section` 구조를 사용하고, `simple` 변형은 AI Answer의 dot·제목·상태 Badge 목록 구조를 그대로 사용합니다. 목록 안의 한 행은 `FileItem` 컴포넌트 규칙을 따릅니다.
 
-- 필수 CSS: 기본형 `css/ai-intake.css`, Simple형 `css/ai-answer.css`, 공통 `css/common.css`
-- 필수 JS: 화면의 업로드 목록 렌더링 스크립트
+- 필수 CSS: `component/file-list/file-list.css`, `component/file-item/file-item.css`, `component/dropdownmenu/dropdownmenu.css`
+- 필수 JS: 화면의 업로드 목록 렌더링 스크립트, `component/dropdownmenu/dropdownmenu.js`
 - 검수 페이지: `component/file-list/file-list.html`
 - 전체 영역: `.file-list-section`
 - 헤더: `.file-list-header`
@@ -58,4 +58,4 @@ React의 `simple` boolean prop이 `true`일 때와 동일한 구조입니다. �
 
 Simple형의 `.file-remove-simple`은 평상시 `opacity: 0`이라 보이지 않지만 너비는 유지됩니다. `.file-item-simple`을 hover하면 기존 AI Answer 스타일에 따라 `×` 버튼이 표시됩니다.
 
-기본형의 각 FileItem에는 `.file-action-wrap` 안에 기존 `.file-more-btn`을 렌더링합니다.
+기본형의 각 FileItem에는 `.file-action-wrap.dropdown-menu-component` 안에 기존 `.file-more-btn`과 `목록 고정`·`삭제` 소형 메뉴를 렌더링합니다.

@@ -1,0 +1,40 @@
+<div class="prompt-composer-shell" data-component="promptcomposer" data-prompt-composer>
+	<form class="prompt-composer">
+		<div class="prompt-composer-tools">
+			<input class="prompt-composer-file-input" id="{{id}}-file" data-prompt-file-input
+				type="file" multiple />
+			<button type="button" class="icon-button icon-button-ghost prompt-composer-attach"
+				data-prompt-attach aria-label="파일 첨부" title="파일 첨부">
+				<img class="icon icon-small" data-icon="plus" alt="" aria-hidden="true" />
+			</button>
+		</div>
+		<input class="prompt-composer-input" data-prompt-input type="text"
+			placeholder="AI-ONE에게 물어보기" autocomplete="off" />
+		<div class="prompt-composer-actions">
+			<div class="dropdown-menu-component" data-dropdown-menu>
+				<button type="button" class="button dropdown-menu-model-trigger" data-dropdown-trigger
+					aria-haspopup="menu" aria-expanded="false" aria-controls="{{id}}-model-menu">
+					<span data-dropdown-label>기본</span>
+					<img class="icon icon-xsmall" data-icon="chevron-down" alt="" aria-hidden="true" />
+				</button>
+				<div class="dropdown-menu dropdown-menu-model" id="{{id}}-model-menu" role="menu"
+					data-placement="top-end" hidden>
+					<span class="dropdown-menu-label">모델 선택</span>
+					<div data-slot="models">
+						<button type="button" class="dropdown-menu-item" role="menuitemradio"
+							aria-checked="true" data-menu-value="default" data-menu-label="기본">
+							<span class="dropdown-model-name">기본</span>
+							<span class="dropdown-model-desc">추천</span>
+							<span class="dropdown-model-check" aria-hidden="true">✓</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="icon-button icon-button-primary prompt-composer-submit"
+				data-prompt-submit aria-label="프롬프트 전송" title="프롬프트 전송" disabled>
+				<img class="icon icon-primary" data-icon="send" alt="" aria-hidden="true" />
+			</button>
+		</div>
+	</form>
+	<div class="prompt-composer-files" data-prompt-files aria-live="polite"></div>
+</div>

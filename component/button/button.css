@@ -1,0 +1,145 @@
+@charset "utf-8";
+
+:is(.button, .icon-button) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid var(--border, #d1d9e0);
+    border-radius: var(--radius-sm, 6px);
+    background: var(--surface, #fff);
+    color: var(--text-sub, #656d76);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    vertical-align: middle;
+    transition:
+        background-color var(--transition, 0.15s ease),
+        border-color var(--transition, 0.15s ease),
+        color var(--transition, 0.15s ease);
+}
+
+.button {
+    min-height: 32px;
+    gap: 6px;
+    padding: 0 12px;
+    white-space: nowrap;
+}
+
+.icon-button {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+}
+
+.brand-icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+:is(.button, .icon-button):hover:not(:disabled, [aria-disabled="true"]) {
+    border-color: var(--text-muted, #8b949e);
+    background: var(--surface-el, #f0f3f6);
+    color: var(--text, #1f2328);
+}
+
+:is(.button, .icon-button, .brand-icon-button):focus-visible {
+    outline: 2px solid rgba(9, 105, 218, 0.28);
+    outline-offset: 2px;
+}
+
+:is(.button, .icon-button, .brand-icon-button):is(:disabled, [aria-disabled="true"]) {
+    cursor: default;
+    opacity: 0.45;
+}
+
+:is(.button-primary, .icon-button-primary) {
+    border-color: var(--primary, #0969da);
+    background: var(--primary, #0969da);
+    color: #fff;
+}
+
+:is(.button-primary, .icon-button-primary):hover:not(:disabled, [aria-disabled="true"]) {
+    border-color: var(--primary-dark, #0550ae);
+    background: var(--primary-dark, #0550ae);
+    color: #fff;
+}
+
+:is(.button-ghost, .icon-button-ghost) {
+    border-color: transparent;
+    background: transparent;
+}
+
+.button-outline {
+    background: transparent;
+}
+
+:is(.button-accent, .icon-button-accent) {
+    border-color: var(--green, #1a7f37);
+    background: transparent;
+    color: var(--green, #1a7f37);
+}
+
+:is(.button-purple, .icon-button-purple) {
+    border-color: var(--purple, #8250df);
+    background: transparent;
+    color: var(--purple, #8250df);
+}
+
+:is(.button-danger, .icon-button-danger) {
+    border-color: rgba(207, 34, 46, 0.3);
+    background: transparent;
+    color: var(--red, #cf222e);
+}
+
+:is(.button-active, .icon-button-active),
+:is(.button, .icon-button)[aria-pressed="true"] {
+    border-color: rgba(9, 105, 218, 0.3);
+    background: rgba(9, 105, 218, 0.08);
+    color: var(--primary, #0969da);
+}
+
+.button-dark {
+    border-color: var(--text, #1f2328);
+    background: var(--text, #1f2328);
+    color: #fff;
+}
+
+.button-sm {
+    min-height: auto;
+    padding: 4px 10px;
+    line-height: normal;
+}
+
+.icon-button-sm {
+    width: 24px;
+    height: 24px;
+}
+
+.icon-button-message {
+    width: 28px;
+    height: 28px;
+}
+
+.icon-button-send {
+    width: 36px;
+    height: 36px;
+}
+
+.icon-button-lg {
+    width: 38px;
+    height: 38px;
+}
+
+:is(.button-primary, .icon-button-primary, .button-dark) img[data-icon] {
+    filter: var(--icon-filter-white);
+}

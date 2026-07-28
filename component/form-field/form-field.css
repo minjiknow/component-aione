@@ -1,0 +1,143 @@
+@charset "utf-8";
+
+.field {
+    min-width: 0;
+}
+.form-row {
+    display: flex;
+    gap: 12px;
+}
+
+.flex1 {
+    min-width: 0;
+    flex: 1 1 0;
+}
+
+.field-spaced {
+    margin-bottom: 16px;
+}
+
+.field-label,
+.form-group > label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--text-sub, #656d76);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.field-required {
+    color: var(--red, #cf222e);
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-input,
+.form-select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border, #d1d9e0);
+    border-radius: var(--radius-sm, 6px);
+    background: var(--bg, #f6f8fa);
+    color: var(--text, #1f2328);
+    font: inherit;
+    font-size: 13px;
+    transition: border-color var(--transition, 0.15s ease), box-shadow var(--transition, 0.15s ease);
+}
+
+.form-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border, #d1d9e0);
+    border-radius: var(--radius-sm, 6px);
+    background: var(--bg, #f6f8fa);
+    color: var(--text, #1f2328);
+    font: inherit;
+    font-size: 12px;
+    line-height: 1.7;
+    resize: vertical;
+}
+
+:is(.form-input, .form-textarea)::placeholder {
+    color: var(--text-muted, #8b949e);
+}
+
+:is(.form-input, .form-textarea, .form-select):hover:not(:disabled, [readonly]) {
+    border-color: var(--text-muted, #8b949e);
+}
+
+:is(.form-input, .form-textarea, .form-select):is(:focus, :active),
+.field:focus-within > :is(.form-input, .form-textarea, .form-select) {
+    outline: none;
+    border-color: var(--primary, #0969da);
+    box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.12);
+}
+
+.form-textarea:is(:focus, :active),
+.field:focus-within > .form-textarea {
+    box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.08);
+}
+
+.field.is-error > :is(.form-input, .form-textarea, .form-select) {
+    border-color: var(--red, #cf222e);
+    box-shadow: 0 0 0 3px rgba(207, 34, 46, 0.1);
+}
+
+.field.is-success > :is(.form-input, .form-textarea, .form-select) {
+    border-color: var(--green, #1a7f37);
+    box-shadow: 0 0 0 3px rgba(26, 127, 55, 0.1);
+}
+
+:is(.form-input, .form-textarea, .form-select):disabled {
+    cursor: default;
+    border-color: var(--border, #d1d9e0);
+    background: var(--surface-el, #f0f3f6);
+    color: var(--text-muted, #8b949e);
+    box-shadow: none;
+    opacity: 0.72;
+}
+
+.form-input[readonly],
+.form-textarea[readonly] {
+    background: var(--bg, #f6f8fa);
+    color: var(--text-sub, #656d76);
+}
+
+.field-help {
+    margin-top: 6px;
+    color: var(--text-muted, #8b949e);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.field.is-error .field-help {
+    color: var(--red, #cf222e);
+}
+
+.field.is-success .field-help {
+    color: var(--green, #1a7f37);
+}
+
+.field-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.field-count {
+    margin-top: 6px;
+    margin-left: auto;
+    color: var(--text-muted, #8b949e);
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+@media (max-width: 520px) {
+    .form-row {
+        flex-direction: column;
+    }
+}

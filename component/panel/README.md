@@ -5,7 +5,7 @@
 - `three-panel.html`: 왼쪽·가운데·오른쪽 배치, 크기 조절, 순서 변경
 - `panel.html`: 개별 패널의 공통 외곽 구조와 접기 상태
 - 검수 위치: `component/index.html`의 Layouts 영역
-- 필수 CSS: `css/common.css`
+- 필수 CSS: `component/panel/panel.css`
 - 필수 JS: `js/common.js`
 
 실제 페이지에서는 `three-panel`의 각 슬롯에 `panel`을 하나씩 넣습니다. 패널 안에 다른 패널을 중첩하지 않습니다.

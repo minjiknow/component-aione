@@ -1,0 +1,32 @@
+@charset "utf-8";
+
+.type-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: var(--radius-badge, 14px);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.type-badge.ai {
+    background: rgba(9, 105, 218, 0.07);
+    color: var(--primary, #0969da);
+}
+
+.type-badge.search {
+    background: rgba(130, 80, 223, 0.07);
+    color: var(--purple, #8250df);
+}
+
+.type-badge.report {
+    background: rgba(191, 135, 0, 0.07);
+    color: var(--orange, #bf8700);
+}
+
+.type-badge.doc {
+    background: rgba(26, 127, 55, 0.07);
+    color: var(--green, #1a7f37);
+}

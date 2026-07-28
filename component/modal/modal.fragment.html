@@ -1,0 +1,50 @@
+<div class="custom-modal-backdrop{{backdropClass}}" id="{{id}}" data-component="modal" data-modal hidden>
+	<section class="custom-modal modal-{{size}} modal-variant-{{variant}}" role="dialog" aria-modal="true"
+		data-modal-variant="{{variant}}" aria-label="{{label}}">
+		<div class="modal-variant-panel" data-modal-panel="action-menu">
+			<div class="modal-action-menu" role="menu">
+				<button type="button" class="modal-action-item" role="menuitem" data-modal-close>
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<circle cx="18" cy="5" r="3" />
+						<circle cx="6" cy="12" r="3" />
+						<circle cx="18" cy="19" r="3" />
+						<line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+						<line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+					</svg>
+					대화 공유
+				</button>
+				<button type="button" class="modal-action-item" role="menuitem" data-modal-close>
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path d="M12 2v20M12 2 8 6M12 2l4 4" />
+					</svg>
+					고정
+				</button>
+				<button type="button" class="modal-action-item" role="menuitem" data-modal-close>
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+					</svg>
+					이름 변경
+				</button>
+				<button type="button" class="modal-action-item danger" role="menuitem" data-modal-close>
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<polyline points="3 6 5 6 21 6" />
+						<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+					</svg>
+					삭제
+				</button>
+			</div>
+		</div>
+
+		<div class="modal-variant-panel" data-modal-panel="content">
+			<div class="custom-modal-icon danger" aria-hidden="true">⚠</div>
+			<div class="custom-modal-title" id="{{id}}-title" data-slot="title">작업을 삭제할까요?</div>
+			<div class="custom-modal-msg" id="{{id}}-description" data-slot="description">
+				삭제한 작업은 다시 복구할 수 없습니다.
+			</div>
+			<div class="custom-modal-actions" data-slot="actions">
+				<button type="button" class="btn-cancel" data-modal-close>취소</button>
+				<button type="button" class="btn-confirm danger">삭제</button>
+			</div>
+		</div>
+	</section>
+</div>

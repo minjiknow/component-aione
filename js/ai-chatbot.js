@@ -247,6 +247,43 @@
     if (sendBtn) sendBtn.disabled = input.value.trim().length === 0;
   }
 
+  function queueAiResponse(text, onComplete) {
+    const pendingMessage = { role: 'ai', text: '', pending: true };
+    messages.push(pendingMessage);
+    renderMessages();
+
+    setTimeout(() => {
+      pendingMessage.text = generateResponse(text);
+      pendingMessage.pending = false;
+      renderMessages();
+      if (typeof onComplete === 'function') onComplete();
+    }, 800);
+  }
+
+  function retryAiResponse(index) {
+    const message = messages[index];
+    if (!message || message.role !== 'ai' || message.pending) return;
+
+    let query = '';
+    for (let messageIndex = index - 1; messageIndex >= 0; messageIndex -= 1) {
+      if (messages[messageIndex].role === 'user') {
+        query = messages[messageIndex].text;
+        break;
+      }
+    }
+    if (!query) return;
+
+    message.text = '';
+    message.pending = true;
+    renderMessages();
+
+    setTimeout(() => {
+      message.text = generateResponse(query);
+      message.pending = false;
+      renderMessages();
+    }, 800);
+  }
+
   function sendFromCenter() {
     const input = $('#chatInputCenter');
     const text = input.value.trim();
@@ -264,13 +301,7 @@
     if (wrapper) wrapper.classList.remove('hidden');
 
     messages.push({ role: 'user', text });
-    renderMessages();
-
-    setTimeout(() => {
-      messages.push({ role: 'ai', text: generateResponse(text) });
-      renderMessages();
-      $('#chatInput').focus();
-    }, 800);
+    queueAiResponse(text, () => $('#chatInput').focus());
   }
 
   function sendMessage() {
@@ -288,17 +319,11 @@
 
     // User message
     messages.push({ role: 'user', text });
-    renderMessages();
     input.value = '';
     updateSendBtnState(input);
 
     // AI response (simulated)
-    setTimeout(() => {
-      const aiText = generateResponse(text);
-      messages.push({ role: 'ai', text: aiText });
-      renderMessages();
-      input.focus();
-    }, 800);
+    queueAiResponse(text, () => input.focus());
   }
 
   function generateResponse(query) {
@@ -315,16 +340,22 @@
     const container = $('#chatMessages');
     container.innerHTML = messages.map((m, i) => {
       if (m.role === 'user') {
-        return `<div class="chat-msg user">${m.text}</div>`;
-      } else {
-        return `<div class="chat-msg ai">
-          <div class="msg-avatar"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+        return `<div class="chat-msg user" data-component="chat-message" data-variant="chatbot" data-role="user">${m.text}</div>`;
+      }
+      if (m.pending) {
+        return `<div class="chat-msg ai is-pending" data-component="chat-message" data-variant="chatbot" data-role="ai" data-status="pending">
+          <div class="msg-avatar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+          <div class="msg-content"><span class="chat-typing-ellipsis" role="status" aria-label="답변 생성 중">...</span></div>
+        </div>`;
+      }
+      return `<div class="chat-msg ai" data-component="chat-message" data-variant="chatbot" data-role="ai" data-status="complete">
+          <div class="msg-avatar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
           <div class="msg-content">${m.text.replace(/\n/g, '<br>')}</div>
           <div class="msg-actions">
             <button class="msg-action-btn" data-action="like" data-msg-idx="${i}" aria-label="좋아요" aria-pressed="false" title="좋아요"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>
             <button class="msg-action-btn" data-action="dislike" data-msg-idx="${i}" aria-label="싫어요" aria-pressed="false" title="싫어요"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10zM17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>
-            <button class="msg-action-btn" data-action="retry" data-msg-idx="${i}" title="다시 생성"><svg viewBox="0 0 24 24" width="14" height="14"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
-            <button class="msg-action-btn" data-action="copy" data-msg-idx="${i}" title="복사"><svg viewBox="0 0 24 24" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+            <button class="msg-action-btn" data-action="retry" data-msg-idx="${i}" aria-label="다시 생성" title="다시 생성"><svg viewBox="0 0 24 24" width="14" height="14"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
+            <button class="msg-action-btn" data-action="copy" data-msg-idx="${i}" aria-label="복사" title="복사"><svg viewBox="0 0 24 24" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
             <button class="msg-action-btn msg-report-btn" data-action="report" data-msg-idx="${i}" aria-label="오류신고" title="오류신고"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></button>
             <div class="msg-more-wrap">
               <button class="msg-action-btn msg-more-btn" data-msg-idx="${i}" aria-label="더보기">···</button>
@@ -340,30 +371,19 @@
             </div>
           </div>
         </div>`;
-      }
     }).join('');
     container.scrollTop = container.scrollHeight;
 
-    // Bind message action buttons (like/dislike/retry/copy/report)
-    $$('.msg-action-btn:not(.msg-more-btn)', container).forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const action = btn.dataset.action;
-        const idx = parseInt(btn.dataset.msgIdx);
-        if (action === 'like') {
-          const isActive = btn.classList.toggle('active');
-          btn.setAttribute('aria-pressed', String(isActive));
-        } else if (action === 'dislike') {
-          const isActive = btn.classList.toggle('active');
-          btn.setAttribute('aria-pressed', String(isActive));
-        } else if (action === 'retry') {
-          // no-op placeholder for regenerate
-        } else if (action === 'copy') {
-          const msg = messages[idx];
-          if (msg) navigator.clipboard.writeText(msg.text).catch(() => {});
-        } else if (action === 'report') {
-          openReportDrawer();
-        }
+    window.ChatMessage?.bind(container, {
+      getText: ({ button }) => messages[Number(button.dataset.msgIdx)]?.text || '',
+      onRetry: ({ button }) => retryAiResponse(Number(button.dataset.msgIdx))
+    });
+
+    // Bind screen-specific report action.
+    $$('.msg-report-btn', container).forEach(btn => {
+      btn.addEventListener('click', (event) => {
+        event.stopPropagation();
+        openReportDrawer();
       });
     });
 

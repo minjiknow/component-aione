@@ -2,7 +2,7 @@
 
 여러 선택지 중 하나만 고를 때 사용합니다. 별도 JS 컴포넌트를 만들지 않고 브라우저 기본 `<input type="radio">`를 사용합니다.
 
-- 필수 CSS: `css/common.css`
+- 필수 CSS: `component/radio/radio.css`
 - 필수 JS: 없음
 - 검수 페이지: `component/radio/radio.html`
 - 상태: `checked`, `disabled`

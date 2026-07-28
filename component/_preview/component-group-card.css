@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+.component-group-card-page .component-catalog-card[hidden],
+.component-group-card-page .component-catalog-section[hidden] {
+	display: none;
+}
+
+.component-group-card-page.is-single-card-view .component-catalog-card {
+	grid-column: 1 / -1;
+}
+
+.component-group-card-page.is-component-index-embedded {
+	padding: 24px;
+}
+
+.component-group-card-page.is-component-index-embedded .component-catalog-nav {
+	display: none;
+}
+
+.component-group-card-page.is-component-index-embedded .component-catalog-header {
+	margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+	.component-group-card-page.is-component-index-embedded {
+		padding: 16px;
+	}
+}

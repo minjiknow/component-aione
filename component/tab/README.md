@@ -2,7 +2,7 @@
 
 콘텐츠 영역을 같은 위치에서 전환할 때 사용합니다. 기본 `Tab`은 `ai-intake` 문서 보기의 밑줄형 텍스트 탭, `Tab Button`은 `ai-answer`의 상단 버튼형 탭을 공통화한 컴포넌트입니다. 작은 목록 필터는 Tab이 아니라 기존 `Filter Button`을 사용합니다.
 
-- 필수 CSS: `css/common.css`
+- 필수 CSS: `component/tab/tab.css`
 - 필수 JS: `js/common.js`
 - 검수 페이지: `component/tab/tab.html`, `component/tab/tab-button.html`
 - 공통 루트: `.tabs[data-tabs]`

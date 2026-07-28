@@ -466,19 +466,23 @@ body.chat-popup-mode .chat-window-open-btn {
 }
 
 /* Messages */
-.chat-messages {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] {
+    display: block;
     flex: 1;
+    flex-direction: initial;
     max-width: 740px;
     margin: 0 auto;
     width: 100%;
     padding: 20px 0;
+    overflow-y: visible;
+    gap: 0;
 }
-.chat-msg {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] > .chat-msg {
     margin-bottom: 24px;
     line-height: 1.8;
     font-size: 14px;
 }
-.chat-msg.user {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] > .chat-msg.user {
     background: var(--surface-el);
     padding: 14px 20px;
     border-radius: var(--radius-lg);
@@ -486,11 +490,18 @@ body.chat-popup-mode .chat-window-open-btn {
     margin-left: auto;
     color: var(--text);
 }
-.chat-msg.ai {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] > .chat-msg.ai {
+    width: 100%;
+    max-width: none;
+    align-self: stretch;
+    box-sizing: border-box;
     padding: 14px 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
     color: var(--text);
 }
-.chat-msg.ai .msg-avatar {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] > .chat-msg.ai .msg-avatar {
     width: 28px;
     height: 28px;
     border-radius: 50%;
@@ -500,12 +511,47 @@ body.chat-popup-mode .chat-window-open-btn {
     justify-content: center;
     margin-bottom: 10px;
 }
-.chat-msg.ai .msg-avatar svg {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] > .chat-msg.ai .msg-avatar svg {
     width: 14px;
     height: 14px;
     stroke: #fff;
     fill: none;
     stroke-width: 2;
+}
+.chat-typing-ellipsis {
+    display: inline-block;
+    min-width: 34px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 4px;
+    color: var(--primary);
+    background: linear-gradient(90deg, #4dd9c0 0%, #0969da 100%);
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: chatTypingGradient 1.2s ease-in-out infinite;
+}
+@keyframes chatTypingGradient {
+    0%,
+    100% {
+        background-position: 0% 50%;
+        transform: translateY(0);
+        opacity: 0.65;
+    }
+    50% {
+        background-position: 100% 50%;
+        transform: translateY(-2px);
+        opacity: 1;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .chat-typing-ellipsis {
+        animation: none;
+        background-position: 50% 50%;
+        opacity: 1;
+    }
 }
 
 /* Input */
@@ -746,13 +792,13 @@ body.chat-popup-mode .chat-window-open-btn {
 }
 
 /* Message Actions */
-.msg-actions {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] .msg-actions {
     display: flex;
     align-items: center;
     gap: 2px;
     margin-top: 8px;
 }
-.msg-action-btn {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] .msg-action-btn {
     width: 28px;
     height: 28px;
     display: flex;
@@ -763,14 +809,16 @@ body.chat-popup-mode .chat-window-open-btn {
     font-size: 14px;
     transition: var(--transition);
 }
-.msg-action-btn:hover {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] .msg-action-btn:hover {
     background: var(--surface-el);
     color: var(--text);
 }
-.msg-action-btn.active {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] .msg-action-btn.active,
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] .msg-action-btn[aria-pressed="true"] {
+    background: var(--surface-el);
     color: var(--primary);
 }
-.msg-action-btn svg {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] .msg-action-btn svg {
     stroke: currentColor;
     fill: none;
     stroke-width: 2;
@@ -779,12 +827,12 @@ body.chat-popup-mode .chat-window-open-btn {
 }
 
 /* Message More Menu */
-.msg-more-wrap {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] .msg-more-wrap {
     position: relative;
     display: flex;
     align-items: center;
 }
-.msg-more-menu {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] .msg-more-menu {
     position: absolute;
     top: 100%;
     left: 0;
@@ -797,10 +845,10 @@ body.chat-popup-mode .chat-window-open-btn {
     padding: 8px;
     border: 1px solid var(--border);
 }
-.msg-more-menu.hidden {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] .msg-more-menu.hidden {
     display: none;
 }
-.msg-more-item {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] .msg-more-item {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -812,13 +860,13 @@ body.chat-popup-mode .chat-window-open-btn {
     transition: background 0.15s;
     text-align: left;
 }
-.msg-more-item:hover {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] .msg-more-item:hover {
     background: var(--surface-el);
 }
-.msg-more-item.active {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] .msg-more-item.active {
     background: var(--surface-el);
 }
-.msg-more-item svg {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] .msg-more-item svg {
     stroke: var(--text-sub);
     fill: none;
     stroke-width: 1.8;
@@ -828,7 +876,7 @@ body.chat-popup-mode .chat-window-open-btn {
 }
 
 /* Report Button */
-.msg-report-btn:hover {
+:is(body.ai-chatbot-page, body.component-catalog-page, body.control-preview-page) [data-chat-message-list][data-variant="chatbot"] .msg-report-btn:hover {
     background: rgba(207, 34, 46, 0.08);
     color: #cf222e;
 }

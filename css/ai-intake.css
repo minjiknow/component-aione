@@ -1507,15 +1507,6 @@ body {
 }
 .qd-confidence-bar-wrap {
     flex: 1;
-    height: 8px;
-    background: var(--surface-elevated);
-    border-radius: 4px;
-    overflow: hidden;
-}
-.qd-confidence-bar-fill {
-    height: 100%;
-    border-radius: 4px;
-    transition: width 0.3s ease;
 }
 .qd-confidence-value {
     font-size: calc(13px * var(--ui-font-scale));
@@ -1737,15 +1728,6 @@ body {
 }
 .confidence-bar-wrap {
     flex: 1;
-    height: 6px;
-    background: var(--surface-elevated);
-    border-radius: 3px;
-    overflow: hidden;
-}
-.confidence-bar-fill {
-    height: 100%;
-    border-radius: 3px;
-    transition: width 0.3s ease;
 }
 .confidence-value {
     font-size: calc(11px * var(--ui-font-scale));

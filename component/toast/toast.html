@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko" class="control-preview-root">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Toast 컴포넌트</title>
+	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
+	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
+	<link rel="stylesheet" href="../button/button.css?v=20260728" />
+	<link rel="stylesheet" href="toast.css?v=20260728" />
+	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260727-7" />
+</head>
+<body class="control-preview-page">
+	<main class="control-preview">
+		<header class="control-preview-header">
+			<div>
+				<h1 class="control-preview-title">Toast</h1>
+				<p class="control-preview-desc">작업 결과 문구를 호출 시점에 바꿔 표시하는 하단 중앙 알림입니다.</p>
+			</div>
+			<a class="control-preview-back" href="../index.html#display">컴포넌트 목록</a>
+		</header>
+
+		<section class="control-preview-section" aria-labelledby="toast-default-title">
+			<h2 class="control-preview-section-title" id="toast-default-title">Default</h2>
+			<div class="control-toast-preview">
+				<div class="ai-one-toast is-visible" role="status" aria-live="polite" aria-atomic="true">
+					<span class="ai-one-toast-message">v1.0(09:18) 답변서 초안을 다운로드합니다.</span>
+				</div>
+			</div>
+		</section>
+
+		<section class="control-preview-section" aria-labelledby="toast-message-title">
+			<h2 class="control-preview-section-title" id="toast-message-title">메시지 변경</h2>
+			<div class="control-use-list">
+				<article class="control-use-case">
+					<span class="control-use-label">Download</span>
+					<button class="button button-primary" type="button"
+						data-toast-demo-message="v1.0(09:18) 답변서 초안을 다운로드합니다.">다운로드 알림</button>
+				</article>
+				<article class="control-use-case">
+					<span class="control-use-label">Complete</span>
+					<button class="button button-outline" type="button"
+						data-toast-demo-message="답변서 초안 생성이 완료되었습니다.">완료 알림</button>
+				</article>
+			</div>
+		</section>
+	</main>
+
+	<div class="ai-one-toast" id="toastDemo" data-toast role="status"
+		aria-live="polite" aria-atomic="true" hidden>
+		<span class="ai-one-toast-message" data-toast-message></span>
+	</div>
+
+	<script src="toast.js?v=20260728"></script>
+	<script>
+		document.querySelectorAll("[data-toast-demo-message]").forEach((button) => {
+			button.addEventListener("click", () => {
+				window.AIOneToast.show(button.dataset.toastDemoMessage, {
+					target: "#toastDemo",
+					duration: 2000
+				});
+			});
+		});
+	</script>
+</body>
+</html>

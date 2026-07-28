@@ -2,7 +2,7 @@
 
 현재 처리 단계나 완료 상태를 표시할 때 사용합니다. AI Intake에서 사용하던 `.status-badge`, `.badge-sample`, `.badge-done` 스타일을 공통 CSS로 옮겨 그대로 재사용합니다.
 
-- 필수 CSS: `css/common.css`
+- 필수 CSS: `component/status-badge/status-badge.css`
 - 필수 JS: 없음
 - 검수 페이지: `component/status-badge/status-badge.html`
 - 기본 클래스: `.status-badge`

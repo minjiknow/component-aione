@@ -4,8 +4,8 @@ Input, Select, Textarea가 공통으로 사용하는 라벨·컨트롤·도움�
 
 - 실제 fragment: `form-field.html`
 - 검수 위치: `component/index.html`의 Forms 영역
-- 필수 CSS: `css/common.css`
-- 2열 Select 배치 CSS: `css/ai-intake.css`의 기존 `.form-row`, `.flex1`
+- 필수 CSS: `component/form-field/form-field.css`
+- 2열 Select 배치: 같은 CSS의 `.form-row`, `.flex1`
 - 선택 JS: `js/common.js` (`data-character-count`를 사용하는 경우)
 - 필수 슬롯: `label`, `control`, `meta`
 - 실제 상태 클래스: `.is-error`, `.is-success`

@@ -1,0 +1,53 @@
+@charset "utf-8";
+
+.progressbar-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.progressbar-label {
+    flex: 0 0 auto;
+    color: var(--text-muted, #8b949e);
+    font-size: 11px;
+}
+
+.progressbar {
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 auto;
+    height: 6px;
+    overflow: hidden;
+    border-radius: 3px;
+    background: var(--surface-elevated, #eff2f5);
+}
+
+.progressbar.progressbar-lg {
+    height: 8px;
+    border-radius: 4px;
+}
+
+.progressbar-fill {
+    width: var(--progressbar-value, 0%);
+    height: 100%;
+    border-radius: inherit;
+    background: var(--progressbar-color, var(--primary, #0969da));
+    transition: width 0.3s ease, background-color 0.2s ease;
+}
+
+.progressbar.is-high .progressbar-fill {
+    --progressbar-color: var(--green, #1a7f37);
+}
+
+.progressbar.is-low .progressbar-fill {
+    --progressbar-color: var(--primary, #0969da);
+}
+
+.progressbar-value {
+    min-width: 34px;
+    flex: 0 0 auto;
+    color: var(--text, #1f2328);
+    font-size: 11px;
+    font-weight: 700;
+    text-align: right;
+}

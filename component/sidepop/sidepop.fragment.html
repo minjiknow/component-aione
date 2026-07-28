@@ -1,0 +1,257 @@
+<div class="sidepop-layer" id="{{id}}" data-component="sidepop" data-sidepop hidden>
+	<button type="button" class="sidepop-backdrop" data-sidepop-close aria-label="사이드 팝업 닫기"></button>
+	<aside class="sidepop sidepop-{{size}} sidepop-variant-{{variant}}" role="dialog" aria-modal="true"
+		data-sidepop-variant="{{variant}}" aria-label="보조 작업 Drawer">
+		<section class="sidepop-variant-panel" data-sidepop-panel="run-list">
+			<header class="sidepop-header">
+				<div class="sidepop-heading">
+					<h2 class="sidepop-title">실행 목록</h2>
+					<p class="sidepop-description">타이틀 단위로 파일·의원·질의 현황을 확인합니다.</p>
+				</div>
+				<button type="button" class="icon-button icon-button-ghost" data-sidepop-close
+					aria-label="실행 목록 닫기">×</button>
+			</header>
+			<div class="sidepop-list-position">
+				<button type="button" class="sidepop-position-button" aria-label="Drawer를 왼쪽으로 이동">
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<rect x="3.5" y="4" width="17" height="16" rx="2" />
+						<path d="M16 5.5V18.5M14 12H7M9.5 9.5 7 12l2.5 2.5" />
+					</svg>
+					<span>좌측으로 이동</span>
+				</button>
+			</div>
+			<div class="sidepop-list-body">
+				<section class="sidepop-list-section" aria-labelledby="{{id}}-run-list-title">
+					<div class="sidepop-list-section-header">
+						<h3 id="{{id}}-run-list-title">타이틀별 실행 목록</h3>
+						<span class="sidepop-list-count">12건</span>
+					</div>
+					<label class="sidepop-list-search">
+						<svg viewBox="0 0 24 24" aria-hidden="true">
+							<circle cx="11" cy="11" r="7" />
+							<path d="m20 20-3.6-3.6" />
+						</svg>
+						<input type="search" placeholder="타이틀 검색" aria-label="타이틀 검색" />
+					</label>
+					<div class="sidepop-list-meta">
+						<span>전체 <strong>12건</strong></span>
+						<select class="sidepop-list-sort" aria-label="실행 목록 정렬">
+							<option>최신순</option>
+							<option>과거순</option>
+						</select>
+					</div>
+					<ul class="sidepop-scroll-list" aria-label="타이틀별 실행 목록">
+						<li class="sidepop-run-item">
+							<span class="sidepop-run-state" aria-label="완료"></span>
+							<div class="sidepop-run-main">
+								<strong class="sidepop-run-title">재경위 제437회국회(임시회) 제1차 전체회의</strong>
+								<div class="sidepop-run-meta">
+									<span>2026.07.21 14:23</span>
+									<span class="sidepop-run-status">완료</span>
+								</div>
+								<div class="sidepop-run-badges">
+									<span class="sidepop-run-badge">파일 2건</span>
+									<span class="sidepop-run-badge member">의원 18명</span>
+									<span class="sidepop-run-badge query">질의 8건</span>
+								</div>
+							</div>
+							<button type="button" class="sidepop-item-more" aria-label="실행 항목 메뉴">⋮</button>
+						</li>
+						<li class="sidepop-run-item">
+							<span class="sidepop-run-state" aria-label="완료"></span>
+							<div class="sidepop-run-main">
+								<strong class="sidepop-run-title">재경위 제429회국회(정기회) 제7차 전체회의</strong>
+								<div class="sidepop-run-meta">
+									<span>2026.07.18 10:45</span>
+									<span class="sidepop-run-status">완료</span>
+								</div>
+								<div class="sidepop-run-badges">
+									<span class="sidepop-run-badge">파일 1건</span>
+									<span class="sidepop-run-badge member">의원 24명</span>
+									<span class="sidepop-run-badge query">질의 12건</span>
+								</div>
+							</div>
+							<button type="button" class="sidepop-item-more" aria-label="실행 항목 메뉴">⋮</button>
+						</li>
+						<li class="sidepop-run-item">
+							<span class="sidepop-run-state" aria-label="완료"></span>
+							<div class="sidepop-run-main">
+								<strong class="sidepop-run-title">예결위 제437회국회(임시회) 제1차 전체회의</strong>
+								<div class="sidepop-run-meta">
+									<span>2026.07.16 16:30</span>
+									<span class="sidepop-run-status">완료</span>
+								</div>
+								<div class="sidepop-run-badges">
+									<span class="sidepop-run-badge">파일 1건</span>
+									<span class="sidepop-run-badge member">의원 28명</span>
+									<span class="sidepop-run-badge query">질의 15건</span>
+								</div>
+							</div>
+							<button type="button" class="sidepop-item-more" aria-label="실행 항목 메뉴">⋮</button>
+						</li>
+						<li class="sidepop-run-item">
+							<span class="sidepop-run-state pending" aria-label="진행 중"></span>
+							<div class="sidepop-run-main">
+								<strong class="sidepop-run-title">예결위 제429회국회(정기회) 제7차 전체회의</strong>
+								<div class="sidepop-run-meta">
+									<span>2026.07.14 09:10</span>
+									<span class="sidepop-run-status pending">진행중</span>
+								</div>
+								<div class="sidepop-run-badges">
+									<span class="sidepop-run-badge">파일 1건</span>
+									<span class="sidepop-run-badge member">의원 21명</span>
+									<span class="sidepop-run-badge query">질의 10건</span>
+								</div>
+							</div>
+							<button type="button" class="sidepop-item-more" aria-label="실행 항목 메뉴">⋮</button>
+						</li>
+						<li class="sidepop-run-item">
+							<span class="sidepop-run-state" aria-label="완료"></span>
+							<div class="sidepop-run-main">
+								<strong class="sidepop-run-title">재경위 제436회국회(임시회) 제3차 전체회의</strong>
+								<div class="sidepop-run-meta">
+									<span>2026.07.11 15:30</span>
+									<span class="sidepop-run-status">완료</span>
+								</div>
+								<div class="sidepop-run-badges">
+									<span class="sidepop-run-badge">파일 1건</span>
+									<span class="sidepop-run-badge member">의원 23명</span>
+									<span class="sidepop-run-badge query">질의 14건</span>
+								</div>
+							</div>
+							<button type="button" class="sidepop-item-more" aria-label="실행 항목 메뉴">⋮</button>
+						</li>
+					</ul>
+				</section>
+				<section class="sidepop-list-section" aria-labelledby="{{id}}-work-log-title">
+					<div class="sidepop-list-section-header">
+						<h3 id="{{id}}-work-log-title">최근 작업 로그</h3>
+						<span class="sidepop-list-sort">최신순</span>
+					</div>
+					<ul class="sidepop-work-log">
+						<li class="sidepop-log-item">
+							<time class="sidepop-log-time">14:32:15</time>
+							<span class="sidepop-log-text">OCR 파싱 완료 – 5개 질의 추출</span>
+						</li>
+						<li class="sidepop-log-item">
+							<time class="sidepop-log-time">14:32:10</time>
+							<span class="sidepop-log-text">부서 매칭 시작 (AI 모델 v2.3)</span>
+						</li>
+						<li class="sidepop-log-item">
+							<time class="sidepop-log-time">14:31:58</time>
+							<span class="sidepop-log-text">질의 분류 작업을 시작했습니다.</span>
+						</li>
+					</ul>
+				</section>
+			</div>
+		</section>
+
+		<section class="sidepop-variant-panel" data-sidepop-panel="chat-list">
+			<header class="sidepop-header">
+				<div class="sidepop-heading">
+					<h2 class="sidepop-title">채팅 목록</h2>
+					<p class="sidepop-description">AI 채팅 대화 이력을 확인하고 전환합니다.</p>
+				</div>
+				<button type="button" class="icon-button icon-button-ghost" data-sidepop-close
+					aria-label="채팅 목록 닫기">×</button>
+			</header>
+			<div class="sidepop-list-position">
+				<button type="button" class="sidepop-position-button" aria-label="Drawer를 왼쪽으로 이동">
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<rect x="3.5" y="4" width="17" height="16" rx="2" />
+						<path d="M16 5.5V18.5M14 12H7M9.5 9.5 7 12l2.5 2.5" />
+					</svg>
+					<span>좌측으로 이동</span>
+				</button>
+			</div>
+			<div class="sidepop-list-body">
+				<label class="sidepop-list-search">
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<circle cx="11" cy="11" r="7" />
+						<path d="m20 20-3.6-3.6" />
+					</svg>
+					<input type="search" placeholder="채팅 목록 검색" aria-label="채팅 목록 검색" />
+				</label>
+				<div class="sidepop-list-meta">
+					<span>전체 <strong>12건</strong></span>
+					<select class="sidepop-list-sort" aria-label="채팅 목록 정렬">
+						<option>최신순</option>
+						<option>과거순</option>
+					</select>
+				</div>
+				<div class="sidepop-chat-list sidepop-scroll-list" aria-label="채팅 목록">
+					<button type="button" class="sidepop-chat-item is-active">
+						<span class="sidepop-chat-name">
+							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3v-7a4 4 0 0 1-1-3V7a4 4 0 0 1 4-4h11a4 4 0 0 1 4 4z" /></svg>
+							지방채 인수 추경 답변서 초안 작성
+						</span>
+						<time class="sidepop-chat-time">2026.07.20<br />11:05</time>
+					</button>
+					<button type="button" class="sidepop-chat-item">
+						<span class="sidepop-chat-name">
+							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3v-7a4 4 0 0 1-1-3V7a4 4 0 0 1 4-4h11a4 4 0 0 1 4 4z" /></svg>
+							공자기금 인수금리 조건 정리
+						</span>
+						<time class="sidepop-chat-time">2026.07.20<br />10:22</time>
+					</button>
+					<button type="button" class="sidepop-chat-item">
+						<span class="sidepop-chat-name">
+							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3v-7a4 4 0 0 1-1-3V7a4 4 0 0 1 4-4h11a4 4 0 0 1 4 4z" /></svg>
+							광주·전남 통합특별시 추경 수요
+						</span>
+						<time class="sidepop-chat-time">2026.07.19<br />16:40</time>
+					</button>
+					<button type="button" class="sidepop-chat-item">
+						<span class="sidepop-chat-name">
+							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3v-7a4 4 0 0 1-1-3V7a4 4 0 0 1 4-4h11a4 4 0 0 1 4 4z" /></svg>
+							세수결손 대응계획 답변서 검토
+						</span>
+						<time class="sidepop-chat-time">2026.07.18<br />15:12</time>
+					</button>
+					<button type="button" class="sidepop-chat-item">
+						<span class="sidepop-chat-name">
+							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3v-7a4 4 0 0 1-1-3V7a4 4 0 0 1 4-4h11a4 4 0 0 1 4 4z" /></svg>
+							국가채무비율 전망 근거자료 정리
+						</span>
+						<time class="sidepop-chat-time">2026.07.18<br />09:35</time>
+					</button>
+					<button type="button" class="sidepop-chat-item">
+						<span class="sidepop-chat-name">
+							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3v-7a4 4 0 0 1-1-3V7a4 4 0 0 1 4-4h11a4 4 0 0 1 4 4z" /></svg>
+							공공기관 경영평가 개선 질의
+						</span>
+						<time class="sidepop-chat-time">2026.07.17<br />14:08</time>
+					</button>
+					<button type="button" class="sidepop-chat-item">
+						<span class="sidepop-chat-name">
+							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3v-7a4 4 0 0 1-1-3V7a4 4 0 0 1 4-4h11a4 4 0 0 1 4 4z" /></svg>
+							종합부동산세 세율 조정 영향
+						</span>
+						<time class="sidepop-chat-time">2026.07.16<br />11:26</time>
+					</button>
+					<button type="button" class="sidepop-chat-item">
+						<span class="sidepop-chat-name">
+							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3v-7a4 4 0 0 1-1-3V7a4 4 0 0 1 4-4h11a4 4 0 0 1 4 4z" /></svg>
+							간이과세 기준금액 상향 검토
+						</span>
+						<time class="sidepop-chat-time">2026.07.15<br />17:42</time>
+					</button>
+				</div>
+			</div>
+		</section>
+
+		<section class="sidepop-content-panel" data-sidepop-panel="content">
+			<header class="sidepop-header">
+				<div class="sidepop-heading">
+					<h2 class="sidepop-title" id="{{id}}-title" data-slot="title">작업 상세</h2>
+					<p class="sidepop-description" id="{{id}}-description" data-slot="description">선택한 작업의 정보를 확인합니다.</p>
+				</div>
+				<button type="button" class="icon-button icon-button-ghost" data-sidepop-close aria-label="닫기">×</button>
+			</header>
+			<div class="sidepop-body" data-slot="body"></div>
+			<footer class="sidepop-footer" data-slot="footer">
+				<button type="button" class="button button-outline" data-sidepop-close>닫기</button>
+			</footer>
+		</section>
+	</aside>
+</div>

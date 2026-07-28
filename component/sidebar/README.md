@@ -3,8 +3,8 @@
 - 기본 fragment: `sidebar.html`
 - 챗봇 fragment: `sidebar-chatbot.html`
 - 검수 위치: `component/index.html`의 Navigation 영역
-- 필수 CSS: `css/common.css`
-- 챗봇 추가 CSS: `css/ai-chatbot.css`
+- 필수 CSS: `component/button/button.css`, `component/sidebar/sidebar.css`
+- 챗봇 variant 스타일도 `component/sidebar/sidebar.css`가 소유하며, 실제 챗봇 페이지의 레이아웃 CSS만 `css/ai-chatbot.css`가 담당합니다.
 - 필수 JS: `js/common.js`
 - 사용 방식: 화면당 하나만 포함하는 singleton
 

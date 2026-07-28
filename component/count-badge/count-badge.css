@@ -1,0 +1,15 @@
+@charset "utf-8";
+
+.filter-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    padding: 1px 6px;
+    border-radius: var(--radius-badge, 14px);
+    background: var(--surface-elevated, #f0f3f6);
+    color: var(--text-muted, #8b949e);
+    font-size: calc(10px * var(--ui-font-scale, 1));
+    font-weight: 700;
+    line-height: 1.4;
+}

@@ -1,5 +1,47 @@
 @charset "utf-8";
 
+@font-face {
+    font-family: "Pretendard Variable";
+    src: url("../../assets/font/PretendardVariable.woff2") format("woff2-variations");
+    font-weight: 45 920;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --ui-font-scale: 1;
+    --bg: #f6f8fa;
+    --surface: #fff;
+    --surface-el: #f0f3f6;
+    --surface-elevated: #f0f3f6;
+    --border: #d1d9e0;
+    --text: #1f2328;
+    --text-sub: #656d76;
+    --text-muted: #8b949e;
+    --primary: #0969da;
+    --primary-dark: #0550ae;
+    --green: #1a7f37;
+    --red: #cf222e;
+    --orange: #bf8700;
+    --purple: #8250df;
+    --cyan: #1b7c83;
+    --gray: #6e7781;
+    --radius: 10px;
+    --radius-sm: 6px;
+    --radius-badge: 14px;
+    --radius-lg: 12px;
+    --sidebar-w: 232px;
+    --topbar-h: 56px;
+    --shadow: 0 1px 3px rgba(31, 35, 40, 0.08);
+    --shadow-lg: 0 4px 20px rgba(31, 35, 40, 0.12);
+    --transition: 0.15s ease;
+    --icon-filter-text: brightness(0) saturate(100%) invert(11%) sepia(8%) saturate(1032%) hue-rotate(169deg) brightness(95%) contrast(90%);
+    --icon-filter-primary: brightness(0) saturate(100%) invert(34%) sepia(90%) saturate(2155%) hue-rotate(199deg) brightness(88%) contrast(101%);
+    --icon-filter-green: brightness(0) saturate(100%) invert(39%) sepia(40%) saturate(1324%) hue-rotate(88deg) brightness(88%) contrast(95%);
+    --icon-filter-red: brightness(0) saturate(100%) invert(22%) sepia(90%) saturate(3833%) hue-rotate(348deg) brightness(86%) contrast(91%);
+    --icon-filter-white: brightness(0) saturate(100%) invert(1);
+}
+
 /* ==========================================================================
    Base: reset, design tokens, shared elements
    ========================================================================== */

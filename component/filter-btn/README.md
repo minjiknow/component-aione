@@ -2,7 +2,7 @@
 
 AI Intake 질의 목록의 표시 범위를 좁히는 필터 버튼입니다. 기존 `.filter-btn`, `.filter-count`는 유지하고 목록 컨테이너는 공통 `.filter-bar`를 사용합니다.
 
-- 필수 CSS: `css/common.css`
+- 필수 CSS: `component/count-badge/count-badge.css`, `component/filter-btn/filter-btn.css`
 - 필수 JS: `js/common.js`
 - 검수 페이지: `component/filter-btn/filter-btn.html`
 - 목록 클래스: `.filter-bar`

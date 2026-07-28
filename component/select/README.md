@@ -2,7 +2,7 @@
 
 기존 화면의 `form-select`를 그대로 사용하는 라벨+Select 조합입니다. 공통 외곽 구조는 `form-field/form-field.html`을 사용하고 `component/index.html`의 Forms 영역에서 전체 상태를 확인합니다.
 
-- 필수 CSS: `css/common.css`
+- 필수 CSS: `component/form-field/form-field.css`, `component/select/select.css`
 - 필수 JS: 없음
 - 변경 대상: `id`, `name`, label의 `for`, option의 `value`와 문구
 - 실제 상태 클래스: `.is-error`, `.is-success`

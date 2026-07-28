@@ -1,0 +1,58 @@
+@charset "utf-8";
+
+.upload-zone {
+    margin: 12px 12px 10px;
+    padding: 20px 12px;
+    border: 1px dashed var(--border, #d1d9e0);
+    border-radius: var(--radius, 10px);
+    background: transparent;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition, 0.15s ease);
+}
+
+.upload-zone:hover,
+.upload-zone.dragover {
+    border-color: var(--primary, #0969da);
+    background: rgba(9, 105, 218, 0.02);
+}
+
+.upload-zone:focus-visible {
+    outline: 2px solid var(--primary, #0969da);
+    outline-offset: 2px;
+}
+
+.upload-zone svg {
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin: 0 auto 6px;
+    fill: none;
+    stroke: var(--primary, #0969da);
+    stroke-width: 2;
+}
+
+.upload-text {
+    margin-bottom: 4px;
+    color: var(--text-sub, #656d76);
+    font-size: calc(11px * var(--ui-font-scale, 1));
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.upload-hint {
+    display: block;
+    margin-top: 4px;
+    color: var(--text-muted, #8b949e);
+    font-size: calc(10px * var(--ui-font-scale, 1));
+    line-height: 1.5;
+}
+
+.upload-zone input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}

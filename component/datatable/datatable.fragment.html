@@ -1,0 +1,34 @@
+<section class="data-table-container" data-component="datatable"
+	style="--data-table-max-width: {{maxWidth}}; --data-table-max-height: {{maxHeight}};">
+	<header class="data-table-header">
+		<h2 class="data-table-title" data-slot="title">최근 사용 이력</h2>
+		<a class="data-table-more" href="#" data-slot="more">전체 이력 보기 ›</a>
+	</header>
+	<div class="data-table-scroll">
+		<table class="data-table" data-datatable>
+			<caption data-slot="caption">최근 사용 이력</caption>
+			<thead>
+				<tr>
+					<th class="data-table-col-service" scope="col">서비스명</th>
+					<th class="data-table-col-type" scope="col">유형</th>
+					<th class="data-table-col-task" scope="col">최근 작업명</th>
+					<th class="data-table-col-updated" scope="col">최근 이용일</th>
+					<th class="data-table-col-status" scope="col">상태</th>
+					<th class="data-table-col-created" scope="col">등록일</th>
+					<th class="data-table-col-actions" scope="col"><span class="sr-only">작업</span></th>
+				</tr>
+			</thead>
+			<tbody data-slot="rows">
+				<tr>
+					<td><span class="data-table-service"><span class="data-table-service-name">국회 답변서 초안 작성</span></span></td>
+					<td>AI초안</td>
+					<td>청년 고용 정책 관련 답변 초안</td>
+					<td>2026.05.20 10:24</td>
+					<td><span class="data-table-status">완료</span></td>
+					<td>2026.05.19</td>
+					<td class="data-table-actions">⋮</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
