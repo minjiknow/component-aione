@@ -4,6 +4,41 @@
   const bindings = new WeakMap();
   const retryTimers = new WeakMap();
   const copyTimers = new WeakMap();
+  const aiAvatarSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>';
+
+  function createPending({
+    variant = 'answer',
+    title = '생성 중',
+    description = '답변서 초안을 생성하고 있습니다...'
+  } = {}) {
+    const message = document.createElement('div');
+    message.className = 'chat-msg ai is-pending';
+    message.dataset.component = 'chat-message';
+    message.dataset.variant = variant;
+    message.dataset.role = 'ai';
+    message.dataset.status = 'pending';
+    message.setAttribute('aria-busy', 'true');
+
+    if (variant === 'answer') {
+      message.classList.add('chat-typing');
+      message.innerHTML = `<div class="typing-avatar">${aiAvatarSvg}</div>
+        <div class="typing-content" role="status">
+          <div class="typing-text-wrap">
+            <span class="typing-title"></span>
+            <span class="typing-desc"></span>
+          </div>
+          <div class="typing-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+        </div>`;
+      message.querySelector('.typing-title').textContent = title;
+      message.querySelector('.typing-desc').textContent = description;
+      return message;
+    }
+
+    message.innerHTML = `<div class="msg-avatar">${aiAvatarSvg}</div>
+      <div class="msg-content" role="status"><span class="chat-typing-ellipsis" aria-hidden="true">...</span></div>`;
+    message.setAttribute('aria-label', title);
+    return message;
+  }
 
   function getMessage(button) {
     return button.closest('[data-component="chat-message"], .chat-msg');
@@ -180,7 +215,7 @@
     lists.forEach(messageList => bind(messageList));
   }
 
-  window.ChatMessage = Object.freeze({ bind, autoBind });
+  window.ChatMessage = Object.freeze({ bind, autoBind, createPending });
   document.addEventListener('DOMContentLoaded', () => autoBind());
   document.addEventListener('app:includes-ready', event => autoBind(event.target));
 })();

@@ -33,7 +33,7 @@
     },
     modal: {
       defaults: { size: 'medium' },
-      styles: ['button/button.css', 'form-field/form-field.css', 'modal/modal.css'],
+      styles: ['button/button.css', 'modal/modal.css'],
       scripts: ['_shared/layer-controller.js', 'modal/modal.js']
     },
     sidepop: {
@@ -42,7 +42,6 @@
         'button/button.css',
         'radio/radio.css',
         'toggle/toggle.css',
-        'form-field/form-field.css',
         'sidepop/sidepop.css'
       ],
       scripts: ['_shared/layer-controller.js', 'sidepop/sidepop.js']
@@ -72,8 +71,16 @@
     }
 
     if (type === 'script') {
-      const scriptPromise = import(url).catch(() => {
-        throw new Error(`컴포넌트 자산을 불러오지 못했습니다: ${relativePath}`);
+      const scriptPromise = new Promise((resolve, reject) => {
+        const element = Object.assign(document.createElement('script'), {
+          src: url
+        });
+        element.dataset.componentAsset = relativePath;
+        element.addEventListener('load', () => resolve(element), { once: true });
+        element.addEventListener('error', () => {
+          reject(new Error(`컴포넌트 자산을 불러오지 못했습니다: ${relativePath}`));
+        }, { once: true });
+        document.head.append(element);
       });
       loadedAssets.set(url, scriptPromise);
       return scriptPromise;
@@ -111,7 +118,14 @@
         values.variant = values.size === 'small' ? 'action-menu' : 'content';
       }
       if (!values.label) {
-        values.label = values.variant === 'action-menu' ? '대화 작업 메뉴' : '확인 팝업';
+        const modalLabels = {
+          'action-menu': '대화 작업 메뉴',
+          alert: '안내 팝업',
+          cancel: '취소 확인 팝업',
+          confirm: '결정 확인 팝업',
+          content: '확인 팝업'
+        };
+        values.label = modalLabels[values.variant] || '확인 팝업';
       }
       values.backdropClass = values.variant === 'action-menu' ? ' modal-menu-backdrop' : '';
     }
@@ -150,6 +164,25 @@
     });
   }
 
+  function rebaseFragmentUrls(fragment, fragmentUrl) {
+    ['href', 'src'].forEach(attribute => {
+      fragment.querySelectorAll(`[${attribute}]`).forEach(element => {
+        const value = element.getAttribute(attribute)?.trim();
+        if (!value
+          || value.startsWith('#')
+          || value.startsWith('/')
+          || /^[a-z][a-z\d+.-]*:/i.test(value)) return;
+        element.setAttribute(attribute, new URL(value, fragmentUrl).href);
+      });
+    });
+  }
+
+  function getFileFallback(name) {
+    if (window.location.protocol !== 'file:') return '';
+    const template = document.querySelector(`template[data-component-file-fallback="${name}"]`);
+    return template?.innerHTML.trim() || '';
+  }
+
   async function mount(host) {
     if (!(host instanceof HTMLElement)
       || ['loading', 'ready'].includes(host.dataset.componentState)) return;
@@ -162,14 +195,21 @@
     const values = getTemplateValues(host, name, definition.defaults);
 
     try {
-      const [fragmentResponse] = await Promise.all([
-        fetch(new URL(definition.fragment, componentRoot)),
-        ...definition.styles.map(path => loadAsset(path, 'style'))
-      ]);
-      if (!fragmentResponse.ok) throw new Error(`컴포넌트 마크업을 불러오지 못했습니다: ${definition.fragment}`);
+      const fragmentUrl = new URL(definition.fragment, componentRoot);
+      const stylesReady = Promise.all(definition.styles.map(path => loadAsset(path, 'style')));
+      let fragmentSource = getFileFallback(name);
+      if (!fragmentSource) {
+        const fragmentResponse = await fetch(fragmentUrl);
+        if (!fragmentResponse.ok) {
+          throw new Error(`컴포넌트 마크업을 불러오지 못했습니다: ${definition.fragment}`);
+        }
+        fragmentSource = await fragmentResponse.text();
+      }
+      await stylesReady;
 
       const template = document.createElement('template');
-      template.innerHTML = renderTemplate(await fragmentResponse.text(), values);
+      template.innerHTML = renderTemplate(fragmentSource, values);
+      rebaseFragmentUrls(template.content, fragmentUrl);
       applySlots(template.content, slots);
       host.replaceChildren(template.content);
 

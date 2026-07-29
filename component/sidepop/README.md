@@ -1,8 +1,8 @@
 # SidePop 컴포넌트
 
-## Small variant
+## 목록 variant
 
-Small은 420px이며 기본 variant는 `run-list`입니다. 같은 Small Drawer를 채팅 이력 용도로 사용할 때는 `chat-list`를 선택합니다.
+`run-list`는 AI Intake 실행 목록과 같은 460px, `chat-list`는 AI Answer 채팅 목록과 같은 420px입니다. Small Drawer의 기본 variant는 `run-list`입니다.
 
 | variant | 용도 | 클래스/속성 |
 |---|---|---|
@@ -31,10 +31,19 @@ include 사용 시 Small은 `data-component-variant`를 생략하면 `run-list`�
 
 JavaScript에서 전환할 때는 `AIOneSidePop.setVariant("smallSidepop", "chat-list")`를 사용합니다.
 
-상세 확인이나 편집처럼 현재 화면의 문맥을 유지해야 하는 작업을 오른쪽 레이어에 표시합니다. Small은 420px, Medium은 820px이며 화면이 좁아지면 뷰포트 안으로 축소됩니다.
+### 목록 스크롤
+
+- `run-list`는 실행 목록과 최근 작업 로그를 두 개의 독립된 section으로 나눕니다.
+- 각 section의 헤더·검색·정렬은 고정되고, 실행 건과 로그 목록만 내부에서 스크롤됩니다.
+- `chat-list`는 검색·정렬을 고정하고 채팅 목록 전체를 하나의 내부 스크롤 영역으로 사용합니다.
+- 목록 데이터가 추가되어도 SidePop 전체 높이나 다른 section의 위치는 변하지 않습니다.
+- 정렬 Select는 화면 기본 글꼴을 상속하며, 실행 항목의 더보기는 AI Intake와 같은 세 점 SVG를 30px 버튼 중앙에 배치합니다.
+
+상세 확인이나 편집처럼 현재 화면의 문맥을 유지해야 하는 작업을 오른쪽 레이어에 표시합니다. 목록 variant는 기준 화면 너비를 따르고, Medium은 820px이며 화면이 좁아지면 뷰포트 안으로 축소됩니다.
 
 - Fragment: `component/sidepop/sidepop.fragment.html`
-- 필수 CSS: `component/button/button.css`, `component/radio/radio.css`, `component/toggle/toggle.css`, `component/form-field/form-field.css`, `component/sidepop/sidepop.css`
+- 필수 CSS: `component/button/button.css`, `component/radio/radio.css`, `component/toggle/toggle.css`, `component/sidepop/sidepop.css`
+- 검수 페이지의 Medium 폼 조합: `component/_shared/form-control.css`, `component/input/input.css`, `component/select/select.css`, `component/textarea/textarea.css`
 - 필수 JS: `component/_shared/layer-controller.js`, `component/sidepop/sidepop.js`
 - 검수 페이지: `component/sidepop/sidepop.html`
 - 열기: `[data-sidepop-open="<layer-id>"]`
@@ -43,7 +52,8 @@ JavaScript에서 전환할 때는 `AIOneSidePop.setVariant("smallSidepop", "chat
 
 | 크기 | 클래스 | 데스크톱 너비 |
 |---|---|---:|
-| Small | `.sidepop-small` | 420px |
+| Small · Run list | `.sidepop-small[data-sidepop-variant="run-list"]` | 460px |
+| Small · Chat list | `.sidepop-small[data-sidepop-variant="chat-list"]` | 420px |
 | Medium | `.sidepop-medium` | 820px |
 
 검수 페이지의 Medium은 기존 AI Intake `rule-drawer` 내용을 그대로 조합합니다.

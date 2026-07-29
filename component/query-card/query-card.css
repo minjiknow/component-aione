@@ -1,0 +1,197 @@
+@charset "utf-8";
+
+.query-card {
+	position: relative;
+	margin-bottom: 8px;
+	padding: 12px;
+	border: 1px solid var(--border, #d1d9e0);
+	border-radius: var(--radius, 10px);
+	background: var(--surface, #fff);
+	cursor: pointer;
+	outline: none;
+	transition:
+		border-color var(--transition, 0.15s ease),
+		box-shadow var(--transition, 0.15s ease);
+}
+
+.query-card:hover,
+.query-card:focus-visible,
+.query-card.is-selected,
+.query-card.mapped {
+	border-color: var(--primary, #0969da);
+	box-shadow: 0 0 0 2px rgba(9, 105, 218, 0.12);
+}
+
+.query-card.needs-review {
+	border-left: 3px solid var(--orange, #bf8700);
+}
+
+.query-card-head {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-bottom: 8px;
+}
+
+.query-num {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 28px;
+	padding: 2px 8px;
+	border-radius: var(--radius-badge, 14px);
+	background: var(--primary, #0969da);
+	color: #fff;
+	font-size: calc(10px * var(--ui-font-scale, 1));
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+.query-num.multi {
+	background: var(--purple, #8250df);
+}
+
+.query-num.none {
+	background: var(--gray, #6e7781);
+}
+
+.query-type {
+	margin-left: auto;
+	padding: 2px 8px;
+	font-size: calc(10px * var(--ui-font-scale, 1));
+}
+
+.query-type.single {
+	border-color: rgba(9, 105, 218, 0.2);
+	background: rgba(9, 105, 218, 0.08);
+	color: var(--primary, #0969da);
+}
+
+.query-type.multi {
+	border-color: rgba(130, 80, 223, 0.2);
+	background: rgba(130, 80, 223, 0.08);
+	color: var(--purple, #8250df);
+}
+
+.query-type.none {
+	border-color: rgba(110, 119, 129, 0.2);
+	background: rgba(110, 119, 129, 0.08);
+	color: var(--gray, #6e7781);
+}
+
+.query-review-badge {
+	padding: 2px 8px;
+	border: 1px solid rgba(191, 135, 0, 0.2);
+	border-radius: var(--radius-badge, 14px);
+	background: rgba(191, 135, 0, 0.1);
+	color: var(--orange, #bf8700);
+	font-size: calc(9px * var(--ui-font-scale, 1));
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+.query-text {
+	display: -webkit-box;
+	margin: 0 0 10px;
+	overflow: hidden;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	color: var(--text-sub, #656d76);
+	font-size: calc(12px * var(--ui-font-scale, 1));
+	line-height: 1.5;
+}
+
+.query-dept {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	margin-bottom: 8px;
+}
+
+.query-dept .rec-tag {
+	border: 1px solid var(--border, #d1d9e0);
+	background: var(--surface-elevated, #eff2f5);
+	font-weight: 500;
+}
+
+.query-dept .rec-tag.main {
+	border-color: rgba(9, 105, 218, 0.2);
+	background: rgba(9, 105, 218, 0.06);
+	color: var(--primary, #0969da);
+}
+
+.query-ai-reason {
+	margin: 8px 0 6px;
+	padding: 6px 8px;
+	border-left: 3px solid var(--primary, #0969da);
+	border-radius: var(--radius-sm, 6px);
+	background: var(--bg, #f6f8fa);
+}
+
+.ai-reason-label {
+	display: block;
+	margin-bottom: 2px;
+	color: var(--primary, #0969da);
+	font-size: calc(10px * var(--ui-font-scale, 1));
+	font-weight: 700;
+}
+
+.ai-reason-text {
+	color: var(--text-sub, #656d76);
+	font-size: calc(10px * var(--ui-font-scale, 1));
+	line-height: 1.4;
+}
+
+.query-confidence-bar {
+	margin-bottom: 8px;
+}
+
+.query-card-foot {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.query-edit-btn {
+	border-color: rgba(9, 105, 218, 0.24);
+	color: var(--primary, #0969da);
+	font-size: calc(10px * var(--ui-font-scale, 1));
+}
+
+.query-edit-btn:hover {
+	border-color: rgba(9, 105, 218, 0.38);
+	background: rgba(9, 105, 218, 0.06);
+	color: var(--primary, #0969da);
+}
+
+.query-conflict {
+	display: flex;
+	align-items: flex-start;
+	gap: 6px;
+	margin: 0 0 8px;
+	padding: 8px 10px;
+	border: 1px solid rgba(191, 135, 0, 0.15);
+	border-radius: var(--radius-sm, 6px);
+	background: rgba(191, 135, 0, 0.06);
+	font-size: calc(11px * var(--ui-font-scale, 1));
+	line-height: 1.5;
+}
+
+.conflict-icon {
+	flex-shrink: 0;
+	font-size: calc(12px * var(--ui-font-scale, 1));
+}
+
+.conflict-text {
+	color: var(--text-sub, #656d76);
+}
+
+.conflict-text strong {
+	color: var(--orange, #bf8700);
+}
+
+@media (max-width: 640px) {
+	.query-card-head {
+		flex-wrap: wrap;
+	}
+}

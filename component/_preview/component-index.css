@@ -25,6 +25,38 @@ body.component-index-page {
 	overflow-y: auto;
 }
 
+.component-index-sidebar.collapsed .component-index-nav::-webkit-scrollbar {
+	width: 3px;
+}
+
+.component-index-sidebar.collapsed .component-index-nav::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.component-index-sidebar.collapsed .component-index-nav::-webkit-scrollbar-thumb {
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--text-muted) 38%, transparent);
+}
+
+.component-index-sidebar.collapsed .component-index-nav::-webkit-scrollbar-thumb:hover {
+	background: color-mix(in srgb, var(--text-muted) 58%, transparent);
+}
+
+.component-index-sidebar.collapsed .nav-link {
+	transform: translateX(2px);
+}
+
+@supports not selector(::-webkit-scrollbar) {
+	.component-index-sidebar.collapsed .component-index-nav {
+		scrollbar-color: color-mix(in srgb, var(--text-muted) 38%, transparent) transparent;
+		scrollbar-width: thin;
+	}
+
+	.component-index-sidebar.collapsed .nav-link {
+		transform: translateX(4px);
+	}
+}
+
 .component-index-nav-loading {
 	padding: 12px;
 	color: var(--text-muted);

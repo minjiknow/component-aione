@@ -97,6 +97,9 @@
 }
 
 [data-chat-message-list][data-variant="answer"] .chat-typing {
+    width: 240px;
+    max-width: 85%;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     align-self: flex-start;
@@ -133,10 +136,14 @@
 }
 
 [data-chat-message-list][data-variant="answer"] .typing-content {
+    min-width: 0;
+    flex: 1 1 auto;
     gap: 10px;
 }
 
 [data-chat-message-list][data-variant="answer"] .typing-text-wrap {
+    min-width: 0;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     gap: 1px;
@@ -146,20 +153,26 @@
     color: var(--text, #1f2328);
     font-size: calc(12px * var(--ui-font-scale, 1));
     font-weight: 600;
+    line-height: 1.2;
 }
 
 [data-chat-message-list][data-variant="answer"] .typing-desc {
+    overflow: hidden;
     color: var(--text-muted, #8b949e);
     font-size: calc(10px * var(--ui-font-scale, 1));
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 [data-chat-message-list][data-variant="answer"] .typing-dots {
+    flex: 0 0 auto;
     gap: 3px;
 }
 
 [data-chat-message-list][data-variant="answer"] .typing-dots span {
-    width: 7px;
-    height: 7px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
     background: var(--primary, #0969da);
     animation: chat-message-dot 1.4s infinite ease-in-out;

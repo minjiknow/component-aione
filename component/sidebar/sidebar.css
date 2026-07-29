@@ -38,6 +38,16 @@
     height: 28px;
 }
 
+.app-sidebar .sidebar-collapse-btn {
+    width: 28px;
+    height: 28px;
+}
+
+.app-sidebar .sidebar-collapse-btn .collapse-icon {
+    width: 16px;
+    height: 16px;
+}
+
 .app-sidebar .brand-text {
     display: flex;
     flex-direction: column;
@@ -84,6 +94,14 @@
     color: var(--text-sub, #656d76);
     font-size: 14px;
     transition: var(--transition, 0.15s ease);
+}
+
+.app-sidebar button.nav-link {
+    border: 0;
+    background: transparent;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
 }
 
 .app-sidebar .nav-link:hover {
@@ -246,7 +264,7 @@
     min-height: 0;
     flex: 1;
     padding: 8px;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 .chatbot-sidebar .nav-group {

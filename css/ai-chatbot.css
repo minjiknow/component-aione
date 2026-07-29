@@ -108,7 +108,7 @@ body {
 .sidebar-nav {
     flex: 1;
     padding: 8px 8px;
-    overflow-y: auto;
+    overflow: hidden;
 }
 .nav-group {
     margin-bottom: 12px;

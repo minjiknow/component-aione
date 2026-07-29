@@ -8,6 +8,8 @@
 	<title>AI-ONE 홈 — 재정경제부 AI 플랫폼</title>
 	<link rel="stylesheet" href="../css/ai-home.css" />
 	<link rel="stylesheet" href="../css/common.css" />
+	<link rel="stylesheet" href="../component/button/button.css?v=20260728-3" />
+	<link rel="stylesheet" href="../component/service-card/service-card.css?v=20260728" />
 </head>
 
 <body>
@@ -16,7 +18,7 @@
 	<aside class="sidebar" id="sidebar">
 		<div class="sidebar-top-bar">
 			<div class="sidebar-brand">
-				<div class="brand-logo">
+				<a class="brand-logo" href="../pages/ai-home.html" aria-label="새 AI-ONE 홈">
 					<svg class="brand-symbol" viewBox="0 0 32 32">
 						<defs>
 							<linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -49,7 +51,7 @@
 							d="M6 16C6 16 2 20 4 24C6 28 11 28 14 26C17 24 16 16 16 16C16 16 14 22 11 24C8 26 5 24 5 21C5 18 6 16 6 16Z"
 							fill="url(#g4)" />
 					</svg>
-				</div>
+				</a>
 				<div class="brand-text"><span class="brand-name">AI-ONE</span><span class="brand-sub">재정경제부 AI
 						플랫폼</span></div>
 			</div>
@@ -183,61 +185,13 @@
 			</div>
 
 			<!-- Service Cards -->
-			<ul class="service-cards" aria-label="AI 서비스">
-				<li class="service-item">
-					<a href="ai-intake.html" class="service-card">
-						<div class="service-card-top">
-							<div class="service-icon blue">
-								<img src="../assets/icons/service-question-classification.svg" width="38" height="38"
-									alt="" aria-hidden="true" />
-							</div>
-						</div>
-						<h3 class="service-title">국회 질의 분류</h3>
-						<p class="service-desc">질의 업로드 · OCR/파싱 · 질의 분류 · 추천실국 확인</p>
-					</a>
-				</li>
-				<li class="service-item">
-					<a href="ai-answer.html" class="service-card">
-						<div class="service-card-top">
-							<div class="service-icon green">
-								<img src="../assets/icons/service-answer-draft.svg" width="38" height="38" alt=""
-									aria-hidden="true" />
-							</div>
-						</div>
-						<h3 class="service-title">국회 답변서 초안 생성</h3>
-						<p class="service-desc">자료 분석 · 유사답변서 추천 · 초안 생성 · 편집</p>
-					</a>
-				</li>
-				<li class="service-item">
-					<a href="#" class="service-card" data-soon aria-disabled="true">
-						<div class="service-card-top">
-							<div class="service-icon orange">
-								<img src="../assets/icons/service-economic-trends.svg" width="38" height="38" alt=""
-									aria-hidden="true" />
-							</div>
-						</div>
-						<h3 class="service-title">국유재산 업무 관리</h3>
-						<p class="service-desc">국유재산 관리전문 챗봇 · 종합계획 동향분석 · 개발 가능 재산 추천</p>
-					</a>
-				</li>
-				<li class="service-item">
-					<a href="#" class="service-card" data-soon aria-disabled="true">
-						<div class="service-card-top">
-							<div class="service-icon purple">
-								<img src="../assets/icons/service-chatbot.svg" width="38" height="38" alt=""
-									aria-hidden="true" />
-							</div>
-						</div>
-						<h3 class="service-title">정책 안내서</h3>
-						<p class="service-desc">정책안내 관리전문 챗봇 · 정책분석 관련자료 · 정책 추천</p>
-					</a>
-				</li>
-			</ul>
+			<ul class="service-cards" aria-label="AI 서비스" data-service-card-list></ul>
 
 			<!-- Recent History -->
 			<div class="home-history">
 				<div class="history-header">
-					<h2 class="history-title">최근 사용 이력</h2><button class="history-more">전체 이력 보기 ›</button>
+					<h2 class="history-title">최근 사용 이력</h2><button type="button"
+						class="button button-text-primary history-more">전체 이력 보기 ›</button>
 				</div>
 				<div class="history-table-wrap">
 					<table class="history-table">
@@ -259,7 +213,8 @@
 		</div>
 	</div>
 
-	<script src="../js/ai-home.js?v=20260723"></script>
+	<script src="../component/service-card/service-card.js?v=20260728"></script>
+	<script src="../js/ai-home.js?v=20260728"></script>
 </body>
 
 </html>

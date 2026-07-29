@@ -1,12 +1,78 @@
-<!-- Service card fragment: .service-cards 내부에 배치합니다. -->
-<li class="service-item">
-	<a href="../../html/ai-intake.html" class="service-card">
-		<div class="service-card-top">
-			<div class="service-icon blue">
-				<img src="../../assets/icons/service-question-classification.svg" width="38" height="38" alt="" aria-hidden="true" />
+<!DOCTYPE html>
+<html lang="ko" class="control-preview-root">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>ServiceCard 컴포넌트</title>
+	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
+	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
+	<link rel="stylesheet" href="service-card.css?v=20260728" />
+	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260728-7" />
+</head>
+<body class="control-preview-page">
+	<main class="control-preview control-preview-wide">
+		<header class="control-preview-header">
+			<div>
+				<h1 class="control-preview-title">ServiceCard</h1>
+				<p class="control-preview-desc">AI-ONE 홈에서 서비스의 아이콘·이름·설명을 표시하고 해당 업무 화면으로 연결하는 카드입니다.</p>
 			</div>
-		</div>
-		<h3 class="service-title">국회 질의 분류</h3>
-		<p class="service-desc">질의 업로드 · OCR/파싱 · 질의 분류 · 추천실국 확인</p>
-	</a>
-</li>
+			<a class="control-preview-back" href="../index.html#display">컴포넌트 목록</a>
+		</header>
+
+		<section class="control-preview-section" aria-labelledby="service-card-state-title">
+			<h2 class="control-preview-section-title" id="service-card-state-title">상태</h2>
+			<div class="control-use-list">
+				<article class="control-use-case">
+					<span class="control-use-label">Active</span>
+					<ul class="service-cards service-card-detail-list" aria-label="활성 ServiceCard 예제"
+						data-service-card-active></ul>
+				</article>
+				<article class="control-use-case">
+					<span class="control-use-label">Disabled</span>
+					<ul class="service-cards service-card-detail-list" aria-label="준비 중 ServiceCard 예제"
+						data-service-card-disabled></ul>
+				</article>
+			</div>
+		</section>
+	</main>
+
+	<script src="service-card.js?v=20260728"></script>
+	<script>
+		window.AIOneServiceCard.renderList('[data-service-card-active]', [
+			{
+				href: '../../html/ai-intake.html',
+				icon: '../../assets/icons/service-question-classification.svg',
+				iconTone: 'blue',
+				title: '국회 질의 분류',
+				description: '질의 업로드 · OCR/파싱 · 질의 분류 · 추천실국 확인'
+			},
+			{
+				href: '../../html/ai-answer.html',
+				icon: '../../assets/icons/service-answer-draft.svg',
+				iconTone: 'green',
+				title: '국회 답변서 초안 생성',
+				description: '자료 분석 · 유사답변서 추천 · 초안 생성 · 편집'
+			}
+		]);
+
+		window.AIOneServiceCard.renderList('[data-service-card-disabled]', [
+			{
+				href: '#',
+				icon: '../../assets/icons/service-economic-trends.svg',
+				iconTone: 'orange',
+				title: '국유재산 업무 관리',
+				description: '국유재산 관리전문 챗봇 · 종합계획 동향분석 · 개발 가능 재산 추천',
+				disabled: true
+			},
+			{
+				href: '#',
+				icon: '../../assets/icons/service-chatbot.svg',
+				iconTone: 'purple',
+				title: '정책 안내서',
+				description: '정책안내 관리전문 챗봇 · 정책분석 관련자료 · 정책 추천',
+				disabled: true
+			}
+		]);
+	</script>
+</body>
+</html>

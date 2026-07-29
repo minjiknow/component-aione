@@ -16,9 +16,44 @@
     folder: '<svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>'
   };
 
+  const serviceCards = [
+    {
+      href: 'ai-intake.html',
+      icon: '../assets/icons/service-question-classification.svg',
+      iconTone: 'blue',
+      title: '국회 질의 분류',
+      description: '질의 업로드 · OCR/파싱 · 질의 분류 · 추천실국 확인'
+    },
+    {
+      href: 'ai-answer.html',
+      icon: '../assets/icons/service-answer-draft.svg',
+      iconTone: 'green',
+      title: '국회 답변서 초안 생성',
+      description: '자료 분석 · 유사답변서 추천 · 초안 생성 · 편집'
+    },
+    {
+      href: '#',
+      icon: '../assets/icons/service-economic-trends.svg',
+      iconTone: 'orange',
+      title: '국유재산 업무 관리',
+      description: '국유재산 관리전문 챗봇 · 종합계획 동향분석 · 개발 가능 재산 추천',
+      disabled: true
+    },
+    {
+      href: '#',
+      icon: '../assets/icons/service-chatbot.svg',
+      iconTone: 'purple',
+      title: '정책 안내서',
+      description: '정책안내 관리전문 챗봇 · 정책분석 관련자료 · 정책 추천',
+      disabled: true
+    }
+  ];
+
   function init() {
+    window.AIOneServiceCard?.renderList('[data-service-card-list]', serviceCards);
     renderHistorySkeleton();
     bindEvents();
+    bindPreparingMenus();
     initSidebar();
     window.setTimeout(renderHistory, 700);
   }
@@ -330,9 +365,6 @@
       });
     });
   }
-  bindPreparingMenus();
-
-
   const commonLogoutBtn = document.querySelector('.lnb-logout-btn');
   if (commonLogoutBtn) {
     commonLogoutBtn.addEventListener('click', () => {

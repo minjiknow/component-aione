@@ -64,12 +64,39 @@ data-panel-action="chat-list" <!-- 채팅 목록 -->
 
 페이지에서 지정한 `class`, `aria-label`, `data-panel` 같은 속성은 불러온 `panel.html`의 최상위 패널에 자동으로 전달됩니다.
 
+## Three Panel 레이아웃 제어
+
+컴포넌트 카탈로그의 `패널 위치 변경`과 `패널 초기화`는 공통 Icon Button을 사용하며, `aria-controls`로 제어할 Three Panel을 지정합니다.
+
+```html
+<button type="button" class="icon-button"
+    data-three-panel-action="rotate"
+    aria-controls="catalogThreePanel"
+    aria-label="패널 위치 변경"
+    title="패널 위치 변경">
+    <img class="icon icon-primary" data-icon="panel-swap" alt="" aria-hidden="true" />
+</button>
+
+<button type="button" class="icon-button"
+    data-three-panel-action="reset"
+    aria-controls="catalogThreePanel"
+    aria-label="패널 초기화"
+    title="패널 초기화">
+    <img class="icon icon-primary" data-icon="layout-columns" alt="" aria-hidden="true" />
+</button>
+```
+
+- `rotate`: 첫 번째 패널을 마지막 위치로 순환 이동하며 패널별 폭을 유지합니다.
+- `reset`: 패널 순서, 너비와 접힘 상태를 최초 레이아웃으로 복원합니다.
+- 실제 화면에서 기존 `#panelSwapBtn`, `#layoutResetBtn`을 사용 중이면 페이지 JavaScript 연결을 유지할 수 있습니다.
+
 ## 적용 화면
 
 - `html/ai-intake.html`
 - `html/ai-answer.html`
+- `pages/ai-workspace.html`
 
-두 화면 모두 `three-panel > panel 3개` 구조로 연결되어 있으며, 패널 순서를 변경한 뒤에도 현재 위치를 기준으로 리사이즈와 접기가 동작합니다. 왼쪽·오른쪽 패널의 고정 폭과 가운데 패널의 가변 폭 역할은 패널 요소를 따라 이동합니다.
+각 화면은 `three-panel > panel 3개` 구조로 연결되어 있으며, 패널 순서를 변경한 뒤에도 현재 위치를 기준으로 리사이즈와 접기가 동작합니다. 왼쪽·오른쪽 패널의 고정 폭과 가운데 패널의 가변 폭 역할은 패널 요소를 따라 이동합니다.
 
 패널 헤더의 빈 영역을 다른 패널로 드래그하면 패널 요소 전체가 목표 순번으로 이동하고, 사이 패널은 한 칸씩 밀립니다. 헤더 안의 버튼이나 입력 요소를 누를 때는 드래그가 시작되지 않습니다.
 

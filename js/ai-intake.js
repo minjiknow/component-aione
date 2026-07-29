@@ -542,6 +542,12 @@
 
     // Filter Button의 선택 상태는 common.js가 관리하고 실제 목록만 이 화면에서 갱신합니다.
     $('.filter-bar')?.addEventListener('filter-btn:change', handleFilterChange);
+    queryList.addEventListener('query-card:edit', event => {
+      openEditModal(Number(event.detail?.id));
+    });
+    queryList.addEventListener('query-card:select', event => {
+      selectQueryCard(Number(event.detail?.id));
+    });
     document.addEventListener('click', event => {
       if (!event.target.closest('.file-action-wrap')) closeFileActionMenus();
       if (!event.target.closest('.run-action-wrap')) closeRunActionMenus();
@@ -626,7 +632,7 @@
           sidebar.classList.remove('collapsed');
           localStorage.removeItem('sidebar-collapsed');
         } else {
-          window.location.href = 'ai-home.html';
+          window.location.href = '../pages/ai-home.html';
         }
       });
     }
@@ -1567,8 +1573,11 @@
     // 대응하는 질의목록 카드도 함께 강조
     const card = $(`.query-card[data-qid="${q.id}"]`, queryList);
     if (card) {
-      $$('.query-card', queryList).forEach(c => c.classList.remove('mapped'));
-      card.classList.add('mapped');
+      $$('.query-card', queryList).forEach(item => {
+        const isCurrent = item === card;
+        item.classList.toggle('mapped', isCurrent);
+        item.classList.toggle('is-selected', isCurrent);
+      });
     }
   }
 
@@ -1625,6 +1634,16 @@
     return pool[q.id % pool.length];
   }
 
+  function selectQueryCard(qid) {
+    const index = sampleQueries.findIndex(query => query.id === qid);
+    if (index === -1) return;
+
+    activeQueryIndex = index;
+    renderDocContentForFile();
+    const box = $(`.orig-query-box[data-qidx="${index}"]`, $('#docOriginal'));
+    if (box) box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
   // ─── Query List ───
   function renderQueryList() {
     const filtered = currentFilter === 'all' ? sampleQueries : sampleQueries.filter(q => q.type === currentFilter);
@@ -1639,64 +1658,13 @@
     if (countMulti) countMulti.textContent = sampleQueries.filter(q => q.type === 'multi').length;
     if (countNone) countNone.textContent = sampleQueries.filter(q => q.type === 'none').length;
 
-    queryList.innerHTML = filtered.map(q => {
-      const reason = getAIReason(q);
-      const needsReview = q.confidence < 80;
-      const reviewBadge = needsReview ? `<span class="query-review-badge">검토필요</span>` : '';
-      return `
-      <div class="query-card${needsReview ? ' needs-review' : ''}" data-qid="${q.id}" data-type="${q.type}">
-        <div class="query-card-head">
-          <span class="query-num ${q.type}">Q${q.id}</span>
-          ${reviewBadge}
-          <span class="query-type ${q.type}">${q.typeLabel}</span>
-        </div>
-        <div class="query-text">${q.text}</div>
-        <div class="query-dept">
-          <span class="dept-tag main">주관: ${q.mainDept}</span>
-          ${q.coopDept ? `<span class="dept-tag">협조: ${q.coopDept}</span>` : ''}
-          ${q.type === 'none' && q.org ? `<span class="dept-tag">비소관: ${q.org}</span>` : ''}
-        </div>
-        <div class="query-ai-reason">
-          <span class="ai-reason-label">AI 분류 근거:</span>
-          <span class="ai-reason-text">${reason}</span>
-        </div>
-        <div class="query-confidence-bar">
-          <span class="confidence-label">신뢰도</span>
-          <div class="progressbar confidence-bar-wrap" data-progressbar data-value="${q.confidence}"
-            role="progressbar" aria-label="신뢰도" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${q.confidence}">
-            <div class="progressbar-fill confidence-bar-fill"></div>
-          </div>
-          <span class="confidence-value">${q.confidence}%</span>
-        </div>
-        ${q.conflict ? `<div class="query-conflict"><span class="conflict-icon">⚡</span><span class="conflict-text">룰 충돌: <strong>${q.conflict.ruleLabel}</strong> → ${q.conflict.ruleDept} / AI 추천 → ${q.conflict.aiDept}</span></div>` : ''}
-        <div class="query-card-foot">
-          <button class="query-edit-btn" data-qid="${q.id}">수정</button>
-        </div>
-      </div>`;
-    }).join('');
-    window.AIOneProgressBar?.init(queryList);
-
-    // Edit buttons
-    $$('.query-edit-btn', queryList).forEach(btn => {
-      btn.addEventListener('click', e => {
-        e.stopPropagation();
-        const qid = parseInt(btn.dataset.qid);
-        openEditModal(qid);
-      });
-    });
-
-    // Card click → 원본 보기의 해당 번호 박스로 이동 + 상세 패널 갱신
-    $$('.query-card', queryList).forEach(card => {
-      card.addEventListener('click', () => {
-        const qid = parseInt(card.dataset.qid);
-        const idx = sampleQueries.findIndex(q => q.id === qid);
-        if (idx === -1) return;
-        activeQueryIndex = idx;
-        renderDocContentForFile();
-        const box = $(`.orig-query-box[data-qidx="${idx}"]`, $('#docOriginal'));
-        if (box) box.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      });
-    });
+    const selectedQueryId = sampleQueries[activeQueryIndex]?.id;
+    window.AIOneQueryCard?.renderList(queryList, filtered.map(query => ({
+      ...query,
+      reason: getAIReason(query),
+      needsReview: query.confidence < 80,
+      selected: query.id === selectedQueryId
+    })));
   }
 
   function handleFilterChange(e) {
@@ -3103,7 +3071,9 @@
     const list = $('#ruleList');
     if (!list) return;
     list.innerHTML = classifyRules.map((r, i) => `
-      <div class="rule-item${i === 0 ? ' active' : ''}${r.active ? '' : ' disabled'}" data-rule-id="${r.id}">
+      <div class="rule-item${i === 0 ? ' active' : ''}${r.active ? '' : ' disabled'}"
+        data-rule-id="${r.id}" role="tab" tabindex="${i === 0 ? '0' : '-1'}"
+        aria-selected="${i === 0 ? 'true' : 'false'}">
         <div class="rule-item-head">
           <span class="rule-item-keywords">${r.keywords}</span>
           <span class="rule-item-status ${r.active ? 'on' : 'off'}">${r.active ? '사용' : '미사용'}</span>
@@ -3112,11 +3082,31 @@
       </div>
     `).join('');
 
-    // Click to select
-    list.querySelectorAll('.rule-item').forEach(item => {
-      item.addEventListener('click', () => {
-        list.querySelectorAll('.rule-item').forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
+    const items = Array.from(list.querySelectorAll('.rule-item'));
+    const activateItem = (item, shouldFocus = false) => {
+      items.forEach(ruleItem => {
+        const isActive = ruleItem === item;
+        ruleItem.classList.toggle('active', isActive);
+        ruleItem.setAttribute('aria-selected', String(isActive));
+        ruleItem.tabIndex = isActive ? 0 : -1;
+      });
+      if (shouldFocus) item.focus();
+    };
+
+    items.forEach((item, index) => {
+      item.addEventListener('click', () => activateItem(item));
+      item.addEventListener('keydown', event => {
+        let nextItem = null;
+
+        if (event.key === 'ArrowDown') nextItem = items[(index + 1) % items.length];
+        if (event.key === 'ArrowUp') nextItem = items[(index - 1 + items.length) % items.length];
+        if (event.key === 'Home') nextItem = items[0];
+        if (event.key === 'End') nextItem = items[items.length - 1];
+        if (['Enter', ' '].includes(event.key)) nextItem = item;
+        if (!nextItem) return;
+
+        event.preventDefault();
+        activateItem(nextItem, true);
       });
     });
   }

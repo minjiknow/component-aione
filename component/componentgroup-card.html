@@ -7,12 +7,12 @@
 	<title>AI-ONE 컴포넌트 그룹 카드</title>
 	<link rel="icon" href="../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
 	<link rel="stylesheet" href="_preview/component-base.css" />
-	<link rel="stylesheet" href="button/button.css?v=20260728" />
+	<link rel="stylesheet" href="button/button.css?v=20260728-3" />
 	<link rel="stylesheet" href="checkbox/checkbox.css?v=20260728" />
 	<link rel="stylesheet" href="radio/radio.css?v=20260728" />
 	<link rel="stylesheet" href="toggle/toggle.css?v=20260728" />
 	<link rel="stylesheet" href="tab/tab.css?v=20260728" />
-	<link rel="stylesheet" href="form-field/form-field.css?v=20260728" />
+	<link rel="stylesheet" href="_shared/form-control.css?v=20260728" />
 	<link rel="stylesheet" href="input/input.css?v=20260728" />
 	<link rel="stylesheet" href="select/select.css?v=20260728" />
 	<link rel="stylesheet" href="textarea/textarea.css?v=20260728" />
@@ -25,19 +25,20 @@
 	<link rel="stylesheet" href="file-list/file-list.css?v=20260728-2" />
 	<link rel="stylesheet" href="file-item/file-item.css?v=20260728-2" />
 	<link rel="stylesheet" href="service-card/service-card.css?v=20260728" />
+	<link rel="stylesheet" href="query-card/query-card.css?v=20260728" />
 	<link rel="stylesheet" href="panel/panel.css?v=20260728" />
 	<link rel="stylesheet" href="handler/handler.css?v=20260728" />
 	<link rel="stylesheet" href="sidebar/sidebar.css?v=20260728-2" />
 	<link rel="stylesheet" href="topbar/topbar.css?v=20260728" />
 	<link rel="stylesheet" href="progressbar/progressbar.css?v=20260728" />
 	<link rel="stylesheet" href="toast/toast.css?v=20260728" />
-	<link rel="stylesheet" href="chat-message/chat-message.css?v=20260728" />
+	<link rel="stylesheet" href="chat-message/chat-message.css?v=20260728-1" />
 	<link rel="stylesheet" href="promptcomposer/promptcomposer.css?v=20260728-2" />
 	<link rel="stylesheet" href="datatable/datatable.css?v=20260728-5" />
 	<link rel="stylesheet" href="dropdownmenu/dropdownmenu.css?v=20260728-3" />
-	<link rel="stylesheet" href="modal/modal.css?v=20260728-2" />
-	<link rel="stylesheet" href="sidepop/sidepop.css?v=20260728-3" />
-	<link rel="stylesheet" href="_preview/component-preview.css?v=20260728-5" />
+	<link rel="stylesheet" href="modal/modal.css?v=20260728-7" />
+	<link rel="stylesheet" href="sidepop/sidepop.css?v=20260728-11" />
+	<link rel="stylesheet" href="_preview/component-preview.css?v=20260728-8" />
 	<link rel="stylesheet" href="_preview/component-group-card.css?v=20260728-2" />
 </head>
 
@@ -72,6 +73,9 @@
 					<div class="component-catalog-preview component-action-preview">
 						<button type="button" class="button button-primary">저장</button>
 						<button type="button" class="button button-outline">확인</button>
+						<button type="button" class="button button-text-primary">전체 이력 보기 ›</button>
+						<button type="button" class="button button-soft-primary"><img class="icon icon-small"
+								data-icon="document-add" alt="" aria-hidden="true" /><span>새 질의분류</span></button>
 						<button type="button" class="button button-ghost"><img class="icon icon-small" data-icon="plus"
 								alt="" aria-hidden="true" />룰 추가</button>
 						<button type="button" class="button button-danger">삭제</button>
@@ -93,12 +97,6 @@
 								aria-hidden="true" /></button>
 						<button type="button" class="icon-button" aria-label="패널 위치 변경" title="패널 위치 변경"><img
 								class="icon icon-primary" data-icon="panel-swap" alt="" aria-hidden="true" /></button>
-						<div class="panel-folder panel-collapsed"><button type="button" class="collapsed-add-btn"
-								aria-label="파일 추가" title="파일 추가"><span class="collapsed-add-file-icon"
-									aria-hidden="true"><svg viewBox="0 0 24 24">
-										<path d="M6 2h8l4 4v16H6z" />
-										<path d="M14 2v5h5" />
-									</svg><span class="collapsed-add-plus">+</span></span></button></div>
 						<button type="button" class="icon-button icon-button-primary" aria-label="새로 추가"
 							title="새로 추가"><img class="icon icon-primary" data-icon="plus" alt=""
 								aria-hidden="true" /></button>
@@ -116,7 +114,7 @@
 							<p class="component-catalog-card-meta">AI Intake query filter</p>
 						</div>
 						<div class="component-catalog-links"><a href="filter-btn/filter-btn.html">상세</a><a
-								href="filter-btn/README.md">README</a></div>
+								href="filter-btn/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview">
 						<div class="filter-bar" role="toolbar" aria-label="질의 필터 미리보기">
@@ -139,7 +137,7 @@
 							<p class="component-catalog-card-meta">Model selection · Existing AI-ONE style</p>
 						</div>
 						<div class="component-catalog-links"><a href="dropdownmenu/dropdownmenu.html">상세</a><a
-								href="dropdownmenu/README.md">README</a></div>
+								href="dropdownmenu/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-action-preview component-dropdown-preview">
 						<div class="dropdown-menu-component" data-dropdown-menu>
@@ -214,7 +212,7 @@
 							<p class="component-catalog-card-meta">업무 유형 · 기존 type-badge</p>
 						</div>
 						<div class="component-catalog-links"><a href="badge/badge.html">상세</a><a
-								href="badge/README.md">README</a></div>
+								href="badge/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-action-preview">
 						<span class="type-badge ai">AI 초안</span>
@@ -231,7 +229,7 @@
 							<p class="component-catalog-card-meta">목록·필터 건수 · 기존 filter-count</p>
 						</div>
 						<div class="component-catalog-links"><a href="count-badge/count-badge.html">상세</a><a
-								href="count-badge/README.md">README</a></div>
+								href="count-badge/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-action-preview">
 						<span class="filter-count" aria-label="0건">0</span>
@@ -247,7 +245,7 @@
 							<p class="component-catalog-card-meta">처리 상태 · 기존 status-badge</p>
 						</div>
 						<div class="component-catalog-links"><a href="status-badge/status-badge.html">상세</a><a
-								href="status-badge/README.md">README</a></div>
+								href="status-badge/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-action-preview">
 						<span class="status-badge badge-sample">샘플 검토</span>
@@ -262,7 +260,7 @@
 							<p class="component-catalog-card-meta">추천 동작 · 키워드 표시</p>
 						</div>
 						<div class="component-catalog-links"><a href="chip/chip.html">상세</a><a
-								href="chip/README.md">README</a></div>
+								href="chip/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-action-preview">
 						<button type="button" class="chat-tag">요약</button>
@@ -279,7 +277,7 @@
 							<p class="component-catalog-card-meta">신뢰도 · 90% 미만 Blue · 90% 이상 Green</p>
 						</div>
 						<div class="component-catalog-links"><a href="progressbar/progressbar.html">상세</a><a
-								href="progressbar/README.md">README</a></div>
+								href="progressbar/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-progressbar-preview">
 						<div class="progressbar-preview-list">
@@ -303,6 +301,154 @@
 					</div>
 				</article>
 
+				<article class="component-catalog-card component-catalog-card-wide">
+					<header class="component-catalog-card-header">
+						<div>
+							<h3 class="component-catalog-card-title">ServiceCard</h3>
+							<p class="component-catalog-card-meta">홈 서비스 진입점 · 활성 / 준비중</p>
+						</div>
+						<div class="component-catalog-links"><a href="service-card/service-card.html">상세</a><a
+								href="service-card/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
+					</header>
+					<div class="component-catalog-preview component-domain-card-preview">
+						<ul class="service-cards" aria-label="Service Card 미리보기">
+							<li class="service-item">
+								<a href="../html/ai-intake.html" class="service-card">
+									<div class="service-card-top"><div class="service-icon blue"><img
+												src="../assets/icons/service-question-classification.svg" width="38" height="38"
+												alt="" aria-hidden="true" /></div></div>
+									<h4 class="service-title">국회 질의 분류</h4>
+									<p class="service-desc">질의 업로드 · OCR/파싱 · 질의 분류 · 추천실국 확인</p>
+								</a>
+							</li>
+							<li class="service-item">
+								<a href="../html/ai-answer.html" class="service-card">
+									<div class="service-card-top"><div class="service-icon green"><img
+												src="../assets/icons/service-answer-draft.svg" width="38" height="38"
+												alt="" aria-hidden="true" /></div></div>
+									<h4 class="service-title">국회 답변서 초안 생성</h4>
+									<p class="service-desc">자료 분석 · 유사답변서 추천 · 초안 생성 · 편집</p>
+								</a>
+							</li>
+							<li class="service-item">
+								<a href="#" class="service-card" data-soon aria-disabled="true">
+									<div class="service-card-top"><div class="service-icon orange"><img
+												src="../assets/icons/service-economic-trends.svg" width="38" height="38"
+												alt="" aria-hidden="true" /></div></div>
+									<h4 class="service-title">국유재산 업무 관리</h4>
+									<p class="service-desc">국유재산 관리전문 챗봇 · 종합계획 동향분석 · 개발 가능 재산 추천</p>
+								</a>
+							</li>
+							<li class="service-item">
+								<a href="#" class="service-card" data-soon aria-disabled="true">
+									<div class="service-card-top"><div class="service-icon purple"><img
+												src="../assets/icons/service-chatbot.svg" width="38" height="38"
+												alt="" aria-hidden="true" /></div></div>
+									<h4 class="service-title">정책 안내서</h4>
+									<p class="service-desc">정책안내 관리전문 챗봇 · 정책분석 관련자료 · 정책 추천</p>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</article>
+
+				<article class="component-catalog-card component-catalog-card-wide">
+					<header class="component-catalog-card-header">
+						<div>
+							<h3 class="component-catalog-card-title">QueryCard</h3>
+							<p class="component-catalog-card-meta">질의 분류 결과 · 실국 · 신뢰도 · 검토 상태</p>
+						</div>
+						<div class="component-catalog-links"><a href="query-card/query-card.html">상세</a><a
+								href="query-card/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
+					</header>
+					<div class="component-catalog-preview component-domain-card-preview">
+						<div class="query-card-catalog-list" aria-label="Query Card 유형별 미리보기">
+							<article class="query-card is-selected" tabindex="0" data-qid="1" data-type="single"
+								data-scope="single" aria-label="단일소관 질의 Q1 미리보기">
+								<div class="query-card-head">
+									<span class="query-num single">Q1</span>
+									<span class="status-badge query-type single">단일소관</span>
+								</div>
+								<p class="query-text">2026년도 예산편성지침 중 인건비 산정기준 변경사항에 대한 구체적 안내 요청</p>
+								<div class="query-dept"><span class="rec-tag main">주관: 경제정책국</span></div>
+								<div class="query-ai-reason">
+									<strong class="ai-reason-label">AI 분류 근거:</strong>
+									<span class="ai-reason-text">과거 답변 이력 기반 경제정책국 단일소관 판정</span>
+								</div>
+								<div class="progressbar-row query-confidence-bar">
+									<span class="progressbar-label">신뢰도</span>
+									<div class="progressbar" data-progressbar data-value="94" role="progressbar"
+										aria-label="신뢰도 94%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="94">
+										<div class="progressbar-fill"></div>
+									</div>
+									<span class="progressbar-value" data-progressbar-value>94%</span>
+								</div>
+								<div class="query-card-foot">
+									<button type="button" class="button button-outline button-sm query-edit-btn">수정</button>
+								</div>
+							</article>
+
+							<article class="query-card needs-review" tabindex="0" data-qid="2" data-type="multi"
+								data-scope="multi" aria-label="복수소관 질의 Q2 미리보기">
+								<div class="query-card-head">
+									<span class="query-num multi">Q2</span>
+									<span class="query-review-badge">검토필요</span>
+									<span class="status-badge query-type multi">복수소관</span>
+								</div>
+								<p class="query-text">지방자치단체 재정자립도 산정 시 세외수입 항목 포함 여부 및 관련 법령 해석</p>
+								<div class="query-dept">
+									<span class="rec-tag main">주관: 경제정책국</span>
+									<span class="rec-tag">협조: 세제실</span>
+								</div>
+								<div class="query-ai-reason">
+									<strong class="ai-reason-label">AI 분류 근거:</strong>
+									<span class="ai-reason-text">주관 부서 확인 및 관련 법령 교차 참조</span>
+								</div>
+								<div class="progressbar-row query-confidence-bar">
+									<span class="progressbar-label">신뢰도</span>
+									<div class="progressbar" data-progressbar data-value="78" role="progressbar"
+										aria-label="신뢰도 78%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="78">
+										<div class="progressbar-fill"></div>
+									</div>
+									<span class="progressbar-value" data-progressbar-value>78%</span>
+								</div>
+								<div class="query-conflict">
+									<span class="conflict-icon" aria-hidden="true">⚡</span>
+									<span class="conflict-text">룰 충돌: <strong>세제 키워드 룰</strong> → 세제실 / AI 추천 → 경제정책국</span>
+								</div>
+								<div class="query-card-foot">
+									<button type="button" class="button button-outline button-sm query-edit-btn">수정</button>
+								</div>
+							</article>
+
+							<article class="query-card" tabindex="0" data-qid="3" data-type="none" data-scope="none"
+								aria-label="비소관 질의 Q3 미리보기">
+								<div class="query-card-head">
+									<span class="query-num none">Q3</span>
+									<span class="status-badge query-type none">비소관</span>
+								</div>
+								<p class="query-text">최근 기상이변으로 인한 농작물 피해 현황 자료 요청의 건</p>
+								<div class="query-dept"><span class="rec-tag">비소관: 농림축산식품부</span></div>
+								<div class="query-ai-reason">
+									<strong class="ai-reason-label">AI 분류 근거:</strong>
+									<span class="ai-reason-text">질의 내용이 타 부처 업무영역에 해당</span>
+								</div>
+								<div class="progressbar-row query-confidence-bar">
+									<span class="progressbar-label">신뢰도</span>
+									<div class="progressbar" data-progressbar data-value="96" role="progressbar"
+										aria-label="신뢰도 96%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="96">
+										<div class="progressbar-fill"></div>
+									</div>
+									<span class="progressbar-value" data-progressbar-value>96%</span>
+								</div>
+								<div class="query-card-foot">
+									<button type="button" class="button button-outline button-sm query-edit-btn">수정</button>
+								</div>
+							</article>
+						</div>
+					</div>
+				</article>
+
 				<article class="component-catalog-card">
 					<header class="component-catalog-card-header">
 						<div>
@@ -310,7 +456,7 @@
 							<p class="component-catalog-card-meta">하단 중앙 작업 알림 · 메시지 변경 가능</p>
 						</div>
 						<div class="component-catalog-links"><a href="toast/toast.html">상세</a><a
-								href="toast/README.md">README</a></div>
+								href="toast/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-toast-preview">
 						<div class="ai-one-toast is-visible" role="status" aria-live="polite" aria-atomic="true">
@@ -326,7 +472,7 @@
 							<p class="component-catalog-card-meta">Variants: answer · chatbot / Roles: user · ai</p>
 						</div>
 						<div class="component-catalog-links"><a href="chat-message/chat-message.html">상세</a><a
-								href="chat-message/README.md">README</a></div>
+								href="chat-message/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview chat-message-catalog-preview">
 						<div class="chat-message-variant-grid">
@@ -429,6 +575,22 @@
 												</svg></button>
 										</div>
 									</div>
+									<div class="chat-msg ai is-pending chat-typing" data-component="chat-message"
+										data-variant="answer" data-role="ai" data-status="pending" aria-busy="true">
+										<div class="typing-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
+												<path d="M12 2L2 7l10 5 10-5-10-5z" />
+												<path d="M2 17l10 5 10-5" />
+												<path d="M2 12l10 5 10-5" />
+											</svg></div>
+										<div class="typing-content" role="status">
+											<div class="typing-text-wrap">
+												<span class="typing-title">생성 중</span>
+												<span class="typing-desc">답변서 초안을 생성하고 있습니다...</span>
+											</div>
+											<div class="typing-dots" aria-hidden="true"><span></span><span></span><span></span>
+											</div>
+										</div>
+									</div>
 								</div>
 							</section>
 						</div>
@@ -443,7 +605,7 @@
 							</p>
 						</div>
 						<div class="component-catalog-links"><a href="datatable/datatable.html">상세</a><a
-								href="datatable/README.md">README</a></div>
+								href="datatable/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-table-preview">
 						<div class="data-table-container">
@@ -653,7 +815,7 @@
 							<p class="component-catalog-card-meta">Single line · Attachment · Model · Submit</p>
 						</div>
 						<div class="component-catalog-links"><a href="promptcomposer/promptcomposer.html">상세</a><a
-								href="promptcomposer/README.md">README</a></div>
+								href="promptcomposer/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-prompt-preview">
 						<div class="prompt-composer-shell" data-prompt-composer>
@@ -727,63 +889,11 @@
 				<article class="component-catalog-card component-catalog-card-wide">
 					<header class="component-catalog-card-header">
 						<div>
-							<h3 class="component-catalog-card-title">Form Field</h3>
-							<p class="component-catalog-card-meta">Slots: label · control · meta · 공통 상태</p>
-						</div>
-						<div class="component-catalog-links"><a href="form-field/README.md">README</a></div>
-					</header>
-					<div class="form-preview-guide" role="note"><strong>폼 단위 구성</strong><span>각 항목을 분리된 카드로 보여주지 않고, 하나의
-							폼 안에서 Input → Select 2열 → Search → Textarea 순서로 배치합니다.</span></div>
-					<div class="field-state-card">
-						<div class="field field-spaced" data-component="form-field">
-							<label class="field-label" for="form-field-name">룰명</label>
-							<input class="form-input" id="form-field-name" type="text" placeholder="예: 세제 키워드 룰"
-								aria-describedby="form-field-name-help" />
-							<p class="field-help" id="form-field-name-help">한글, 영문, 숫자를 사용할 수 있습니다.</p>
-						</div>
-						<div class="form-row">
-							<div class="field field-spaced flex1" data-component="form-field">
-								<label class="field-label" for="form-field-department">추천 실국</label>
-								<select class="form-select" id="form-field-department">
-									<option>세제실</option>
-									<option>예산실</option>
-									<option>재정정책국</option>
-								</select>
-							</div>
-							<div class="field field-spaced flex1" data-component="form-field">
-								<label class="field-label" for="form-field-scope">적용 범위</label>
-								<select class="form-select" id="form-field-scope">
-									<option>현재 실행 건</option>
-									<option>전체 적용</option>
-								</select>
-							</div>
-						</div>
-						<div class="field field-spaced" data-component="form-field">
-							<label class="field-label" for="form-field-search">실국 검색</label>
-							<input class="form-input" id="form-field-search" type="search"
-								placeholder="실국명 또는 담당자를 검색하세요" />
-						</div>
-						<div class="field" data-component="form-field" data-character-count>
-							<label class="field-label" for="form-field-memo">운영 메모</label>
-							<textarea class="form-textarea" id="form-field-memo" rows="4" maxlength="200"
-								aria-describedby="form-field-memo-help form-field-memo-count">세제 관련 키워드가 포함된 질의는 세제실로 우선 보정합니다.</textarea>
-							<div class="field-meta">
-								<p class="field-help" id="form-field-memo-help">최대 200자까지 입력할 수 있습니다.</p><span
-									class="field-count" id="form-field-memo-count"><span
-										data-character-current>0</span>/200</span>
-							</div>
-						</div>
-					</div>
-				</article>
-
-				<article class="component-catalog-card component-catalog-card-wide">
-					<header class="component-catalog-card-header">
-						<div>
 							<h3 class="component-catalog-card-title">Input</h3>
 							<p class="component-catalog-card-meta">Default · Hover · Focus/Active · Error · Success ·
 								Disabled</p>
 						</div>
-						<div class="component-catalog-links"><a href="input/README.md">README</a></div>
+						<div class="component-catalog-links"><a href="input/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="form-preview-guide" role="note"><strong>상태 확인 방법</strong><span><code>.is-hover</code>,
 							<code>.is-focus</code>는 카탈로그 전용이며 실제 화면은 CSS 상호작용으로 동작합니다. Error와 Success는 검증 결과에 따라
@@ -839,7 +949,7 @@
 							<p class="component-catalog-card-meta">Default · Hover · Focus/Active · Error · Success ·
 								Disabled</p>
 						</div>
-						<div class="component-catalog-links"><a href="select/README.md">README</a></div>
+						<div class="component-catalog-links"><a href="select/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="form-preview-guide" role="note"><strong>상태 확인 방법</strong><span><code>.is-hover</code>,
 							<code>.is-focus</code>는 카탈로그 전용이며 실제 화면은 CSS 상호작용으로 동작합니다. Error와 Success는 검증 결과에 따라
@@ -914,7 +1024,7 @@
 							<p class="component-catalog-card-meta">Default · Hover · Focus/Active · Error · Success ·
 								Disabled</p>
 						</div>
-						<div class="component-catalog-links"><a href="textarea/README.md">README</a></div>
+						<div class="component-catalog-links"><a href="textarea/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="form-preview-guide" role="note"><strong>상태 확인 방법</strong><span><code>.is-hover</code>,
 							<code>.is-focus</code>는 카탈로그 전용이며 실제 화면은 CSS 상호작용으로 동작합니다. Error와 Success는 검증 결과에 따라
@@ -995,7 +1105,7 @@
 							<p class="component-catalog-card-meta">16px · Small 14px · XSmall 13px</p>
 						</div>
 						<div class="component-catalog-links"><a href="checkbox/checkbox.html">상세</a><a
-								href="checkbox/README.md">README</a></div>
+								href="checkbox/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-control-preview">
 						<label class="checkbox-label"><input class="checkbox-control" type="checkbox"
@@ -1017,7 +1127,7 @@
 							<p class="component-catalog-card-meta">Native input · Single selection</p>
 						</div>
 						<div class="component-catalog-links"><a href="radio/radio.html">상세</a><a
-								href="radio/README.md">README</a></div>
+								href="radio/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-control-preview">
 						<fieldset class="choice-group">
@@ -1040,7 +1150,7 @@
 							<p class="component-catalog-card-meta">Checkbox semantics · role=switch · On/Off</p>
 						</div>
 						<div class="component-catalog-links"><a href="toggle/toggle.html">상세</a><a
-								href="toggle/README.md">README</a></div>
+								href="toggle/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-control-preview component-toggle-preview">
 						<label class="toggle-row"><span class="toggle-content"><span class="toggle-title">자동
@@ -1061,9 +1171,10 @@
 							<h3 class="component-catalog-card-title">File Upload</h3>
 							<p class="component-catalog-card-meta">CSS: component/file-upload/file-upload.css · JS: file upload event</p>
 						</div>
-						<div class="component-catalog-links"><a href="file-upload/README.md">README</a></div>
+						<div class="component-catalog-links"><a href="file-upload/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
-					<div class="component-catalog-preview component-file-upload-preview">
+					<div class="component-catalog-preview component-file-upload-preview"
+						data-file-actions data-file-delete-modal="catalogFileDeleteModal">
 						<div class="upload-zone" id="catalogUploadZone" data-file-upload-zone role="button" tabindex="0"
 							aria-label="파일을 드래그하거나 클릭하여 업로드" aria-describedby="catalogFileUploadContent">
 							<svg viewBox="0 0 24 24" aria-hidden="true">
@@ -1086,7 +1197,8 @@
 								</div>
 							</div>
 							<p class="upload-hint" id="catalogUploadedFileEmpty">파일을 선택하면 FileItem 기본형으로 표시됩니다.</p>
-							<ul class="file-list hidden" id="catalogUploadedFileList" aria-label="업로드한 파일 목록"></ul>
+							<ul class="file-list hidden" id="catalogUploadedFileList" aria-label="업로드한 파일 목록"
+								data-file-empty-target="#catalogUploadedFileEmpty"></ul>
 						</div>
 					</div>
 				</article>
@@ -1098,9 +1210,10 @@
 							<p class="component-catalog-card-meta">업로드 목록 전체 · 기본형 / simple</p>
 						</div>
 						<div class="component-catalog-links"><a href="file-list/file-list.html">상세</a><a
-								href="file-list/README.md">README</a></div>
+								href="file-list/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
-					<div class="component-catalog-preview">
+					<div class="component-catalog-preview"
+						data-file-actions data-file-delete-modal="catalogFileDeleteModal">
 						<div class="file-list-section">
 							<div class="file-list-header">
 								<div class="file-list-heading"><span class="file-list-title">질의 업로드 목록</span></div>
@@ -1188,9 +1301,10 @@
 							<p class="component-catalog-card-meta">업로드 파일 한 행 · 기본형 / simple</p>
 						</div>
 						<div class="component-catalog-links"><a href="file-item/file-item.html">상세</a><a
-								href="file-item/README.md">README</a></div>
+								href="file-item/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
-					<div class="component-catalog-preview">
+					<div class="component-catalog-preview"
+						data-file-actions data-file-delete-modal="catalogFileDeleteModal">
 						<ul class="file-list">
 							<li class="active pinned" data-file-idx="0">
 								<button class="file-item-main" type="button" aria-label="예결위 자료요구서 신예린의원 파일 보기">
@@ -1212,7 +1326,7 @@
 										<div class="dropdown-menu dropdown-menu-compact" id="catalogFileItemMenu0"
 											role="menu" data-placement="bottom-end" hidden>
 											<button type="button" class="dropdown-menu-item" role="menuitem"
-												data-menu-value="pin">목록 고정</button>
+												data-menu-value="pin" aria-pressed="true">목록 고정 해제</button>
 											<button type="button" class="dropdown-menu-item danger" role="menuitem"
 												data-menu-value="delete">삭제</button>
 										</div></div>
@@ -1240,7 +1354,7 @@
 							<h3 class="component-catalog-card-title">Panel</h3>
 							<p class="component-catalog-card-meta">Slot: content</p>
 						</div>
-						<div class="component-catalog-links"><a href="panel/README.md">README</a></div>
+						<div class="component-catalog-links"><a href="panel/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-layout-preview">
 						<section class="panel panel-component" data-component="panel">
@@ -1269,10 +1383,22 @@
 							<h3 class="component-catalog-card-title">Three Panel</h3>
 							<p class="component-catalog-card-meta">Slots: left, center, right</p>
 						</div>
-						<div class="component-catalog-links"><a href="panel/README.md">README</a></div>
+						<div class="component-catalog-links">
+							<div class="component-three-panel-actions" role="group" aria-label="Three Panel 레이아웃 제어">
+								<button type="button" class="icon-button" data-three-panel-action="rotate"
+									aria-controls="catalogThreePanel" aria-label="패널 위치 변경" title="패널 위치 변경">
+									<img class="icon icon-primary" data-icon="panel-swap" alt="" aria-hidden="true" />
+								</button>
+								<button type="button" class="icon-button" data-three-panel-action="reset"
+									aria-controls="catalogThreePanel" aria-label="패널 초기화" title="패널 초기화">
+									<img class="icon icon-primary" data-icon="layout-columns" alt="" aria-hidden="true" />
+								</button>
+							</div>
+							<a href="panel/README.md" target="_blank" rel="noopener noreferrer">README</a>
+						</div>
 					</header>
 					<div class="component-catalog-preview component-layout-preview component-three-panel-preview">
-						<div class="three-panel" data-component="three-panel">
+						<div class="three-panel" id="catalogThreePanel" data-component="three-panel">
 							<section class="panel panel-component" data-component="panel" data-panel="left"
 								aria-label="왼쪽 패널">
 								<header class="panel-head">
@@ -1308,7 +1434,7 @@
 							<h3 class="component-catalog-card-title">Split Handler</h3>
 							<p class="component-catalog-card-meta">한 패널 내부를 left, right 영역으로 분리</p>
 						</div>
-						<div class="component-catalog-links"><a href="handler/README.md">README</a></div>
+						<div class="component-catalog-links"><a href="handler/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-layout-preview component-split-handler-preview">
 						<section class="panel panel-component component-handler-panel">
@@ -1339,7 +1465,7 @@
 							<h3 class="component-catalog-card-title">Resize Handler</h3>
 							<p class="component-catalog-card-meta">독립된 두 패널의 너비를 조절</p>
 						</div>
-						<div class="component-catalog-links"><a href="handler/README.md">README</a></div>
+						<div class="component-catalog-links"><a href="handler/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-layout-preview component-resize-handler-preview">
 						<div class="resize-panel-layout" data-component="resize-panel-layout" data-split-min="220">
@@ -1368,15 +1494,25 @@
 							<p class="component-catalog-card-meta">Small 160px · Medium 380px · Large 960px</p>
 						</div>
 						<div class="component-catalog-links"><a href="modal/modal.html">상세</a><a
-								href="modal/README.md">README</a></div>
+								href="modal/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-action-preview">
-						<button type="button" class="button button-outline"
-							data-modal-open="catalogSmallActionModal">대화 작업 팝업</button>
+						<button type="button" class="icon-button icon-button-ghost modal-action-trigger"
+							data-modal-open="catalogSmallActionModal" aria-label="대화 작업 메뉴 열기" title="대화 작업">
+							<img class="icon icon-primary" src="../assets/icons/more-horizontal.svg"
+								alt="" aria-hidden="true" />
+						</button>
 						<button type="button" class="button button-danger"
 							data-modal-open="catalogMediumDeleteModal">삭제 팝업</button>
-						<button type="button" class="button button-outline"
-							data-modal-open="catalogLargeRenameModal">이름변경 팝업</button>
+						<button type="button" class="button button-primary"
+							data-modal-open="catalogMediumQuestionConfirmModal">질의 확정 팝업</button>
+						<button type="button" class="button button-primary"
+							data-modal-open="catalogMediumPreparingModal">준비중 팝업</button>
+						<button type="button" class="icon-button icon-button-cyan"
+							data-modal-open="catalogLargeNotificationAssigneeModal"
+							aria-label="실국별 알림 담당자 설정" title="실국별 알림 담당자 설정">
+							<img class="icon icon-large" data-icon="notification-assignee" alt="" aria-hidden="true" />
+						</button>
 					</div>
 				</article>
 
@@ -1387,7 +1523,7 @@
 							<p class="component-catalog-card-meta">Small 420px · Medium 820px 분류 룰 설정</p>
 						</div>
 						<div class="component-catalog-links"><a href="sidepop/sidepop.html">상세</a><a
-								href="sidepop/README.md">README</a></div>
+								href="sidepop/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-action-preview">
 						<button type="button" class="button button-primary"
@@ -1412,7 +1548,7 @@
 							</p>
 						</div>
 						<div class="component-catalog-links"><a href="tab/tab.html">상세</a><a
-								href="tab/README.md">README</a></div>
+								href="tab/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-tab-preview">
 						<div class="tabs" data-tabs>
@@ -1454,7 +1590,7 @@
 								Arrow keys</p>
 						</div>
 						<div class="component-catalog-links"><a href="tab/tab-button.html">상세</a><a
-								href="tab/README.md">README</a></div>
+								href="tab/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-tab-preview">
 						<div class="tabs" data-tabs>
@@ -1494,7 +1630,7 @@
 							<h3 class="component-catalog-card-title">Topbar</h3>
 							<p class="component-catalog-card-meta">Singleton · body page context 사용</p>
 						</div>
-						<div class="component-catalog-links"><a href="topbar/README.md">README</a></div>
+						<div class="component-catalog-links"><a href="topbar/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-topbar-preview">
 						<header class="topbar app-topbar">
@@ -1508,7 +1644,11 @@
 								<h3 class="topbar-title" data-topbar-title></h3>
 								<p class="topbar-sub" data-topbar-subtitle></p>
 							</div>
-							<div class="topbar-right"><button type="button" class="icon-button icon-button-accent"
+							<div class="topbar-right"><button type="button" class="button button-soft-primary"
+									id="catalogNewClassifyBtn" data-pages="intake" aria-label="새 질의분류"
+									title="새 질의분류"><img class="icon icon-small" aria-hidden="true"
+										data-icon="document-add" alt="" /><span>새 질의분류</span></button><button
+									type="button" class="icon-button icon-button-accent"
 									id="catalogRunDrawerBtn" data-pages="intake" aria-label="실행 목록" title="실행 목록"><img
 										class="icon icon-primary" aria-hidden="true" data-icon="activity"
 										alt="" /></button><button type="button" class="icon-button icon-button-purple"
@@ -1522,7 +1662,10 @@
 										class="icon icon-primary" aria-hidden="true" data-icon="layout-columns"
 										alt="" /></button><button type="button" class="icon-button" id="catalogResetBtn"
 									aria-label="초기화" title="초기화"><img class="icon icon-primary" aria-hidden="true"
-										data-icon="reset" alt="" /></button></div>
+										data-icon="reset" alt="" /></button><button type="button" class="icon-button"
+									id="catalogFullscreenBtn" aria-label="전체화면" title="전체화면"><img
+										class="icon icon-primary" aria-hidden="true" data-icon="fullscreen-expand"
+										alt="" /></button></div>
 						</header>
 					</div>
 				</article>
@@ -1533,7 +1676,7 @@
 							<h3 class="component-catalog-card-title">Sidebar</h3>
 							<p class="component-catalog-card-meta">Singleton · 기본 화면</p>
 						</div>
-						<div class="component-catalog-links"><a href="sidebar/README.md">README</a></div>
+						<div class="component-catalog-links"><a href="sidebar/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-sidebar-preview component-sidebar-preview-standard">
 						<aside class="sidebar app-sidebar" id="catalogSidebar">
@@ -1585,7 +1728,7 @@
 							<h3 class="component-catalog-card-title">Chatbot Sidebar</h3>
 							<p class="component-catalog-card-meta">Singleton · 챗봇 화면</p>
 						</div>
-						<div class="component-catalog-links"><a href="sidebar/README.md">README</a></div>
+						<div class="component-catalog-links"><a href="sidebar/README.md" target="_blank" rel="noopener noreferrer">README</a></div>
 					</header>
 					<div class="component-catalog-preview component-sidebar-preview component-sidebar-preview-chatbot">
 						<aside class="sidebar chatbot-sidebar" id="catalogChatbotSidebar"
@@ -1652,8 +1795,24 @@
 					</div>
 				</article>
 			</div>
-		</section>
+	</section>
 	</main>
+
+	<div class="custom-modal-backdrop" id="catalogFileDeleteModal" data-modal hidden>
+		<section class="custom-modal modal-medium" role="dialog" aria-modal="true"
+			aria-labelledby="catalogFileDeleteModalTitle" aria-describedby="catalogFileDeleteModalDescription">
+			<div class="custom-modal-icon danger" aria-hidden="true">⚠</div>
+			<div class="custom-modal-title" id="catalogFileDeleteModalTitle">파일을 삭제할까요?</div>
+			<div class="custom-modal-msg" id="catalogFileDeleteModalDescription">
+				<strong data-file-delete-name>선택한 파일</strong><br />
+				질의 업로드 목록에서 삭제하시겠습니까?
+			</div>
+			<div class="custom-modal-actions">
+				<button type="button" class="btn-cancel" data-modal-close>취소</button>
+				<button type="button" class="btn-confirm danger" data-file-delete-confirm>삭제</button>
+			</div>
+		</section>
+	</div>
 
 	<div class="custom-modal-backdrop modal-menu-backdrop" id="catalogSmallActionModal" data-modal hidden>
 		<section class="custom-modal modal-small" role="dialog" aria-modal="true" aria-label="대화 작업 메뉴">
@@ -1704,30 +1863,87 @@
 		</section>
 	</div>
 
-	<div class="custom-modal-backdrop" id="catalogLargeRenameModal" data-modal hidden>
+	<div class="custom-modal-backdrop" id="catalogMediumQuestionConfirmModal" data-modal hidden>
+		<section class="custom-modal modal-medium modal-variant-confirm" role="dialog" aria-modal="true"
+			data-modal-variant="confirm"
+			aria-labelledby="catalogMediumQuestionConfirmModalTitle"
+			aria-describedby="catalogMediumQuestionConfirmModalDescription">
+			<div class="custom-modal-icon confirm" aria-hidden="true">?</div>
+			<div class="custom-modal-title" id="catalogMediumQuestionConfirmModalTitle">질의 확정</div>
+			<div class="custom-modal-msg" id="catalogMediumQuestionConfirmModalDescription">
+				질의 및 실국을 확정하시겠습니까?
+			</div>
+			<div class="custom-modal-actions">
+				<button type="button" class="btn-cancel" data-modal-close>취소</button>
+				<button type="button" class="btn-confirm" data-modal-close>확인</button>
+			</div>
+		</section>
+	</div>
+
+	<div class="custom-modal-backdrop" id="catalogMediumPreparingModal" data-modal hidden>
+		<section class="custom-modal modal-medium modal-variant-alert" role="dialog" aria-modal="true"
+			data-modal-variant="alert"
+			aria-labelledby="catalogMediumPreparingModalTitle"
+			aria-describedby="catalogMediumPreparingModalDescription">
+			<div class="custom-modal-icon alert" aria-hidden="true">!</div>
+			<div class="custom-modal-title" id="catalogMediumPreparingModalTitle">준비중</div>
+			<div class="custom-modal-msg" id="catalogMediumPreparingModalDescription">
+				이 화면은 프로토타입에 아직 포함되어 있지 않습니다.
+			</div>
+			<div class="custom-modal-actions">
+				<button type="button" class="btn-confirm" data-modal-close>확인</button>
+			</div>
+		</section>
+	</div>
+
+	<div class="custom-modal-backdrop" id="catalogLargeNotificationAssigneeModal" data-modal hidden>
 		<section class="custom-modal notification-assignee-modal modal-large" role="dialog" aria-modal="true"
-			aria-labelledby="catalogLargeRenameModalTitle" aria-describedby="catalogLargeRenameModalDescription">
+			data-notification-assignee aria-labelledby="catalogLargeNotificationAssigneeModalTitle"
+			aria-describedby="catalogLargeNotificationAssigneeModalDescription">
 			<div class="notification-modal-head">
 				<div>
-					<div class="custom-modal-title notification-modal-title" id="catalogLargeRenameModalTitle">작업 이름 변경
+					<div class="custom-modal-title notification-modal-title"
+						id="catalogLargeNotificationAssigneeModalTitle">실국별 알림 담당자 설정
 					</div>
-					<div class="notification-modal-desc" id="catalogLargeRenameModalDescription">
-						목록에서 작업을 쉽게 구분할 수 있도록 이름을 변경합니다.
+					<div class="notification-modal-desc" id="catalogLargeNotificationAssigneeModalDescription">
+						재정경제부 조직도 기준으로 알림을 받을 실국담당자를 지정합니다. 주관국·협조국 확정 후 지정된 담당자에게 알림이 전송됩니다.
 					</div>
 				</div>
 				<button type="button" class="notification-modal-close" data-modal-close aria-label="닫기">×</button>
 			</div>
-			<div class="modal-body">
-				<div class="form-group">
-					<label for="catalogLargeRenameInput">작업 이름</label>
-					<input class="form-input" id="catalogLargeRenameInput" type="text" value="2026년 청년 고용 정책 관련 답변 초안"
-						maxlength="100" autofocus />
-					<p class="field-help">최대 100자까지 입력할 수 있습니다.</p>
-				</div>
+			<div class="notification-process-note">
+				<svg viewBox="0 0 24 24" aria-hidden="true">
+					<path d="M12 3v18M3 12h18" />
+					<circle cx="12" cy="12" r="9" />
+				</svg>
+				<span>재정경제부 조직도에서 부총리·차관 소관 조직을 선택한 후 실국별 알림 담당자를 지정합니다. 질의 확정 시 주관국·협조국을 기준으로 수신자가 자동 설정됩니다.</span>
 			</div>
+			<div class="notification-org-layout">
+				<aside class="notification-org-panel" aria-label="조직 선택">
+					<div class="notification-org-panel-title">조직 선택</div>
+					<div class="notification-org-list" data-notification-org-list></div>
+				</aside>
+				<section class="notification-dept-panel" aria-label="실국별 담당자">
+					<div class="notification-dept-toolbar">
+						<label class="notification-dept-search">
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<circle cx="11" cy="11" r="7" />
+								<path d="m20 20-3.6-3.6" />
+							</svg>
+							<input type="search" placeholder="실국명 또는 담당자 검색" aria-label="실국명 또는 담당자 검색"
+								autocomplete="off" data-notification-search />
+							<button type="button" class="notification-dept-search-clear" data-notification-search-clear
+								aria-label="검색어 지우기" hidden>×</button>
+						</label>
+						<div class="notification-dept-result" data-notification-result></div>
+					</div>
+					<div class="notification-dept-grid" data-notification-dept-grid></div>
+				</section>
+			</div>
+			<div class="notification-dept-feedback" data-notification-feedback aria-live="polite"></div>
 			<div class="custom-modal-actions notification-modal-actions">
 				<button type="button" class="btn-cancel" data-modal-close>취소</button>
-				<button type="button" class="btn-confirm">변경 저장</button>
+				<button type="button" class="btn-confirm" data-notification-save data-modal-close>설정 저장</button>
 			</div>
 		</section>
 	</div>
@@ -1743,14 +1959,19 @@
 				</header>
 				<div class="sidepop-list-position"><button type="button" class="sidepop-position-button"><span>⊞</span><span>좌측으로 이동</span></button></div>
 				<div class="sidepop-list-body">
-					<div class="sidepop-list-section-header"><h3>타이틀별 실행 목록</h3><span class="sidepop-list-count">12건</span></div>
-					<label class="sidepop-list-search"><span aria-hidden="true">⌕</span><input type="search" placeholder="타이틀 검색" aria-label="타이틀 검색" /></label>
-					<div class="sidepop-list-meta"><span>전체 <strong>12건</strong></span><span>최신순⌄</span></div>
-					<ul class="sidepop-scroll-list">
-						<li class="sidepop-run-item"><span class="sidepop-run-state"></span><div class="sidepop-run-main"><strong class="sidepop-run-title">재경위 제437회국회(임시회) 제1차 전체회의</strong><div class="sidepop-run-meta"><span>2026.07.21 14:23</span><span class="sidepop-run-status">완료</span></div><div class="sidepop-run-badges"><span class="sidepop-run-badge">파일 2건</span><span class="sidepop-run-badge member">의원 18명</span><span class="sidepop-run-badge query">질의 8건</span></div></div><button type="button" class="sidepop-item-more" aria-label="항목 메뉴">⋮</button></li>
-						<li class="sidepop-run-item"><span class="sidepop-run-state pending"></span><div class="sidepop-run-main"><strong class="sidepop-run-title">예결위 제429회국회(정기회) 제7차 전체회의</strong><div class="sidepop-run-meta"><span>2026.07.14 09:10</span><span class="sidepop-run-status pending">진행중</span></div><div class="sidepop-run-badges"><span class="sidepop-run-badge">파일 1건</span><span class="sidepop-run-badge member">의원 21명</span><span class="sidepop-run-badge query">질의 10건</span></div></div><button type="button" class="sidepop-item-more" aria-label="항목 메뉴">⋮</button></li>
-					</ul>
-					<section class="sidepop-list-section"><div class="sidepop-list-section-header"><h3>최근 작업 로그</h3><span class="sidepop-list-sort">최신순</span></div><ul class="sidepop-work-log"><li class="sidepop-log-item"><time class="sidepop-log-time">14:32:15</time><span class="sidepop-log-text">OCR 파싱 완료 – 5개 질의 추출</span></li></ul></section>
+					<section class="sidepop-list-section">
+						<div class="sidepop-list-section-header"><h3>타이틀별 실행 목록</h3><span class="sidepop-list-count">12건</span></div>
+						<label class="sidepop-list-search"><span aria-hidden="true">⌕</span><input type="search" placeholder="타이틀 검색" aria-label="타이틀 검색" /></label>
+						<div class="sidepop-list-meta"><span>전체 <strong>12건</strong></span><select class="sidepop-list-sort" aria-label="실행 목록 정렬"><option value="latest">최신순</option><option value="oldest">과거순</option></select></div>
+						<ul class="sidepop-scroll-list">
+							<li class="sidepop-run-item is-active"><span class="sidepop-run-state"></span><div class="sidepop-run-main"><strong class="sidepop-run-title">재경위 제437회국회(임시회) 제1차 전체회의</strong><div class="sidepop-run-meta"><span>2026.07.21 14:23</span><span class="sidepop-run-status">완료</span></div><div class="sidepop-run-badges"><span class="sidepop-run-badge">파일 2건</span><span class="sidepop-run-badge member">의원 18명</span><span class="sidepop-run-badge query">질의 8건</span></div></div><button type="button" class="sidepop-item-more" aria-label="항목 메뉴"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="12" cy="19" r="1.7" /></svg></button></li>
+							<li class="sidepop-run-item"><span class="sidepop-run-state"></span><div class="sidepop-run-main"><strong class="sidepop-run-title">재경위 제429회국회(정기회) 제7차 전체회의</strong><div class="sidepop-run-meta"><span>2026.07.18 10:45</span><span class="sidepop-run-status">완료</span></div><div class="sidepop-run-badges"><span class="sidepop-run-badge">파일 1건</span><span class="sidepop-run-badge member">의원 24명</span><span class="sidepop-run-badge query">질의 12건</span></div></div><button type="button" class="sidepop-item-more" aria-label="항목 메뉴"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="12" cy="19" r="1.7" /></svg></button></li>
+							<li class="sidepop-run-item"><span class="sidepop-run-state"></span><div class="sidepop-run-main"><strong class="sidepop-run-title">예결위 제437회국회(임시회) 제1차 전체회의</strong><div class="sidepop-run-meta"><span>2026.07.16 16:30</span><span class="sidepop-run-status">완료</span></div><div class="sidepop-run-badges"><span class="sidepop-run-badge">파일 1건</span><span class="sidepop-run-badge member">의원 28명</span><span class="sidepop-run-badge query">질의 15건</span></div></div><button type="button" class="sidepop-item-more" aria-label="항목 메뉴"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="12" cy="19" r="1.7" /></svg></button></li>
+							<li class="sidepop-run-item"><span class="sidepop-run-state pending"></span><div class="sidepop-run-main"><strong class="sidepop-run-title">예결위 제429회국회(정기회) 제7차 전체회의</strong><div class="sidepop-run-meta"><span>2026.07.14 09:10</span><span class="sidepop-run-status pending">진행중</span></div><div class="sidepop-run-badges"><span class="sidepop-run-badge">파일 1건</span><span class="sidepop-run-badge member">의원 21명</span><span class="sidepop-run-badge query">질의 10건</span></div></div><button type="button" class="sidepop-item-more" aria-label="항목 메뉴"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="12" cy="19" r="1.7" /></svg></button></li>
+							<li class="sidepop-run-item"><span class="sidepop-run-state"></span><div class="sidepop-run-main"><strong class="sidepop-run-title">재경위 제436회국회(임시회) 제3차 전체회의</strong><div class="sidepop-run-meta"><span>2026.07.11 15:30</span><span class="sidepop-run-status">완료</span></div><div class="sidepop-run-badges"><span class="sidepop-run-badge">파일 1건</span><span class="sidepop-run-badge member">의원 23명</span><span class="sidepop-run-badge query">질의 14건</span></div></div><button type="button" class="sidepop-item-more" aria-label="항목 메뉴"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="12" cy="19" r="1.7" /></svg></button></li>
+						</ul>
+					</section>
+					<section class="sidepop-list-section"><div class="sidepop-list-section-header"><h3>최근 작업 로그</h3><span class="sidepop-list-sort">최신순</span></div><ul class="sidepop-work-log sidepop-scroll-list"><li class="sidepop-log-item"><time class="sidepop-log-time">14:32:15</time><span class="sidepop-log-text">OCR 파싱 완료 – 5개 질의 추출</span></li><li class="sidepop-log-item"><time class="sidepop-log-time">14:32:10</time><span class="sidepop-log-text">부서 매칭 시작 (AI 모델 v2.3)</span></li><li class="sidepop-log-item"><time class="sidepop-log-time">14:31:58</time><span class="sidepop-log-text">질의 분류 작업을 시작했습니다.</span></li></ul></section>
 				</div>
 			</section>
 			<section class="sidepop-variant-panel" data-sidepop-panel="chat-list">
@@ -1761,11 +1982,20 @@
 				<div class="sidepop-list-position"><button type="button" class="sidepop-position-button"><span>⊞</span><span>좌측으로 이동</span></button></div>
 				<div class="sidepop-list-body">
 					<label class="sidepop-list-search"><span aria-hidden="true">⌕</span><input type="search" placeholder="채팅 목록 검색" aria-label="채팅 목록 검색" /></label>
-					<div class="sidepop-list-meta"><span>전체 <strong>12건</strong></span><span>최신순⌄</span></div>
+					<div class="sidepop-list-meta"><span>전체 <strong>12건</strong></span><select class="sidepop-list-sort" aria-label="채팅 목록 정렬"><option value="latest">최신순</option><option value="oldest">과거순</option></select></div>
 					<div class="sidepop-chat-list sidepop-scroll-list" aria-label="채팅 목록">
-						<button type="button" class="sidepop-chat-item is-active"><span class="sidepop-chat-name">▣ 지방채 인수 추경 답변서 초안 작성</span><time class="sidepop-chat-time">2026.07.20<br />11:05</time></button>
-						<button type="button" class="sidepop-chat-item"><span class="sidepop-chat-name">▣ 공자기금 인수금리 조건 정리</span><time class="sidepop-chat-time">2026.07.20<br />10:22</time></button>
-						<button type="button" class="sidepop-chat-item"><span class="sidepop-chat-name">▣ 광주·전남 통합특별시 추경 수요</span><time class="sidepop-chat-time">2026.07.19<br />16:40</time></button>
+						<button type="button" class="sidepop-chat-item is-active"><span class="sidepop-chat-name"><span class="sidepop-chat-icon" aria-hidden="true">💬</span>지방채 인수 추경 답변서 초안 작성</span><time class="sidepop-chat-time"><span class="sidepop-chat-date">2026.07.20</span><span>11:05</span></time><span class="sidepop-chat-more" aria-hidden="true">⋮</span></button>
+						<button type="button" class="sidepop-chat-item"><span class="sidepop-chat-name"><span class="sidepop-chat-icon" aria-hidden="true">💬</span>공자기금 인수금리 조건 정리</span><time class="sidepop-chat-time"><span class="sidepop-chat-date">2026.07.20</span><span>10:22</span></time><span class="sidepop-chat-more" aria-hidden="true">⋮</span></button>
+						<button type="button" class="sidepop-chat-item"><span class="sidepop-chat-name"><span class="sidepop-chat-icon" aria-hidden="true">💬</span>광주·전남 통합특별시 추경 수요</span><time class="sidepop-chat-time"><span class="sidepop-chat-date">2026.07.19</span><span>16:40</span></time><span class="sidepop-chat-more" aria-hidden="true">⋮</span></button>
+						<button type="button" class="sidepop-chat-item"><span class="sidepop-chat-name"><span class="sidepop-chat-icon" aria-hidden="true">💬</span>세수결손 대응계획 답변서 검토</span><time class="sidepop-chat-time"><span class="sidepop-chat-date">2026.07.18</span><span>15:12</span></time><span class="sidepop-chat-more" aria-hidden="true">⋮</span></button>
+						<button type="button" class="sidepop-chat-item"><span class="sidepop-chat-name"><span class="sidepop-chat-icon" aria-hidden="true">💬</span>국가채무비율 전망 근거자료 정리</span><time class="sidepop-chat-time"><span class="sidepop-chat-date">2026.07.18</span><span>09:35</span></time><span class="sidepop-chat-more" aria-hidden="true">⋮</span></button>
+						<button type="button" class="sidepop-chat-item"><span class="sidepop-chat-name"><span class="sidepop-chat-icon" aria-hidden="true">💬</span>공공기관 경영평가 개선 질의</span><time class="sidepop-chat-time"><span class="sidepop-chat-date">2026.07.17</span><span>14:08</span></time><span class="sidepop-chat-more" aria-hidden="true">⋮</span></button>
+						<button type="button" class="sidepop-chat-item"><span class="sidepop-chat-name"><span class="sidepop-chat-icon" aria-hidden="true">💬</span>종합부동산세 세율 조정 영향</span><time class="sidepop-chat-time"><span class="sidepop-chat-date">2026.07.16</span><span>11:26</span></time><span class="sidepop-chat-more" aria-hidden="true">⋮</span></button>
+						<button type="button" class="sidepop-chat-item"><span class="sidepop-chat-name"><span class="sidepop-chat-icon" aria-hidden="true">💬</span>간이과세 기준금액 상향 검토</span><time class="sidepop-chat-time"><span class="sidepop-chat-date">2026.07.15</span><span>17:42</span></time><span class="sidepop-chat-more" aria-hidden="true">⋮</span></button>
+						<button type="button" class="sidepop-chat-item"><span class="sidepop-chat-name"><span class="sidepop-chat-icon" aria-hidden="true">💬</span>외국환거래법 개정 답변자료</span><time class="sidepop-chat-time"><span class="sidepop-chat-date">2026.07.14</span><span>13:18</span></time><span class="sidepop-chat-more" aria-hidden="true">⋮</span></button>
+						<button type="button" class="sidepop-chat-item"><span class="sidepop-chat-name"><span class="sidepop-chat-icon" aria-hidden="true">💬</span>청년 일자리 재정사업 성과</span><time class="sidepop-chat-time"><span class="sidepop-chat-date">2026.07.11</span><span>10:04</span></time><span class="sidepop-chat-more" aria-hidden="true">⋮</span></button>
+						<button type="button" class="sidepop-chat-item"><span class="sidepop-chat-name"><span class="sidepop-chat-icon" aria-hidden="true">💬</span>물가안정 정책 공조 현황</span><time class="sidepop-chat-time"><span class="sidepop-chat-date">2026.07.10</span><span>16:55</span></time><span class="sidepop-chat-more" aria-hidden="true">⋮</span></button>
+						<button type="button" class="sidepop-chat-item"><span class="sidepop-chat-name"><span class="sidepop-chat-icon" aria-hidden="true">💬</span>재정준칙 도입 필요성 검토</span><time class="sidepop-chat-time"><span class="sidepop-chat-date">2026.07.09</span><span>09:48</span></time><span class="sidepop-chat-more" aria-hidden="true">⋮</span></button>
 					</div>
 				</div>
 			</section>
@@ -1896,16 +2126,18 @@
 	</div>
 
 	<script src="../js/common.js?v=20260728-2"></script>
-	<script src="chat-message/chat-message.js?v=20260728"></script>
+	<script src="chat-message/chat-message.js?v=20260728-1"></script>
 	<script src="progressbar/progressbar.js?v=20260728"></script>
 	<script src="toast/toast.js?v=20260728"></script>
 	<script src="dropdownmenu/dropdownmenu.js?v=20260728-2"></script>
 	<script src="promptcomposer/promptcomposer.js?v=20260728"></script>
 	<script src="datatable/datatable.js?v=20260728-2"></script>
 	<script src="_shared/layer-controller.js?v=20260728-2"></script>
-	<script src="modal/modal.js?v=20260728-2"></script>
-	<script src="sidepop/sidepop.js?v=20260728-3"></script>
-	<script src="_preview/component-preview.js?v=20260728-2"></script>
+	<script src="modal/modal.js?v=20260728-4"></script>
+	<script src="file-item/file-item.js?v=20260728-1"></script>
+	<script src="modal/notification-assignee.js?v=20260728"></script>
+	<script src="sidepop/sidepop.js?v=20260728-4"></script>
+	<script src="_preview/component-preview.js?v=20260728-4"></script>
 	<script src="_preview/component-group-card.js?v=20260728-3"></script>
 	<script>
 		document.addEventListener("DOMContentLoaded", () => {
@@ -2024,15 +2256,7 @@
 				uploadedFileEmpty.classList.toggle("hidden", files.length > 0);
 				uploadedFileList.classList.toggle("hidden", files.length === 0);
 				window.AIOneDropdownMenu?.init(uploadedFileList);
-			});
-
-			uploadedFileList.addEventListener("click", (event) => {
-				const mainButton = event.target.closest?.(".file-item-main");
-				if (!mainButton) return;
-				const selectedItem = mainButton.closest("li");
-				uploadedFileList.querySelectorAll("li").forEach((item) => {
-					item.classList.toggle("active", item === selectedItem);
-				});
+				window.AIOneFileItem?.init(uploadedFileList.closest("[data-file-actions]"));
 			});
 		});
 

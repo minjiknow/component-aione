@@ -125,6 +125,21 @@ AI Answer 패널과 AI-ONE 챗봇에서 사용자 질문과 AI 답변을 표시�
 </div>
 ```
 
+AI 답변 생성 중에는 완료 메시지 대신 `ChatMessage.createPending()`으로 대기 상태를 생성합니다. 제목과 설명은 작업 맥락에 맞게 바꿀 수 있습니다.
+
+```js
+const pendingMessage = ChatMessage.createPending({
+    variant: 'answer',
+    title: '생성 중',
+    description: '답변서 초안을 생성하고 있습니다...'
+});
+
+document.querySelector('[data-chat-message-list][data-variant="answer"]')
+    .append(pendingMessage);
+```
+
+생성되는 대기 상태 마크업은 `data-status="pending"`, `aria-busy="true"`를 포함하고, 안내 문구에는 `role="status"`를 적용합니다. 작업이 끝나면 해당 요소를 제거합니다.
+
 ## 액션
 
 공통 액션을 사용하려면 `component/chat-message/chat-message.js`를 로드하고 버튼에 `data-action`을 지정합니다.
@@ -159,6 +174,6 @@ AI Answer 패널과 AI-ONE 챗봇에서 사용자 질문과 AI 답변을 표시�
 
 - 공통 동작: `component/chat-message/chat-message.js`
 - Answer/Chatbot 스타일: `component/chat-message/chat-message.css`
-- 통합 카탈로그: `component/index.html#chat-message-component`
+- 통합 카탈로그: `component/index.html#card-chatmessage`
 - 상세 검수: `component/chat-message/chat-message.html`
 - 실제 사용: `html/ai-answer.html`, `html/ai-chatbot.html`

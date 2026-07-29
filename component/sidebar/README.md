@@ -9,6 +9,7 @@
 - 사용 방식: 화면당 하나만 포함하는 singleton
 
 `data-route`가 있는 링크는 `body[data-root-path]`를 기준으로 `common.js`가 실제 경로를 설정합니다. 현재 화면 강조는 `body[data-page]`와 링크의 `data-page`를 비교해 적용합니다.
+현재 공통 Sidebar에서 준비 중 진입점으로 처리하는 국회 답변서 초안 생성과 AI-ONE 챗봇은 링크 대신 버튼으로 제공하며, `[data-modal-open="preparingServiceModal"]`로 화면의 준비 중 안내 Modal을 엽니다.
 
 `#sidebar`, `#sidebarCollapseBtn`, `#settingsBtn` 등 고정 ID는 기존 페이지 JavaScript 연결을 위한 계약이므로 한 화면에 Sidebar를 두 번 포함하지 않습니다. 로그아웃과 설정처럼 이동이 아닌 동작은 `<button type="button">`을 사용합니다.
 
@@ -50,20 +51,24 @@
                 <img data-icon="document" alt="" aria-hidden="true" />
                 <span class="nav-text">국회질의분류</span>
             </a>
-            <a class="nav-link" href="../../html/ai-answer.html" data-route="answer" data-page="answer">
+            <button type="button" class="nav-link" data-page="answer"
+                data-modal-open="preparingServiceModal"
+                aria-label="국회 답변서 초안 생성" title="국회 답변서 초안 생성">
                 <img data-icon="edit" alt="" aria-hidden="true" />
                 <span class="nav-text">국회 답변서 초안 생성</span>
-            </a>
+            </button>
             <a class="nav-link" href="#" data-page="economy" aria-disabled="true">
                 <img width="22" height="22" data-icon="economy-trend" alt="" aria-hidden="true" />
                 <span class="nav-text">경제동향 분석 보고서 생성</span>
             </a>
         </div>
         <div class="nav-group">
-            <a class="nav-link" href="../../html/ai-chatbot.html" data-route="chatbot" data-page="chatbot">
+            <button type="button" class="nav-link" data-page="chatbot"
+                data-modal-open="preparingServiceModal"
+                aria-label="AI-ONE 챗봇" title="AI-ONE 챗봇">
                 <img data-icon="chat" alt="" aria-hidden="true" />
                 <span class="nav-text">AI-ONE 챗봇</span>
-            </a>
+            </button>
         </div>
     </nav>
 

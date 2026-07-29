@@ -3,8 +3,10 @@
 
 	const MESSAGE_NAMESPACE = "ai-one-component-catalog";
 	const HASH_PREFIX = "card-";
+	const HOME_HASH = "home";
 	const STORAGE_KEY = "component-catalog-sidebar-collapsed";
-	const CARD_DOCUMENT_URL = "componentgroup-card.html?v=20260728-7";
+	const CARD_DOCUMENT_URL = "componentgroup-card.html?v=20260728-18";
+	const HOME_DOCUMENT_URL = "../pages/ai-home.html?view=component-catalog&v=20260728-3";
 	const CATEGORY_ORDER = Object.freeze(["Actions", "Display", "Forms", "Layouts", "Navigation"]);
 	const ICONS = Object.freeze(["home", "document", "edit", "economy-trend", "chat"]);
 
@@ -26,8 +28,8 @@
 		collapseButton.setAttribute("aria-expanded", String(!isCollapsed));
 		collapseButton.setAttribute("aria-label", isCollapsed ? "사이드바 펼치기" : "사이드바 접기");
 		collapseButton.title = isCollapsed ? "사이드바 펼치기" : "사이드바 접기";
-		brandButton.setAttribute("aria-label", isCollapsed ? "사이드바 펼치기" : "첫 번째 컴포넌트 보기");
-		brandButton.title = isCollapsed ? "사이드바 펼치기" : "첫 번째 컴포넌트 보기";
+		brandButton.setAttribute("aria-label", isCollapsed ? "사이드바 펼치기" : "AI-ONE 홈");
+		brandButton.title = isCollapsed ? "사이드바 펼치기" : "AI-ONE 홈";
 
 		try {
 			localStorage.setItem(STORAGE_KEY, String(isCollapsed));
@@ -138,8 +140,33 @@
 		document.title = `${component.title} · AI-ONE 컴포넌트 카탈로그`;
 	}
 
+	function showHome() {
+		navigation.querySelectorAll("[data-component-card]").forEach((button) => {
+			button.classList.remove("active");
+			button.removeAttribute("aria-current");
+		});
+
+		if (frame.dataset.catalogView !== "home") {
+			frame.dataset.catalogView = "home";
+			frame.dataset.activeComponent = "";
+			frame.src = HOME_DOCUMENT_URL;
+		}
+
+		frame.title = "AI-ONE 홈";
+		document.title = "AI-ONE 홈 · AI-ONE 컴포넌트 카탈로그";
+	}
+
 	function syncComponentSelection() {
 		if (!components.length) return;
+		const currentHash = decodeURIComponent(window.location.hash.slice(1));
+		if (!currentHash || currentHash === HOME_HASH) {
+			if (!currentHash) {
+				window.history.replaceState(null, "", `#${HOME_HASH}`);
+			}
+			showHome();
+			return;
+		}
+
 		const requestedComponent = getComponentFromHash();
 		const selectedComponent = components.some((item) => item.id === requestedComponent)
 			? requestedComponent
@@ -184,11 +211,8 @@
 			return;
 		}
 
-		const firstComponent = components[0];
-		if (!firstComponent) return;
-		const nextHash = `${HASH_PREFIX}${firstComponent.id}`;
-		if (window.location.hash === `#${nextHash}`) activateComponent(firstComponent.id);
-		else window.location.hash = nextHash;
+		if (window.location.hash === `#${HOME_HASH}`) showHome();
+		else window.location.hash = HOME_HASH;
 	});
 
 	window.addEventListener("hashchange", syncComponentSelection);

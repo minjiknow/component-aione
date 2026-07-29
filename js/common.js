@@ -594,7 +594,11 @@
   }
 
   function initAccessoryTools() {
-    if (document.body.classList.contains('login-page') || /(^|\/)login\.html(?:$|\?)/.test(location.pathname + location.search)) return;
+    if (
+      document.body.classList.contains('login-page')
+      || document.body.classList.contains('button-preview-page')
+      || /(^|\/)login\.html(?:$|\?)/.test(location.pathname + location.search)
+    ) return;
     if (document.querySelector('[data-accessory-tools]')) return;
 
     ['fontSizeTool', 'panelSwapBtn', 'layoutResetBtn', 'resetBtn', 'fullscreenBtn'].forEach(id => {

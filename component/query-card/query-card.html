@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko" class="control-preview-root">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>QueryCard 컴포넌트</title>
+	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
+	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
+	<link rel="stylesheet" href="../button/button.css?v=20260728-1" />
+	<link rel="stylesheet" href="../chip/chip.css?v=20260728" />
+	<link rel="stylesheet" href="../status-badge/status-badge.css?v=20260728" />
+	<link rel="stylesheet" href="../progressbar/progressbar.css?v=20260728" />
+	<link rel="stylesheet" href="query-card.css?v=20260728" />
+	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260728-7" />
+</head>
+<body class="control-preview-page">
+	<main class="control-preview control-preview-wide">
+		<header class="control-preview-header">
+			<div>
+				<h1 class="control-preview-title">QueryCard</h1>
+				<p class="control-preview-desc">질의별 소관 유형·추천 실국·AI 분류 근거·신뢰도와 검토 상태를 한 카드에 표시합니다.</p>
+			</div>
+			<a class="control-preview-back" href="../index.html#display">컴포넌트 목록</a>
+		</header>
+
+		<section class="control-preview-section" aria-labelledby="query-card-variant-title">
+			<h2 class="control-preview-section-title" id="query-card-variant-title">소관 유형</h2>
+			<div class="control-use-list">
+				<article class="control-use-case">
+					<span class="control-use-label">Single · Selected / Default</span>
+					<div class="query-card-detail-list" data-query-card-single></div>
+				</article>
+				<article class="control-use-case">
+					<span class="control-use-label">Multi · Conflict / Review</span>
+					<div class="query-card-detail-list" data-query-card-multi></div>
+				</article>
+				<article class="control-use-case">
+					<span class="control-use-label">None</span>
+					<div class="query-card-detail-list" data-query-card-none></div>
+				</article>
+			</div>
+		</section>
+	</main>
+
+	<script src="../progressbar/progressbar.js?v=20260728"></script>
+	<script src="query-card.js?v=20260728"></script>
+	<script>
+		window.AIOneQueryCard.renderList('[data-query-card-single]', [
+			{
+				id: 1,
+				type: 'single',
+				text: '2026년도 예산편성지침 중 인건비 산정기준 변경사항에 대한 구체적 안내 요청',
+				mainDept: '경제정책국',
+				reason: '과거 답변 이력 기반 경제정책국 단일소관 판정',
+				confidence: 94,
+				selected: true
+			},
+			{
+				id: 3,
+				type: 'single',
+				text: '공공기관 경영평가 시 비계량지표 평가방법론 개선 관련 의견 조회',
+				mainDept: '공공정책국',
+				reason: '공공정책국 소관 업무 키워드 매칭',
+				confidence: 91
+			}
+		]);
+
+		window.AIOneQueryCard.renderList('[data-query-card-multi]', [
+			{
+				id: 2,
+				type: 'multi',
+				text: '지방자치단체 재정자립도 산정 시 세외수입 항목 포함 여부 및 관련 법령 해석',
+				mainDept: '경제정책국',
+				coopDept: '세제실',
+				reason: '주관 부서 확인 및 관련 법령 교차 참조',
+				confidence: 82,
+				conflict: {
+					ruleLabel: '세제 키워드 룰',
+					ruleDept: '세제실',
+					aiDept: '경제정책국'
+				}
+			},
+			{
+				id: 4,
+				type: 'multi',
+				text: '외국환거래법 개정에 따른 해외직접투자 신고절차 변경 안내 요청',
+				mainDept: '국제금융국',
+				coopDept: '대외경제국',
+				reason: '복수 부서 업무영역에 걸친 복합 질의로 판단',
+				confidence: 78
+			}
+		]);
+
+		window.AIOneQueryCard.renderList('[data-query-card-none]', [
+			{
+				id: 5,
+				type: 'none',
+				text: '최근 기상이변으로 인한 농작물 피해 현황 자료 요청의 건',
+				org: '농림축산식품부',
+				reason: '질의 내용이 타 부처 업무영역에 해당',
+				confidence: 96
+			}
+		]);
+	</script>
+</body>
+</html>

@@ -7,7 +7,7 @@
 	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
 	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
 	<link rel="stylesheet" href="../button/button.css?v=20260728" />
-	<link rel="stylesheet" href="chat-message.css?v=20260728" />
+	<link rel="stylesheet" href="chat-message.css?v=20260728-1" />
 	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260727-5" />
 </head>
 <body class="control-preview-page">
@@ -57,9 +57,19 @@
 						<button class="msg-action-btn" type="button" data-action="copy" aria-label="복사" title="복사"><svg viewBox="0 0 24 24" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
 					</div>
 				</div>
+				<div class="chat-msg ai is-pending chat-typing" data-component="chat-message" data-variant="answer" data-role="ai" data-status="pending" aria-busy="true">
+					<div class="typing-avatar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+					<div class="typing-content" role="status">
+						<div class="typing-text-wrap">
+							<span class="typing-title">생성 중</span>
+							<span class="typing-desc">답변서 초안을 생성하고 있습니다...</span>
+						</div>
+						<div class="typing-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+					</div>
+				</div>
 			</div>
 		</section>
 	</main>
-	<script src="chat-message.js?v=20260728"></script>
+	<script src="chat-message.js?v=20260728-1"></script>
 </body>
 </html>

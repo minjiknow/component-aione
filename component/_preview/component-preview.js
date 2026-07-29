@@ -350,15 +350,15 @@
         panels.forEach((panel) => panel.classList.remove("panel-collapsed"));
         container.querySelectorAll(PANEL_COLLAPSE_BUTTON_SELECTOR).forEach((button) => syncPanelCollapseButton(button, false));
 
-        const isInitialOrder = panels.every((panel, index) => Number(panel.dataset.panelInitialIndex) === index);
-        if (isInitialOrder) {
-            panels.forEach((panel) => delete panel.dataset.panelWidth);
-            container.style.removeProperty("grid-template-columns");
-            syncThreePanelAria(container);
-        } else {
-            applyThreePanelLayout(container);
-            saveThreePanelLayout(container);
+        const initialOrder = [...panels].sort(
+            (firstPanel, secondPanel) => Number(firstPanel.dataset.panelInitialIndex) - Number(secondPanel.dataset.panelInitialIndex),
+        );
+        if (initialOrder.some((panel, index) => panel !== panels[index])) {
+            rebuildThreePanel(container, initialOrder);
         }
+        initialOrder.forEach((panel) => delete panel.dataset.panelWidth);
+        container.style.removeProperty("grid-template-columns");
+        syncThreePanelAria(container);
     }
 
     function setThreePanelCollapsed(panel, isCollapsed, container = getThreePanel()) {
@@ -703,13 +703,23 @@
     }
 
     function bindThreePanelToolbar(container) {
-        document.getElementById("panelSwapBtn")?.addEventListener("click", () => {
-            if (rotateThreePanel(container)) showCommonToast("패널 위치가 변경되었습니다.");
+        const getTargetPanel = (button) => {
+            const controlledId = button.getAttribute("aria-controls");
+            const controlledPanel = controlledId ? document.getElementById(controlledId) : null;
+            return controlledPanel?.matches('[data-component="three-panel"]') ? controlledPanel : container;
+        };
+
+        document.querySelectorAll('#panelSwapBtn, #catalogPanelSwapBtn, [data-three-panel-action="rotate"]').forEach((button) => {
+            button.addEventListener("click", () => {
+                if (rotateThreePanel(getTargetPanel(button))) showCommonToast("패널 위치가 변경되었습니다.");
+            });
         });
 
-        document.getElementById("layoutResetBtn")?.addEventListener("click", () => {
-            resetThreePanelLayout(container);
-            showCommonToast("레이아웃이 기본값으로 초기화되었습니다.");
+        document.querySelectorAll('#layoutResetBtn, #catalogLayoutResetBtn, [data-three-panel-action="reset"]').forEach((button) => {
+            button.addEventListener("click", () => {
+                resetThreePanelLayout(getTargetPanel(button));
+                showCommonToast("패널 레이아웃이 기본값으로 초기화되었습니다.");
+            });
         });
     }
 

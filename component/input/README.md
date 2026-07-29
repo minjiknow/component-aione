@@ -1,24 +1,19 @@
 # Input 컴포넌트
 
-한 줄 값을 입력하는 라벨+Input 조합입니다. 공통 외곽 구조는 `form-field/form-field.html`을 사용하고 `component/index.html`의 Forms 영역에서 Default, Hover, Focus(Active), Error, Success, Disabled 상태를 확인합니다.
+한 줄 값을 입력하는 Input 컴포넌트입니다. `component/index.html`의 Forms 영역에서 Default, Hover, Focus(Active), Error, Success, Disabled 상태를 확인합니다.
 
-- 필수 CSS: `component/form-field/form-field.css`, `component/input/input.css`
+- 필수 CSS: `component/_shared/form-control.css`, `component/input/input.css`
 - 필수 JS: 없음
 - 변경 대상: `id`, `name`, label의 `for`, 도움말 ID와 문구
 - 실제 상태 클래스: `.is-error`, `.is-success`
 - 카탈로그 전용 상태 클래스: `.is-hover`, `.is-focus`
 
 ```html
-<div data-include="form-field/form-field" data-include-source="html">
-    <template data-slot="label">
-        <label class="field-label" for="workspaceName">워크스페이스 이름</label>
-    </template>
-    <template data-slot="control">
-        <input class="form-input" id="workspaceName" name="workspaceName" type="text" placeholder="이름을 입력하세요" aria-describedby="workspaceNameHelp" />
-    </template>
-    <template data-slot="meta">
-        <p class="field-help" id="workspaceNameHelp">한글, 영문, 숫자를 사용할 수 있습니다.</p>
-    </template>
+<div class="field">
+    <label class="field-label" for="workspaceName">워크스페이스 이름</label>
+    <input class="form-input" id="workspaceName" name="workspaceName" type="text"
+        placeholder="이름을 입력하세요" aria-describedby="workspaceNameHelp" />
+    <p class="field-help" id="workspaceNameHelp">한글, 영문, 숫자를 사용할 수 있습니다.</p>
 </div>
 ```
 

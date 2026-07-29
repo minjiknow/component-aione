@@ -1500,7 +1500,7 @@
         sidebar.classList.remove('collapsed');
         localStorage.removeItem('sidebar-collapsed');
       } else {
-        window.location.href = 'ai-home.html';
+        window.location.href = '../pages/ai-home.html';
       }
     });
     $$('.nav-link', sidebar).forEach(l => l.addEventListener('click', () => {
@@ -2122,8 +2122,6 @@
 
     // Show typing indicator with contextual message
     const msgEl = $('#chatMessages');
-    const typing = document.createElement('div');
-    typing.className = 'chat-typing';
     const lowerText = text.toLowerCase();
     const isMoreRecRequest = detectMoreRecRequest(lowerText);
     showAnswerSkeleton(isMoreRecRequest || lowerText.includes('검색') || lowerText.includes('추천') ? '관련자료를 검색하고 있습니다...' : '답변서 초안 데이터를 생성하고 있습니다...');
@@ -2142,7 +2140,11 @@
       typingTitle = '재생성 중';
       typingDesc = '답변서를 다시 생성하고 있습니다...';
     }
-    typing.innerHTML = '<div class="typing-avatar"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div class="typing-content"><div class="typing-text-wrap"><span class="typing-title">' + typingTitle + '</span><span class="typing-desc">' + typingDesc + '</span></div><div class="typing-dots"><span></span><span></span><span></span></div></div>';
+    const typing = window.ChatMessage.createPending({
+      variant: 'answer',
+      title: typingTitle,
+      description: typingDesc
+    });
     msgEl.appendChild(typing);
     msgEl.scrollTop = msgEl.scrollHeight;
 

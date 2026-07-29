@@ -6,9 +6,10 @@
 	<title>Modal 컴포넌트</title>
 	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
 	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
-	<link rel="stylesheet" href="../button/button.css?v=20260728" />
-	<link rel="stylesheet" href="../form-field/form-field.css?v=20260728" />
-	<link rel="stylesheet" href="modal.css?v=20260728-2" />
+	<link rel="stylesheet" href="../button/button.css?v=20260728-1" />
+	<link rel="stylesheet" href="../_shared/form-control.css?v=20260728" />
+	<link rel="stylesheet" href="../input/input.css?v=20260728" />
+	<link rel="stylesheet" href="modal.css?v=20260728-7" />
 	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260727-6" />
 </head>
 <body class="control-preview-page" data-root-path="../..">
@@ -16,7 +17,7 @@
 		<header class="control-preview-header">
 			<div>
 				<h1 class="control-preview-title">Modal</h1>
-				<p class="control-preview-desc">AI Answer의 작업 메뉴와 기존 확인·입력 모달을 Small, Medium, Large로 확인합니다.</p>
+				<p class="control-preview-desc">AI Answer의 작업 메뉴·확인 모달과 AI Intake의 담당자 설정 모달을 Small, Medium, Large로 확인합니다.</p>
 			</div>
 			<a class="control-preview-back" href="../index.html#layouts">컴포넌트 목록</a>
 		</header>
@@ -26,8 +27,11 @@
 			<div class="control-use-list">
 				<article class="control-use-case">
 					<span class="control-use-label">Small · 160px · 작업 메뉴</span>
-					<button type="button" class="button button-outline"
-						data-modal-open="smallActionModal">대화 작업 팝업</button>
+					<button type="button" class="icon-button icon-button-ghost modal-action-trigger"
+						data-modal-open="smallActionModal" aria-label="대화 작업 메뉴 열기" title="대화 작업">
+						<img class="icon icon-primary" src="../../assets/icons/more-horizontal.svg"
+							alt="" aria-hidden="true" />
+					</button>
 				</article>
 				<article class="control-use-case">
 					<span class="control-use-label">Medium · 380px · 확인</span>
@@ -35,9 +39,28 @@
 						data-modal-open="mediumDeleteModal">삭제 팝업</button>
 				</article>
 				<article class="control-use-case">
-					<span class="control-use-label">Large · 960px · 입력</span>
-					<button type="button" class="button button-outline"
-						data-modal-open="largeRenameModal">이름변경 팝업</button>
+					<span class="control-use-label">Medium · 380px · 결정 확인</span>
+					<button type="button" class="button button-primary"
+						data-modal-open="mediumQuestionConfirmModal">질의 확정 팝업</button>
+				</article>
+				<article class="control-use-case">
+					<span class="control-use-label">Medium · 380px · 취소 확인</span>
+					<button type="button" class="button button-danger"
+						data-modal-open="mediumCancelModal">취소 팝업</button>
+				</article>
+				<article class="control-use-case">
+					<span class="control-use-label">Medium · 380px · 안내</span>
+					<button type="button" class="button button-primary"
+						data-modal-open="mediumPreparingModal">준비중 팝업</button>
+				</article>
+				<article class="control-use-case">
+					<span class="control-use-label">Large · 960px · 조직 담당자 설정</span>
+					<button type="button" class="icon-button icon-button-cyan"
+						data-modal-open="largeNotificationAssigneeModal"
+						aria-label="실국별 알림 담당자 설정" title="실국별 알림 담당자 설정">
+						<img class="icon icon-large" src="../../assets/icons/notification-assignee.svg"
+							alt="" aria-hidden="true" />
+					</button>
 				</article>
 			</div>
 		</section>
@@ -94,36 +117,112 @@
 		</section>
 	</div>
 
-	<div class="custom-modal-backdrop" id="largeRenameModal" data-modal hidden>
+	<div class="custom-modal-backdrop" id="mediumQuestionConfirmModal" data-modal hidden>
+		<section class="custom-modal modal-medium modal-variant-confirm" role="dialog" aria-modal="true"
+			data-modal-variant="confirm"
+			aria-labelledby="mediumQuestionConfirmModalTitle"
+			aria-describedby="mediumQuestionConfirmModalDescription">
+			<div class="custom-modal-icon confirm" aria-hidden="true">?</div>
+			<div class="custom-modal-title" id="mediumQuestionConfirmModalTitle">질의 확정</div>
+			<div class="custom-modal-msg" id="mediumQuestionConfirmModalDescription">
+				질의 및 실국을 확정하시겠습니까?
+			</div>
+			<div class="custom-modal-actions">
+				<button type="button" class="btn-cancel" data-modal-close>취소</button>
+				<button type="button" class="btn-confirm" data-modal-close>확인</button>
+			</div>
+		</section>
+	</div>
+
+	<div class="custom-modal-backdrop" id="mediumCancelModal" data-modal hidden>
+		<section class="custom-modal modal-medium modal-variant-cancel" role="dialog" aria-modal="true"
+			data-modal-variant="cancel"
+			aria-labelledby="mediumCancelModalTitle"
+			aria-describedby="mediumCancelModalDescription">
+			<div class="custom-modal-icon danger" aria-hidden="true">⚠</div>
+			<div class="custom-modal-title" id="mediumCancelModalTitle">질의 확정을 취소할까요?</div>
+			<div class="custom-modal-msg" id="mediumCancelModalDescription">
+				확정한 질의와 실국을 다시 편집할 수 있는 상태로 변경합니다.
+			</div>
+			<div class="custom-modal-actions">
+				<button type="button" class="btn-cancel" data-modal-close>돌아가기</button>
+				<button type="button" class="btn-confirm danger" data-modal-close>확정 취소</button>
+			</div>
+		</section>
+	</div>
+
+	<div class="custom-modal-backdrop" id="mediumPreparingModal" data-modal hidden>
+		<section class="custom-modal modal-medium modal-variant-alert" role="dialog" aria-modal="true"
+			data-modal-variant="alert"
+			aria-labelledby="mediumPreparingModalTitle"
+			aria-describedby="mediumPreparingModalDescription">
+			<div class="custom-modal-icon alert" aria-hidden="true">!</div>
+			<div class="custom-modal-title" id="mediumPreparingModalTitle">준비중</div>
+			<div class="custom-modal-msg" id="mediumPreparingModalDescription">
+				이 화면은 프로토타입에 아직 포함되어 있지 않습니다.
+			</div>
+			<div class="custom-modal-actions">
+				<button type="button" class="btn-confirm" data-modal-close>확인</button>
+			</div>
+		</section>
+	</div>
+
+	<div class="custom-modal-backdrop" id="largeNotificationAssigneeModal" data-modal hidden>
 		<section class="custom-modal notification-assignee-modal modal-large"
-			role="dialog" aria-modal="true"
-			aria-labelledby="largeRenameModalTitle" aria-describedby="largeRenameModalDescription">
+			role="dialog" aria-modal="true" data-notification-assignee
+			aria-labelledby="largeNotificationAssigneeModalTitle"
+			aria-describedby="largeNotificationAssigneeModalDescription">
 			<div class="notification-modal-head">
 				<div>
-					<div class="custom-modal-title notification-modal-title" id="largeRenameModalTitle">작업 이름 변경</div>
-					<div class="notification-modal-desc" id="largeRenameModalDescription">
-						목록에서 작업을 쉽게 구분할 수 있도록 이름을 변경합니다.
+					<div class="custom-modal-title notification-modal-title" id="largeNotificationAssigneeModalTitle">
+						실국별 알림 담당자 설정
+					</div>
+					<div class="notification-modal-desc" id="largeNotificationAssigneeModalDescription">
+						재정경제부 조직도 기준으로 알림을 받을 실국담당자를 지정합니다. 주관국·협조국 확정 후 지정된 담당자에게 알림이 전송됩니다.
 					</div>
 				</div>
 				<button type="button" class="notification-modal-close" data-modal-close aria-label="닫기">×</button>
 			</div>
-			<div class="modal-body">
-				<div class="form-group">
-					<label for="largeRenameInput">작업 이름</label>
-					<input class="form-input" id="largeRenameInput" type="text"
-						value="2026년 청년 고용 정책 관련 답변 초안" maxlength="100" autofocus />
-					<p class="field-help">최대 100자까지 입력할 수 있습니다.</p>
-				</div>
+			<div class="notification-process-note">
+				<svg viewBox="0 0 24 24" aria-hidden="true">
+					<path d="M12 3v18M3 12h18" />
+					<circle cx="12" cy="12" r="9" />
+				</svg>
+				<span>재정경제부 조직도에서 부총리·차관 소관 조직을 선택한 후 실국별 알림 담당자를 지정합니다. 질의 확정 시 주관국·협조국을 기준으로 수신자가 자동 설정됩니다.</span>
 			</div>
+			<div class="notification-org-layout">
+				<aside class="notification-org-panel" aria-label="조직 선택">
+					<div class="notification-org-panel-title">조직 선택</div>
+					<div class="notification-org-list" data-notification-org-list></div>
+				</aside>
+				<section class="notification-dept-panel" aria-label="실국별 담당자">
+					<div class="notification-dept-toolbar">
+						<label class="notification-dept-search">
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<circle cx="11" cy="11" r="7" />
+								<path d="m20 20-3.6-3.6" />
+							</svg>
+							<input type="search" placeholder="실국명 또는 담당자 검색" aria-label="실국명 또는 담당자 검색"
+								autocomplete="off" data-notification-search />
+							<button type="button" class="notification-dept-search-clear" data-notification-search-clear
+								aria-label="검색어 지우기" hidden>×</button>
+						</label>
+						<div class="notification-dept-result" data-notification-result></div>
+					</div>
+					<div class="notification-dept-grid" data-notification-dept-grid></div>
+				</section>
+			</div>
+			<div class="notification-dept-feedback" data-notification-feedback aria-live="polite"></div>
 			<div class="custom-modal-actions notification-modal-actions">
 				<button type="button" class="btn-cancel" data-modal-close>취소</button>
-				<button type="button" class="btn-confirm">변경 저장</button>
+				<button type="button" class="btn-confirm" data-notification-save data-modal-close>설정 저장</button>
 			</div>
 		</section>
 	</div>
 
 	<script src="../_shared/layer-controller.js?v=20260728-2"></script>
-	<script src="modal.js?v=20260728"></script>
+	<script src="modal.js?v=20260728-4"></script>
+	<script src="notification-assignee.js?v=20260728"></script>
 	<script src="../_preview/component-preview.js?v=20260727"></script>
 </body>
 </html>

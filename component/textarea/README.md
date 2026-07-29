@@ -1,27 +1,22 @@
 # Textarea 컴포넌트
 
-여러 줄 값을 입력하는 라벨+Textarea 조합입니다. 공통 외곽 구조는 `form-field/form-field.html`을 사용하고 `component/index.html`의 Forms 영역에서 전체 상태를 확인합니다.
+여러 줄 값을 입력하는 Textarea 컴포넌트입니다. `component/index.html`의 Forms 영역에서 전체 상태를 확인합니다.
 
-- 필수 CSS: `component/form-field/form-field.css`, `component/textarea/textarea.css`
+- 필수 CSS: `component/_shared/form-control.css`, `component/textarea/textarea.css`
 - 선택 JS: `js/common.js` (`data-character-count`를 사용하는 경우)
 - 변경 대상: `id`, `name`, label의 `for`, `maxlength`, 도움말/글자 수 ID
 - 실제 상태 클래스: `.is-error`, `.is-success`
 - 카탈로그 전용 상태 클래스: `.is-hover`, `.is-focus`
 
 ```html
-<div data-include="form-field/form-field" data-include-source="html" data-character-count>
-    <template data-slot="label">
-        <label class="field-label" for="operationMemo">운영 메모</label>
-    </template>
-    <template data-slot="control">
-        <textarea class="form-textarea" id="operationMemo" name="operationMemo" rows="4" maxlength="200" aria-describedby="operationMemoHelp operationMemoCount"></textarea>
-    </template>
-    <template data-slot="meta">
-        <div class="field-meta">
-            <p class="field-help" id="operationMemoHelp">최대 200자까지 입력할 수 있습니다.</p>
-            <span class="field-count" id="operationMemoCount"><span data-character-current>0</span>/200</span>
-        </div>
-    </template>
+<div class="field" data-character-count>
+    <label class="field-label" for="operationMemo">운영 메모</label>
+    <textarea class="form-textarea" id="operationMemo" name="operationMemo" rows="4"
+        maxlength="200" aria-describedby="operationMemoHelp operationMemoCount"></textarea>
+    <div class="field-meta">
+        <p class="field-help" id="operationMemoHelp">최대 200자까지 입력할 수 있습니다.</p>
+        <span class="field-count" id="operationMemoCount"><span data-character-current>0</span>/200</span>
+    </div>
 </div>
 ```
 

@@ -9,18 +9,21 @@
 - `컴포넌트명.fragment.html`: 페이지 또는 JSP가 include하는 마크업입니다. `html`, `head`, `body`, CSS, JS를 포함하지 않습니다.
 - `컴포넌트명.css`: 해당 컴포넌트가 소유하는 스타일입니다. 화면 CSS인 `css/ai-*.css`를 의존하지 않습니다.
 - `컴포넌트명.js`: 해당 컴포넌트의 초기화, 상태, 이벤트 API를 소유합니다.
-- `form-field/form-field.html`: Input, Select, Textarea의 label, control, meta 슬롯을 묶는 공통 include fragment입니다.
+- `_shared/form-control.css`: Input, Select, Textarea를 조합할 때 사용하는 label, help, row 배치 유틸리티입니다.
 - `file-upload/file-upload.html`: AI Intake 업로드 영역을 기준으로 고정 아이콘과 변경 가능한 title, content, input 슬롯을 제공하는 공통 include fragment입니다.
-- `service-card/service-card.html`: AI-ONE 홈의 기존 Service Card 마크업을 재사용하는 include fragment입니다.
+- `service-card/service-card.js`: AI-ONE 홈의 기존 Service Card를 데이터 목록으로 렌더링하는 DOM API입니다.
+- `query-card/query-card.js`: AI Intake와 질의 워크스페이스가 질의 분류 결과 카드를 공통 렌더링하는 DOM API입니다.
 - `_preview/component-preview.css`: 통합 카탈로그와 Button 상세 카탈로그에서만 사용합니다. 운영 페이지에는 포함하지 않습니다.
-- `index.html`: 기존 Sidebar 형태에서 `Actions`, `Display`, `Forms`, `Layouts`, `Navigation` 분류별 컴포넌트 메뉴를 선택하는 통합 검수 진입 페이지입니다. Button과 Icon Button은 상세 카탈로그를 바로 표시하고 나머지는 대표 카드를 표시합니다.
+- `index.html`: 기존 Sidebar 형태에서 `Actions`, `Display`, `Forms`, `Layouts`, `Navigation` 분류별 컴포넌트 메뉴를 선택하는 통합 검수 진입 페이지입니다. 빈 해시와 `#home`은 AI-ONE 홈을, `#card-<component-id>`는 선택한 컴포넌트를 표시합니다. Button과 Icon Button은 상세 카탈로그를 바로 표시하고 나머지는 대표 카드를 표시합니다.
 - `componentgroup-card.html`: 모든 컴포넌트와 Form 상태의 대표 형태를 외부 include 없이 직접 렌더링하는 카드 모음 페이지입니다.
 
 ProgressBar, Toast, ChatMessage, PromptComposer, DataTable, DropdownMenu, Modal, SidePop은 각 폴더의 `fragment.html`, CSS, JS를 한 묶음으로 관리합니다. `component-loader.js`는 선언된 컴포넌트의 자산을 문서당 한 번만 로드하고, 마크업 삽입 후 컴포넌트 초기화 이벤트를 발생시킵니다. React 런타임을 사용하는 것은 아니지만 컴포넌트별 소유권과 초기화 경계를 같은 방식으로 유지합니다.
 
+로더는 fragment 안의 상대 `src`, `href`를 fragment 파일 기준의 절대 URL로 보정합니다. `file://`에서 검수가 필요한 진입 페이지는 원격 fetch 대신 사용할 `<template data-component-file-fallback="<name>">`을 직접 제공할 수 있으며, fallback의 최종 DOM은 원본 fragment와 함께 관리합니다.
+
 DropdownMenu의 공식 예제는 기존 `html/ai-home.html`과 `html/ai-chatbot.html`의 모델 선택 메뉴를 공통화한 다크 단일 선택형입니다. 일반 라이트 액션 메뉴는 기존 화면 출처가 확인되지 않아 공식 기존 스타일 예제에서 제외합니다.
 
-Modal은 AI Answer의 `대화 작업 팝업` Small 160px, 기존 `삭제 팝업` Medium 380px, `이름변경 팝업` Large 960px의 3단계로 검수합니다. 기존 화면의 마크업과 시각 규칙은 재사용하되 스타일 소유권은 `component/modal/modal.css`에 둡니다.
+Modal은 AI Answer의 `대화 작업 팝업` Small 160px, 기존 `삭제 팝업` Medium 380px, AI Intake의 `실국별 알림 담당자 설정` Large 960px의 3단계로 검수합니다. 기존 화면의 마크업과 시각 규칙은 재사용하되 스타일 소유권은 `component/modal/modal.css`에 둡니다.
 
 ### ChatMessage 속성 규칙
 
@@ -74,6 +77,14 @@ ChatMessage의 `data-variant`는 발화자가 아니라 화면별 표현 방식�
 ```html
 <button type="button" data-modal-open="deleteWorkModal">삭제</button>
 <div data-component-include="modal" data-component-id="deleteWorkModal"></div>
+```
+
+`file://` fallback은 해당 문서에서 직접 열기까지 지원해야 할 때만 추가합니다.
+
+```html
+<template data-component-file-fallback="sidebar">
+    <!-- component/sidebar/sidebar.html과 동일한 최종 마크업 -->
+</template>
 ```
 
 JSP 개발에서는 로더를 그대로 사용할 필요가 없습니다. 같은 `*.fragment.html`을 JSP include, tag file 또는 layout template으로 치환하고 CSS/JS를 번들에서 한 번만 포함하되 최종 DOM과 `data-*` 계약은 유지합니다.

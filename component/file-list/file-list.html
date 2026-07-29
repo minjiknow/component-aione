@@ -9,10 +9,11 @@
 	<link rel="stylesheet" href="file-list.css?v=20260728-2" />
 	<link rel="stylesheet" href="../file-item/file-item.css?v=20260728-2" />
 	<link rel="stylesheet" href="../dropdownmenu/dropdownmenu.css?v=20260728-3" />
+	<link rel="stylesheet" href="../modal/modal.css?v=20260728-7" />
 	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260727" />
 </head>
 <body class="control-preview-page">
-	<main class="control-preview">
+	<main class="control-preview" data-file-actions data-file-delete-modal="fileListDeleteModal">
 		<header class="control-preview-header">
 			<div>
 				<h1 class="control-preview-title">FileList</h1>
@@ -40,7 +41,8 @@
 								<button class="file-more-btn" type="button" data-dropdown-trigger aria-haspopup="menu"
 									aria-label="파일 옵션" aria-expanded="false" aria-controls="fileListMenu0" title="파일 옵션"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button>
 								<div class="dropdown-menu dropdown-menu-compact" id="fileListMenu0" role="menu" data-placement="bottom-end" hidden>
-									<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="pin">목록 고정</button>
+									<button type="button" class="dropdown-menu-item" role="menuitem"
+										data-menu-value="pin" aria-pressed="false">목록 고정</button>
 									<button type="button" class="dropdown-menu-item danger" role="menuitem" data-menu-value="delete">삭제</button>
 								</div>
 							</div>
@@ -57,7 +59,8 @@
 								<button class="file-more-btn" type="button" data-dropdown-trigger aria-haspopup="menu"
 									aria-label="파일 옵션" aria-expanded="false" aria-controls="fileListMenu1" title="파일 옵션"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button>
 								<div class="dropdown-menu dropdown-menu-compact" id="fileListMenu1" role="menu" data-placement="bottom-end" hidden>
-									<button type="button" class="dropdown-menu-item" role="menuitem" data-menu-value="pin">목록 고정</button>
+									<button type="button" class="dropdown-menu-item" role="menuitem"
+										data-menu-value="pin" aria-pressed="false">목록 고정</button>
 									<button type="button" class="dropdown-menu-item danger" role="menuitem" data-menu-value="delete">삭제</button>
 								</div>
 							</div>
@@ -85,6 +88,26 @@
 			</ul>
 		</section>
 	</main>
+
+	<div class="custom-modal-backdrop" id="fileListDeleteModal" data-modal hidden>
+		<section class="custom-modal modal-medium" role="dialog" aria-modal="true"
+			aria-labelledby="fileListDeleteModalTitle" aria-describedby="fileListDeleteModalDescription">
+			<div class="custom-modal-icon danger" aria-hidden="true">⚠</div>
+			<div class="custom-modal-title" id="fileListDeleteModalTitle">파일을 삭제할까요?</div>
+			<div class="custom-modal-msg" id="fileListDeleteModalDescription">
+				<strong data-file-delete-name>선택한 파일</strong><br />
+				질의 업로드 목록에서 삭제하시겠습니까?
+			</div>
+			<div class="custom-modal-actions">
+				<button type="button" class="btn-cancel" data-modal-close>취소</button>
+				<button type="button" class="btn-confirm danger" data-file-delete-confirm>삭제</button>
+			</div>
+		</section>
+	</div>
+
 	<script src="../dropdownmenu/dropdownmenu.js?v=20260728-2"></script>
+	<script src="../_shared/layer-controller.js?v=20260728-2"></script>
+	<script src="../modal/modal.js?v=20260728-4"></script>
+	<script src="../file-item/file-item.js?v=20260728-1"></script>
 </body>
 </html>

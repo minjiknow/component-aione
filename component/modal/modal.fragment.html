@@ -36,7 +36,9 @@
 		</div>
 
 		<div class="modal-variant-panel" data-modal-panel="content">
-			<div class="custom-modal-icon danger" aria-hidden="true">⚠</div>
+			<div class="custom-modal-icon danger" data-modal-icon="default" aria-hidden="true">⚠</div>
+			<div class="custom-modal-icon confirm" data-modal-icon="question" aria-hidden="true">?</div>
+			<div class="custom-modal-icon alert" data-modal-icon="alert" aria-hidden="true">!</div>
 			<div class="custom-modal-title" id="{{id}}-title" data-slot="title">작업을 삭제할까요?</div>
 			<div class="custom-modal-msg" id="{{id}}-description" data-slot="description">
 				삭제한 작업은 다시 복구할 수 없습니다.
