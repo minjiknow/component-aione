@@ -3,6 +3,7 @@
 
 	let initialized = false;
 	let activeTab = 'recommend';
+	const pendingWorkspaceTasks = new Set();
 	const chatMessageActions = Object.freeze([
 		{ action: 'like', label: '좋아요', icon: 'thumbs-up', pressed: true },
 		{ action: 'dislike', label: '싫어요', icon: 'thumbs-down', pressed: true },
@@ -30,6 +31,20 @@
 			target: '#answerPageToast',
 			duration: 1800
 		});
+	}
+
+	function scheduleWorkspaceTask(callback, delay) {
+		const taskId = window.setTimeout(() => {
+			pendingWorkspaceTasks.delete(taskId);
+			callback();
+		}, delay);
+		pendingWorkspaceTasks.add(taskId);
+		return taskId;
+	}
+
+	function clearPendingWorkspaceTasks() {
+		pendingWorkspaceTasks.forEach(taskId => window.clearTimeout(taskId));
+		pendingWorkspaceTasks.clear();
 	}
 
 	function hydrateIcons(root = document) {
@@ -210,6 +225,61 @@
 		selectSection(sections[0]);
 	}
 
+	function setTabCount(tabName, count) {
+		const countElement = document.querySelector(
+			`[data-answer-tab="${tabName}"] .tab-count`
+		);
+		if (countElement) countElement.textContent = String(count);
+	}
+
+	function setReferenceFilterCounts(cards, isEmpty = false) {
+		document.querySelectorAll('[data-reference-filter]').forEach(button => {
+			const filter = button.dataset.referenceFilter;
+			const count = isEmpty
+				? 0
+				: filter === 'all'
+					? cards.length
+					: cards.filter(card => card.dataset.category === filter).length;
+			const countElement = button.querySelector('span');
+			if (countElement) countElement.textContent = String(count);
+		});
+	}
+
+	function setRecommendationEmptyState(isEmpty) {
+		const results = document.querySelector('[data-answer-recommend-results]');
+		const empty = document.querySelector('[data-answer-recommend-empty]');
+		const status = document.querySelector('[data-answer-recommend-status]');
+		const cards = Array.from(document.querySelectorAll('[data-reference-card]'));
+
+		if (results) results.hidden = isEmpty;
+		if (empty) empty.hidden = !isEmpty;
+		if (status) status.hidden = isEmpty;
+		setReferenceFilterCounts(cards, isEmpty);
+		setTabCount('recommend', isEmpty ? 0 : cards.length);
+	}
+
+	function restoreRecommendationResults() {
+		const cards = Array.from(document.querySelectorAll('[data-reference-card]'));
+		document.body.classList.remove('is-new-chat');
+		cards.forEach(card => {
+			card.hidden = false;
+		});
+		setRecommendationEmptyState(false);
+		if (cards[0]) selectReferenceCard(cards[0]);
+	}
+
+	function syncSourceFileState() {
+		const list = document.querySelector('.answer-source-files');
+		const count = document.querySelector('[data-source-file-count]');
+		const emptyGuide = document.querySelector('[data-source-empty-guide]');
+		const search = document.querySelector('.answer-source-search');
+		const fileCount = list?.children.length || 0;
+
+		if (count) count.textContent = String(fileCount);
+		if (emptyGuide) emptyGuide.hidden = fileCount > 0;
+		if (search) search.hidden = fileCount === 0;
+	}
+
 	function syncSelectedReferences(cards) {
 		const selectedCards = cards.filter(card => card.querySelector('input[type="checkbox"]')?.checked);
 		document.querySelectorAll('[data-selected-reference-count]').forEach(count => {
@@ -244,6 +314,11 @@
 			});
 			list.replaceChildren(items);
 		}
+
+		const emptyGuide = document.querySelector('[data-selected-references-empty]');
+		const footer = document.querySelector('.selected-refs-footer');
+		if (emptyGuide) emptyGuide.hidden = selectedCards.length > 0;
+		if (footer) footer.hidden = selectedCards.length === 0;
 
 		const selectAll = document.querySelector('[data-select-all-references]');
 		if (selectAll) {
@@ -330,11 +405,12 @@
 
 			button.dataset.applying = 'true';
 			button.disabled = true;
+			setTabCount('draft', 1);
 			setActiveTab('draft');
 			scrollChatToBottom();
 			showToast(`${selected.length}건의 자료를 답변서 초안에 반영하고 있습니다.`);
 
-			window.setTimeout(() => {
+			scheduleWorkspaceTask(() => {
 				pending?.remove();
 				messages?.append(createChatMessage(
 					'ai',
@@ -360,6 +436,7 @@
 			showToast('선택한 관련자료를 해제했습니다.');
 		});
 
+		setReferenceFilterCounts(cards);
 		syncSelectedReferences(cards);
 	}
 
@@ -427,18 +504,18 @@
 			Array.from(event.detail?.files || []).forEach(file => {
 				list.append(createFileItem(file));
 			});
-			count.textContent = String(list.children.length);
+			syncSourceFileState();
 			showToast('참조소스를 추가했습니다.');
 		});
 
 		list.addEventListener('fileitem:delete', () => {
-			count.textContent = String(list.children.length);
+			syncSourceFileState();
 			showToast('참조소스를 삭제했습니다.');
 		});
 
 		document.querySelector('[data-source-reset]')?.addEventListener('click', () => {
 			list.replaceChildren();
-			count.textContent = '0';
+			syncSourceFileState();
 			showToast('참조소스를 초기화했습니다.');
 		});
 
@@ -460,6 +537,8 @@
 		document.querySelector('[data-source-file-add]')?.addEventListener('click', () => {
 			document.querySelector('#answerSourceFileInput')?.click();
 		});
+
+		syncSourceFileState();
 	}
 
 	function initDocumentActions() {
@@ -645,8 +724,9 @@
 			if (pending) messages.append(pending);
 			scrollChatToBottom();
 
-			window.setTimeout(() => {
+			scheduleWorkspaceTask(() => {
 				pending?.remove();
+				restoreRecommendationResults();
 				messages.append(createChatMessage(
 					'ai',
 					'요청하신 내용을 기준으로 관련자료와 답변서 초안을 갱신했습니다. 답변서 초안 탭에서 근거 문장과 확인 필요 항목을 검토해 주세요.'
@@ -667,17 +747,76 @@
 		scrollChatToBottom();
 	}
 
-	function initTopbarActions() {
-		document.querySelector('#newClassifyBtn')?.addEventListener('click', () => {
-			const messages = document.querySelector('#answerChatMessages');
-			if (!messages) return;
+	function resetAnswerWorkspace() {
+		clearPendingWorkspaceTasks();
+		document.body.classList.add('is-new-chat');
+
+		const layout = document.querySelector('.answer-three-panel-host > .three-panel');
+		const sourceFiles = document.querySelector('.answer-source-files');
+		const sourceInput = document.querySelector('#answerSourceFileInput');
+		const sourceSearch = document.querySelector('.answer-source-search input');
+		const cards = Array.from(document.querySelectorAll('[data-reference-card]'));
+		const messages = document.querySelector('#answerChatMessages');
+		const chatInput = document.querySelector('#answerChatInput');
+		const chatSubmit = document.querySelector('[data-answer-chat-form] [type="submit"]');
+		const applyButton = document.querySelector('[data-apply-references]');
+
+		sourceFiles?.replaceChildren();
+		if (sourceInput) sourceInput.value = '';
+		if (sourceSearch) sourceSearch.value = '';
+		syncSourceFileState();
+
+		cards.forEach(card => {
+			card.classList.remove('active');
+			card.hidden = false;
+			const checkbox = card.querySelector('input[type="checkbox"]');
+			if (checkbox) checkbox.checked = false;
+		});
+		document.querySelectorAll('[data-reference-filter]').forEach(button => {
+			const isAll = button.dataset.referenceFilter === 'all';
+			button.classList.toggle('active', isAll);
+			button.setAttribute('aria-pressed', String(isAll));
+		});
+		syncSelectedReferences(cards);
+		setRecommendationEmptyState(true);
+		setTabCount('draft', 0);
+		setTabCount('compare', 0);
+
+		if (applyButton) {
+			delete applyButton.dataset.applying;
+			applyButton.disabled = false;
+		}
+
+		document.querySelectorAll(
+			'[data-answer-highlight-toggle], [data-answer-source-toggle]'
+		).forEach(toggle => {
+			toggle.checked = true;
+			toggle.dispatchEvent(new Event('change', { bubbles: true }));
+		});
+
+		if (messages) {
 			messages.replaceChildren(createChatMessage(
 				'ai',
-				'국회 질의를 입력해 보세요! AI가 관련자료를 추천하고 답변서 초안 생성을 시작합니다.'
+				'국회 질의를 입력해 보세요!\n' +
+				'AI가 지능형 검색을 통해 관련자료를 추천하고 국회 답변서 초안 생성을 시작합니다.\n\n' +
+				'① (선택) 좌측 AI 참조소스에서 첨부파일을 업로드하고\n' +
+				'② 이 채팅에 국회질의를 입력하시면 과거 유사답변서나 관련자료를 추천하고 초안을 생성합니다.'
 			));
-			setActiveTab('recommend');
-			scrollChatToBottom();
-			document.querySelector('#answerChatInput')?.focus();
+		}
+		if (chatInput) chatInput.value = '';
+		if (chatSubmit) chatSubmit.disabled = true;
+
+		layout?.classList.remove('is-panel-swapped');
+		expandSourcePanel();
+		resetPanelResizeLayout(layout);
+		setActiveTab('recommend');
+		scrollChatToBottom();
+		chatInput?.focus();
+	}
+
+	function initTopbarActions() {
+		document.querySelector('#newClassifyBtn')?.addEventListener('click', () => {
+			resetAnswerWorkspace();
 			showToast('새 채팅을 시작했습니다.');
 		});
 

@@ -21,7 +21,7 @@ ProgressBar, DocumentStatusBar, Toast, ChatMessage, PromptComposer, DataTable, D
 
 로더는 fragment 안의 상대 `src`, `href`를 fragment 파일 기준의 절대 URL로 보정합니다. Fragment는 마크업만 소유하므로 로더는 fetch 응답에 포함된 Live Server용 `<script>`를 파싱 전에 제거하고, 실제 컴포넌트 JavaScript는 registry의 `scripts`로만 로드합니다. Modal fragment는 inline SVG 대신 기존 아이콘 파일을 참조해 표준 `.fragment.html`을 유지하며, inline SVG가 많은 SidePop은 Live Server의 응답 변형을 피하도록 확장자 없는 fragment를 registry에 명시합니다. `file://`에서 검수가 필요한 진입 페이지는 원격 fetch 대신 사용할 `<template data-component-file-fallback="<name>">`을 직접 제공할 수 있으며, fallback의 최종 DOM은 원본 fragment와 함께 관리합니다.
 
-DropdownMenu의 공식 예제는 기존 `html/ai-home.html`과 `html/ai-chatbot.html`의 모델 선택 메뉴를 공통화한 다크 단일 선택형입니다. 일반 라이트 액션 메뉴는 기존 화면 출처가 확인되지 않아 공식 기존 스타일 예제에서 제외합니다.
+DropdownMenu의 공식 예제는 현재 `pages/ai-home.html`에서 사용하는 모델 선택 메뉴를 공통화한 다크 단일 선택형입니다. 일반 라이트 액션 메뉴는 기존 화면 출처가 확인되지 않아 공식 기존 스타일 예제에서 제외합니다.
 
 Modal은 AI Answer의 `대화 작업 팝업` Small 160px, 기존 `삭제·확인 팝업` Medium 380px, `backup/20260726` AI Intake의 `실국별 알림 담당자 설정` Large 960px을 기준으로 검수합니다. 기존 화면의 마크업과 시각 규칙은 재사용하되 스타일 소유권은 `component/modal/modal.css`에 둡니다.
 
@@ -44,7 +44,7 @@ ChatMessage의 `data-variant`는 발화자가 아니라 화면별 표현 방식�
 ## 폴더 구조
 
 - 실제 화면은 `html`, 화면별 스타일은 `css`, 화면별 스크립트는 `js`에 둡니다.
-- 공통 환경설정과 화면 모드는 `css/common.css`, `js/common.js`를 사용합니다.
+- 공통 환경설정의 테마·강조 컬러 상태는 `js/common.js`의 `AIOnePreferences`가 관리하고, Sidebar에서 여는 환경설정 팝업의 마크업·스타일·연결은 `component/modal`의 `account-settings` variant가 소유합니다.
 - 컴포넌트 전용 마크업, 스타일, 동작은 `component/<name>/` 안에서 함께 관리합니다.
 - 컴포넌트 검수는 `component/index.html`에서 메뉴를 선택하고, 실제 카드는 `component/componentgroup-card.html`에서 확인합니다.
 - `_preview` 파일은 컴포넌트 검수에만 사용하며 실제 화면에는 포함하지 않습니다.

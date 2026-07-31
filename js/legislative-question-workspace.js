@@ -1,49 +1,7 @@
 (() => {
 	'use strict';
 
-	const components = window.AIOneComponents;
-	if (!components) return;
-
-	const emptyScripts = [];
-	components.register('sidebar', {
-		fragment: 'sidebar/sidebar.html?v=20260730-6',
-		styles: ['button/button.css?v=20260730-9', 'sidebar/sidebar.css?v=20260730-6'],
-		scripts: ['sidebar/sidebar.js?v=20260730-6']
-	});
-	components.register('topbar', {
-		defaults: {
-			title: 'AI 워크스페이스',
-			subtitle: 'AI 기반 업무 지원'
-		},
-		fragment: 'topbar/topbar.fragment?v=20260730-1',
-		styles: ['button/button.css?v=20260730-9', 'topbar/topbar.css?v=20260730-1'],
-		scripts: emptyScripts
-	});
-	components.register('panel', {
-		fragment: 'panel/panel.html',
-		styles: ['panel/panel.css?v=20260729-2'],
-		scripts: emptyScripts
-	});
-	components.register('three-panel', {
-		fragment: 'panel/three-panel.html?v=20260729-2',
-		defaults: {
-			leftSize: 'medium',
-			rightSize: 'large'
-		},
-		styles: ['panel/panel.css?v=20260729-3', 'handler/handler.css?v=20260730-1'],
-		scripts: ['handler/handler.js?v=20260730-2']
-	});
-	components.register('file-upload', {
-		fragment: 'file-upload/file-upload.html',
-		styles: ['file-upload/file-upload.css?v=20260729-2'],
-		scripts: emptyScripts
-	});
-	components.register('progressbar', {
-		fragment: 'progressbar/progressbar.fragment.html',
-		defaults: { value: '0' },
-		styles: ['progressbar/progressbar.css?v=20260729-2'],
-		scripts: ['progressbar/progressbar.js?v=20260729-2']
-	});
+	if (!window.AIOneComponents) return;
 
 	const iconBaseUrl = new URL('../assets/icons/', document.baseURI);
 	const questionSelector = '.document-question';

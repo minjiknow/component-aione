@@ -23,7 +23,7 @@
 		</div>
 	</div>
 
-	<div class="modal-variant-panel" data-modal-panel="account-profile">
+	<div class="modal-variant-panel" data-modal-panel="account-profile" data-account-modal-panel>
 		<div class="account-modal-head">
 			<div class="custom-modal-title">내 정보</div>
 			<button type="button" class="query-edit-modal-close" data-modal-close aria-label="닫기">×</button>
@@ -53,7 +53,7 @@
 		</div>
 	</div>
 
-	<div class="modal-variant-panel" data-modal-panel="account-settings">
+	<div class="modal-variant-panel" data-modal-panel="account-settings" data-account-modal-panel>
 		<div class="account-modal-head">
 			<div class="custom-modal-title">환경설정</div>
 			<button type="button" class="query-edit-modal-close" data-modal-close aria-label="닫기">×</button>

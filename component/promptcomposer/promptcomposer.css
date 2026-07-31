@@ -60,6 +60,41 @@
     box-shadow: 0 4px 28px rgba(9, 105, 218, 0.15);
 }
 
+.prompt-composer:focus-within .prompt-composer-input {
+    color: #fff !important;
+}
+
+.prompt-composer:focus-within .prompt-composer-input::placeholder {
+    color: rgba(255, 255, 255, 0.84) !important;
+}
+
+.prompt-composer:focus-within .prompt-composer-attach {
+    border-color: rgba(255, 255, 255, 0.72) !important;
+    background: #fff !important;
+    color: var(--primary, #0969da);
+}
+
+.prompt-composer:focus-within .prompt-composer-attach:hover:not(:disabled) {
+    border-color: #fff !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+}
+
+.prompt-composer:focus-within .prompt-composer-attach img[data-icon],
+.prompt-composer:focus-within .dropdown-menu-model-trigger img[data-icon] {
+    filter: var(--icon-filter-primary);
+}
+
+.prompt-composer:focus-within .dropdown-menu-model-trigger {
+    border-color: rgba(255, 255, 255, 0.74) !important;
+    background: #fff !important;
+    color: var(--primary, #0969da) !important;
+}
+
+.prompt-composer:focus-within .dropdown-menu-model-trigger:hover:not(:disabled) {
+    border-color: #fff !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+}
+
 @keyframes prompt-composer-border {
     0% {
         background-position:
@@ -85,7 +120,7 @@
     padding: 0 4px;
     border: 0;
     outline: 0;
-    background: transparent;
+    background: transparent !important;
     color: var(--text, #1f2328);
     font: inherit;
     font-size:calc(14px * var(--ui-font-scale, 1));

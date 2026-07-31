@@ -12,7 +12,7 @@
 }
 
 .type-badge.ai {
-    background: rgba(9, 105, 218, 0.07);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.07);
     color: var(--primary, #0969da);
 }
 

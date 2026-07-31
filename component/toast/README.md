@@ -8,7 +8,7 @@
 - 검수 페이지: `component/toast/toast.html`
 - 루트: `.ai-one-toast[data-toast]`
 - 메시지: `.ai-one-toast-message[data-toast-message]`
-- 실제 사용: `html/ai-answer.html`, `js/ai-answer.js`
+- 실제 사용: `pages/ai-answer.html`, `js/ai-answer-page.js`
 
 ```html
 <div class="ai-one-toast" id="pageToast" data-toast

@@ -102,22 +102,22 @@
 .three-panel > .panel.drag-over {
     outline: 2px dashed var(--primary, #0969da);
     outline-offset: -2px;
-    background: rgba(9, 105, 218, 0.03);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.03);
 }
 
 .three-panel > [data-panel-slot].drag-over .panel-component {
     outline: 2px dashed var(--primary, #0969da);
     outline-offset: -2px;
-    background: rgba(9, 105, 218, 0.03);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.03);
 }
 
 .three-panel > [data-panel-slot].panel-switch-source .panel-component {
     border-color: var(--primary, #0969da);
-    box-shadow: 0 0 0 2px rgba(9, 105, 218, 0.12);
+    box-shadow: 0 0 0 2px rgba(var(--primary-rgb, 9, 105, 218), 0.12);
 }
 
 .three-panel > [data-panel-slot].panel-switch-source .panel-head {
-    background: rgba(9, 105, 218, 0.045);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.045);
 }
 
 :is(.three-panel, .panel-component) .panel-head {

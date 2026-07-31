@@ -6,7 +6,7 @@
 - 필수 JS: `component/progressbar/progressbar.js`, `component/query-card/query-card.js`
 - 검수 페이지: `component/query-card/query-card.html`
 - 통합 검수: `component/index.html`의 Display 영역
-- 실제 사용: `html/ai-intake.html`, `js/ai-intake.js`, `pages/ai-workspace.html`, `js/legislative-question-workspace.js`
+- 실제 사용: `pages/ai-workspace.html`, `js/legislative-question-workspace.js`
 - 루트: `.query-card`
 - 소관 유형: `data-type="single|multi|none"`
 - 선택 상태: `.is-selected`

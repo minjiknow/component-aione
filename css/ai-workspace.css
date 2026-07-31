@@ -1,6 +1,44 @@
 @charset "utf-8";
 
 /* Page-only shell, workspace states, and question-document comparison layout. */
+html[data-theme="dark"] .question-workspace-page :is(
+	.workspace-app,
+	.workspace-shell
+) {
+	background-color: var(--bg);
+	color: var(--text);
+}
+
+html[data-theme="dark"] .question-workspace-page :is(
+	.center-body,
+	.workspace-empty-state
+) {
+	background-color: var(--surface);
+	color: var(--text);
+}
+
+html[data-theme="dark"] .question-workspace-page :is(
+	.question-toolbar,
+	.question-list-head
+) {
+	border-color: var(--border);
+	background-color: var(--surface-el);
+	color: var(--text);
+}
+
+html[data-theme="dark"] .question-workspace-page :is(
+	.stat-card,
+	.question-card
+) {
+	border-color: var(--border);
+	background: var(--surface);
+	color: var(--text);
+}
+
+html[data-theme="dark"] .question-workspace-page .question-card.active {
+	border-color: color-mix(in srgb, var(--primary) 62%, var(--border));
+	background: rgba(var(--primary-rgb, 88, 166, 255), 0.1);
+}
 
 html,
 body {
@@ -130,7 +168,7 @@ button {
 }
 
 .workspace-topbar-title-button:focus-visible {
-	outline: 2px solid rgba(9, 105, 218, 0.28);
+	outline: 2px solid rgba(var(--primary-rgb, 9, 105, 218), 0.28);
 	outline-offset: 2px;
 }
 
@@ -192,7 +230,7 @@ button {
 
 .question-workspace-page .panel-title[role="button"]:focus-visible {
 	border-radius: 4px;
-	outline: 2px solid rgba(9, 105, 218, 0.28);
+	outline: 2px solid rgba(var(--primary-rgb, 9, 105, 218), 0.28);
 	outline-offset: 3px;
 }
 
@@ -296,7 +334,7 @@ button {
 	padding: 4px 10px;
 	overflow: hidden;
 	border-radius: 999px;
-	background: rgba(9, 105, 218, 0.06);
+	background: rgba(var(--primary-rgb, 9, 105, 218), 0.06);
 	color: var(--text-muted, #8b949e);
 	font-size:calc(10px * var(--ui-font-scale, 1));
 	text-overflow: ellipsis;
@@ -306,7 +344,7 @@ button {
 .extract-count {
 	margin-left: auto;
 	padding: 4px 9px;
-	border: 1px solid rgba(9, 105, 218, 0.18);
+	border: 1px solid rgba(var(--primary-rgb, 9, 105, 218), 0.18);
 	border-radius: 6px;
 	color: var(--text-muted, #8b949e);
 	font-size:calc(10px * var(--ui-font-scale, 1));
@@ -470,9 +508,9 @@ button {
 .document-question:focus-visible,
 .document-question.is-selected {
 	border-color: var(--primary, #0969da);
-	background: rgba(9, 105, 218, 0.04);
+	background: rgba(var(--primary-rgb, 9, 105, 218), 0.04);
 	outline: none;
-	box-shadow: 0 0 0 2px rgba(9, 105, 218, 0.08);
+	box-shadow: 0 0 0 2px rgba(var(--primary-rgb, 9, 105, 218), 0.08);
 }
 
 .document-question span {
@@ -482,7 +520,7 @@ button {
 	align-items: center;
 	justify-content: center;
 	border-radius: 50%;
-	background: rgba(9, 105, 218, 0.07);
+	background: rgba(var(--primary-rgb, 9, 105, 218), 0.07);
 	color: var(--primary, #0969da);
 	flex: 0 0 24px;
 	font-size:calc(10px * var(--ui-font-scale, 1));
@@ -513,9 +551,9 @@ button {
 	width: 100%;
 	margin-bottom: 18px;
 	padding: 12px 14px;
-	border: 1px solid rgba(9, 105, 218, 0.22);
+	border: 1px solid rgba(var(--primary-rgb, 9, 105, 218), 0.22);
 	border-radius: 10px;
-	background: rgba(9, 105, 218, 0.035);
+	background: rgba(var(--primary-rgb, 9, 105, 218), 0.035);
 	box-shadow: 0 1px 2px rgba(31, 35, 40, 0.02);
 	text-align: left;
 	transition:
@@ -525,13 +563,13 @@ button {
 }
 
 .source-location-card:hover {
-	border-color: rgba(9, 105, 218, 0.42);
-	background: rgba(9, 105, 218, 0.065);
-	box-shadow: 0 2px 8px rgba(9, 105, 218, 0.08);
+	border-color: rgba(var(--primary-rgb, 9, 105, 218), 0.42);
+	background: rgba(var(--primary-rgb, 9, 105, 218), 0.065);
+	box-shadow: 0 2px 8px rgba(var(--primary-rgb, 9, 105, 218), 0.08);
 }
 
 .source-location-card:focus-visible {
-	outline: 2px solid rgba(9, 105, 218, 0.32);
+	outline: 2px solid rgba(var(--primary-rgb, 9, 105, 218), 0.32);
 	outline-offset: 2px;
 }
 
@@ -564,7 +602,7 @@ button {
 	align-items: center;
 	justify-content: center;
 	border-radius: 8px;
-	background: rgba(9, 105, 218, 0.08);
+	background: rgba(var(--primary-rgb, 9, 105, 218), 0.08);
 }
 
 .source-location-icon svg {
@@ -655,8 +693,8 @@ button {
 }
 
 .result-tags .scope-badge.single {
-	border-color: rgba(9, 105, 218, 0.2);
-	background: rgba(9, 105, 218, 0.08);
+	border-color: rgba(var(--primary-rgb, 9, 105, 218), 0.2);
+	background: rgba(var(--primary-rgb, 9, 105, 218), 0.08);
 	color: var(--primary, #0969da);
 }
 
@@ -1789,7 +1827,7 @@ button {
 }
 
 .rule-item.active {
-    background: rgba(9, 105, 218, 0.03);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.03);
 }
 
 .rule-item.disabled {

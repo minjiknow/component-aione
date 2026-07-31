@@ -4,9 +4,9 @@
 
 ## 기존 화면 출처
 
-- 마크업: `html/ai-home.html`의 `.model-picker-dropdown`
+- 마크업: `pages/ai-home.html`의 공통 `PromptComposer`
 - 스타일: `css/ai-home.css`의 `.model-picker-dropdown`, `.model-option`
-- 동일 사용처: `html/ai-chatbot.html`, `css/ai-chatbot.css`
+- 동일 사용처: `pages/ai-home.html`, `component/promptcomposer/promptcomposer.fragment.html`
 - 기존 동작: `js/ai-home.js`, `js/ai-chatbot.js`의 모델 선택 로직
 
 소형 라이트 액션 메뉴는 파일 목록의 기존 더보기 버튼과 AI Intake의 `목록 고정`·`삭제` 동작을 공통 DropdownMenu 계약으로 연결한 변형입니다.

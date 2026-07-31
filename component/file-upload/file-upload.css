@@ -15,7 +15,7 @@
 .upload-zone:hover,
 .upload-zone.dragover {
     border-color: var(--primary, #0969da);
-    background: rgba(9, 105, 218, 0.02);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.02);
 }
 
 .upload-zone:focus-visible {
@@ -40,7 +40,7 @@
     margin: 0 auto 8px;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(9, 105, 218, 0.28);
+    border: 1px solid rgba(var(--primary-rgb, 9, 105, 218), 0.28);
     border-radius: 9px;
     background: var(--surface, #fff);
     color: var(--primary, #0969da);

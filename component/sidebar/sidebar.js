@@ -29,6 +29,7 @@
 		}
 
 		pendingModalRequest = null;
+		window.AIOneAccountModal?.prepare(modal, sidebar || trigger);
 		window.AIOneModal.open(modal, trigger);
 		return true;
 	}
@@ -42,6 +43,16 @@
 		if (userCard) {
 			userCard.dataset.accountMenuReady = 'true';
 			window.AIOneUserProfileTooltip?.bind(userCard);
+			const summaryName = menu.querySelector('.user-account-summary strong');
+			const summaryDepartment = menu.querySelector('.user-account-summary span');
+			if (summaryName) {
+				summaryName.textContent = userCard.querySelector('.user-name, .user-name-sm')?.textContent?.trim()
+					|| summaryName.textContent;
+			}
+			if (summaryDepartment) {
+				summaryDepartment.textContent = userCard.querySelector('.user-dept')?.textContent?.trim()
+					|| summaryDepartment.textContent;
+			}
 		}
 
 		const state = { menu, triggers, lastTrigger: null, userCard };

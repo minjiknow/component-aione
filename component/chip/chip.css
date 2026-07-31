@@ -19,7 +19,7 @@
 }
 
 .chat-tag:focus-visible {
-    outline: 2px solid rgba(9, 105, 218, 0.28);
+    outline: 2px solid rgba(var(--primary-rgb, 9, 105, 218), 0.28);
     outline-offset: 2px;
 }
 

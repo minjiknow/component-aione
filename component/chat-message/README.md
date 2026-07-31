@@ -181,4 +181,4 @@ document.querySelector('[data-chat-message-list][data-variant="answer"]')
 - Answer/Chatbot 스타일: `component/chat-message/chat-message.css`
 - 통합 카탈로그: `component/index.html#card-chatmessage`
 - 상세 검수: `component/chat-message/chat-message.html`
-- 실제 사용: `html/ai-answer.html`, `html/ai-chatbot.html`
+- 실제 사용: `pages/ai-answer.html`, `js/ai-answer-page.js`

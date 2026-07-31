@@ -172,7 +172,7 @@
 }
 
 .file-list:not(.simple) li.active {
-    background: rgba(9, 105, 218, 0.03);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.03);
 }
 
 .file-list:not(.simple) li.pinned::before {

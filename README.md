@@ -4,15 +4,15 @@
 
 ## 폴더
 
-- `html`: 실제 화면 HTML
-- `css`: 화면별 CSS와 공통 `common.css`
+- `pages`: 공통 컴포넌트로 조합한 현재 화면 HTML
+- `css`: `pages`에서 사용하는 화면 CSS와 공통 `common.css`
 - `js`: 화면별 JavaScript와 공통 `common.js`
 - `component`: 컴포넌트 카탈로그, 검수 페이지, include용 fragment
 - `assets`: 컴포넌트 검수에 사용하는 아이콘
 
 ## 시작 파일
 
-- 메인 화면: `html/ai-home.html`
+- 메인 화면: `pages/ai-home.html`
 - 컴포넌트 카탈로그: `component/index.html`
 
 ## 로컬 실행
@@ -27,7 +27,7 @@ python -m http.server 8000
 
 서버 실행 후 브라우저에서 필요한 화면에 접속합니다.
 
-- 메인 화면: `http://localhost:8000/html/ai-home.html`
+- 메인 화면: `http://localhost:8000/pages/ai-home.html`
 - 공통 컴포넌트 카탈로그: `http://localhost:8000/component/index.html`
 - 공통 컴포넌트 기반 페이지: `http://localhost:8000/pages/ai-home.html`
 

@@ -7,7 +7,9 @@
 	<title>ServiceCard 컴포넌트</title>
 	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
 	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
-	<link rel="stylesheet" href="service-card.css?v=20260728" />
+	<link rel="stylesheet" href="../button/button.css?v=20260731-3" />
+	<link rel="stylesheet" href="../modal/modal.css?v=20260731-2" />
+	<link rel="stylesheet" href="service-card.css?v=20260731-3" />
 	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260728-7" />
 </head>
 
@@ -29,16 +31,21 @@
 					<ul class="service-cards service-card-detail-list" aria-label="활성 ServiceCard 예제"
 						data-service-card-active></ul>
 				</article>
-				<article class="control-use-case">
-					<span class="control-use-label">Disabled</span>
-					<ul class="service-cards service-card-detail-list" aria-label="준비 중 ServiceCard 예제"
-						data-service-card-disabled></ul>
-				</article>
 			</div>
 		</section>
 	</main>
 
-	<script src="service-card.js?v=20260729-1"></script>
+	<div data-component-include="modal" data-component-id="preparingServiceModal"
+		data-component-variant="alert" data-component-label="준비중 안내">
+		<template data-slot="title">준비중</template>
+		<template data-slot="description">해당 서비스는 현재 준비 중입니다.</template>
+		<template data-slot="actions">
+			<button type="button" class="btn-confirm" data-modal-close>확인</button>
+		</template>
+	</div>
+
+	<script src="../component-include-loader.js?v=20260731-7"></script>
+	<script src="service-card.js?v=20260731-3"></script>
 	<script>
 		window.AIOneServiceCard.renderList('[data-service-card-active]', [
 			{
@@ -56,41 +63,20 @@
 				description: '자료 분석 · 유사답변서 추천 · 초안 생성 · 편집'
 			},
 			{
-				href: '#',
 				icon: '../../assets/icons/service-economic-trends.svg',
 				iconTone: 'orange',
-				title: '국유재산 업무 관리',
-				description: '국유재산 관리전문 챗봇 · 종합계획 동향분석 · 개발 가능 재산 추천',
-				disabled: true
+				title: '경제동향 분석 보고서',
+				description: '데이터 수집 · 동향 분석 · 보고서 초안 · 검토',
+				status: 'preparing'
 			},
 			{
-				href: '#',
 				icon: '../../assets/icons/service-chatbot.svg',
 				iconTone: 'purple',
-				title: '정책 안내서',
-				description: '정책안내 관리전문 챗봇 · 정책분석 관련자료 · 정책 추천',
-				disabled: true
+				title: '세수예측 및 시나리오 시뮬레이션',
+				description: '시나리오별 세수 예측',
+				status: 'preparing'
 			}
 		]);
-
-		// window.AIOneServiceCard.renderList('[data-service-card-disabled]', [
-		// 	{
-		// 		href: '#',
-		// 		icon: '../../assets/icons/service-economic-trends.svg',
-		// 		iconTone: 'orange',
-		// 		title: '국유재산 업무 관리',
-		// 		description: '국유재산 관리전문 챗봇 · 종합계획 동향분석 · 개발 가능 재산 추천',
-		// 		disabled: true
-		// 	},
-		// 	{
-		// 		href: '#',
-		// 		icon: '../../assets/icons/service-chatbot.svg',
-		// 		iconTone: 'purple',
-		// 		title: '정책 안내서',
-		// 		description: '정책안내 관리전문 챗봇 · 정책분석 관련자료 · 정책 추천',
-		// 		disabled: true
-		// 	}
-		// ]);
 	</script>
 </body>
 

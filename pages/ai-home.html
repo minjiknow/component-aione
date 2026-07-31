@@ -5,14 +5,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>AI-ONE 홈</title>
 	<link rel="icon" href="../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
-	<link rel="stylesheet" href="../css/common.css?v=20260730-8" />
-	<link rel="stylesheet" href="../css/ai-home.css?v=20260730-10" />
-	<link rel="stylesheet" href="../component/button/button.css?v=20260730-9" />
-	<link rel="stylesheet" href="../component/input/input.css?v=20260730-6" />
-	<link rel="stylesheet" href="../component/badge/badge.css?v=20260730-6" />
-	<link rel="stylesheet" href="../component/service-card/service-card.css?v=20260730-6" />
-	<link rel="stylesheet" href="../component/sidebar/sidebar.css?v=20260730-6" />
-	<link rel="stylesheet" href="../css/ai-home-page.css?v=20260730-6" />
+	<link rel="stylesheet" href="../css/common.css?v=20260731-5" />
+	<link rel="stylesheet" href="../css/ai-home.css?v=20260731-6" />
+	<link rel="stylesheet" href="../component/button/button.css?v=20260731-3" />
+	<link rel="stylesheet" href="../component/badge/badge.css?v=20260731-3" />
+	<link rel="stylesheet" href="../component/service-card/service-card.css?v=20260731-3" />
+	<link rel="stylesheet" href="../component/sidebar/sidebar.css?v=20260731-4" />
+	<link rel="stylesheet" href="../component/topbar/topbar.css?v=20260731-4" />
 </head>
 <body class="ai-home-page" data-page="home">
 	<div class="ai-home-app">
@@ -28,16 +27,10 @@
 					<p class="home-description">무엇을 도와드릴까요?</p>
 				</header>
 
-				<form class="home-search" role="search" data-home-search>
-					<label class="sr-only" for="homeSearchInput">AI-ONE 검색</label>
-					<img class="home-search-icon" data-icon="search" alt="" aria-hidden="true" />
-					<input class="form-input home-search-input" id="homeSearchInput" type="search"
-						placeholder="생성형 AI와 대화를 시작합니다." autocomplete="off" />
-					<button class="icon-button icon-button-primary home-search-submit" type="submit"
-						aria-label="AI 대화 시작" title="AI 대화 시작">
-						<img data-icon="search" alt="" aria-hidden="true" />
-					</button>
-				</form>
+				<div class="home-prompt-composer" data-component-include="promptcomposer"
+					data-component-id="homePromptComposer"
+					data-component-placeholder="생성형 AI와 대화를 시작합니다."
+					data-home-prompt-composer></div>
 
 				<section class="home-services" aria-label="AI 서비스">
 					<ul class="service-cards" data-service-card-list></ul>
@@ -407,9 +400,9 @@
 		</div>
 	</template>
 
-	<script src="../component/component-include-loader.js?v=20260730-12"></script>
-	<script src="../component/service-card/service-card.js?v=20260729-1"></script>
-	<script src="../js/common.js?v=20260730-10"></script>
-	<script src="../js/ai-home-page.js?v=20260730-10"></script>
+	<script src="../component/component-include-loader.js?v=20260731-7"></script>
+	<script src="../component/service-card/service-card.js?v=20260731-3"></script>
+	<script src="../js/common.js?v=20260731-2"></script>
+	<script src="../js/ai-home-page.js?v=20260731-3"></script>
 </body>
 </html>

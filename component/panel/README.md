@@ -156,8 +156,8 @@ data-panel-action="chat-list" <!-- 채팅 목록 -->
 
 ## 적용 화면
 
-- `html/ai-intake.html`
-- `html/ai-answer.html`
+- `pages/ai-workspace.html`
+- `pages/ai-answer.html`
 - `pages/ai-workspace.html`
 
 각 화면은 `three-panel > panel 3개` 구조로 연결되어 있으며, 패널 순서를 변경한 뒤에도 현재 위치를 기준으로 리사이즈와 접기가 동작합니다. 왼쪽·오른쪽 패널의 고정 폭과 가운데 패널의 가변 폭 역할은 패널 요소를 따라 이동합니다.

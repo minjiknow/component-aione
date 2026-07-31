@@ -5,25 +5,28 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>국회 답변서 초안 생성 AI 워크스페이스 — AI-ONE</title>
 	<link rel="icon" href="../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
-	<link rel="stylesheet" href="../css/common.css?v=20260730-8" />
-	<link rel="stylesheet" href="../component/button/button.css?v=20260730-9" />
-	<link rel="stylesheet" href="../component/modal/modal.css?v=20260730-10" />
-	<link rel="stylesheet" href="../component/panel/panel.css?v=20260730-6" />
-	<link rel="stylesheet" href="../component/sidebar/sidebar.css?v=20260730-6" />
-	<link rel="stylesheet" href="../component/tab/tab.css?v=20260731-1" />
-	<link rel="stylesheet" href="../component/toast/toast.css?v=20260730-6" />
-	<link rel="stylesheet" href="../component/topbar/topbar.css?v=20260730-6" />
-	<link rel="stylesheet" href="../component/chat-message/chat-message.css?v=20260730-6" />
-	<link rel="stylesheet" href="../component/file-list/file-list.css?v=20260731-1" />
-	<link rel="stylesheet" href="../component/file-item/file-item.css?v=20260731-1" />
-	<link rel="stylesheet" href="../css/ai-answer.css?v=20260730-6" />
-	<link rel="stylesheet" href="../css/ai-answer-page.css?v=20260731-2" />
+	<link rel="stylesheet" href="../css/common.css?v=20260731-5" />
+	<link rel="stylesheet" href="../component/button/button.css?v=20260731-3" />
+	<link rel="stylesheet" href="../component/checkbox/checkbox.css?v=20260731-1" />
+	<link rel="stylesheet" href="../component/filter-btn/filter-btn.css?v=20260731-4" />
+	<link rel="stylesheet" href="../component/_shared/form-control.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/input/input.css?v=20260731-3" />
+	<link rel="stylesheet" href="../component/modal/modal.css?v=20260731-3" />
+	<link rel="stylesheet" href="../component/panel/panel.css?v=20260731-3" />
+	<link rel="stylesheet" href="../component/sidebar/sidebar.css?v=20260731-4" />
+	<link rel="stylesheet" href="../component/tab/tab.css?v=20260731-3" />
+	<link rel="stylesheet" href="../component/toast/toast.css?v=20260731-1" />
+	<link rel="stylesheet" href="../component/topbar/topbar.css?v=20260731-4" />
+	<link rel="stylesheet" href="../component/chat-message/chat-message.css?v=20260731-3" />
+	<link rel="stylesheet" href="../component/file-list/file-list.css?v=20260731-3" />
+	<link rel="stylesheet" href="../component/file-item/file-item.css?v=20260731-3" />
+	<link rel="stylesheet" href="../css/ai-answer.css?v=20260731-7" />
 	<link rel="stylesheet" href="../component/handler/handler.css?v=20260730-6" />
-	<script src="../component/component-include-loader.js?v=20260730-12"></script>
-	<script src="../js/common.js?v=20260730-10" defer></script>
+	<script src="../component/component-include-loader.js?v=20260731-7"></script>
+	<script src="../js/common.js?v=20260731-2" defer></script>
 	<script src="../component/chat-message/chat-message.js?v=20260729-2" defer></script>
 	<script src="../component/file-item/file-item.js?v=20260731-1" defer></script>
-	<script src="../js/ai-answer-page.js?v=20260731-1" defer></script>
+	<script src="../js/ai-answer-page.js?v=20260731-3" defer></script>
 </head>
 <body class="ai-answer-page answer-workspace-page" data-page="answer">
 	<div class="answer-workspace-app sidebar-collapsed">
@@ -136,6 +139,10 @@
 									</span>
 								</li>
 							</ul>
+							<div class="answer-source-empty-guide" data-source-empty-guide hidden>
+								<strong>답변서 초안 생성에 참조할 문서를 첨부해 보세요</strong>
+								<span>첨부 없이도 과거 답변서 기반으로 초안 생성이 가능합니다</span>
+							</div>
 						</div>
 
 						<div class="selected-refs" id="selectedRefsSection">
@@ -150,6 +157,10 @@
 									<button type="button" class="ref-remove" aria-label="선택 해제">×</button>
 								</li>
 							</ul>
+							<div class="selected-refs-guide" data-selected-references-empty hidden>
+								<p class="selected-refs-guide-title">관련자료 추천 목록에서 추가할 자료를 선택해 보세요</p>
+								<p class="selected-refs-guide-desc">선택된 자료를 기반으로 초안에 반영이 가능합니다</p>
+							</div>
 							<div class="selected-refs-footer">
 								<span class="refs-footer-icon">✓</span>
 								<span class="refs-footer-text">초안에 반영 가능 — 선택된 소스를 근거로 답변서를 생성합니다</span>
@@ -190,13 +201,20 @@
 							<section class="answer-tab-panel recommend-view-wrapper doc-viewer-panel"
 								id="answerPanelRecommend" role="tabpanel" aria-labelledby="answerTabRecommend"
 								data-answer-panel="recommend">
+								<div class="answer-recommend-empty" data-answer-recommend-empty hidden>
+									<img src="../assets/icons/search.svg" alt="" aria-hidden="true" />
+									<strong>검색된 추천 자료가 없습니다</strong>
+									<span>우측 AI 채팅에 질의 내용이나 검색 키워드를 입력해 보세요<br />AI가 관련 유사답변서와 참고자료를 추천합니다</span>
+								</div>
 								<div class="center-split split-handler" data-component="split-handler"
+									data-answer-recommend-results
 									data-split-min="240">
 									<div class="center-left split-handler-left">
 										<div class="center-sub-head">
 											<span class="sub-title">관련자료 목록</span>
 											<label class="rec-select-all">
-												<input type="checkbox" data-select-all-references />
+												<input class="checkbox-control checkbox-control-md" type="checkbox"
+													data-select-all-references />
 												<span>전체선택</span>
 											</label>
 											<span class="sub-badge">유사도순</span>
@@ -214,7 +232,8 @@
 											<article class="rec-card active" data-reference-card data-category="similar"
 												data-score="91" data-title="재경위 전체 의원 질의에 대한 답변 통합본">
 												<div class="rec-card-head">
-													<label class="rec-checkbox"><input type="checkbox" checked /><span class="rec-check-mark"></span></label>
+													<label class="rec-checkbox"><input class="checkbox-control checkbox-control-md"
+															type="checkbox" aria-label="관련자료 선택" checked /></label>
 													<strong class="rec-title">260402_재경위_전체 의원 질의에 대한 답변_통합본</strong>
 													<span class="rec-score">91%</span>
 												</div>
@@ -226,7 +245,8 @@
 											<article class="rec-card" data-reference-card data-category="similar"
 												data-score="88" data-title="지방채 인수를 해야 하는 법적 의무">
 												<div class="rec-card-head">
-													<label class="rec-checkbox"><input type="checkbox" /><span class="rec-check-mark"></span></label>
+													<label class="rec-checkbox"><input class="checkbox-control checkbox-control-md"
+															type="checkbox" aria-label="관련자료 선택" /></label>
 													<strong class="rec-title">지방채 인수를 해야 하는 법적 의무</strong>
 													<span class="rec-score">88%</span>
 												</div>
@@ -238,7 +258,8 @@
 											<article class="rec-card" data-reference-card data-category="similar"
 												data-score="95" data-title="지방교부세와 지방채 인수 추경 편성 이유">
 												<div class="rec-card-head">
-													<label class="rec-checkbox"><input type="checkbox" /><span class="rec-check-mark"></span></label>
+													<label class="rec-checkbox"><input class="checkbox-control checkbox-control-md"
+															type="checkbox" aria-label="관련자료 선택" /></label>
 													<strong class="rec-title">지방교부세가 지급되고 있고 지방채 인수시 추경을 편성해야 하는 이유</strong>
 													<span class="rec-score">95%</span>
 												</div>
@@ -250,7 +271,8 @@
 											<article class="rec-card" data-reference-card data-category="similar"
 												data-score="76" data-title="TK통합법 관련 지방채 인수 추경안 견해">
 												<div class="rec-card-head">
-													<label class="rec-checkbox"><input type="checkbox" /><span class="rec-check-mark"></span></label>
+													<label class="rec-checkbox"><input class="checkbox-control checkbox-control-md"
+															type="checkbox" aria-label="관련자료 선택" /></label>
 													<strong class="rec-title">민주당 반대로 무산된 TK통합법 관련 지방채 인수 추경안 견해</strong>
 													<span class="rec-score">76%</span>
 												</div>
@@ -260,7 +282,8 @@
 											<article class="rec-card" data-reference-card data-category="similar"
 												data-score="95" data-title="지방채 인수 예산 현황표">
 												<div class="rec-card-head">
-													<label class="rec-checkbox"><input type="checkbox" /><span class="rec-check-mark"></span></label>
+													<label class="rec-checkbox"><input class="checkbox-control checkbox-control-md"
+															type="checkbox" aria-label="관련자료 선택" /></label>
 													<strong class="rec-title">지방채 인수 예산 현황표 ('16~'26)</strong>
 													<span class="rec-score">95%</span>
 												</div>
@@ -271,7 +294,8 @@
 											<article class="rec-card" data-reference-card data-category="similar"
 												data-score="92" data-title="광주·전남 통합 관련 추경 수요 상세">
 												<div class="rec-card-head">
-													<label class="rec-checkbox"><input type="checkbox" /><span class="rec-check-mark"></span></label>
+													<label class="rec-checkbox"><input class="checkbox-control checkbox-control-md"
+															type="checkbox" aria-label="관련자료 선택" /></label>
 													<strong class="rec-title">광주·전남 통합 관련 추경 수요 상세</strong>
 													<span class="rec-score">92%</span>
 												</div>
@@ -282,7 +306,8 @@
 											<article class="rec-card" data-reference-card data-category="similar"
 												data-score="84" data-title="세수추계 및 세입경정 운용 자료">
 												<div class="rec-card-head">
-													<label class="rec-checkbox"><input type="checkbox" /><span class="rec-check-mark"></span></label>
+													<label class="rec-checkbox"><input class="checkbox-control checkbox-control-md"
+															type="checkbox" aria-label="관련자료 선택" /></label>
 													<strong class="rec-title">세수추계 및 세입경정 운용 자료</strong>
 													<span class="rec-score">84%</span>
 												</div>
@@ -293,7 +318,8 @@
 											<article class="rec-card" data-reference-card data-category="similar"
 												data-score="72" data-title="세수추계 오차 분석 및 개선 방안">
 												<div class="rec-card-head">
-													<label class="rec-checkbox"><input type="checkbox" /><span class="rec-check-mark"></span></label>
+													<label class="rec-checkbox"><input class="checkbox-control checkbox-control-md"
+															type="checkbox" aria-label="관련자료 선택" /></label>
 													<strong class="rec-title">세수추계 오차 분석 및 개선 방안</strong>
 													<span class="rec-score">72%</span>
 												</div>
@@ -378,7 +404,7 @@
 										</div>
 									</div>
 								</div>
-								<div data-component-include="document-statusbar"
+								<div data-component-include="document-statusbar" data-answer-recommend-status
 									data-component-target=".recommend-view-wrapper .doc-pages-track"
 									data-component-scroll-target=".recommend-view-wrapper .doc-viewer-body"
 									data-component-page-selector=".web-doc-page"
@@ -404,27 +430,40 @@
 								id="answerPanelDraft" role="tabpanel" aria-labelledby="answerTabDraft"
 								data-answer-panel="draft" hidden>
 								<div class="answer-draft-versionbar">
-									<span class="answer-version-chip">v1.0(09:18) <button type="button" aria-label="버전 탭 닫기">×</button></span>
-									<label>버전
-										<select aria-label="답변서 초안 버전">
+									<span class="answer-version-chip">v1.0(09:18)
+										<button type="button" class="answer-version-close" aria-label="버전 탭 닫기">×</button>
+									</span>
+									<label class="answer-version-control">
+										<span>버전</span>
+										<select class="answer-version-select" aria-label="답변서 초안 버전">
 											<option>v1.0(09:18)</option>
 										</select>
 									</label>
-									<button type="button" class="icon-button icon-button-ghost" data-download-draft
+									<button type="button" class="icon-button icon-button-ghost answer-version-download"
+										data-download-draft
 										aria-label="답변서 초안 다운로드" title="답변서 초안 다운로드">
 										<img class="icon icon-small" data-icon="download" alt="" aria-hidden="true" />
 									</button>
 								</div>
 								<div class="answer-draft-toolbar">
-									<label><input type="checkbox" data-answer-highlight-toggle
-											aria-controls="answerDraftDocument" checked /> 문장별 하이라이트</label>
-									<label><input type="checkbox" data-answer-source-toggle
-											aria-controls="answerDraftDocument" checked /> 출처번호 보기</label>
+									<label class="answer-draft-option">
+										<input class="checkbox-control checkbox-control-sm" type="checkbox"
+											data-answer-highlight-toggle
+											aria-controls="answerDraftDocument" checked />
+										<span>문장별 하이라이트</span>
+									</label>
+									<label class="answer-draft-option">
+										<input class="checkbox-control checkbox-control-sm" type="checkbox"
+											data-answer-source-toggle
+											aria-controls="answerDraftDocument" checked />
+										<span>출처번호 보기</span>
+									</label>
 									<span class="answer-legend is-grounded">녹색: 근거 확인</span>
 									<span class="answer-legend is-caution">노랑: 주의</span>
 									<span class="answer-legend is-missing">빨강: 출처 누락</span>
 								</div>
 								<div class="answer-draft-scroll">
+									<h3 class="answer-draft-heading">답변서 초안 · v1.0(09:18)</h3>
 									<article class="answer-draft-document" id="answerDraftDocument">
 										<div class="answer-question-block">
 											<strong>1</strong>

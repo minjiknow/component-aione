@@ -48,6 +48,11 @@ input.checkbox-control[type="checkbox"] {
     margin: 0;
 }
 
+input.checkbox-control-md[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
 input.checkbox-control-sm[type="checkbox"] {
     width: 14px;
     height: 14px;

@@ -57,7 +57,7 @@
 }
 
 :is(.button, .icon-button, .brand-icon-button):focus-visible {
-    outline: 2px solid rgba(9, 105, 218, 0.28);
+    outline: 2px solid rgba(var(--primary-rgb, 9, 105, 218), 0.28);
     outline-offset: 2px;
 }
 
@@ -108,10 +108,10 @@
 }
 
 :is(.button-soft-primary, .icon-button-soft-primary) {
-    border-color: rgba(9, 105, 218, 0.42);
-    background: rgba(9, 105, 218, 0.09);
+    border-color: rgba(var(--primary-rgb, 9, 105, 218), 0.42);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.09);
     color: var(--primary, #0969da);
-    box-shadow: 0 1px 2px rgba(9, 105, 218, 0.06);
+    box-shadow: 0 1px 2px rgba(var(--primary-rgb, 9, 105, 218), 0.06);
 }
 
 .button.button-soft-primary {
@@ -170,7 +170,7 @@
 
 :is(.button-workspace, .icon-button-workspace) {
     border-color: var(--primary, #0969da);
-    background: rgba(9, 105, 218, 0.04);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.04);
     color: var(--primary, #0969da);
 }
 
@@ -181,7 +181,7 @@
 
 :is(.button-workspace, .icon-button-workspace):hover:not(:disabled, [aria-disabled="true"]) {
     border-color: var(--primary, #0969da);
-    background: rgba(9, 105, 218, 0.1);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.1);
     color: var(--primary, #0969da);
 }
 
@@ -228,8 +228,8 @@
 
 :is(.button-active, .icon-button-active),
 :is(.button, .icon-button)[aria-pressed="true"] {
-    border-color: rgba(9, 105, 218, 0.3);
-    background: rgba(9, 105, 218, 0.08);
+    border-color: rgba(var(--primary-rgb, 9, 105, 218), 0.3);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.08);
     color: var(--primary, #0969da);
 }
 

@@ -37,11 +37,13 @@ Medium 확인·안내 모달은 기존 화면과 동일하게 제목 `15px / 700
 <link rel="stylesheet" href="${contextPath}/component/modal/modal.css" />
 <script src="${contextPath}/component/_shared/layer-controller.js"></script>
 <script src="${contextPath}/component/modal/modal.js"></script>
+<script src="${contextPath}/component/modal/account-modal.js"></script>
 ```
 
 입력 폼을 Modal body 슬롯에 조합할 때만 `component/_shared/form-control.css`와 해당 Input, Select, Textarea CSS를 추가합니다.
 질의분류 수정 폼은 `component/modal/query-edit-modal.js`를 추가하면 기존 Query Card 데이터를 채우고 `query-edit-modal:apply` 이벤트로 수정값을 전달할 수 있습니다.
 실국별 알림 담당자 설정은 `backup/20260726` AI Intake와 동일한 960px 조직도형 모달입니다. Include 방식에서는 `notification-assignee` variant를 지정하면 전용 마크업과 `component/modal/notification-assignee.js`가 함께 로드되어 조직 필터, 검색, 담당자 선택과 저장 이벤트가 초기화됩니다. 화면 전용 배치·색상·반응형 CSS는 공통 `modal.css`에서 주석 처리해 보존하고 `css/ai-workspace.css`가 소유합니다.
+`account-profile`, `account-settings`의 마크업과 상세 스타일은 `modal.fragment`, `modal.css`가 소유합니다. `account-modal.js`는 Sidebar 사용자 정보를 내 정보 Modal에 동기화하고, 환경설정 패널을 공통 `AIOnePreferences` API에 연결합니다. Include 방식에서는 이 스크립트가 자동으로 로드됩니다.
 
 - Fragment: `component/modal/modal.fragment`
 - 열기: `[data-modal-open="<layer-id>"]`
@@ -121,6 +123,20 @@ Medium 확인·안내 모달은 기존 화면과 동일하게 제목 `15px / 700
         <button type="button" class="btn-confirm danger" data-modal-close>로그아웃</button>
     </template>
 </div>
+
+<!-- Sidebar 계정: 내 정보 -->
+<button type="button" data-modal-open="sidebarProfileModal">내 정보</button>
+<div data-component-include="modal"
+    data-component-id="sidebarProfileModal"
+    data-component-variant="account-profile"
+    data-component-label="내 정보"></div>
+
+<!-- Sidebar 계정: 환경설정 -->
+<button type="button" data-modal-open="sidebarSettingsModal">환경설정</button>
+<div data-component-include="modal"
+    data-component-id="sidebarSettingsModal"
+    data-component-variant="account-settings"
+    data-component-label="환경설정"></div>
 
 <!-- Medium: 준비 중 안내 모달 -->
 <button type="button" data-modal-open="preparingModal">준비중</button>
@@ -227,6 +243,13 @@ Small 작업 메뉴를 코드에서 직접 열 때도 기준 버튼을 두 번�
 
 ```js
 window.AIOneModal.open('#actionMenuModal', actionMenuButton);
+```
+
+Sidebar처럼 사용자 정보 원본을 가진 컴포넌트에서 내 정보 Modal을 열기 전 동기화할 때는 다음 API를 사용합니다.
+
+```js
+window.AIOneAccountModal.prepare('#sidebarProfileModal', sidebarElement);
+window.AIOneModal.open('#sidebarProfileModal', triggerButton);
 ```
 
 ## 직접 작성

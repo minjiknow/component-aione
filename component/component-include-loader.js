@@ -4,7 +4,7 @@
   const scriptUrl = document.currentScript?.src || new URL('component-include-loader.js', document.baseURI).href;
   const componentRoot = new URL('./', scriptUrl);
   const loadedAssets = new Map();
-  const fileFallbackRegistryAsset = 'component-file-fallbacks.generated.js?v=20260730-3';
+  const fileFallbackRegistryAsset = 'component-file-fallbacks.generated.js?v=20260731-3';
   const layerControllerAsset = '_shared/layer-controller.js?v=20260730-1';
   const modalControllerAsset = 'modal/modal.js?v=20260730-2';
   let fileFallbackRegistryReady = null;
@@ -29,28 +29,33 @@
         pageTotal: '1'
       },
       styles: [
-        'button/button.css?v=20260730-9',
+        'button/button.css?v=20260731-3',
         'document-statusbar/document-statusbar.css?v=20260730-2'
       ],
       scripts: ['document-statusbar/document-statusbar.js?v=20260730-1']
     },
     toast: {},
     sidebar: {
-      fragment: 'sidebar/sidebar.html?v=20260730-10',
+      fragment: 'sidebar/sidebar.html?v=20260731-2',
       styles: [
-        'button/button.css?v=20260730-9',
-        'modal/modal.css?v=20260730-10',
-        'sidebar/sidebar.css?v=20260730-6'
+        'button/button.css?v=20260731-3',
+        'modal/modal.css?v=20260731-3',
+        'sidebar/sidebar.css?v=20260731-4'
       ],
       scripts: [
         layerControllerAsset,
         modalControllerAsset,
-        'sidebar/sidebar.js?v=20260730-6'
+        'sidebar/sidebar.js?v=20260731-2'
       ]
+    },
+    panel: {
+      fragment: 'panel/panel.html?v=20260731-1',
+      styles: ['panel/panel.css?v=20260731-3'],
+      scripts: []
     },
 	'three-panel': {
 		fragment: 'panel/three-panel.html?v=20260729-2',
-		styles: ['panel/panel.css', 'handler/handler.css?v=20260730-1'],
+		styles: ['panel/panel.css?v=20260731-3', 'handler/handler.css?v=20260730-1'],
 		scripts: ['handler/handler.js?v=20260730-2'],
       defaults: {
         leftSize: 'medium',
@@ -68,41 +73,51 @@
         secondaryActionPage: 'intake'
       },
       fragment: 'topbar/topbar.fragment?v=20260730-1',
-      styles: ['button/button.css?v=20260730-9', 'topbar/topbar.css?v=20260730-6'],
+      styles: ['button/button.css?v=20260731-3', 'topbar/topbar.css?v=20260731-4'],
       scripts: []
     },
     'file-upload': {
       fragment: 'file-upload/file-upload.html?v=20260729-5',
-      styles: ['file-upload/file-upload.css?v=20260730-6'],
+      styles: ['file-upload/file-upload.css?v=20260731-3'],
       scripts: []
     },
     'chat-message': {
       defaults: { variant: 'chatbot', role: 'ai', status: 'complete' },
-      styles: ['button/button.css?v=20260730-9', 'chat-message/chat-message.css?v=20260730-6']
+      styles: ['button/button.css?v=20260731-3', 'chat-message/chat-message.css?v=20260731-3']
     },
     promptcomposer: {
+      fragment: 'promptcomposer/promptcomposer.fragment.html?v=20260731-2',
+      defaults: { placeholder: 'AI-ONE에게 물어보기' },
       styles: [
-        'button/button.css?v=20260730-9',
-        'dropdownmenu/dropdownmenu.css?v=20260730-6',
-        'promptcomposer/promptcomposer.css?v=20260730-6'
+        'button/button.css?v=20260731-3',
+        'dropdownmenu/dropdownmenu.css?v=20260731-3',
+        'promptcomposer/promptcomposer.css?v=20260731-4'
       ],
       scripts: ['dropdownmenu/dropdownmenu.js', 'promptcomposer/promptcomposer.js']
     },
     datatable: {
       defaults: { maxWidth: '740px', maxHeight: '370px' },
-      styles: ['dropdownmenu/dropdownmenu.css?v=20260730-6', 'datatable/datatable.css?v=20260730-6'],
+      styles: ['dropdownmenu/dropdownmenu.css?v=20260731-3', 'datatable/datatable.css?v=20260730-6'],
       scripts: ['dropdownmenu/dropdownmenu.js', 'datatable/datatable.js']
     },
     dropdownmenu: {
-      styles: ['button/button.css?v=20260730-9', 'dropdownmenu/dropdownmenu.css?v=20260730-6']
+      styles: ['button/button.css?v=20260731-3', 'dropdownmenu/dropdownmenu.css?v=20260731-3']
     },
     modal: {
-      fragment: 'modal/modal.fragment?v=20260730-1',
+      fragment: 'modal/modal.fragment?v=20260731-2',
       defaults: { size: 'medium', modalClass: '' },
-      styles: ['button/button.css?v=20260730-9', 'modal/modal.css?v=20260730-10'],
+      styles: [
+        'button/button.css?v=20260731-3',
+        '_shared/form-control.css?v=20260730-6',
+        'input/input.css?v=20260731-3',
+        'select/select.css?v=20260731-3',
+        'textarea/textarea.css?v=20260731-3',
+        'modal/modal.css?v=20260731-3'
+      ],
       scripts: [
         layerControllerAsset,
         modalControllerAsset,
+        'modal/account-modal.js?v=20260731-2',
         'modal/notification-assignee.js?v=20260730-1'
       ]
     },
@@ -119,11 +134,11 @@
         deleteModal: ''
       },
       styles: [
-        'button/button.css?v=20260730-9',
-        'dropdownmenu/dropdownmenu.css',
+        'button/button.css?v=20260731-3',
+        'dropdownmenu/dropdownmenu.css?v=20260731-3',
         'radio/radio.css',
         'toggle/toggle.css',
-        'sidepop/sidepop.css?v=20260730-10'
+        'sidepop/sidepop.css?v=20260731-3'
       ],
       scripts: [
         'dropdownmenu/dropdownmenu.js',

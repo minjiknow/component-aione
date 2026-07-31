@@ -566,6 +566,17 @@
     updateAccentSelection();
   }
 
+  window.AIOnePreferences = Object.freeze({
+    init: initSettingsPanels,
+    getTheme: () => currentPreference,
+    setTheme: preference => applyTheme(preference, true),
+    getAccent: () => currentAccent,
+    setAccent: accent => applyAccent(accent, true),
+    isNotificationEnabled: () => notificationEnabled,
+    setNotificationEnabled: enabled => saveNotificationPreference(enabled)
+  });
+  document.dispatchEvent(new CustomEvent('ai-one-preferences:ready'));
+
 
   function ensureSettingsLayerBackdrop() {
     if (settingsLayerBackdrop) return settingsLayerBackdrop;
@@ -724,6 +735,7 @@
   function initSettingsButtons() {
     renderMenuCompletionDots();
     document.querySelectorAll('.settings-btn').forEach(button => {
+      if (button.hasAttribute('data-sidebar-account-toggle')) return;
       if (button.dataset.themeBound === 'true') return;
       button.dataset.themeBound = 'true';
       button.setAttribute('aria-haspopup', 'dialog');
@@ -1172,10 +1184,16 @@
     const modal = modalTarget ? document.getElementById(modalTarget) : null;
 
     if (action === 'settings') {
-      if (modal) initSettingsPanels(modal);
+      if (modal) {
+        window.AIOneAccountModal?.prepare(modal, trigger?.closest('.user-card'));
+        initSettingsPanels(modal);
+      }
       else openMenu(trigger);
     } else if (action === 'profile') {
-      if (modal) syncProfileModal(modal, trigger?.closest('.user-card'));
+      if (modal) {
+        window.AIOneAccountModal?.prepare(modal, trigger?.closest('.user-card'));
+        syncProfileModal(modal, trigger?.closest('.user-card'));
+      }
       else openProfileAccountLayer(trigger?.closest('.user-card'));
     } else if (action === 'logout') {
       if (!trigger?.hasAttribute('data-modal-open')) openLogoutAccountLayer();

@@ -9,7 +9,7 @@
 			</button>
 		</div>
 		<input class="prompt-composer-input" data-prompt-input type="text"
-			placeholder="AI-ONE에게 물어보기" autocomplete="off" />
+			placeholder="{{placeholder}}" aria-label="{{placeholder}}" autocomplete="off" />
 		<div class="prompt-composer-actions">
 			<div class="dropdown-menu-component" data-dropdown-menu>
 				<button type="button" class="button dropdown-menu-model-trigger" data-dropdown-trigger
@@ -25,6 +25,30 @@
 							aria-checked="true" data-menu-value="default" data-menu-label="기본">
 							<span class="dropdown-model-name">기본</span>
 							<span class="dropdown-model-desc">추천</span>
+							<span class="dropdown-model-check" aria-hidden="true">✓</span>
+						</button>
+						<button type="button" class="dropdown-menu-item" role="menuitemradio"
+							aria-checked="false" data-menu-value="ai-one-flash" data-menu-label="AI-ONE Flash">
+							<span class="dropdown-model-name">AI-ONE Flash</span>
+							<span class="dropdown-model-desc">빠르고 반복적인 모델</span>
+							<span class="dropdown-model-check" aria-hidden="true">✓</span>
+						</button>
+						<button type="button" class="dropdown-menu-item" role="menuitemradio"
+							aria-checked="false" data-menu-value="ai-one-pro" data-menu-label="AI-ONE Pro">
+							<span class="dropdown-model-name">AI-ONE Pro</span>
+							<span class="dropdown-model-desc">심도 있고 창의적인 모델</span>
+							<span class="dropdown-model-check" aria-hidden="true">✓</span>
+						</button>
+						<button type="button" class="dropdown-menu-item" role="menuitemradio"
+							aria-checked="false" data-menu-value="gov-flash" data-menu-label="범정부 AI Flash">
+							<span class="dropdown-model-name">범정부 AI Flash</span>
+							<span class="dropdown-model-desc">균형과 효율성 겸비</span>
+							<span class="dropdown-model-check" aria-hidden="true">✓</span>
+						</button>
+						<button type="button" class="dropdown-menu-item" role="menuitemradio"
+							aria-checked="false" data-menu-value="gov-pro" data-menu-label="범정부 AI Pro">
+							<span class="dropdown-model-name">범정부 AI Pro</span>
+							<span class="dropdown-model-desc">능력 있고 빠릅니다</span>
 							<span class="dropdown-model-check" aria-hidden="true">✓</span>
 						</button>
 					</div>

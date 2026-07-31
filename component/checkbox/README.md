@@ -6,7 +6,7 @@
 - 필수 JS: 없음
 - 검수 페이지: `component/checkbox/checkbox.html`
 - 상태: `checked`, `disabled`
-- 크기: 기본 `16px`, `.checkbox-control-sm` `14px`, `.checkbox-control-xs` `13px`
+- 크기: Medium `.checkbox-control-md` `16px`, Small `.checkbox-control-sm` `14px`, XSmall `.checkbox-control-xs` `13px`
 - 변경 대상: `id`, `name`, `value`, label 문구
 
 ```html
@@ -22,8 +22,8 @@
 작은 크기는 기본 클래스와 크기 modifier를 함께 사용합니다.
 
 ```html
-<input class="checkbox-control checkbox-control-sm" type="checkbox" aria-label="추천 자료 선택" />
-<input class="checkbox-control checkbox-control-xs" type="checkbox" aria-label="하이라이트 표시" />
+<input class="checkbox-control checkbox-control-md" type="checkbox" aria-label="추천 자료 선택" />
+<input class="checkbox-control checkbox-control-sm" type="checkbox" aria-label="하이라이트 표시" />
 ```
 
 여러 체크박스의 제목이 필요하면 `fieldset`과 `legend`로 묶습니다. 체크 여부는 클래스가 아니라 input의 `checked` 속성 또는 DOM의 `input.checked`로 제어합니다.

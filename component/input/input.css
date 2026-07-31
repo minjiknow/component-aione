@@ -26,7 +26,7 @@
 .field:focus-within > .form-input {
     border-color: var(--primary, #0969da);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.12);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb, 9, 105, 218), 0.12);
 }
 
 .field.is-error > .form-input {

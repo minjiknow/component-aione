@@ -6,14 +6,7 @@
 		document.documentElement.classList.add('component-catalog-preview');
 	}
 
-	const components = window.AIOneComponents;
-	if (!components) return;
-
-	components.register('sidebar', {
-		fragment: 'sidebar/sidebar.html?v=20260730-10',
-		styles: ['button/button.css?v=20260730-9', 'sidebar/sidebar.css?v=20260730-6'],
-		scripts: ['sidebar/sidebar.js?v=20260730-6']
-	});
+	if (!window.AIOneComponents) return;
 
 	const iconBaseUrl = new URL('../assets/icons/', document.baseURI);
 	const serviceCards = [
@@ -39,7 +32,7 @@
 			iconTone: 'orange',
 			title: '경제동향 분석 보고서',
 			description: '데이터 수집 · 동향 분석 · 보고서 초안 · 검토',
-			modalTarget: 'preparingServiceModal'
+			status: 'preparing'
 		},
 		{
 			href: '#',
@@ -47,7 +40,7 @@
 			iconTone: 'purple',
 			title: '세수예측 및 시나리오 시뮬레이션',
 			description: '시나리오별 세수 예측',
-			modalTarget: 'preparingServiceModal'
+			status: 'preparing'
 		}
 	];
 	const fullHistoryItems = [
@@ -303,21 +296,14 @@
 		});
 	}
 
-	function initSearch() {
-		const form = document.querySelector('[data-home-search]');
-		const input = document.getElementById('homeSearchInput');
-		if (!form || !input) return;
+	function initPromptComposer() {
+		const host = document.querySelector('[data-home-prompt-composer]');
+		if (!host || host.dataset.homePromptComposerReady === 'true') return;
 
-		form.addEventListener('submit', event => {
-			event.preventDefault();
-			const query = input.value.trim();
-			if (!query) {
-				input.focus();
-				showToast('대화를 시작할 내용을 입력해 주세요.');
-				return;
-			}
-
-			openPreparingModal(form.querySelector('[type="submit"]'));
+		host.dataset.homePromptComposerReady = 'true';
+		host.addEventListener('promptcomposer:submit', event => {
+			if (!host.contains(event.target)) return;
+			openPreparingModal(host.querySelector('[data-prompt-submit]'));
 		});
 	}
 
@@ -360,7 +346,7 @@
 	document.addEventListener('DOMContentLoaded', () => {
 		hydrateIcons();
 		window.AIOneServiceCard?.renderList('[data-service-card-list]', serviceCards);
-		initSearch();
+		initPromptComposer();
 		initFullHistoryModal();
 		initHistoryEvents();
 		initPreparingCards();

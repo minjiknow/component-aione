@@ -37,8 +37,87 @@
     overflow-wrap: anywhere;
 }
 
+/* Long-running task notification */
+.ai-one-notification-toast {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 12000;
+    display: flex;
+    width: min(360px, calc(100vw - 36px));
+    padding: 13px 14px;
+    align-items: flex-start;
+    gap: 10px;
+    border: 1px solid var(--border, #d1d9e0);
+    border-radius: 11px;
+    background: var(--surface, #fff);
+    box-shadow: 0 14px 38px rgba(31, 35, 40, 0.22);
+    color: var(--text, #1f2328);
+    opacity: 0;
+    transform: translateY(16px);
+    pointer-events: none;
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.ai-one-notification-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.ai-one-notification-icon {
+    display: flex;
+    width: 25px;
+    height: 25px;
+    flex: 0 0 25px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.11);
+    color: var(--primary, #0969da);
+    font-size: calc(12px * var(--ui-font-scale, 1));
+    font-weight: 800;
+}
+
+.ai-one-notification-copy {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.ai-one-notification-copy strong {
+    color: var(--text, #1f2328);
+    font-size: calc(12px * var(--ui-font-scale, 1));
+    font-weight: 700;
+}
+
+.ai-one-notification-copy span {
+    color: var(--text-muted, #8b949e);
+    font-size: calc(10px * var(--ui-font-scale, 1));
+    line-height: 1.5;
+}
+
+.ai-one-notification-toast > button {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    color: var(--text-muted, #8b949e);
+    font-size: calc(16px * var(--ui-font-scale, 1));
+    line-height: 1;
+}
+
+.ai-one-notification-toast > button:hover {
+    background: var(--surface-elevated, var(--surface-el, #f0f3f6));
+    color: var(--text, #1f2328);
+}
+
 @media (prefers-reduced-motion: reduce) {
-    .ai-one-toast {
+    .ai-one-toast,
+    .ai-one-notification-toast {
         transition: none;
     }
 }

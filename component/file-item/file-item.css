@@ -172,8 +172,8 @@
 
 .file-status:is(.uploading, .summarizing),
 .file-status-badge.summarizing {
-    border-color: rgba(9, 105, 218, 0.2);
-    background: rgba(9, 105, 218, 0.08);
+    border-color: rgba(var(--primary-rgb, 9, 105, 218), 0.2);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.08);
     color: var(--primary, #0969da);
 }
 

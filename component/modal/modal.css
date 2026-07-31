@@ -140,6 +140,452 @@
     min-width: 72px;
 }
 
+.modal-variant-account-settings {
+    overflow: visible;
+}
+
+.modal-variant-account-settings .account-modal-body {
+    overflow: visible;
+}
+
+.modal-variant-account-profile .account-profile-summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding: 14px;
+    border: 1px solid var(--border, #d1d9e0);
+    border-radius: 11px;
+    background: var(--surface-elevated, var(--surface-el, #f6f8fa));
+}
+
+.modal-variant-account-profile .account-profile-avatar {
+    display: flex;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--primary, #0969da) 12%, var(--surface, #fff));
+    color: var(--primary, #0969da);
+}
+
+.modal-variant-account-profile .account-profile-avatar svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.modal-variant-account-profile .account-profile-summary > div {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.modal-variant-account-profile .account-profile-summary strong {
+    color: var(--text, #1f2328);
+    font-size: calc(13px * var(--ui-font-scale, 1));
+}
+
+.modal-variant-account-profile .account-profile-summary span {
+    color: var(--text-muted, #8b949e);
+    font-size: calc(10px * var(--ui-font-scale, 1));
+}
+
+.modal-variant-account-profile .account-profile-list {
+    display: flex;
+    margin: 0;
+    flex-direction: column;
+    border-top: 1px solid var(--border, #d1d9e0);
+}
+
+.modal-variant-account-profile .account-profile-list > div {
+    display: grid;
+    padding: 11px 4px;
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: 12px;
+    border-bottom: 1px solid var(--border, #d1d9e0);
+}
+
+.modal-variant-account-profile .account-profile-list dt {
+    color: var(--text-muted, #8b949e);
+    font-size: calc(10px * var(--ui-font-scale, 1));
+    font-weight: 700;
+}
+
+.modal-variant-account-profile .account-profile-list dd {
+    min-width: 0;
+    margin: 0;
+    color: var(--text, #1f2328);
+    font-size: calc(11px * var(--ui-font-scale, 1));
+    font-weight: 650;
+    overflow-wrap: anywhere;
+}
+
+.modal-variant-account-profile .account-role-tag {
+    display: inline-flex;
+    min-height: 22px;
+    padding: 2px 8px;
+    align-items: center;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--primary, #0969da) 11%, transparent);
+    color: var(--primary, #0969da);
+    font-size: calc(9px * var(--ui-font-scale, 1));
+    font-weight: 750;
+}
+
+.modal-variant-account-settings .account-settings-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-variant-account-settings .account-settings-section {
+    padding: 4px 0 10px;
+}
+
+.modal-variant-account-settings .account-settings-section + .account-settings-section {
+    padding-top: 10px;
+    border-top: 1px solid var(--border, #d1d9e0);
+}
+
+.modal-variant-account-settings .settings-section-title {
+    display: block;
+    padding: 5px 7px 6px;
+    color: var(--text-muted, #8b949e);
+    font-size: calc(10px * var(--ui-font-scale, 1));
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.modal-variant-account-settings .theme-option-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.modal-variant-account-settings .theme-option {
+    display: flex;
+    width: 100%;
+    padding: 9px 8px;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-sub, #656d76);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition:
+        border-color var(--transition, 0.15s ease),
+        background-color var(--transition, 0.15s ease),
+        color var(--transition, 0.15s ease);
+}
+
+.modal-variant-account-settings .theme-option:hover,
+.modal-variant-account-settings .theme-option:focus-visible {
+    outline: 0;
+    background: var(--surface-elevated, var(--surface-el, #f0f3f6));
+    color: var(--text, #1f2328);
+}
+
+.modal-variant-account-settings .theme-option.active {
+    border-color: color-mix(in srgb, var(--primary, #0969da) 24%, transparent);
+    background: color-mix(in srgb, var(--primary, #0969da) 9%, transparent);
+    color: var(--primary, #0969da);
+}
+
+.modal-variant-account-settings .theme-option-icon {
+    display: flex;
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    background: var(--surface-elevated, var(--surface-el, #f0f3f6));
+}
+
+.modal-variant-account-settings .theme-option.active .theme-option-icon {
+    background: color-mix(in srgb, var(--primary, #0969da) 12%, transparent);
+}
+
+.modal-variant-account-settings .theme-option-icon svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.modal-variant-account-settings .theme-option-text {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.modal-variant-account-settings .theme-option-text strong {
+    color: inherit;
+    font-size: calc(12px * var(--ui-font-scale, 1));
+    font-weight: 650;
+}
+
+.modal-variant-account-settings .theme-option-text small {
+    color: var(--text-muted, #8b949e);
+    font-size: calc(10px * var(--ui-font-scale, 1));
+}
+
+.modal-variant-account-settings .theme-option-check {
+    width: 18px;
+    color: var(--primary, #0969da);
+    font-size: calc(13px * var(--ui-font-scale, 1));
+    font-weight: 800;
+    text-align: center;
+}
+
+.modal-variant-account-settings .settings-accent-control {
+    position: relative;
+    display: block;
+    width: 160px;
+    margin: 0 7px;
+}
+
+.modal-variant-account-settings .settings-accent-trigger {
+    display: flex;
+    width: 100%;
+    height: 34px;
+    padding: 0 10px;
+    align-items: center;
+    gap: 9px;
+    border: 1px solid var(--border, #d1d9e0);
+    border-radius: 8px;
+    background: var(--surface, #fff);
+    color: var(--text, #1f2328);
+    font: inherit;
+    font-size: calc(11px * var(--ui-font-scale, 1));
+    font-weight: 650;
+    text-align: left;
+    cursor: pointer;
+}
+
+.modal-variant-account-settings .settings-accent-trigger:hover,
+.modal-variant-account-settings .settings-accent-trigger:focus-visible,
+.modal-variant-account-settings .settings-accent-control.is-open .settings-accent-trigger {
+    border-color: var(--primary, #0969da);
+    outline: 0;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary, #0969da) 12%, transparent);
+}
+
+.modal-variant-account-settings .settings-accent-swatch,
+.modal-variant-account-settings .settings-accent-option-dot {
+    width: 9px;
+    height: 9px;
+    flex: 0 0 9px;
+    border-radius: 50%;
+    background: #8b949e;
+}
+
+.modal-variant-account-settings .settings-accent-arrow {
+    width: 7px;
+    height: 7px;
+    margin-left: auto;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    color: var(--text-muted, #8b949e);
+    transform: translateY(-2px) rotate(45deg);
+    transition: transform var(--transition, 0.15s ease);
+}
+
+.modal-variant-account-settings .settings-accent-control.is-open .settings-accent-arrow {
+    transform: translateY(2px) rotate(225deg);
+}
+
+.modal-variant-account-settings .settings-accent-options {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 0;
+    z-index: 4;
+    width: 100%;
+    padding: 5px;
+    border: 1px solid var(--border, #d1d9e0);
+    border-radius: 9px;
+    background: var(--surface, #fff);
+    box-shadow: 0 10px 28px rgba(31, 35, 40, 0.18);
+}
+
+.modal-variant-account-settings .settings-accent-options[hidden] {
+    display: none;
+}
+
+.modal-variant-account-settings .settings-accent-option {
+    display: flex;
+    width: 100%;
+    min-height: 30px;
+    padding: 5px 7px;
+    align-items: center;
+    gap: 9px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-sub, #656d76);
+    font: inherit;
+    font-size: calc(11px * var(--ui-font-scale, 1));
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+}
+
+.modal-variant-account-settings .settings-accent-option:hover,
+.modal-variant-account-settings .settings-accent-option:focus-visible {
+    outline: 0;
+    background: var(--surface-elevated, var(--surface-el, #f0f3f6));
+    color: var(--text, #1f2328);
+}
+
+.modal-variant-account-settings .settings-accent-option[aria-selected="true"] {
+    background: color-mix(in srgb, var(--primary, #0969da) 8%, transparent);
+    color: var(--primary, #0969da);
+}
+
+.modal-variant-account-settings .settings-accent-option-check {
+    margin-left: auto;
+    color: var(--primary, #0969da);
+    font-weight: 800;
+    opacity: 0;
+}
+
+.modal-variant-account-settings .settings-accent-option[aria-selected="true"] .settings-accent-option-check {
+    opacity: 1;
+}
+
+.modal-variant-account-settings :is(
+    .settings-accent-swatch[data-accent-value="blue"],
+    .settings-accent-option[data-accent-value="blue"] .settings-accent-option-dot
+) {
+    background: #0969da;
+}
+
+.modal-variant-account-settings :is(
+    .settings-accent-swatch[data-accent-value="green"],
+    .settings-accent-option[data-accent-value="green"] .settings-accent-option-dot
+) {
+    background: #1a7f37;
+}
+
+.modal-variant-account-settings :is(
+    .settings-accent-swatch[data-accent-value="yellow"],
+    .settings-accent-option[data-accent-value="yellow"] .settings-accent-option-dot
+) {
+    background: #d4a72c;
+}
+
+.modal-variant-account-settings :is(
+    .settings-accent-swatch[data-accent-value="pink"],
+    .settings-accent-option[data-accent-value="pink"] .settings-accent-option-dot
+) {
+    background: #bf3989;
+}
+
+.modal-variant-account-settings :is(
+    .settings-accent-swatch[data-accent-value="orange"],
+    .settings-accent-option[data-accent-value="orange"] .settings-accent-option-dot
+) {
+    background: #bc6b00;
+}
+
+.modal-variant-account-settings :is(
+    .settings-accent-swatch[data-accent-value="purple"],
+    .settings-accent-option[data-accent-value="purple"] .settings-accent-option-dot
+) {
+    background: #8250df;
+}
+
+.modal-variant-account-settings .notification-setting-row {
+    display: flex;
+    padding: 10px 8px;
+    align-items: flex-start;
+    gap: 12px;
+    border: 1px solid var(--border, #d1d9e0);
+    border-radius: 9px;
+    background: var(--surface, #fff);
+}
+
+.modal-variant-account-settings .notification-setting-text {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.modal-variant-account-settings .notification-setting-text strong {
+    color: var(--text, #1f2328);
+    font-size: calc(12px * var(--ui-font-scale, 1));
+    font-weight: 650;
+}
+
+.modal-variant-account-settings .notification-setting-text small {
+    color: var(--text-muted, #8b949e);
+    font-size: calc(10px * var(--ui-font-scale, 1));
+    line-height: 1.45;
+    word-break: keep-all;
+}
+
+.modal-variant-account-settings .notification-setting-status {
+    min-height: 12px;
+    color: var(--primary, #0969da);
+    font-size: calc(9px * var(--ui-font-scale, 1));
+    line-height: 1.35;
+}
+
+.modal-variant-account-settings .notification-toggle {
+    position: relative;
+    width: 38px;
+    height: 22px;
+    margin-top: 1px;
+    flex: 0 0 38px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--border, #d1d9e0);
+    cursor: pointer;
+    transition: background-color var(--transition, 0.15s ease);
+}
+
+.modal-variant-account-settings .notification-toggle span {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(31, 35, 40, 0.24);
+    transition: transform var(--transition, 0.15s ease);
+}
+
+.modal-variant-account-settings .notification-toggle.active {
+    background: var(--primary, #0969da);
+}
+
+.modal-variant-account-settings .notification-toggle.active span {
+    transform: translateX(16px);
+}
+
+.modal-variant-account-settings .notification-toggle:focus-visible {
+    outline: 2px solid var(--primary, #0969da);
+    outline-offset: 2px;
+}
+
 /* AI Workspace 전용 스타일로 이동됨.
 .custom-modal[data-modal-variant="notification-assignee"] [data-modal-panel="notification-assignee"] {
     display: contents;
@@ -262,7 +708,7 @@
 }
 
 .custom-modal-icon.confirm {
-    background: rgba(9, 105, 218, 0.08);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.08);
     color: var(--primary, #0969da);
 }
 
@@ -306,7 +752,7 @@
 }
 
 .custom-modal-icon.rename {
-    background: rgba(9, 105, 218, 0.08);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.08);
 }
 
 .custom-modal-icon.rename img {
@@ -508,6 +954,38 @@
     outline: 0;
     background: var(--surface-elevated, #f0f3f6);
     color: var(--text, #1f2328);
+}
+
+@media (max-width: 560px) {
+    .custom-modal:is(
+        [data-modal-variant="account-profile"],
+        [data-modal-variant="account-settings"]
+    ) {
+        width: calc(100vw - 24px);
+        max-width: none;
+    }
+
+    .modal-variant-account-settings {
+        overflow: hidden;
+    }
+
+    .modal-variant-account-settings .account-modal-body {
+        overflow-y: auto;
+    }
+
+    .modal-variant-account-profile .account-profile-list > div {
+        grid-template-columns: 82px minmax(0, 1fr);
+    }
+}
+
+@media (max-height: 640px) {
+    .modal-variant-account-settings {
+        overflow: hidden;
+    }
+
+    .modal-variant-account-settings .account-modal-body {
+        overflow-y: auto;
+    }
 }
 
 /* AI Workspace 전용 실국별 알림 담당자 모달 스타일로 이동됨.

@@ -4,7 +4,7 @@
 - 챗봇 fragment: `sidebar-chatbot.html`
 - 검수 위치: `component/index.html`의 Navigation 영역
 - 필수 CSS: `component/button/button.css`, `component/sidebar/sidebar.css`
-- 챗봇 variant 스타일도 `component/sidebar/sidebar.css`가 소유하며, 실제 챗봇 페이지의 레이아웃 CSS만 `css/ai-chatbot.css`가 담당합니다.
+- 챗봇 variant 스타일도 `component/sidebar/sidebar.css`가 소유합니다.
 - 필수 JS: `component/sidebar/sidebar.js`; 기존 정적 화면의 경로·아이콘 등 공통 초기화는 `js/common.js`
 - 사용 방식: 화면당 하나만 포함하는 singleton
 
@@ -19,7 +19,7 @@
 
 계정 메뉴의 내 정보·환경설정·로그아웃은 Sidebar 내부에서 공통 Modal을 한 번씩 include하고 `data-modal-open`으로 엽니다. 내 정보는 `account-profile`, 환경설정은 `account-settings`, 로그아웃은 `logout` variant를 사용합니다. 환경설정은 시스템·다크·라이트 화면 모드, 기본값·블루·그린·옐로·핑크·오렌지·퍼플 강조 컬러, 응답 완료 알림을 제공합니다.
 
-`sidebar:account-action` 이벤트는 사용자 정보를 Modal에 동기화하고 기존 정적 Sidebar의 호환 경로를 유지합니다. Modal의 열기·닫기·포커스 복귀는 공통 `AIOneModal`이 담당합니다.
+Sidebar는 계정 Modal을 열기 전에 `AIOneAccountModal.prepare()`로 사용자 정보와 환경설정 상태를 동기화합니다. `sidebar:account-action` 이벤트는 기존 정적 Sidebar의 호환 경로를 유지하고, Modal의 열기·닫기·포커스 복귀는 공통 `AIOneModal`이 담당합니다.
 
 ## 기본 Sidebar Fragment 소스
 
@@ -46,14 +46,14 @@
 
     <nav class="sidebar-nav" aria-label="메인 네비게이션">
         <div class="nav-group">
-            <a class="nav-link" href="../../html/ai-home.html" data-route="home" data-page="home">
+            <a class="nav-link" href="../../pages/ai-home.html" data-route="home" data-page="home">
                 <img data-icon="home" alt="" aria-hidden="true" />
                 <span class="nav-text">AI-ONE 홈</span>
             </a>
         </div>
         <div class="nav-group">
             <span class="nav-group-label">AI 서비스</span>
-            <a class="nav-link" href="../../html/ai-intake.html" data-route="intake" data-page="intake">
+            <a class="nav-link" href="../../pages/ai-workspace.html" data-route="intake" data-page="intake">
                 <img data-icon="document-add" alt="" aria-hidden="true" />
                 <span class="nav-text">국회질의분류</span>
             </a>
@@ -119,8 +119,18 @@
         </div>
     </div>
 
-    <!-- 준비 중 안내 Modal만 Sidebar 내부에 한 번 포함합니다.
-         계정 레이어는 js/common.js가 공통으로 생성합니다. -->
+    <!-- 계정 동작은 Modal 공통 variant에 연결합니다. -->
+    <div data-component-include="modal"
+        data-component-id="sidebarProfileModal"
+        data-component-variant="account-profile"
+        data-component-label="내 정보"></div>
+
+    <div data-component-include="modal"
+        data-component-id="sidebarSettingsModal"
+        data-component-variant="account-settings"
+        data-component-label="환경설정"></div>
+
+    <!-- 준비 중 안내 Modal도 Sidebar 내부에 한 번 포함합니다. -->
     <div data-component-include="modal"
         data-component-id="preparingServiceModal"
         data-component-variant="alert"
@@ -156,7 +166,7 @@
 
     <nav class="sidebar-nav" aria-label="챗봇 메뉴">
         <div class="nav-group">
-            <a class="nav-link" href="../../html/ai-home.html" data-route="home" data-page="home">
+            <a class="nav-link" href="../../pages/ai-home.html" data-route="home" data-page="home">
                 <img data-icon="home" alt="" aria-hidden="true" /><span class="nav-text">AI-ONE 홈</span>
             </a>
         </div>

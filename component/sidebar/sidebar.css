@@ -1,5 +1,52 @@
 @charset "utf-8";
 
+/* Navigation completion state */
+.app-sidebar .nav-link {
+    position: relative;
+}
+
+.app-sidebar .nav-complete-dot {
+    width: 7px;
+    height: 7px;
+    margin-left: 2px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--primary, #0969da);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb, 9, 105, 218), 0.12);
+    animation: sidebar-complete-pulse 1.8s ease-in-out infinite;
+}
+
+.app-sidebar .nav-complete-dot.hidden {
+    display: none !important;
+}
+
+.app-sidebar.collapsed .nav-complete-dot {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    margin: 0;
+    box-shadow: 0 0 0 2px var(--surface, #fff);
+}
+
+@keyframes sidebar-complete-pulse {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.62;
+        transform: scale(0.86);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .app-sidebar .nav-complete-dot {
+        animation: none;
+    }
+}
+
 .nav-tooltip {
     position: fixed;
     z-index: 900;
@@ -129,9 +176,14 @@
 }
 
 .app-sidebar .nav-link.active {
-    background: var(--app-sidebar-active-bg, rgba(9, 105, 218, 0.08));
+    background: var(--app-sidebar-active-bg, rgba(var(--primary-rgb, 9, 105, 218), 0.08));
     color: var(--primary, #0969da);
     font-weight: 600;
+}
+
+html[data-theme="dark"] .app-sidebar .nav-link.active {
+    border-color: color-mix(in srgb, var(--primary) 62%, var(--border));
+    background: rgba(var(--primary-rgb, 88, 166, 255), 0.1);
 }
 
 .app-sidebar .nav-link.active img[data-icon] {
@@ -178,9 +230,9 @@
     width: 32px;
     height: 32px;
     padding: 0;
-    border: 1px solid rgba(9, 105, 218, 0.42);
+    border: 1px solid rgba(var(--primary-rgb, 9, 105, 218), 0.42);
     border-radius: 50%;
-    background: rgba(9, 105, 218, 0.035);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.035);
     color: var(--primary, #0969da);
     cursor: pointer;
     flex: 0 0 32px;
@@ -194,8 +246,8 @@
 .app-sidebar .user-avatar:focus-visible,
 .app-sidebar .settings-btn:hover,
 .app-sidebar .settings-btn:focus-visible {
-    border-color: rgba(9, 105, 218, 0.62);
-    background: rgba(9, 105, 218, 0.08);
+    border-color: rgba(var(--primary-rgb, 9, 105, 218), 0.62);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.08);
     color: var(--primary, #0969da);
 }
 
@@ -237,9 +289,9 @@
     align-items: center;
     min-height: 18px;
     padding: 1px 6px;
-    border: 1px solid rgba(9, 105, 218, 0.3);
+    border: 1px solid rgba(var(--primary-rgb, 9, 105, 218), 0.3);
     border-radius: 999px;
-    background: rgba(9, 105, 218, 0.08);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.08);
     color: var(--primary, #0969da);
     flex: 0 0 auto;
     font-size:calc(9px * var(--ui-font-scale, 1));
@@ -564,7 +616,7 @@ html[data-theme="dark"] .user-profile-hover-tooltip {
 }
 
 .chatbot-sidebar .nav-link.active {
-    background: rgba(9, 105, 218, 0.07);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.07);
     color: var(--primary, #0969da);
     font-weight: 600;
 }
@@ -650,9 +702,9 @@ body.ai-chatbot-page .chatbot-sidebar .user-avatar,
     align-items: center;
     min-height: 18px;
     padding: 1px 6px;
-    border: 1px solid rgba(9, 105, 218, 0.3);
+    border: 1px solid rgba(var(--primary-rgb, 9, 105, 218), 0.3);
     border-radius: 999px;
-    background: rgba(9, 105, 218, 0.08);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.08);
     color: var(--primary, #0969da);
     flex: 0 0 auto;
     font-size:calc(9px * var(--ui-font-scale, 1));

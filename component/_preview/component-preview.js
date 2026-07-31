@@ -5,11 +5,10 @@
      Route and page context
      ======================================================================== */
     const ROUTES = Object.freeze({
-        home: "html/ai-home.html",
-        intake: "html/ai-intake.html",
-        answer: "html/ai-answer.html",
-        chatbot: "html/ai-chatbot.html",
-        login: "html/login.html",
+        home: "pages/ai-home.html",
+        intake: "pages/ai-workspace.html",
+        answer: "pages/ai-answer.html",
+        login: "pages/login.html",
     });
 
     function getRootPath() {

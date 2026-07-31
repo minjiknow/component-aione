@@ -19,9 +19,11 @@
 		const description = document.createElement('p');
 		const iconTone = ICON_TONES.has(options.iconTone) ? options.iconTone : 'blue';
 		const isDisabled = options.disabled === true;
-		const modalTarget = typeof options.modalTarget === 'string'
+		const isPreparing = options.status === 'preparing';
+		const explicitModalTarget = typeof options.modalTarget === 'string'
 			? options.modalTarget.trim()
 			: '';
+		const modalTarget = explicitModalTarget || (isPreparing ? 'preparingServiceModal' : '');
 
 		item.className = 'service-item';
 		link.className = 'service-card';
@@ -30,7 +32,15 @@
 			link.target = options.target.trim();
 			if (link.target === '_blank') link.rel = 'noopener noreferrer';
 		}
-		if (modalTarget) link.dataset.modalOpen = modalTarget;
+		if (modalTarget) {
+			link.dataset.modalOpen = modalTarget;
+			link.setAttribute('aria-controls', modalTarget);
+			link.setAttribute('aria-haspopup', 'dialog');
+		}
+		if (isPreparing) {
+			link.dataset.serviceStatus = 'preparing';
+			link.setAttribute('aria-label', `${options.title || '서비스'} (준비중)`);
+		}
 		if (isDisabled) {
 			link.dataset.soon = '';
 			link.setAttribute('aria-disabled', 'true');

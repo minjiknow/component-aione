@@ -9,9 +9,12 @@
 - 루트: `[data-prompt-composer]`, `.prompt-composer-shell`
 - 폼: `.prompt-composer`
 - 입력: `[data-prompt-input]`, `.prompt-composer-input`
+- 입력 안내 문구: include host의 `data-component-placeholder`로 변경
 - 파일: `[data-prompt-attach]`, `[data-prompt-file-input]`, `[data-prompt-files]`
 - 모델 선택: 기존 모델 메뉴를 재사용한 `.dropdown-menu-model` 변형 (`data-placement="top-end"`)
+- 기본 모델: `default`, `ai-one-flash`, `ai-one-pro`, `gov-flash`, `gov-pro`
 - 전송: `[data-prompt-submit]`
+- 포커스 상태: Composer 배경과 보더는 기존의 옅은 다중색 그라데이션을 유지하고, 입력·placeholder는 흰색으로 표시합니다. 파일 추가 버튼과 모델 선택 버튼은 흰색 surface를 유지합니다.
 
 ```html
 <div class="prompt-composer-shell" data-prompt-composer>
@@ -62,6 +65,17 @@
         aria-live="polite"></div>
 </div>
 ```
+
+페이지에서 공통 fragment를 조합할 때는 다음과 같이 사용합니다.
+
+```html
+<div data-component-include="promptcomposer"
+    data-component-id="homePromptComposer"
+    data-component-placeholder="생성형 AI와 대화를 시작합니다."></div>
+```
+
+`models` 슬롯을 전달하지 않으면 위 다섯 모델이 기본으로 표시됩니다. 화면에서 모델 구성을
+바꿔야 하는 경우에만 `<template data-slot="models">`로 전체 목록을 교체합니다.
 
 ## 동작 계약
 

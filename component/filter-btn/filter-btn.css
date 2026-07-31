@@ -24,8 +24,8 @@
 }
 
 .filter-btn[data-filter="all"] {
-    --filter-color: #0969da;
-    --filter-bg: rgba(9, 105, 218, 0.08);
+    --filter-color: var(--primary, #0969da);
+    --filter-bg: rgba(var(--primary-rgb, 9, 105, 218), 0.08);
 }
 
 .filter-btn[data-filter="single"] {
@@ -47,12 +47,24 @@
 .filter-btn.active,
 .filter-btn[aria-pressed="true"] {
     border-color: color-mix(in srgb, var(--filter-color, #0969da) 35%, transparent);
-    background: var(--filter-bg, rgba(9, 105, 218, 0.08));
+    background: var(--filter-bg, rgba(var(--primary-rgb, 9, 105, 218), 0.08));
     color: var(--filter-color, #0969da);
 }
 
+html[data-theme="dark"] .filter-btn:is(.active, [aria-pressed="true"]) {
+    border-color: color-mix(in srgb, var(--primary) 62%, var(--border));
+    background: rgba(var(--primary-rgb, 88, 166, 255), 0.1);
+    color: var(--primary);
+}
+
+html[data-theme="dark"] .filter-btn:is(.active, [aria-pressed="true"]) {
+    border-color: color-mix(in srgb, var(--primary) 62%, var(--border));
+    background: rgba(var(--primary-rgb, 88, 166, 255), 0.1);
+    color: var(--primary);
+}
+
 .filter-btn .filter-count {
-    background: var(--filter-bg, rgba(9, 105, 218, 0.08));
+    background: var(--filter-bg, rgba(var(--primary-rgb, 9, 105, 218), 0.08));
     color: var(--filter-color, #0969da);
 }
 
