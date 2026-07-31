@@ -8,12 +8,6 @@
 	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
 	<link rel="stylesheet" href="../button/button.css?v=20260730-9" />
 	<link rel="stylesheet" href="../dropdownmenu/dropdownmenu.css?v=20260728-3" />
-	<link rel="stylesheet" href="../radio/radio.css?v=20260728" />
-	<link rel="stylesheet" href="../toggle/toggle.css?v=20260728" />
-	<link rel="stylesheet" href="../_shared/form-control.css?v=20260728" />
-	<link rel="stylesheet" href="../input/input.css?v=20260728" />
-	<link rel="stylesheet" href="../select/select.css?v=20260728" />
-	<link rel="stylesheet" href="../textarea/textarea.css?v=20260728" />
 	<link rel="stylesheet" href="sidepop.css?v=20260730-3" />
 	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260728-2" />
 </head>
@@ -22,7 +16,7 @@
 		<header class="control-preview-header">
 			<div>
 				<h1 class="control-preview-title">SidePop</h1>
-				<p class="control-preview-desc">실행 목록 460px, 채팅 목록 420px, Medium 820px 너비로 오른쪽에서 열리는 보조 작업 레이어입니다.</p>
+				<p class="control-preview-desc">실행 목록 460px과 채팅 목록 420px 너비로 오른쪽에서 열리는 보조 작업 레이어입니다.</p>
 			</div>
 			<a class="control-preview-back" href="../index.html#layouts">컴포넌트 목록</a>
 		</header>
@@ -39,10 +33,6 @@
 					<span class="control-use-label">Chat list · 420px · AI Answer 채팅 목록</span>
 					<button type="button" class="button button-outline" data-sidepop-open="smallSidepop"
 						data-sidepop-variant="chat-list">채팅 목록 열기</button>
-				</article>
-				<article class="control-use-case">
-					<span class="control-use-label">Medium · 820px</span>
-					<button type="button" class="button button-outline" data-sidepop-open="mediumSidepop">분류 룰 설정 열기</button>
 				</article>
 			</div>
 		</section>
@@ -168,131 +158,6 @@
 					</div>
 				</div>
 			</section>
-		</aside>
-	</div>
-
-	<div class="sidepop-layer" id="mediumSidepop" data-sidepop hidden>
-		<button type="button" class="sidepop-backdrop" data-sidepop-close aria-label="사이드 팝업 닫기"></button>
-		<aside class="sidepop sidepop-medium sidepop-rule-settings" role="dialog" aria-modal="true"
-			aria-labelledby="mediumSidepopTitle" aria-describedby="mediumSidepopDescription">
-			<header class="sidepop-header">
-				<div class="sidepop-heading">
-					<h2 class="sidepop-title" id="mediumSidepopTitle">분류 룰 설정</h2>
-					<p class="sidepop-description" id="mediumSidepopDescription">키워드·제외어·우선순위를 기준으로 AI 추천 실국을 자동 보정합니다.</p>
-				</div>
-				<button type="button" class="icon-button icon-button-ghost" data-sidepop-close aria-label="닫기">×</button>
-			</header>
-			<div class="sidepop-body rule-drawer-body">
-				<div class="rule-drawer-left">
-					<div class="rule-list" aria-label="분류 룰 목록">
-						<div class="rule-item active">
-							<div class="rule-item-head"><span class="rule-item-keywords">에너지</span><span class="rule-item-status on">사용</span></div>
-							<div class="rule-item-body">"에너지" 단독 이슈 → 혁신성장실</div>
-						</div>
-						<div class="rule-item">
-							<div class="rule-item-head"><span class="rule-item-keywords">친환경 에너지, 미래산업, 구조개혁</span><span class="rule-item-status on">사용</span></div>
-							<div class="rule-item-body">"친환경 에너지", "미래산업", "구조개혁" 함께 포함 시 → 산업정책국</div>
-						</div>
-						<div class="rule-item">
-							<div class="rule-item-head"><span class="rule-item-keywords">청년, 일자리</span><span class="rule-item-status on">사용</span></div>
-							<div class="rule-item-body">"청년" + "일자리" 조합 → 고용정책과</div>
-						</div>
-						<div class="rule-item disabled">
-							<div class="rule-item-head"><span class="rule-item-keywords">청년, 주거</span><span class="rule-item-status off">미사용</span></div>
-							<div class="rule-item-body">"청년" + "주거" 조합 → 국토정책국</div>
-						</div>
-						<div class="rule-item">
-							<div class="rule-item-head"><span class="rule-item-keywords">청년, 복지, 재정지원</span><span class="rule-item-status on">사용</span></div>
-							<div class="rule-item-body">"청년" + "복지/재정지원" 조합 → 복지정책국</div>
-						</div>
-					</div>
-				</div>
-				<div class="rule-drawer-right">
-					<section class="rule-detail-section">
-						<h3 class="rule-detail-title">룰 기본 정보</h3>
-						<div class="form-group">
-							<label for="sidepopRuleName">룰명</label>
-							<input type="text" id="sidepopRuleName" class="form-input" placeholder="예: 세제 키워드 룰" />
-						</div>
-						<div class="form-row">
-							<div class="form-group flex1">
-								<label for="sidepopRuleDepartment">추천 실국</label>
-								<select id="sidepopRuleDepartment" class="form-select">
-									<option>세제실</option>
-									<option>예산실</option>
-									<option>재정정책국</option>
-									<option>경제정책국</option>
-									<option>산업정책국</option>
-								</select>
-							</div>
-							<div class="form-group" style="width: 80px;">
-								<label for="sidepopRulePriority">우선순위</label>
-								<input type="number" id="sidepopRulePriority" class="form-input" value="1" min="1" max="10" />
-							</div>
-						</div>
-						<div class="form-group">
-							<span class="field-label">룰 사용 여부</span>
-							<div class="toggle-row">
-								<span class="toggle-desc">OFF 처리 시 재실행 대상에서 제외됩니다.</span>
-								<label class="toggle-switch">
-									<input type="checkbox" checked aria-label="룰 사용" />
-									<span class="toggle-slider"></span>
-								</label>
-							</div>
-						</div>
-					</section>
-
-					<section class="rule-detail-section">
-						<h3 class="rule-detail-title">적용 조건</h3>
-						<div class="form-group">
-							<label for="sidepopIncludeKeywords">포함 키워드</label>
-							<input type="text" id="sidepopIncludeKeywords" class="form-input"
-								value="법인세, 소득세, 세액공제, 조세감면" />
-						</div>
-						<div class="form-group">
-							<label for="sidepopExcludeKeywords">제외 키워드</label>
-							<input type="text" id="sidepopExcludeKeywords" class="form-input" value="지방세, 관세" />
-						</div>
-						<div class="form-row">
-							<div class="form-group flex1">
-								<label for="sidepopRuleCondition">조건 방식</label>
-								<select id="sidepopRuleCondition" class="form-select">
-									<option>일부 포함</option>
-									<option>모두 포함</option>
-									<option>정확히 일치</option>
-								</select>
-							</div>
-							<div class="form-group flex1">
-								<label for="sidepopRuleScope">적용 범위</label>
-								<select id="sidepopRuleScope" class="form-select">
-									<option>현재 실행 건</option>
-									<option>전체 적용</option>
-								</select>
-							</div>
-						</div>
-					</section>
-
-					<section class="rule-detail-section">
-						<h3 class="rule-detail-title">AI 충돌 시 처리</h3>
-						<div class="form-group">
-							<label class="radio-label"><input type="radio" name="sidepopRuleConflict" value="rule" checked /> 수동 룰 우선</label>
-							<label class="radio-label"><input type="radio" name="sidepopRuleConflict" value="both" /> 양쪽 모두 표시 (검토 필요)</label>
-						</div>
-					</section>
-
-					<section class="rule-detail-section">
-						<h3 class="rule-detail-title">설명 및 운영 메모</h3>
-						<textarea class="form-textarea" rows="4"
-							placeholder="세목, 세액공제, 조세감면 등 세제 관련 키워드가 포함된 질의는 세제실로 우선 보정합니다."></textarea>
-					</section>
-				</div>
-			</div>
-			<footer class="sidepop-footer rule-drawer-footer">
-				<span class="rule-drawer-hint">저장 후 '룰 적용 재실행'을 누르면 결과 목록에 반영됩니다.</span>
-				<button type="button" class="button button-ghost">+ 룰 추가</button>
-				<button type="button" class="button button-primary">저장</button>
-				<button type="button" class="button button-dark">↻ 룰 적용 재실행</button>
-			</footer>
 		</aside>
 	</div>
 

@@ -19,7 +19,7 @@
 		<header class="control-preview-header">
 			<div>
 				<h1 class="control-preview-title">Modal</h1>
-				<p class="control-preview-desc">AI Answer의 작업 메뉴·확인 모달과 AI Intake의 질의 수정·실국별 알림 담당자 설정 모달을 확인합니다.</p>
+				<p class="control-preview-desc">AI Answer의 작업 메뉴·확인 모달과 AI Intake의 질의 수정 모달을 확인합니다.</p>
 			</div>
 			<a class="control-preview-back" href="../index.html#layouts">컴포넌트 목록</a>
 		</header>
@@ -59,15 +59,6 @@
 					<span class="control-use-label">Medium · 400px · 입력 폼</span>
 					<button type="button" class="button button-outline" data-query-edit-demo
 						data-modal-open="mediumQueryEditModal">질의 수정 팝업</button>
-				</article>
-				<article class="control-use-case">
-					<span class="control-use-label">Large · 960px · 실국별 알림 담당자 설정</span>
-					<button type="button" class="icon-button icon-button-workspace"
-						data-modal-open="notificationAssigneeModal"
-						aria-label="실국별 알림 담당자 설정" title="실국별 알림 담당자 설정">
-						<img class="icon icon-primary" src="../../assets/icons/notification-assignee.svg"
-							alt="" aria-hidden="true" />
-					</button>
 				</article>
 			</div>
 		</section>
@@ -248,62 +239,9 @@
 		</section>
 	</div>
 
-	<div class="custom-modal-backdrop" id="notificationAssigneeModal" data-modal hidden>
-		<section class="custom-modal notification-assignee-modal notification-dept-modal" role="dialog"
-			aria-modal="true" data-notification-assignee aria-labelledby="notificationAssigneeModalTitle"
-			aria-describedby="notificationAssigneeModalDescription">
-			<div class="notification-modal-head">
-				<div>
-					<div class="custom-modal-title notification-modal-title" id="notificationAssigneeModalTitle">
-						실국별 알림 담당자 설정
-					</div>
-					<div class="notification-modal-desc" id="notificationAssigneeModalDescription">
-						재정경제부 조직도 기준으로 알림을 받을 실국담당자를 지정합니다. 주관국·협조국 확정 후 지정된 담당자에게 알림이 전송됩니다.
-					</div>
-				</div>
-				<button type="button" class="notification-modal-close" data-modal-close aria-label="닫기">×</button>
-			</div>
-			<div class="notification-process-note">
-				<svg viewBox="0 0 24 24" aria-hidden="true">
-					<path d="M12 3v18M3 12h18" />
-					<circle cx="12" cy="12" r="9" />
-				</svg>
-				<span>재정경제부 조직도에서 부총리·차관 소관 조직을 선택한 후 실국별 알림 담당자를 지정합니다. 질의 확정 시 주관국·협조국을 기준으로 수신자가 자동 설정됩니다.</span>
-			</div>
-			<div class="notification-org-layout">
-				<aside class="notification-org-panel" aria-label="조직 선택">
-					<div class="notification-org-panel-title">조직 선택</div>
-					<div class="notification-org-list" data-notification-org-list></div>
-				</aside>
-				<section class="notification-dept-panel" aria-label="실국별 담당자">
-					<div class="notification-dept-toolbar">
-						<label class="drawer-list-search notification-dept-search">
-							<svg viewBox="0 0 24 24" aria-hidden="true">
-								<circle cx="11" cy="11" r="7" />
-								<path d="m20 20-3.6-3.6" />
-							</svg>
-							<input type="search" placeholder="실국명 또는 담당자 검색" aria-label="실국명 또는 담당자 검색"
-								autocomplete="off" data-notification-search />
-							<button type="button" class="drawer-search-clear notification-dept-search-clear"
-								data-notification-search-clear aria-label="검색어 지우기" hidden>×</button>
-						</label>
-						<div class="notification-dept-result" data-notification-result></div>
-					</div>
-					<div class="notification-dept-grid" data-notification-dept-grid></div>
-				</section>
-			</div>
-			<div class="notification-dept-feedback" data-notification-feedback aria-live="polite"></div>
-			<div class="custom-modal-actions notification-modal-actions">
-				<button type="button" class="btn-cancel" data-modal-close>취소</button>
-				<button type="button" class="btn-confirm" data-notification-save data-modal-close>설정 저장</button>
-			</div>
-		</section>
-	</div>
-
 	<script src="../_shared/layer-controller.js?v=20260728-2"></script>
 	<script src="modal.js?v=20260728-4"></script>
 	<script src="query-edit-modal.js?v=20260729"></script>
-	<script src="notification-assignee.js?v=20260729"></script>
 	<script src="../_preview/component-preview.js?v=20260727"></script>
 	<script>
 		document.querySelector('[data-query-edit-demo]')?.addEventListener('click', event => {

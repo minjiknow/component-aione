@@ -253,15 +253,6 @@ body.component-catalog-page {
 	z-index: 2;
 	overflow: visible;
 }
-.component-catalog-page .custom-modal.notification-assignee-modal {
-	width: 960px;
-	max-width: calc(100vw - 32px);
-}
-@media (max-width: 900px) {
-	.component-catalog-page .custom-modal.notification-assignee-modal {
-		width: calc(100vw - 24px);
-	}
-}
 /* Form state catalog */
 .form-preview-guide {
 	display: grid;
