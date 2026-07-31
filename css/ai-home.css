@@ -457,6 +457,10 @@ body.ai-home-page {
 	z-index: 100;
 }
 
+.component-catalog-preview .home-sidebar-host {
+	display: none;
+}
+
 .ai-home-main {
 	position: relative;
 	min-height: 100vh;
@@ -472,6 +476,11 @@ body.ai-home-page {
 
 .ai-home-app.sidebar-expanded .ai-home-main {
 	padding-left: var(--sidebar-w);
+}
+
+.component-catalog-preview .ai-home-main,
+.component-catalog-preview .ai-home-app.sidebar-expanded .ai-home-main {
+	padding-left: 0;
 }
 
 .home-content {
