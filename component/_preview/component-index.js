@@ -5,7 +5,7 @@
 	const HASH_PREFIX = "card-";
 	const HOME_HASH = "home";
 	const STORAGE_KEY = "component-catalog-sidebar-collapsed";
-	const CARD_DOCUMENT_URL = "componentgroup-card.html?v=20260729-1";
+	const CARD_DOCUMENT_URL = "componentgroup-card.html?v=20260731-1";
 	const HOME_DOCUMENT_URL = "../pages/ai-home.html?view=component-catalog&v=20260729-1";
 	const CATEGORY_ORDER = Object.freeze(["Actions", "Display", "Forms", "Layouts", "Navigation"]);
 	const ICONS = Object.freeze(["home", "document", "edit", "economy-trend", "chat"]);
@@ -186,6 +186,30 @@
 		}, "*");
 	}
 
+	function isCardDocumentReady() {
+		try {
+			return Boolean(frame.contentDocument?.querySelector("[data-component-group-title]"));
+		} catch (error) {
+			return false;
+		}
+	}
+
+	function restoreCatalogNavigation() {
+		if (components.length) {
+			syncComponentSelection();
+			return;
+		}
+
+		if (frame.dataset.catalogView !== "cards" || !isCardDocumentReady()) {
+			frame.dataset.catalogView = "cards";
+			frame.dataset.activeComponent = "";
+			frame.src = CARD_DOCUMENT_URL;
+			return;
+		}
+
+		requestComponents();
+	}
+
 	function handleFrameLoad() {
 		try {
 			if (frame.contentDocument?.getElementById("componentIndexSidebar")) {
@@ -216,6 +240,7 @@
 	});
 
 	window.addEventListener("hashchange", syncComponentSelection);
+	window.addEventListener("pageshow", restoreCatalogNavigation);
 	frame.addEventListener("load", handleFrameLoad);
 	window.addEventListener("message", (event) => {
 		if (event.source !== frame.contentWindow || event.data?.namespace !== MESSAGE_NAMESPACE) return;
