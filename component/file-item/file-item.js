@@ -60,6 +60,8 @@
     const section = list.closest('.file-list-section');
     const countElement = section?.querySelector('.upload-summary-file-count');
     if (countElement) countElement.textContent = String(count);
+    const summaryMessage = section?.querySelector('.upload-summary-footer-copy em');
+    if (summaryMessage) summaryMessage.textContent = `${count}건 질의 확인`;
 
     const scope = list.closest(ACTION_SCOPE_SELECTOR);
     const emptyTarget = list.dataset.fileEmptyTarget

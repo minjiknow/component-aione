@@ -20,7 +20,7 @@ body.component-index-page {
 	background: var(--app-sidebar-active-bg, rgba(9, 105, 218, 0.08));
 }
 
-.component-index-nav {
+.component-index-sidebar .component-index-nav {
 	min-height: 0;
 	overflow-y: auto;
 }
@@ -60,7 +60,7 @@ body.component-index-page {
 .component-index-nav-loading {
 	padding: 12px;
 	color: var(--text-muted);
-	font-size: 12px;
+	font-size:calc(12px * var(--ui-font-scale, 1));
 	line-height: 1.5;
 }
 

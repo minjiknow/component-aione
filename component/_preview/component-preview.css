@@ -22,11 +22,11 @@ body.component-catalog-page {
 }
 .component-catalog-title {
 	margin-bottom: 8px;
-	font-size: 22px;
+	font-size:calc(22px * var(--ui-font-scale, 1));
 }
 .component-catalog-desc {
 	color: var(--text-sub);
-	font-size: 13px;
+	font-size:calc(13px * var(--ui-font-scale, 1));
 	line-height: 1.7;
 }
 .component-catalog-nav {
@@ -41,14 +41,14 @@ body.component-catalog-page {
 	border-radius: var(--radius-sm);
 	background: var(--surface);
 	color: var(--text-sub);
-	font-size: 12px;
+	font-size:calc(12px * var(--ui-font-scale, 1));
 }
 .component-catalog-section + .component-catalog-section {
 	margin-top: 28px;
 }
 .component-catalog-heading {
 	margin-bottom: 12px;
-	font-size: 16px;
+	font-size:calc(16px * var(--ui-font-scale, 1));
 }
 .component-catalog-grid {
 	display: grid;
@@ -74,12 +74,12 @@ body.component-catalog-page {
 	margin-bottom: 12px;
 }
 .component-catalog-card-title {
-	font-size: 14px;
+	font-size:calc(14px * var(--ui-font-scale, 1));
 }
 .component-catalog-card-meta {
 	margin-top: 4px;
 	color: var(--text-muted);
-	font-size: 11px;
+	font-size:calc(11px * var(--ui-font-scale, 1));
 }
 .component-catalog-links {
 	display: flex;
@@ -94,7 +94,7 @@ body.component-catalog-page {
 }
 .component-catalog-links a {
 	color: var(--primary);
-	font-size: 11px;
+	font-size:calc(11px * var(--ui-font-scale, 1));
 }
 .component-catalog-preview {
 	min-width: 0;
@@ -111,6 +111,16 @@ body.component-catalog-page {
 }
 .component-file-upload-preview {
 	background: var(--surface);
+}
+.component-file-upload-preview .file-list-section {
+	padding-right: 12px;
+	padding-left: 12px;
+}
+.component-file-list-preview .upload-summary-footer + .file-list-header {
+	margin-top: 10px;
+}
+.component-file-list-preview > .file-list-section.is-collapsed {
+	margin-top: 12px;
 }
 .component-action-preview {
 	display: flex;
@@ -172,11 +182,11 @@ body.component-catalog-page {
 	padding-bottom: 10px;
 	border-bottom: 1px solid var(--border);
 	color: var(--text);
-	font-size: 12px;
+	font-size:calc(12px * var(--ui-font-scale, 1));
 }
 .chat-message-variant-header code {
 	color: var(--primary);
-	font-size: 11px;
+	font-size:calc(11px * var(--ui-font-scale, 1));
 }
 .chat-message-variant-panel [data-chat-message-list] {
 	max-width: none;
@@ -262,7 +272,7 @@ body.component-catalog-page {
 	border-radius: var(--radius-sm);
 	background: rgba(9, 105, 218, 0.04);
 	color: var(--text-sub);
-	font-size: 12px;
+	font-size:calc(12px * var(--ui-font-scale, 1));
 	line-height: 1.5;
 }
 .form-preview-guide strong {
@@ -285,7 +295,7 @@ body.component-catalog-page {
 	display: block;
 	margin-bottom: 12px;
 	color: var(--text-muted);
-	font-size: 11px;
+	font-size:calc(11px * var(--ui-font-scale, 1));
 	font-weight: 700;
 	letter-spacing: 0.4px;
 	text-transform: uppercase;
@@ -326,13 +336,13 @@ body.component-catalog-page {
 }
 .tab-preview-panel-title {
 	color: var(--text);
-	font-size: 12px;
+	font-size:calc(12px * var(--ui-font-scale, 1));
 	font-weight: 700;
 }
 .tab-preview-panel-desc {
 	margin-top: 5px;
 	color: var(--text-muted);
-	font-size: 12px;
+	font-size:calc(12px * var(--ui-font-scale, 1));
 	line-height: 1.5;
 }
 
@@ -371,12 +381,12 @@ body.control-preview-page {
 	border-bottom: 1px solid var(--border);
 }
 .control-preview-title {
-	font-size: 20px;
+	font-size:calc(20px * var(--ui-font-scale, 1));
 }
 .control-preview-desc {
 	margin-top: 8px;
 	color: var(--text-sub);
-	font-size: 12px;
+	font-size:calc(12px * var(--ui-font-scale, 1));
 	line-height: 1.6;
 }
 .control-preview-back {
@@ -385,7 +395,7 @@ body.control-preview-page {
 	border: 1px solid var(--border);
 	border-radius: var(--radius-sm);
 	color: var(--text-sub);
-	font-size: 12px;
+	font-size:calc(12px * var(--ui-font-scale, 1));
 	font-weight: 600;
 }
 .control-preview-back:hover {
@@ -398,7 +408,7 @@ body.control-preview-page {
 }
 .control-preview-section-title {
 	margin-bottom: 12px;
-	font-size: 14px;
+	font-size:calc(14px * var(--ui-font-scale, 1));
 }
 .control-use-list {
 	display: grid;
@@ -416,7 +426,7 @@ body.control-preview-page {
 	display: block;
 	margin-bottom: 10px;
 	color: var(--text-muted);
-	font-size: 10px;
+	font-size:calc(10px * var(--ui-font-scale, 1));
 	font-weight: 700;
 	letter-spacing: 0.4px;
 	text-transform: uppercase;
@@ -445,7 +455,7 @@ body.control-preview-page {
 	border-radius: 0;
 }
 .component-three-panel-preview > .three-panel {
-    grid-template-columns: 360px 2px minmax(0, 1fr) 2px 360px;
+    grid-template-columns: var(--three-panel-left-width) 2px minmax(0, 1fr) 2px var(--three-panel-right-width);
     padding: 0;
 }
 .component-slot-preview {
@@ -457,7 +467,7 @@ body.control-preview-page {
 	min-height: 0;
 	padding: 16px;
 	color: var(--text-muted);
-	font-size: 12px;
+	font-size:calc(12px * var(--ui-font-scale, 1));
 	text-align: center;
 }
 .split-handler-left > .component-slot-preview,
@@ -498,10 +508,7 @@ body.control-preview-page {
 /* Navigation previews */
 .component-topbar-preview .app-topbar {
 	width: 100%;
-	background: var(--surface);
-}
-.component-topbar-preview .accessory-tool {
-	display: none;
+	min-width: 900px;
 }
 .component-sidebar-preview {
 	display: flex;
@@ -543,6 +550,41 @@ body.button-preview-page {
 	overflow: visible;
 	background: var(--bg);
 }
+.accessory-button-demo {
+	display: grid;
+	gap: 14px;
+	margin-top: 12px;
+	padding: 20px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	background: var(--surface);
+}
+.accessory-button-demo-toolbar {
+	display: flex;
+	justify-content: flex-end;
+	min-height: 32px;
+}
+.accessory-button-demo-layout {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 8px;
+}
+.accessory-button-demo-layout > span {
+	display: flex;
+	min-height: 64px;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-sm);
+	background: var(--bg);
+	color: var(--text-sub);
+	font-size:calc(11px * var(--ui-font-scale, 1));
+	font-weight: 700;
+}
+.accessory-button-demo-status {
+	color: var(--text-muted);
+	font-size:calc(11px * var(--ui-font-scale, 1));
+}
 .button-preview {
 	width: min(100%, 960px);
 	margin: 0 auto;
@@ -564,12 +606,12 @@ body.button-preview-page {
 	gap: 16px;
 }
 .button-preview-title {
-	font-size: 20px;
+	font-size:calc(20px * var(--ui-font-scale, 1));
 }
 .button-preview-desc {
 	margin-top: 8px;
 	color: var(--text-sub);
-	font-size: 12px;
+	font-size:calc(12px * var(--ui-font-scale, 1));
 	line-height: 1.6;
 }
 .button-preview-back {
@@ -578,7 +620,7 @@ body.button-preview-page {
 	border: 1px solid var(--border);
 	border-radius: var(--radius-sm);
 	color: var(--text-sub);
-	font-size: 12px;
+	font-size:calc(12px * var(--ui-font-scale, 1));
 	font-weight: 600;
 }
 .button-preview-back:hover {
@@ -590,12 +632,12 @@ body.button-preview-page {
 	margin-top: 28px;
 }
 .button-preview-section-title {
-	font-size: 14px;
+	font-size:calc(14px * var(--ui-font-scale, 1));
 }
 .button-preview-section-desc {
 	margin-top: 5px;
 	color: var(--text-muted);
-	font-size: 11px;
+	font-size:calc(11px * var(--ui-font-scale, 1));
 	line-height: 1.5;
 }
 .button-use-list {
@@ -618,7 +660,7 @@ body.button-preview-page {
 	display: block;
 	margin-bottom: 10px;
 	color: var(--text-sub);
-	font-size: 11px;
+	font-size:calc(11px * var(--ui-font-scale, 1));
 	font-weight: 700;
 }
 .button-use-sample {
@@ -638,7 +680,7 @@ body.button-preview-page {
 	margin-top: 10px;
 	color: var(--primary);
 	font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-	font-size: 10px;
+	font-size:calc(10px * var(--ui-font-scale, 1));
 	line-height: 1.45;
 	word-break: break-all;
 }
@@ -646,7 +688,7 @@ body.button-preview-page {
 	display: block;
 	margin-top: 4px;
 	color: var(--text-muted);
-	font-size: 10px;
+	font-size:calc(10px * var(--ui-font-scale, 1));
 }
 .button-use-fluid-sample {
 	width: 100%;
@@ -712,7 +754,7 @@ body.button-preview-page {
 	border-radius: 10px;
 	background: linear-gradient(135deg, #0969da 0%, #0550ae 100%);
 	color: #fff;
-	font-size: 14px;
+	font-size:calc(14px * var(--ui-font-scale, 1));
 	font-weight: 700;
 	line-height: 20px;
 	transition:
@@ -777,9 +819,6 @@ body.button-preview-page {
 	}
 	.component-topbar-preview {
 		overflow-x: auto;
-	}
-	.component-topbar-preview .app-topbar {
-		min-width: 720px;
 	}
 }
 .component-domain-card-preview {

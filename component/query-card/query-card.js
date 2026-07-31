@@ -31,12 +31,13 @@
 		return tag;
 	}
 
-	function emit(card, type) {
+	function emit(card, type, query = null) {
 		card.dispatchEvent(new CustomEvent(`query-card:${type}`, {
 			bubbles: true,
 			detail: {
 				id: card.dataset.qid,
-				scope: card.dataset.scope
+				scope: card.dataset.scope,
+				...(query ? { query: { ...query } } : {})
 			}
 		}));
 	}
@@ -45,8 +46,17 @@
 		const type = Object.hasOwn(TYPE_META, data.type) ? data.type : 'single';
 		const typeLabel = data.typeLabel || TYPE_META[type].label;
 		const confidence = clampConfidence(data.confidence);
-		const needsReview = data.needsReview ?? confidence < 80;
+		const needsReview = data.needsReview === true;
 		const editable = options.editable !== false;
+		const query = {
+			id: data.id,
+			type,
+			typeLabel,
+			text: data.text || '',
+			mainDept: data.mainDept || '',
+			coopDept: data.coopDept || '',
+			org: data.org || '재정경제부'
+		};
 		const card = document.createElement('article');
 		const head = document.createElement('div');
 		const number = createTextElement('span', `query-num ${type}`, `Q${data.id ?? ''}`);
@@ -54,7 +64,9 @@
 		const text = createTextElement('p', 'query-text', data.text || '');
 		const departments = document.createElement('div');
 		const reason = document.createElement('div');
-		const reasonLabel = createTextElement('strong', 'ai-reason-label', 'AI 분류 근거:');
+		const reasonHead = document.createElement('div');
+		const reasonIcon = createTextElement('span', 'ai-reason-icon', '');
+		const reasonLabel = createTextElement('strong', 'ai-reason-label', 'AI 분류 근거');
 		const reasonText = createTextElement('span', 'ai-reason-text', data.reason || '');
 		const progressRow = document.createElement('div');
 		const progressLabel = createTextElement('span', 'progressbar-label', '신뢰도');
@@ -72,7 +84,7 @@
 		head.className = 'query-card-head';
 		head.append(number);
 		if (needsReview) {
-			head.append(createTextElement('span', 'query-review-badge', '검토필요'));
+			head.append(createTextElement('span', 'status-badge badge-review query-review-badge', '검토필요'));
 		}
 		head.append(typeBadge);
 
@@ -82,7 +94,10 @@
 		if (type === 'none' && data.org) departments.append(createDepartmentTag('비소관', data.org));
 
 		reason.className = 'query-ai-reason';
-		reason.append(reasonLabel, reasonText);
+		reasonHead.className = 'ai-reason-head';
+		reasonIcon.setAttribute('aria-hidden', 'true');
+		reasonHead.append(reasonIcon, reasonLabel);
+		reason.append(reasonHead, reasonText);
 
 		progressRow.className = 'progressbar-row query-confidence-bar';
 		progressbar.className = 'progressbar';
@@ -95,7 +110,8 @@
 		progressbar.setAttribute('aria-valuenow', String(confidence));
 		progressbar.style.setProperty('--progressbar-value', `${confidence}%`);
 		progressbar.classList.toggle('is-high', confidence >= 90);
-		progressbar.classList.toggle('is-low', confidence < 90);
+		progressbar.classList.toggle('is-medium', confidence >= 75 && confidence < 90);
+		progressbar.classList.toggle('is-low', confidence < 75);
 		progressFill.className = 'progressbar-fill';
 		progressbar.append(progressFill);
 		progressRow.append(progressLabel, progressbar, progressValue);
@@ -107,15 +123,20 @@
 
 		if (data.conflict) {
 			const conflict = document.createElement('div');
-			const icon = createTextElement('span', 'conflict-icon', '⚡');
-			const message = document.createElement('span');
-			const strong = createTextElement('strong', '', data.conflict.ruleLabel || '분류 룰');
+			const conflictHead = document.createElement('div');
+			const title = createTextElement('strong', 'conflict-title', '룰 충돌');
+			const review = createTextElement('span', 'conflict-review', '검토 필요');
+			const message = document.createElement('p');
+			const ruleDepartment = createTextElement('strong', '', data.conflict.ruleDept || '');
+			const aiDepartment = createTextElement('strong', '', data.conflict.aiDept || '');
+			const rule = createTextElement('small', 'conflict-rule', `적용 룰: ${data.conflict.ruleLabel || '분류 룰'}`);
 
 			conflict.className = 'query-conflict';
-			icon.setAttribute('aria-hidden', 'true');
+			conflictHead.className = 'query-conflict-head';
 			message.className = 'conflict-text';
-			message.append('룰 충돌: ', strong, ` → ${data.conflict.ruleDept || ''} / AI 추천 → ${data.conflict.aiDept || ''}`);
-			conflict.append(icon, message);
+			message.append('룰 기준 ', ruleDepartment, '과 AI 추천 ', aiDepartment, '이 다릅니다.');
+			conflictHead.append(title, review);
+			conflict.append(conflictHead, message, rule);
 			card.append(conflict);
 		}
 
@@ -128,7 +149,7 @@
 			editButton.dataset.qid = card.dataset.qid;
 			editButton.addEventListener('click', event => {
 				event.stopPropagation();
-				emit(card, 'edit');
+				emit(card, 'edit', query);
 			});
 			footer.append(editButton);
 			card.append(footer);

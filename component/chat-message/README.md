@@ -95,6 +95,7 @@ AI Answer 패널과 AI-ONE 챗봇에서 사용자 질문과 AI 답변을 표시�
 `data-variant="answer"`는 AI Answer 우측 패널의 작은 말풍선형입니다.
 
 - 사용자와 AI 메시지 모두 최대 너비 85%의 말풍선
+- AI 메시지: 기존 `ai-search.svg`를 사용하는 보라·파랑 그라데이션 아바타
 - 본문: `.msg-text`
 - 시간: `.msg-time` 선택 사용
 - 대기 상태: `.typing-cursor`
@@ -118,6 +119,10 @@ AI Answer 패널과 AI-ONE 챗봇에서 사용자 질문과 AI 답변을 표시�
         data-variant="answer"
         data-role="ai"
         data-status="complete">
+        <div class="msg-avatar">
+            <img src="${contextPath}/assets/icons/ai-search.svg"
+                alt="" aria-hidden="true" />
+        </div>
         <div class="msg-text">핵심 재정지표와 정책 근거를 요약했습니다.</div>
         <span class="msg-time">14:32</span>
         <div class="msg-actions"><!-- 공통 액션 버튼 --></div>

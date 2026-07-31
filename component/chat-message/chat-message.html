@@ -6,7 +6,7 @@
 	<title>ChatMessage 컴포넌트</title>
 	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
 	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
-	<link rel="stylesheet" href="../button/button.css?v=20260728" />
+	<link rel="stylesheet" href="../button/button.css?v=20260730-9" />
 	<link rel="stylesheet" href="chat-message.css?v=20260728-1" />
 	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260727-5" />
 </head>
@@ -48,6 +48,7 @@
 					<span class="msg-time">14:31</span>
 				</div>
 				<div class="chat-msg ai" data-component="chat-message" data-variant="answer" data-role="ai" data-status="complete">
+					<div class="msg-avatar"><img src="../../assets/icons/ai-search.svg" alt="" aria-hidden="true" /></div>
 					<div class="msg-text">핵심 재정지표와 정책 근거를 중심으로 요약했습니다.</div>
 					<span class="msg-time">14:32</span>
 					<div class="msg-actions">
@@ -58,7 +59,7 @@
 					</div>
 				</div>
 				<div class="chat-msg ai is-pending chat-typing" data-component="chat-message" data-variant="answer" data-role="ai" data-status="pending" aria-busy="true">
-					<div class="typing-avatar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+					<div class="typing-avatar"><img src="../../assets/icons/ai-search.svg" alt="" aria-hidden="true" /></div>
 					<div class="typing-content" role="status">
 						<div class="typing-text-wrap">
 							<span class="typing-title">생성 중</span>

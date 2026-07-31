@@ -2,7 +2,8 @@
 
 .upload-zone {
     margin: 12px 12px 10px;
-    padding: 20px 12px;
+    min-height: 122px;
+    padding: 22px 12px 18px;
     border: 1px dashed var(--border, #d1d9e0);
     border-radius: var(--radius, 10px);
     background: transparent;
@@ -24,17 +25,47 @@
 
 .upload-zone svg {
     display: block;
-    width: 24px;
-    height: 24px;
-    margin: 0 auto 6px;
+    width: 20px;
+    height: 20px;
+    margin: 0 auto 8px;
     fill: none;
-    stroke: var(--primary, #0969da);
-    stroke-width: 2;
+    stroke: var(--text-muted, #8b949e);
+    stroke-width: 1.8;
+}
+
+.upload-zone-icon {
+    display: none;
+    width: 34px;
+    height: 34px;
+    margin: 0 auto 8px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(9, 105, 218, 0.28);
+    border-radius: 9px;
+    background: var(--surface, #fff);
+    color: var(--primary, #0969da);
+}
+
+.upload-zone-reference .upload-zone-default-icon,
+[data-component-type="reference"] .upload-zone-default-icon {
+    display: none;
+}
+
+.upload-zone-reference .upload-zone-icon,
+[data-component-type="reference"] .upload-zone-icon {
+    display: flex;
+}
+
+.upload-zone-icon img {
+    display: block;
+    width: 18px;
+    height: 18px;
+    filter: var(--icon-filter-primary);
 }
 
 .upload-text {
-    margin-bottom: 4px;
-    color: var(--text-sub, #656d76);
+    margin-bottom: 5px;
+    color: var(--text, #1f2328);
     font-size: calc(11px * var(--ui-font-scale, 1));
     font-weight: 600;
     line-height: 1.5;
@@ -55,4 +86,41 @@
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
+}
+
+.upload-zone.compact,
+[data-component-variant="compact"] .upload-zone {
+    min-height: 0;
+    margin: 0 0 10px;
+    padding: 20px 12px;
+}
+
+.upload-zone.compact svg,
+[data-component-variant="compact"] .upload-zone svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 6px;
+    stroke: var(--primary, #0969da);
+    stroke-width: 2;
+}
+
+.upload-zone-reference.compact .upload-zone-icon,
+[data-component-type="reference"][data-component-variant="compact"] .upload-zone-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+}
+
+.upload-zone-reference.compact .upload-zone-icon img,
+[data-component-type="reference"][data-component-variant="compact"] .upload-zone-icon img {
+    width: 20px;
+    height: 20px;
+}
+
+.upload-zone.compact .upload-text,
+[data-component-variant="compact"] .upload-zone .upload-text {
+    margin: 0;
+    color: var(--text-sub, #656d76);
+    font-weight: 400;
 }

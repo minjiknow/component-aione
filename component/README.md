@@ -6,7 +6,7 @@
 
 - `README.md`: 복사용 마크업과 필수 CSS/JS, 상태, 슬롯, 이벤트, ID 규칙을 설명하는 개발 계약입니다.
 - `컴포넌트명.html`: 해당 컴포넌트만 독립적으로 확인하는 검수 페이지입니다.
-- `컴포넌트명.fragment.html`: 페이지 또는 JSP가 include하는 마크업입니다. `html`, `head`, `body`, CSS, JS를 포함하지 않습니다.
+- `컴포넌트명.fragment.html`: 페이지 또는 JSP가 include하는 마크업입니다. `html`, `head`, `body`, CSS, JS를 포함하지 않습니다. inline SVG가 많은 SidePop은 VS Code Live Server의 HTML 응답 변형을 피하기 위해 예외적으로 확장자 없는 `*.fragment`를 사용합니다.
 - `컴포넌트명.css`: 해당 컴포넌트가 소유하는 스타일입니다. 화면 CSS인 `css/ai-*.css`를 의존하지 않습니다.
 - `컴포넌트명.js`: 해당 컴포넌트의 초기화, 상태, 이벤트 API를 소유합니다.
 - `_shared/form-control.css`: Input, Select, Textarea를 조합할 때 사용하는 label, help, row 배치 유틸리티입니다.
@@ -17,13 +17,13 @@
 - `index.html`: 기존 Sidebar 형태에서 `Actions`, `Display`, `Forms`, `Layouts`, `Navigation` 분류별 컴포넌트 메뉴를 선택하는 통합 검수 진입 페이지입니다. 빈 해시와 `#home`은 AI-ONE 홈을, `#card-<component-id>`는 선택한 컴포넌트를 표시합니다. Button과 Icon Button은 상세 카탈로그를 바로 표시하고 나머지는 대표 카드를 표시합니다.
 - `componentgroup-card.html`: 모든 컴포넌트와 Form 상태의 대표 형태를 외부 include 없이 직접 렌더링하는 카드 모음 페이지입니다.
 
-ProgressBar, Toast, ChatMessage, PromptComposer, DataTable, DropdownMenu, Modal, SidePop은 각 폴더의 `fragment.html`, CSS, JS를 한 묶음으로 관리합니다. `component-loader.js`는 선언된 컴포넌트의 자산을 문서당 한 번만 로드하고, 마크업 삽입 후 컴포넌트 초기화 이벤트를 발생시킵니다. React 런타임을 사용하는 것은 아니지만 컴포넌트별 소유권과 초기화 경계를 같은 방식으로 유지합니다.
+ProgressBar, DocumentStatusBar, Toast, ChatMessage, PromptComposer, DataTable, DropdownMenu, Modal, SidePop은 각 폴더의 fragment, CSS, JS를 한 묶음으로 관리합니다. `component-include-loader.js`는 선언된 컴포넌트의 자산을 문서당 한 번만 로드하고, 마크업 삽입 후 컴포넌트 초기화 이벤트를 발생시킵니다. `file://` 실행 시에는 `component-file-fallbacks.generated.js`를 사용하며, 원본 fragment 변경 후 `node scripts/build-component-file-fallbacks.mjs`로 갱신합니다. React 런타임을 사용하는 것은 아니지만 컴포넌트별 소유권과 초기화 경계를 같은 방식으로 유지합니다.
 
-로더는 fragment 안의 상대 `src`, `href`를 fragment 파일 기준의 절대 URL로 보정합니다. `file://`에서 검수가 필요한 진입 페이지는 원격 fetch 대신 사용할 `<template data-component-file-fallback="<name>">`을 직접 제공할 수 있으며, fallback의 최종 DOM은 원본 fragment와 함께 관리합니다.
+로더는 fragment 안의 상대 `src`, `href`를 fragment 파일 기준의 절대 URL로 보정합니다. Fragment는 마크업만 소유하므로 로더는 fetch 응답에 포함된 Live Server용 `<script>`를 파싱 전에 제거하고, 실제 컴포넌트 JavaScript는 registry의 `scripts`로만 로드합니다. Modal fragment는 inline SVG 대신 기존 아이콘 파일을 참조해 표준 `.fragment.html`을 유지하며, inline SVG가 많은 SidePop은 Live Server의 응답 변형을 피하도록 확장자 없는 fragment를 registry에 명시합니다. `file://`에서 검수가 필요한 진입 페이지는 원격 fetch 대신 사용할 `<template data-component-file-fallback="<name>">`을 직접 제공할 수 있으며, fallback의 최종 DOM은 원본 fragment와 함께 관리합니다.
 
 DropdownMenu의 공식 예제는 기존 `html/ai-home.html`과 `html/ai-chatbot.html`의 모델 선택 메뉴를 공통화한 다크 단일 선택형입니다. 일반 라이트 액션 메뉴는 기존 화면 출처가 확인되지 않아 공식 기존 스타일 예제에서 제외합니다.
 
-Modal은 AI Answer의 `대화 작업 팝업` Small 160px, 기존 `삭제 팝업` Medium 380px, AI Intake의 `실국별 알림 담당자 설정` Large 960px의 3단계로 검수합니다. 기존 화면의 마크업과 시각 규칙은 재사용하되 스타일 소유권은 `component/modal/modal.css`에 둡니다.
+Modal은 AI Answer의 `대화 작업 팝업` Small 160px, 기존 `삭제·확인 팝업` Medium 380px, `backup/20260726` AI Intake의 `실국별 알림 담당자 설정` Large 960px을 기준으로 검수합니다. 기존 화면의 마크업과 시각 규칙은 재사용하되 스타일 소유권은 `component/modal/modal.css`에 둡니다.
 
 ### ChatMessage 속성 규칙
 
@@ -34,10 +34,12 @@ ChatMessage의 `data-variant`는 발화자가 아니라 화면별 표현 방식�
 ```html
 <link rel="stylesheet" href="${contextPath}/css/common.css" />
 <link rel="stylesheet" href="${contextPath}/component/<name>/<name>.css" />
-<script src="${contextPath}/component/component-loader.js" defer></script>
+<script src="${contextPath}/component/component-include-loader.js" defer></script>
 ```
 
 `common.css`는 토큰, reset, 공통 환경만 담당합니다. 모든 컴포넌트는 `component/<name>/<name>.css`를 필수 엔트리로 가지며, 컴포넌트의 표현과 동작은 각 폴더의 CSS/JS에서 가져옵니다. 페이지에서 정적 include를 사용하는 경우에도 해당 컴포넌트 CSS/JS를 함께 한 번만 포함합니다.
+
+`common.js`는 테마·보조도구와 여러 화면이 공유하는 기반 API만 소유합니다. 파일 선택/드롭 이벤트와 업로드 전 보안 분류는 공통 API가 담당하고, 업로드 결과 렌더링·업무용 안내 Modal·서버 호출은 각 페이지 JavaScript가 담당합니다.
 
 ## 폴더 구조
 
@@ -69,7 +71,7 @@ ChatMessage의 `data-variant`는 발화자가 아니라 화면별 표현 방식�
 <div data-component-include="progressbar" data-component-value="82">
     <template data-slot="label">신뢰도</template>
 </div>
-<script src="${contextPath}/component/component-loader.js" defer></script>
+<script src="${contextPath}/component/component-include-loader.js" defer></script>
 ```
 
 슬롯은 include 요소의 직계 자식인 `<template data-slot="...">`으로 전달합니다. Modal이나 SidePop처럼 외부 트리거와 ID를 맞춰야 하는 컴포넌트는 `data-component-id`를 지정합니다.
@@ -87,7 +89,7 @@ ChatMessage의 `data-variant`는 발화자가 아니라 화면별 표현 방식�
 </template>
 ```
 
-JSP 개발에서는 로더를 그대로 사용할 필요가 없습니다. 같은 `*.fragment.html`을 JSP include, tag file 또는 layout template으로 치환하고 CSS/JS를 번들에서 한 번만 포함하되 최종 DOM과 `data-*` 계약은 유지합니다.
+JSP 개발에서는 로더를 그대로 사용할 필요가 없습니다. 같은 fragment 소스를 JSP include, tag file 또는 layout template으로 치환하고 CSS/JS를 번들에서 한 번만 포함하되 최종 DOM과 `data-*` 계약은 유지합니다.
 
 ## 인계 전 체크리스트
 

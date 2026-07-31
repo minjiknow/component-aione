@@ -5,8 +5,8 @@
 	const HASH_PREFIX = "card-";
 	const HOME_HASH = "home";
 	const STORAGE_KEY = "component-catalog-sidebar-collapsed";
-	const CARD_DOCUMENT_URL = "componentgroup-card.html?v=20260728-18";
-	const HOME_DOCUMENT_URL = "../pages/ai-home.html?view=component-catalog&v=20260728-3";
+	const CARD_DOCUMENT_URL = "componentgroup-card.html?v=20260729-1";
+	const HOME_DOCUMENT_URL = "../pages/ai-home.html?view=component-catalog&v=20260729-1";
 	const CATEGORY_ORDER = Object.freeze(["Actions", "Display", "Forms", "Layouts", "Navigation"]);
 	const ICONS = Object.freeze(["home", "document", "edit", "economy-trend", "chat"]);
 

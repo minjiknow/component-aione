@@ -6,10 +6,10 @@
 	<title>FileItem 컴포넌트</title>
 	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
 	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
-	<link rel="stylesheet" href="../file-list/file-list.css?v=20260728-2" />
-	<link rel="stylesheet" href="file-item.css?v=20260728-2" />
+	<link rel="stylesheet" href="../file-list/file-list.css?v=20260729-6" />
+	<link rel="stylesheet" href="file-item.css?v=20260729-3" />
 	<link rel="stylesheet" href="../dropdownmenu/dropdownmenu.css?v=20260728-3" />
-	<link rel="stylesheet" href="../modal/modal.css?v=20260728-7" />
+	<link rel="stylesheet" href="../modal/modal.css?v=20260729-1" />
 	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260727" />
 </head>
 <body class="control-preview-page">
@@ -27,11 +27,13 @@
 			<ul class="file-list">
 				<li class="active pinned" data-file-idx="0">
 					<button class="file-item-main" type="button" aria-label="예결위 자료요구서 신예린의원 파일 보기">
-						<div class="file-icon txt">TXT</div>
+						<span class="file-index">21</span>
+						<span class="file-type-dot txt" aria-hidden="true"></span>
+						<span class="file-icon file-icon-collapsed txt" aria-hidden="true">TXT</span>
 						<div class="file-info"><span class="file-name">예결위_자료요구서_신예린의원.txt</span><span class="file-meta">0.5MB · 목록 고정</span></div>
 					</button>
 					<div class="file-item-side">
-						<span class="file-status-group final"><span class="file-status parsed">청킹 완료</span><span class="file-status query-count final">질의 5건</span></span>
+						<span class="file-status query-count final">질의5건</span>
 						<div class="file-action-wrap dropdown-menu-component" data-dropdown-menu>
 							<button class="file-more-btn" type="button" data-dropdown-trigger aria-haspopup="menu"
 								aria-label="파일 옵션" aria-expanded="false" aria-controls="fileItemMenu0" title="파일 옵션"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button>
@@ -51,7 +53,9 @@
 			<ul class="file-list">
 				<li data-file-idx="1">
 					<button class="file-item-main" type="button" aria-label="예결위 질의서 박소연의원 파일 보기">
-						<div class="file-icon pdf processing">PDF</div>
+						<span class="file-index">20</span>
+						<span class="file-type-dot pdf processing" aria-hidden="true"></span>
+						<span class="file-icon file-icon-collapsed pdf" aria-hidden="true">PDF</span>
 						<div class="file-info"><span class="file-name">예결위_질의서_박소연의원.pdf</span><span class="file-meta">1.3MB</span></div>
 					</button>
 					<div class="file-item-side">
@@ -87,7 +91,7 @@
 		<section class="custom-modal modal-medium" role="dialog" aria-modal="true"
 			aria-labelledby="fileItemDeleteModalTitle" aria-describedby="fileItemDeleteModalDescription">
 			<div class="custom-modal-icon danger" aria-hidden="true">⚠</div>
-			<div class="custom-modal-title" id="fileItemDeleteModalTitle">파일을 삭제할까요?</div>
+			<div class="custom-modal-title" id="fileItemDeleteModalTitle">파일 삭제</div>
 			<div class="custom-modal-msg" id="fileItemDeleteModalDescription">
 				<strong data-file-delete-name>선택한 파일</strong><br />
 				질의 업로드 목록에서 삭제하시겠습니까?
@@ -102,6 +106,6 @@
 	<script src="../dropdownmenu/dropdownmenu.js?v=20260728-2"></script>
 	<script src="../_shared/layer-controller.js?v=20260728-2"></script>
 	<script src="../modal/modal.js?v=20260728-4"></script>
-	<script src="file-item.js?v=20260728-1"></script>
+	<script src="file-item.js?v=20260729-2"></script>
 </body>
 </html>

@@ -17,6 +17,10 @@
     background: rgba(0, 0, 0, 0.34);
 }
 
+.sidepop-layer.has-child-modal .sidepop-backdrop {
+    background: transparent;
+}
+
 .sidepop {
     position: absolute;
     top: 0;
@@ -31,6 +35,15 @@
     animation: sidepop-enter 0.2s ease-out both;
 }
 
+.sidepop-layer.sidepop-position-left .sidepop {
+    right: auto;
+    left: 0;
+    border-right: 1px solid var(--border, #d1d9e0);
+    border-left: 0;
+    box-shadow: 4px 0 20px rgba(31, 35, 40, 0.1);
+    animation-name: sidepop-enter-left;
+}
+
 .sidepop.sidepop-small {
     width: 420px;
 }
@@ -42,6 +55,24 @@
 .sidepop.sidepop-medium {
     width: 820px;
 }
+
+/* AI Workspace 전용 분류 룰 설정 스타일로 이동됨.
+.sidepop.sidepop-rule-settings {
+    max-width: 90vw;
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+}
+
+.sidepop-rule-settings .sidepop-header {
+    padding: 20px 24px 16px;
+}
+
+.sidepop-rule-settings .sidepop-header > [data-sidepop-close] {
+    min-width: auto;
+    flex: 0 1 auto;
+    font-weight: 400;
+    line-height: normal;
+}
+*/
 
 .sidepop-variant-panel {
     display: none;
@@ -65,6 +96,12 @@
 .sidepop[data-sidepop-variant="content"] [data-sidepop-panel="content"] {
     display: flex;
 }
+
+/* AI Workspace 전용 스타일로 이동됨.
+.sidepop[data-sidepop-variant="rule-settings"] [data-sidepop-panel="content"] {
+    display: flex;
+}
+*/
 
 .sidepop-header {
     display: flex;
@@ -170,6 +207,11 @@
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-width: 1.6;
+    transition: transform 0.15s ease;
+}
+
+.sidepop-layer.sidepop-position-left .sidepop-position-button svg {
+    transform: scaleX(-1);
 }
 
 .sidepop-list-body {
@@ -378,6 +420,17 @@
     box-shadow: inset 3px 0 0 var(--primary, #0969da);
 }
 
+.sidepop-run-item.is-pinned::before,
+.sidepop-chat-item.is-pinned::before {
+    position: absolute;
+    top: 3px;
+    left: 4px;
+    z-index: 1;
+    font-size: calc(9px * var(--ui-font-scale, 1));
+    line-height: 1;
+    content: "📌";
+}
+
 .sidepop-run-state {
     width: 8px;
     height: 8px;
@@ -484,6 +537,38 @@
     color: var(--text, #1f2328);
 }
 
+.sidepop-list-action {
+    align-self: center;
+    justify-self: end;
+}
+
+.sidepop-list-action .sidepop-item-more[aria-expanded="true"] {
+    background: var(--surface-el, #f0f3f6);
+    color: var(--text, #1f2328);
+}
+
+.sidepop-list-action-menu {
+    width: 140px;
+    min-width: 140px;
+    max-width: 140px;
+    padding: 6px;
+    border-radius: 10px;
+}
+
+.sidepop-list-action-menu .dropdown-menu-item {
+    min-height: 34px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: calc(10.5px * var(--ui-font-scale, 1));
+    font-weight: 600;
+}
+
+.sidepop-list-action-icon {
+    width: 15px;
+    height: 15px;
+    flex: 0 0 15px;
+}
+
 .sidepop-work-log {
     min-height: 0;
     list-style: none;
@@ -515,14 +600,29 @@
 
 .sidepop-chat-item {
     position: relative;
-    display: flex;
+    display: grid;
     width: 100%;
+    grid-template-columns: minmax(0, 1fr) 30px;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
     margin-bottom: 8px;
-    padding: 12px 14px;
+    padding: 0 6px 0 0;
     color: var(--text-sub, #656d76);
     font-size: calc(12px * var(--ui-font-scale, 1));
+    text-align: left;
+}
+
+.sidepop-chat-select {
+    min-width: 0;
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 0 12px 14px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
     text-align: left;
 }
 
@@ -587,7 +687,8 @@
 }
 
 .sidepop-chat-item:hover .sidepop-chat-more,
-.sidepop-chat-item:focus-within .sidepop-chat-more {
+.sidepop-chat-item:focus-within .sidepop-chat-more,
+.sidepop-chat-more[aria-expanded="true"] {
     opacity: 1;
 }
 
@@ -596,10 +697,17 @@
     color: var(--text, #1f2328);
 }
 
+/* AI Workspace 전용 분류 룰 설정 스타일로 이동됨.
 .sidepop-body.rule-drawer-body {
     display: flex;
     padding: 0;
     overflow: hidden;
+}
+
+.sidepop-rule-settings .sidepop-body.rule-drawer-body {
+    flex: 1 1 0;
+    color: var(--text, #1f2328);
+    line-height: normal;
 }
 
 .rule-drawer-left {
@@ -610,11 +718,19 @@
     border-right: 1px solid var(--border, #d1d9e0);
 }
 
+.sidepop-rule-settings .rule-drawer-left {
+    flex: 0 0 auto;
+}
+
 .rule-drawer-right {
     min-width: 0;
     flex: 1 1 auto;
     padding: 20px 24px;
     overflow-y: auto;
+}
+
+.sidepop-rule-settings .rule-drawer-right {
+    flex: 1 1 0;
 }
 
 .rule-detail-section {
@@ -647,6 +763,11 @@
     background: var(--surface, #fff);
     cursor: pointer;
     transition: border-color var(--transition, 0.15s ease), background-color var(--transition, 0.15s ease);
+}
+
+.sidepop-rule-settings .rule-item {
+    color: var(--text, #1f2328);
+    line-height: normal;
 }
 
 .rule-item:hover,
@@ -781,9 +902,71 @@
     accent-color: var(--primary, #0969da);
 }
 
+.sidepop-rule-settings :is(.field-label, .form-group > label) {
+    color: var(--text-sub, #656d76);
+    font-size: calc(11px * var(--ui-font-scale, 1));
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+.sidepop-rule-settings :is(.form-input, .form-select) {
+    line-height: normal;
+}
+
+.sidepop-rule-settings .rule-detail-title,
+.sidepop-rule-settings .rule-item-keywords,
+.sidepop-rule-settings .toggle-desc {
+    line-height: normal;
+}
+
+.sidepop-rule-settings .radio-label {
+    font-size: calc(12px * var(--ui-font-scale, 1));
+    line-height: normal;
+    text-transform: none;
+}
+
+.sidepop-rule-settings .radio-label input {
+    margin-top: 0;
+}
+
+.sidepop-rule-settings .toggle-switch {
+    margin-bottom: 6px;
+}
+
+.sidepop-rule-settings :is(.rule-drawer-left, .rule-drawer-right) {
+    scrollbar-color: rgba(139, 148, 158, 0.12) transparent;
+    scrollbar-width: thin;
+}
+
+.sidepop-rule-settings :is(.rule-drawer-left, .rule-drawer-right)::-webkit-scrollbar {
+    width: 3px;
+}
+
+.sidepop-rule-settings :is(.rule-drawer-left, .rule-drawer-right)::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidepop-rule-settings :is(.rule-drawer-left, .rule-drawer-right)::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(139, 148, 158, 0.12);
+}
+
 .sidepop-footer.rule-drawer-footer {
     justify-content: flex-end;
     padding: 12px 20px;
+}
+
+.sidepop-rule-settings .sidepop-footer.rule-drawer-footer {
+    flex: 0 0 auto;
+    justify-content: initial;
+    padding: 12px 24px;
+    background: transparent;
+}
+
+.sidepop-rule-settings .rule-drawer-footer .button {
+    min-height: 0;
+    padding: 7px 16px;
+    line-height: normal;
 }
 
 .sidepop-footer .rule-drawer-hint {
@@ -791,6 +974,12 @@
     color: var(--text-muted, #8b949e);
     font-size: calc(11px * var(--ui-font-scale, 1));
 }
+
+.sidepop-rule-settings .rule-drawer-hint {
+    flex: 1 1 0;
+    margin-right: 0;
+}
+*/
 
 .sidepop .account-profile-list {
     display: grid;
@@ -807,12 +996,12 @@
 
 .sidepop .account-profile-list dt {
     color: var(--text-muted, #8b949e);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
 }
 
 .sidepop .account-profile-list dd {
     color: var(--text, #1f2328);
-    font-size: 13px;
+    font-size:calc(13px * var(--ui-font-scale, 1));
 }
 
 .sidepop .status-badge {
@@ -820,7 +1009,7 @@
     align-items: center;
     padding: 2px 8px;
     border-radius: var(--radius-badge, 14px);
-    font-size: 11px;
+    font-size:calc(11px * var(--ui-font-scale, 1));
     font-weight: 600;
 }
 
@@ -844,6 +1033,17 @@ body.is-component-layer-open {
     }
 }
 
+@keyframes sidepop-enter-left {
+    from {
+        opacity: 0;
+        transform: translateX(-24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 @media (max-width: 1024px) {
     .sidepop.sidepop-medium {
         width: min(820px, calc(100vw - 24px));
@@ -856,6 +1056,7 @@ body.is-component-layer-open {
         width: calc(100vw - 20px);
     }
 
+    /* AI Workspace 전용 분류 룰 설정 반응형 스타일로 이동됨.
     .sidepop-body.rule-drawer-body {
         display: block;
         overflow-y: auto;
@@ -880,6 +1081,7 @@ body.is-component-layer-open {
         width: 100%;
         margin-right: 0;
     }
+    */
 }
 
 @media (prefers-reduced-motion: reduce) {

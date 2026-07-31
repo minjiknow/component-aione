@@ -28,20 +28,46 @@
     align-items: center;
     justify-content: center;
     color: var(--text-muted, #8b949e);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     text-align: center;
 }
 
 .three-panel {
+    --three-panel-left-width: 360px;
+    --three-panel-right-width: 400px;
     display: grid;
     min-width: 0;
     min-height: 0;
     flex: 1;
-    grid-template-columns: 360px 2px minmax(0, 1fr) 2px 360px;
+    grid-template-columns: var(--three-panel-left-width) 2px minmax(0, 1fr) 2px var(--three-panel-right-width);
     gap: 0;
     padding: 8px;
     overflow: hidden;
     background: var(--bg, #f6f8fa);
+}
+
+.three-panel.left-small {
+    --three-panel-left-width: 280px;
+}
+
+.three-panel.left-medium {
+    --three-panel-left-width: 360px;
+}
+
+.three-panel.left-large {
+    --three-panel-left-width: 400px;
+}
+
+.three-panel.right-small {
+    --three-panel-right-width: 280px;
+}
+
+.three-panel.right-medium {
+    --three-panel-right-width: 360px;
+}
+
+.three-panel.right-large {
+    --three-panel-right-width: 400px;
 }
 
 .three-panel > .panel {
@@ -55,18 +81,52 @@
     box-shadow: 0 1px 3px rgba(31, 35, 40, 0.04);
 }
 
+.three-panel > [data-slot] {
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.three-panel [data-component-include="panel"] {
+    display: contents;
+}
+
+.three-panel .panel-component {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    flex: 1;
+}
+
 .three-panel > .panel.drag-over {
     outline: 2px dashed var(--primary, #0969da);
     outline-offset: -2px;
     background: rgba(9, 105, 218, 0.03);
 }
 
+.three-panel > [data-panel-slot].drag-over .panel-component {
+    outline: 2px dashed var(--primary, #0969da);
+    outline-offset: -2px;
+    background: rgba(9, 105, 218, 0.03);
+}
+
+.three-panel > [data-panel-slot].panel-switch-source .panel-component {
+    border-color: var(--primary, #0969da);
+    box-shadow: 0 0 0 2px rgba(9, 105, 218, 0.12);
+}
+
+.three-panel > [data-panel-slot].panel-switch-source .panel-head {
+    background: rgba(9, 105, 218, 0.045);
+}
+
 :is(.three-panel, .panel-component) .panel-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0;
-    padding: 12px 14px;
+    gap: 8px;
+    min-height: 53px;
+    padding: 14px;
     border-bottom: 1px solid var(--border, #d1d9e0);
     flex-shrink: 0;
 }
@@ -76,8 +136,14 @@
     align-items: center;
     gap: 6px;
     color: var(--text, #1f2328);
-    font-size: 13px;
+    font-size:calc(13px * var(--ui-font-scale, 1));
     font-weight: 700;
+}
+
+:is(.three-panel, .panel-component) .panel-title img[data-icon] {
+    width: 15px;
+    height: 15px;
+    filter: var(--icon-filter-text);
 }
 
 :is(.three-panel, .panel-component) .panel-actions {
@@ -91,7 +157,7 @@
     padding: 4px 10px;
     border-radius: var(--radius-sm, 6px);
     color: var(--text-muted, #8b949e);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
 }
 
 :is(.three-panel, .panel-component) .panel-action-btn:hover {
@@ -105,6 +171,21 @@
     max-width: 44px !important;
     align-items: center;
     overflow: hidden;
+}
+
+.panel-component.panel-collapsed .panel-head {
+    width: 42px;
+    min-height: 53px;
+    justify-content: center;
+    padding: 0;
+}
+
+.panel-component.panel-collapsed .panel-collapse-btn {
+    display: inline-flex;
+}
+
+.panel-component.panel-collapsed .panel-collapse-btn img {
+    transform: rotate(180deg);
 }
 
 :is(.three-panel > .panel, .panel-component).panel-collapsed .panel-title,
@@ -123,10 +204,4 @@
 
 .panel-card:hover {
     border-color: var(--primary, #0969da);
-}
-
-@media (max-width: 1120px) {
-    .three-panel {
-        grid-template-columns: 280px 2px minmax(0, 1fr) 2px 280px;
-    }
 }

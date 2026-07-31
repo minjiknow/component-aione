@@ -79,7 +79,7 @@
       group.department,
       new Set(group.staff.slice(0, 2).map(person => person.id))
     ]));
-    const expandedOrganizations = new Set(organizationOrder);
+    const expandedOrganizations = new Set();
     let selectedOrganization = 'all';
     let searchTerm = '';
 
@@ -129,7 +129,7 @@
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
               <span>${escapeHtml(organization)}</span><strong>${groups.length}</strong>
             </button>
-            <div class="notification-tree-children"${expanded ? '' : ' hidden'}>
+            <div class="notification-tree-children${expanded ? '' : ' hidden'}">
               ${groups.map(group => {
                 const departmentKey = `dept:${group.department}`;
                 const departmentSelected = selectedOrganization === departmentKey;
@@ -177,8 +177,13 @@
               <span class="notification-dept-count">${selectedIds.size}명</span>
             </div>
             ${group.subunits.length ? `
-              <div class="notification-dept-subunits" title="${escapeHtml(group.subunits.join(' · '))}">
-                ${group.subunits.map(unit => `<span>${escapeHtml(unit)}</span>`).join('')}
+              <div class="notification-dept-subunits">
+                <div class="notification-subunit-head">
+                  <span>소속 과</span><strong>${group.subunits.length}</strong>
+                </div>
+                <div class="notification-subunit-list">
+                  ${group.subunits.map(unit => `<span title="${escapeHtml(unit)}">${escapeHtml(unit)}</span>`).join('')}
+                </div>
               </div>` : ''}
             <div class="notification-dept-staff-list">
               ${group.staff.map(person => {

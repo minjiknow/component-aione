@@ -29,7 +29,8 @@
     progressbar.setAttribute('aria-valuemax', String(safeMax));
     progressbar.setAttribute('aria-valuenow', String(value));
     progressbar.classList.toggle('is-high', percent >= 90);
-    progressbar.classList.toggle('is-low', percent < 90);
+    progressbar.classList.toggle('is-medium', percent >= 75 && percent < 90);
+    progressbar.classList.toggle('is-low', percent < 75);
     progressbar.closest('.progressbar-row')
       ?.querySelector('[data-progressbar-value]')
       ?.replaceChildren(`${Math.round(percent)}%`);

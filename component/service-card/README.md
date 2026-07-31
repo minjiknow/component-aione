@@ -26,7 +26,8 @@ AI-ONE 홈에서 서비스 진입점을 표시하는 카드입니다. 화면은 
 ```js
 window.AIOneServiceCard.renderList('[data-service-card-list]', [
 	{
-		href: 'ai-intake.html',
+		href: '../../pages/ai-workspace.html',
+		target: '_top',
 		icon: '../assets/icons/service-question-classification.svg',
 		iconTone: 'blue',
 		title: '국회 질의 분류',
@@ -43,6 +44,7 @@ window.AIOneServiceCard.renderList('[data-service-card-list]', [
 ```
 
 - `href`: 이동할 화면 경로
+- `target`: 링크를 열 browsing context (`_self`, `_top`, `_blank` 등)
 - `icon`: 기존 서비스 SVG 아이콘 경로
 - `iconTone`: `blue`, `green`, `orange`, `purple`
 - `title`: 서비스명
@@ -56,6 +58,7 @@ window.AIOneServiceCard.renderList('[data-service-card-list]', [
 - 준비 중인 서비스는 `disabled: true`를 전달합니다.
 - 준비 중 카드는 `data-soon`과 `aria-disabled="true"`를 함께 가지며 hover 이동·shadow·아이콘 확대를 적용하지 않습니다.
 - 안내 팝업을 여는 카드는 `modalTarget`을 전달해 `[data-modal-open]` 트리거로 렌더링합니다. 이 경우 `disabled`를 함께 사용하지 않습니다.
+- 컴포넌트 카탈로그 iframe에서 실제 업무 페이지로 이동할 때는 `target: '_top'`을 전달해 카탈로그 Sidebar를 남기지 않습니다.
 - 준비 중 안내 메시지처럼 화면에 종속된 동작은 사용하는 홈 화면의 `ai-home.js` 또는 `ai-home-page.js`가 처리합니다.
 
 ## 이벤트

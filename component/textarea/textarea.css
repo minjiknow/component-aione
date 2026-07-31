@@ -8,7 +8,7 @@
     background: var(--bg, #f6f8fa);
     color: var(--text, #1f2328);
     font: inherit;
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     line-height: 1.7;
     resize: vertical;
 }

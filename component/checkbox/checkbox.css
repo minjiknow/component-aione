@@ -8,7 +8,7 @@
 .choice-group-label {
     margin-bottom: 8px;
     color: var(--text-sub, #656d76);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     font-weight: 600;
 }
 
@@ -29,7 +29,7 @@
     align-items: flex-start;
     gap: 8px;
     color: var(--text-sub, #656d76);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     line-height: 1.5;
     cursor: pointer;
 }
@@ -82,5 +82,5 @@ input.checkbox-control-xs[type="checkbox"] {
 
 .choice-desc {
     color: var(--text-muted, #8b949e);
-    font-size: 11px;
+    font-size:calc(11px * var(--ui-font-scale, 1));
 }

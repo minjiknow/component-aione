@@ -21,6 +21,38 @@
 	margin-bottom: 20px;
 }
 
+.component-document-statusbar-preview {
+	display: block;
+}
+
+.component-document-statusbar-preview-panel {
+	display: flex;
+	min-height: 190px;
+	flex-direction: column;
+	overflow: hidden;
+	border: 1px solid var(--border, #d1d9e0);
+	border-radius: 9px;
+	background: var(--surface, #fff);
+}
+
+.component-document-statusbar-preview-document {
+	display: flex;
+	min-height: 0;
+	flex: 1;
+	flex-direction: column;
+	justify-content: center;
+	gap: 6px;
+	padding: 24px;
+	color: var(--text, #1f2328);
+	font-size:calc(12px * var(--ui-font-scale, 1));
+	line-height: 1.6;
+	text-align: center;
+}
+
+.component-document-statusbar-preview-document span {
+	color: var(--text-muted, #8b949e);
+}
+
 @media (max-width: 600px) {
 	.component-group-card-page.is-component-index-embedded {
 		padding: 16px;

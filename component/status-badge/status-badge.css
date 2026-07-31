@@ -23,3 +23,9 @@
     background: rgba(26, 127, 55, 0.08);
     color: var(--green, #1a7f37);
 }
+
+.badge-review {
+    border-color: rgba(130, 80, 223, 0.2);
+    background: rgba(130, 80, 223, 0.08);
+    color: var(--purple, #8250df);
+}

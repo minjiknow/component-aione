@@ -26,6 +26,10 @@
 		item.className = 'service-item';
 		link.className = 'service-card';
 		link.href = modalTarget ? '#' : (options.href || '#');
+		if (!modalTarget && typeof options.target === 'string' && options.target.trim()) {
+			link.target = options.target.trim();
+			if (link.target === '_blank') link.rel = 'noopener noreferrer';
+		}
 		if (modalTarget) link.dataset.modalOpen = modalTarget;
 		if (isDisabled) {
 			link.dataset.soon = '';

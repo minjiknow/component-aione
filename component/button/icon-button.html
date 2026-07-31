@@ -5,9 +5,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Icon Button 컴포넌트 — AI-ONE</title>
 	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
-	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
-	<link rel="stylesheet" href="button.css?v=20260728-1" />
-	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260727" />
+	<link rel="stylesheet" href="../_preview/component-base.css?v=20260730-6" />
+	<link rel="stylesheet" href="button.css?v=20260730-9" />
+	<link rel="stylesheet" href="../topbar/topbar.css?v=20260730-6" />
+	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260730-6" />
 </head>
 <body class="button-preview-page" data-root-path="../..">
 	<main class="button-preview icon-button-catalog">
@@ -21,6 +22,73 @@
 			</div>
 		</header>
 
+		<section class="button-preview-section" aria-labelledby="icon-accessory-title">
+			<h2 class="button-preview-section-title" id="icon-accessory-title">Topbar 보조도구 32×32px</h2>
+			<p class="button-preview-section-desc">격자＋ 버튼을 누르면 트리거가 파란 X로 전환되고, 전체 글자크기·패널 위치 변경·레이아웃 초기화·전체화면 버튼이 왼쪽에 펼쳐집니다.</p>
+			<div class="accessory-button-demo">
+				<div class="accessory-button-demo-toolbar">
+					<div class="accessory-tool" data-accessory-tools
+						data-accessory-swap-target="iconCatalogPanelSwapBtn"
+						data-accessory-layout-target="iconCatalogLayoutResetBtn">
+						<button type="button" class="accessory-trigger" aria-label="보조도구 모음" title="보조도구 모음"
+							aria-haspopup="true" aria-expanded="false">
+							<span class="accessory-icon-closed" aria-hidden="true"><svg viewBox="0 0 24 24">
+									<rect x="3.5" y="3.5" width="7" height="7" rx="2" />
+									<rect x="13.5" y="3.5" width="7" height="7" rx="2" />
+									<rect x="3.5" y="13.5" width="7" height="7" rx="2" />
+									<path d="M17 14v6M14 17h6" />
+								</svg></span>
+							<span class="accessory-icon-open" aria-hidden="true"><svg viewBox="0 0 24 24">
+									<path d="M6 6l12 12M18 6 6 18" />
+								</svg></span>
+						</button>
+						<div class="accessory-rail" role="toolbar" aria-label="보조도구 기능">
+							<button type="button" class="accessory-action" data-accessory-action="font"
+								aria-label="전체 글자크기" title="전체 글자크기" aria-haspopup="dialog"
+								aria-expanded="false"><span class="accessory-action-icon"><span
+										class="accessory-font-symbol" aria-hidden="true"><small>A</small><strong>A</strong></span></span></button>
+							<button type="button" class="accessory-action" data-accessory-action="swap"
+								aria-label="패널 위치 변경" title="패널 위치 변경"><span class="accessory-action-icon"
+									aria-hidden="true"><svg viewBox="0 0 24 24">
+										<path d="M8 7H4m0 0 4 4M4 7l4-4M16 17h4m0 0-4-4m4 4-4 4" />
+									</svg></span></button>
+							<button type="button" class="accessory-action" data-accessory-action="layout"
+								aria-label="레이아웃 초기화" title="레이아웃 초기화"><span class="accessory-action-icon"
+									aria-hidden="true"><svg viewBox="0 0 24 24">
+										<rect x="3" y="3" width="18" height="18" rx="2" />
+										<path d="M9 3v18M15 3v18" />
+									</svg></span></button>
+							<button type="button" class="accessory-action" data-accessory-action="fullscreen"
+								aria-label="전체화면" title="전체화면"><span class="accessory-action-icon"
+									aria-hidden="true"><svg viewBox="0 0 24 24">
+										<path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5" />
+									</svg></span></button>
+						</div>
+						<div class="accessory-font-panel hidden" role="dialog" aria-label="전체 글자크기">
+							<div class="accessory-font-head"><strong>전체 글자크기</strong><span>100~150%</span></div>
+							<div class="accessory-font-control"><button type="button" data-accessory-font-decrease
+									aria-label="글자 작게">−</button><span data-accessory-font-value
+									aria-live="polite">100%</span><button type="button" data-accessory-font-increase
+									aria-label="글자 크게">＋</button></div>
+							<button type="button" class="accessory-font-default">기본 크기로</button>
+						</div>
+					</div>
+				</div>
+				<div class="accessory-button-demo-layout" data-accessory-demo-layout aria-label="패널 기능 미리보기">
+					<span data-accessory-demo-panel="질의 목록">질의 목록</span>
+					<span data-accessory-demo-panel="질의 분류">질의 분류</span>
+					<span data-accessory-demo-panel="처리 결과">처리 결과</span>
+				</div>
+				<p class="accessory-button-demo-status" data-accessory-demo-status aria-live="polite">
+					보조도구 버튼을 눌러 기능을 확인할 수 있습니다.
+				</p>
+				<button type="button" class="accessory-source-control" id="iconCatalogPanelSwapBtn"
+					aria-label="패널 위치 변경 미리보기 실행" hidden></button>
+				<button type="button" class="accessory-source-control" id="iconCatalogLayoutResetBtn"
+					aria-label="레이아웃 초기화 미리보기 실행" hidden></button>
+			</div>
+		</section>
+
 		<section class="button-preview-section" aria-labelledby="icon-small-title">
 			<h2 class="button-preview-section-title" id="icon-small-title">icon-button-sm 24×24px · icon-small 14×14px</h2>
 			<p class="button-preview-section-desc">패널 헤더와 표 내부처럼 공간이 좁은 영역의 보조 액션입니다.</p>
@@ -28,6 +96,9 @@
 				<article class="button-use-case"><span class="button-use-label">패널 접기</span><div class="button-use-sample"><button type="button" class="icon-button icon-button-ghost icon-button-sm" aria-label="패널 접기" title="패널 접기"><img class="icon icon-small" data-icon="panel-collapse" alt="" aria-hidden="true" /></button></div><code class="button-use-class">icon-button icon-button-ghost icon-button-sm</code></article>
 				<article class="button-use-case"><span class="button-use-label">환경설정</span><div class="button-use-sample"><button type="button" class="icon-button icon-button-ghost icon-button-sm" aria-label="환경설정" title="환경설정"><img class="icon icon-small" data-icon="settings-alt" alt="" aria-hidden="true" /></button></div><code class="button-use-class">icon-button icon-button-ghost icon-button-sm</code></article>
 				<article class="button-use-case"><span class="button-use-label">다운로드</span><div class="button-use-sample"><button type="button" class="icon-button icon-button-ghost icon-button-sm" aria-label="다운로드" title="다운로드"><img class="icon icon-small" data-icon="download" alt="" aria-hidden="true" /></button></div><code class="button-use-class">icon-button icon-button-ghost icon-button-sm</code></article>
+				<article class="button-use-case"><span class="button-use-label">문서 축소</span><div class="button-use-sample"><button type="button" class="icon-button icon-button-sm" aria-label="문서 축소" title="문서 축소">−</button></div><code class="button-use-class">icon-button icon-button-sm</code></article>
+				<article class="button-use-case"><span class="button-use-label">문서 확대</span><div class="button-use-sample"><button type="button" class="icon-button icon-button-sm" aria-label="문서 확대" title="문서 확대">+</button></div><code class="button-use-class">icon-button icon-button-sm</code></article>
+				<article class="button-use-case"><span class="button-use-label">맞춤 보기</span><div class="button-use-sample"><button type="button" class="icon-button icon-button-sm" aria-label="맞춤 보기" title="맞춤 보기"><img class="icon icon-small" data-icon="fullscreen-expand" alt="" aria-hidden="true" /></button></div><code class="button-use-class">icon-button icon-button-sm · fullscreen-expand</code></article>
 			</div>
 		</section>
 
@@ -48,9 +119,10 @@
 			<h2 class="button-preview-section-title" id="icon-default-title">기본 32×32px · icon-primary 16×16px</h2>
 			<p class="button-preview-section-desc">상단바와 패널 제어에서 사용하는 기본 아이콘 버튼과 의미별 변형입니다.</p>
 			<div class="button-use-list">
-				<article class="button-use-case"><span class="button-use-label">실행 목록</span><div class="button-use-sample"><button type="button" class="icon-button icon-button-accent" aria-label="실행 목록" title="실행 목록"><img class="icon icon-primary" data-icon="activity" alt="" aria-hidden="true" /></button></div><code class="button-use-class">icon-button icon-button-accent</code></article>
+				<article class="button-use-case"><span class="button-use-label">전체 글자크기</span><div class="button-use-sample"><button type="button" class="icon-button" aria-label="전체 글자크기" title="전체 글자크기"><span class="accessory-font-symbol" aria-hidden="true"><small>A</small><strong>A</strong></span></button></div><code class="button-use-class">icon-button · accessory-font-symbol</code></article>
+				<article class="button-use-case"><span class="button-use-label">질의분류 목록</span><div class="button-use-sample"><button type="button" class="icon-button icon-button-purple" aria-label="질의분류 목록" title="질의분류 목록"><img class="icon icon-primary" data-icon="list" alt="" aria-hidden="true" /></button></div><code class="button-use-class">icon-button icon-button-purple · list</code></article>
 				<article class="button-use-case"><span class="button-use-label">룰 설정</span><div class="button-use-sample"><button type="button" class="icon-button icon-button-purple" aria-label="룰 설정" title="룰 설정"><img class="icon icon-primary" data-icon="edit-compact" alt="" aria-hidden="true" /></button></div><code class="button-use-class">icon-button icon-button-purple</code></article>
-				<article class="button-use-case"><span class="button-use-label">실국별 알림 담당자 설정</span><div class="button-use-sample"><button type="button" class="icon-button icon-button-cyan" aria-label="실국별 알림 담당자 설정" title="실국별 알림 담당자 설정"><img class="icon icon-large" data-icon="notification-assignee" alt="" aria-hidden="true" /></button></div><code class="button-use-class">icon-button icon-button-cyan · icon-large</code></article>
+				<article class="button-use-case"><span class="button-use-label">실국별 알림 담당자 설정</span><div class="button-use-sample"><button type="button" class="icon-button icon-button-workspace" aria-label="실국별 알림 담당자 설정" title="실국별 알림 담당자 설정"><img class="icon icon-primary" data-icon="notification-assignee" alt="" aria-hidden="true" /></button></div><code class="button-use-class">icon-button icon-button-workspace · icon-primary</code></article>
 				<article class="button-use-case"><span class="button-use-label">패널 위치 변경</span><div class="button-use-sample"><button type="button" class="icon-button" aria-label="패널 위치 변경" title="패널 위치 변경"><img class="icon icon-primary" data-icon="panel-swap" alt="" aria-hidden="true" /></button></div><code class="button-use-class">icon-button · panel-swap</code></article>
 				<article class="button-use-case"><span class="button-use-label">레이아웃 초기화</span><div class="button-use-sample"><button type="button" class="icon-button" aria-label="레이아웃 초기화" title="레이아웃 초기화"><img class="icon icon-primary" data-icon="layout-columns" alt="" aria-hidden="true" /></button></div><code class="button-use-class">icon-button · layout-columns</code></article>
 				<article class="button-use-case"><span class="button-use-label">초기화</span><div class="button-use-sample"><button type="button" class="icon-button" aria-label="초기화" title="초기화"><img class="icon icon-primary" data-icon="reset" alt="" aria-hidden="true" /></button></div><code class="button-use-class">icon-button · reset</code></article>
@@ -74,7 +146,33 @@
 			</div>
 		</section>
 	</main>
-	<script src="../../js/common.js?v=20260728-1"></script>
+	<script src="../../js/common.js?v=20260730-6"></script>
 	<script src="../_preview/component-preview.js?v=20260723"></script>
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			const layout = document.querySelector("[data-accessory-demo-layout]");
+			const status = document.querySelector("[data-accessory-demo-status]");
+			const swapButton = document.getElementById("iconCatalogPanelSwapBtn");
+			const resetButton = document.getElementById("iconCatalogLayoutResetBtn");
+			if (!layout || !status || !swapButton || !resetButton) return;
+
+			const defaultOrder = Array.from(layout.children).map((panel) => panel.dataset.accessoryDemoPanel);
+			const announceOrder = (message) => {
+				const order = Array.from(layout.children).map((panel) => panel.dataset.accessoryDemoPanel).join(" → ");
+				status.textContent = `${message} 현재 순서: ${order}`;
+			};
+
+			swapButton.addEventListener("click", () => {
+				layout.appendChild(layout.firstElementChild);
+				announceOrder("패널 위치가 변경되었습니다.");
+			});
+
+			resetButton.addEventListener("click", () => {
+				const panels = new Map(Array.from(layout.children).map((panel) => [panel.dataset.accessoryDemoPanel, panel]));
+				defaultOrder.forEach((name) => layout.appendChild(panels.get(name)));
+				announceOrder("패널 레이아웃이 기본값으로 초기화되었습니다.");
+			});
+		});
+	</script>
 </body>
 </html>

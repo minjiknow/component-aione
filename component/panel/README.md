@@ -6,47 +6,111 @@
 - `panel.html`: 개별 패널의 공통 외곽 구조와 접기 상태
 - 검수 위치: `component/index.html`의 Layouts 영역
 - 필수 CSS: `component/panel/panel.css`
+- Three Panel 리사이즈 핸들 CSS: `component/handler/handler.css`
 - 필수 JS: `js/common.js`
 
 실제 페이지에서는 `three-panel`의 각 슬롯에 `panel`을 하나씩 넣습니다. 패널 안에 다른 패널을 중첩하지 않습니다.
 
-## 기본 사용법
+## 좌우 패널 크기 지정
 
-아래 형태를 왼쪽·가운데·오른쪽 슬롯에 반복해서 사용합니다.
+크기는 **Three Panel을 불러오는 바깥 요소 한 곳**에 지정합니다.
 
 ```html
-<div data-include="panel/three-panel" data-include-source="html">
-    <div
-        data-include="panel/panel"
-        data-include-source="html"
-        data-slot="left"
-        class="panel-left"
-        aria-label="자료 패널"
-        data-panel="left"
-    >
-        <header class="panel-head">
-            <h2 class="panel-title">자료</h2>
-            <div class="panel-actions">
-                <button
-                    type="button"
-                    class="panel-collapse-btn"
-                    data-panel-action="collapse"
-                    aria-label="패널 접기"
-                >
-                    접기
-                </button>
-            </div>
-        </header>
-
-        <div>패널 본문</div>
-    </div>
-
-    <div data-include="panel/panel" data-include-source="html" data-slot="center"><!-- 가운데 패널 --></div>
-    <div data-include="panel/panel" data-include-source="html" data-slot="right"><!-- 오른쪽 패널 --></div>
+<div
+    data-component-include="three-panel"
+    data-component-left-size="medium"
+    data-component-right-size="large">
+    <!-- left, center, right 슬롯 -->
 </div>
 ```
 
-`left`, `center`, `right`는 각 패널의 `data-slot` 속성으로만 구분합니다. 패널의 헤더와 본문은 모두 일반 HTML로 작성합니다.
+위 코드는 다음 크기로 렌더링됩니다.
+
+- 왼쪽: `medium` → `360px`
+- 가운데: 크기 지정 없음 → 남은 영역 `1fr`
+- 오른쪽: `large` → `400px`
+
+`pages/ai-workspace.html`이 이 조합을 사용합니다.
+
+### 사용할 수 있는 값
+
+| 지정 값 | 실제 폭 |
+| --- | ---: |
+| `small` | `280px` |
+| `medium` | `360px` |
+| `large` | `400px` |
+
+좌우 값은 서로 독립적이므로 필요한 조합을 그대로 선택합니다.
+
+```html
+<!-- 왼쪽 280px / 오른쪽 280px -->
+<div data-component-include="three-panel"
+    data-component-left-size="small"
+    data-component-right-size="small">
+</div>
+
+<!-- 왼쪽 360px / 오른쪽 400px -->
+<div data-component-include="three-panel"
+    data-component-left-size="medium"
+    data-component-right-size="large">
+</div>
+
+<!-- 왼쪽 400px / 오른쪽 360px -->
+<div data-component-include="three-panel"
+    data-component-left-size="large"
+    data-component-right-size="medium">
+</div>
+```
+
+속성을 생략하면 왼쪽은 `medium(360px)`, 오른쪽은 `large(400px)`가 기본값으로 적용됩니다.
+
+> `data-component-left-size`와 `data-component-right-size`는 내부 `panel`이나 `template`이 아니라 `data-component-include="three-panel"` 요소에 작성합니다. 가운데 패널에는 크기 속성을 지정하지 않습니다.
+
+### 전체 슬롯 조합 예시
+
+```html
+<div
+    data-component-include="three-panel"
+    data-component-left-size="medium"
+    data-component-right-size="large">
+    <template data-slot="left">
+        <div data-component-include="panel">
+            <template data-slot="content">
+                <header class="panel-head">
+                    <h2 class="panel-title">왼쪽 패널</h2>
+                </header>
+                <div>왼쪽 패널 본문</div>
+            </template>
+        </div>
+    </template>
+
+    <template data-slot="center">
+        <div data-component-include="panel">
+            <template data-slot="content">
+                <header class="panel-head">
+                    <h2 class="panel-title">가운데 패널</h2>
+                </header>
+                <div>가운데 패널 본문</div>
+            </template>
+        </div>
+    </template>
+
+    <template data-slot="right">
+        <div data-component-include="panel">
+            <template data-slot="content">
+                <header class="panel-head">
+                    <h2 class="panel-title">오른쪽 패널</h2>
+                </header>
+                <div>오른쪽 패널 본문</div>
+            </template>
+        </div>
+    </template>
+</div>
+```
+
+컴포넌트가 렌더링되면 바깥 Three Panel에는 `left-medium`, `right-large` 같은 위치별 클래스가 생성되고, 좌우 슬롯에는 각각 `small`, `medium`, `large` 클래스가 생성됩니다. 사용하는 페이지에서는 이 클래스를 직접 작성하지 않고 위의 `data-component-*-size` 속성으로 선택합니다.
+
+리사이즈한 폭은 인라인 `grid-template-columns`로 유지되고, 패널 초기화 시 페이지에서 선택한 크기로 돌아갑니다.
 
 ## 버튼 구분
 
@@ -117,11 +181,11 @@ data-panel-action="chat-list" <!-- 채팅 목록 -->
 
 ```html
 <!-- Three panel layout fragment: left, center, right 슬롯을 모두 전달합니다. -->
-<main class="three-panel" data-component="three-panel">
-    <div data-slot="left"></div>
+<main class="three-panel left-{{leftSize}} right-{{rightSize}}" data-component="three-panel">
+    <div class="three-panel-slot three-panel-side {{leftSize}}" data-slot="left"></div>
     <div class="panel-resize-handle" data-resize="0" role="separator" aria-label="왼쪽 패널 크기 조절" aria-orientation="vertical" tabindex="0"></div>
-    <div data-slot="center"></div>
+    <div class="three-panel-slot three-panel-center" data-slot="center"></div>
     <div class="panel-resize-handle" data-resize="1" role="separator" aria-label="오른쪽 패널 크기 조절" aria-orientation="vertical" tabindex="0"></div>
-    <div data-slot="right"></div>
+    <div class="three-panel-slot three-panel-side {{rightSize}}" data-slot="right"></div>
 </main>
 ```

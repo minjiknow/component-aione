@@ -4,21 +4,29 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<script src="../js/common.js?v=20260723"></script>
 	<title>국회질의분류 AI 워크스페이스 — AI-ONE</title>
-	<link rel="stylesheet" href="../css/ai-intake.css" />
-	<link rel="stylesheet" href="../css/common.css" />
-	<link rel="stylesheet" href="../component/button/button.css?v=20260728" />
+	<link rel="stylesheet" href="../css/common.css?v=20260729" />
+	<link rel="stylesheet" href="../component/button/button.css?v=20260730-9" />
 	<link rel="stylesheet" href="../component/chip/chip.css?v=20260728" />
+	<link rel="stylesheet" href="../component/count-badge/count-badge.css?v=20260729" />
+	<link rel="stylesheet" href="../component/filter-btn/filter-btn.css?v=20260729" />
 	<link rel="stylesheet" href="../component/status-badge/status-badge.css?v=20260728" />
-	<link rel="stylesheet" href="../component/progressbar/progressbar.css?v=20260728" />
-	<link rel="stylesheet" href="../component/query-card/query-card.css?v=20260728" />
+	<link rel="stylesheet" href="../component/file-upload/file-upload.css?v=20260729" />
+	<link rel="stylesheet" href="../component/file-list/file-list.css?v=20260729-5" />
+	<link rel="stylesheet" href="../component/file-item/file-item.css?v=20260729-2" />
+	<link rel="stylesheet" href="../component/panel/panel.css?v=20260729" />
+	<link rel="stylesheet" href="../component/progressbar/progressbar.css?v=20260729-2" />
+	<link rel="stylesheet" href="../component/query-card/query-card.css?v=20260729-3" />
+	<link rel="stylesheet" href="../component/sidebar/sidebar.css?v=20260729" />
+	<link rel="stylesheet" href="../component/topbar/topbar.css?v=20260729-3" />
+	<link rel="stylesheet" href="../component/toast/toast.css?v=20260729" />
+	<link rel="stylesheet" href="../css/ai-intake.css?v=20260729" />
 </head>
 
 <body>
 
 	<!-- ── Sidebar ── -->
-	<aside class="sidebar" id="sidebar">
+	<aside class="sidebar app-sidebar" id="sidebar">
 		<div class="sidebar-top-bar">
 			<div class="sidebar-brand">
 				<a class="brand-logo" href="../pages/ai-home.html" aria-label="AI-ONE 홈">
@@ -164,7 +172,7 @@
 	<div class="main-wrap" id="mainWrap">
 
 		<!-- Topbar -->
-		<header class="topbar">
+		<header class="topbar app-topbar">
 			<div class="topbar-left">
 				<button class="topbar-logo-btn hidden" id="topbarLogoBtn" aria-label="일반 모드로 복귀" title="일반 모드로 복귀">
 					<svg class="topbar-logo-icon" viewBox="0 0 32 32">
@@ -269,38 +277,6 @@
 							d="M17.5 11.5v2M17.5 19.5v2M12.5 16.5h2M20.5 16.5h2M14 13l1.4 1.4M19.6 18.6 21 20M21 13l-1.4 1.4M15.4 18.6 14 20" />
 					</svg>
 				</button>
-				<div class="font-size-tool" id="fontSizeTool">
-					<button class="topbar-btn icon-btn font-size-btn" id="fontSizeBtn" aria-label="전체 글자 크기 조절"
-						title="전체 글자 크기 조절" aria-haspopup="true" aria-expanded="false">
-						<span class="font-size-icon" aria-hidden="true"><span class="font-size-icon-sm">A</span><span
-								class="font-size-icon-lg">A</span></span>
-					</button>
-					<div class="font-size-popover hidden" id="fontSizePopover" role="dialog" aria-label="전체 글자 크기 설정">
-						<div class="font-size-popover-head">
-							<strong>글자 크기</strong>
-							<span>화면 전체 적용</span>
-						</div>
-						<div class="font-size-control-row">
-							<button class="font-size-step-btn" id="fontSizeDecrease" type="button" aria-label="글자 작게"
-								title="글자 작게">−</button>
-							<span class="font-size-value" id="fontSizeValue" aria-live="polite">100%</span>
-							<button class="font-size-step-btn" id="fontSizeIncrease" type="button" aria-label="글자 크게"
-								title="글자 크게">＋</button>
-						</div>
-						<div class="font-size-range-labels"><span>기본</span><span>크게</span></div>
-						<div class="font-size-direct-row">
-							<label for="fontSizeDirectInput">직접 입력</label>
-							<div class="font-size-direct-control">
-								<input id="fontSizeDirectInput" class="font-size-direct-input" type="number" min="100"
-									max="150" step="1" value="100" inputmode="numeric"
-									aria-label="글자 크기 퍼센트 직접 입력, 100에서 150 사이" />
-								<span class="font-size-direct-unit">%</span>
-								<button class="font-size-apply-btn" id="fontSizeApply" type="button">적용</button>
-							</div>
-						</div>
-						<button class="font-size-reset-btn" id="fontSizeDefault" type="button">기본 크기로</button>
-					</div>
-				</div>
 				<button class="topbar-btn icon-btn" id="panelSwapBtn" aria-label="패널 위치 변경" title="패널 위치 변경">
 					<svg viewBox="0 0 24 24">
 						<path d="M8 7H4m0 0l4 4M4 7l4-4M16 17h4m0 0l-4-4m4 4l-4 4" />
@@ -377,12 +353,24 @@
 						<div class="file-list-heading">
 							<span class="file-list-title">질의 업로드 목록</span>
 						</div>
-						<div class="upload-summary-inline" aria-label="업로드 현황">
-							<span class="upload-summary-label">파일수/의원수</span>
-							<span class="upload-summary-value" id="uploadFileMemberCount">0 / 0</span>
+						<div class="drawer-list-meta file-list-sort-meta">
+							<select id="uploadSortSelect" aria-label="질의 업로드 목록 정렬">
+								<option value="latest" selected>최신순</option>
+								<option value="oldest">과거순</option>
+							</select>
 						</div>
 					</div>
 					<ul class="file-list" id="fileList"></ul>
+					<div class="upload-summary-footer" aria-label="입수 현황">
+						<span class="upload-summary-footer-copy">
+							<strong>입수 현황</strong>
+							<em id="uploadSummaryMessage">0건 질의 확인</em>
+						</span>
+						<span class="upload-summary-footer-count" id="uploadFileMemberCount">
+							파일 <strong class="upload-summary-file-count" id="uploadSummaryFileCount">0</strong>
+							/ 의원 <strong class="upload-summary-member-count" id="uploadSummaryMemberCount">0</strong>
+						</span>
+					</div>
 				</div>
 			</section>
 
@@ -501,13 +489,13 @@
 				</div>
 
 				<div class="filter-bar" role="toolbar" aria-label="질의 필터">
-					<button class="filter-btn active" data-filter="all">전체 <span class="filter-count"
+					<button class="filter-btn active" type="button" aria-pressed="true" data-filter="all">전체 <span class="filter-count"
 							id="filterCountAll">0</span></button>
-					<button class="filter-btn" data-filter="single">단일소관 <span class="filter-count"
+					<button class="filter-btn" type="button" aria-pressed="false" data-filter="single">단일소관 <span class="filter-count"
 							id="filterCountSingle">0</span></button>
-					<button class="filter-btn" data-filter="multi">복수소관 <span class="filter-count"
+					<button class="filter-btn" type="button" aria-pressed="false" data-filter="multi">복수소관 <span class="filter-count"
 							id="filterCountMulti">0</span></button>
-					<button class="filter-btn" data-filter="none">비소관 <span class="filter-count"
+					<button class="filter-btn" type="button" aria-pressed="false" data-filter="none">비소관 <span class="filter-count"
 							id="filterCountNone">0</span></button>
 				</div>
 
@@ -625,7 +613,9 @@
 		</div>
 	</div>
 
-	<div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+	<div class="ai-one-toast" id="toast" data-toast role="status" aria-live="polite" aria-atomic="true" hidden>
+		<span class="ai-one-toast-message" data-toast-message></span>
+	</div>
 
 	<!-- ===== Rule Drawer (분류 룰 설정) ===== -->
 	<div class="drawer-backdrop hidden" id="ruleDrawerBackdrop"></div>
@@ -732,9 +722,12 @@
 		</div>
 	</aside>
 
-	<script src="../component/progressbar/progressbar.js?v=20260728"></script>
-	<script src="../component/query-card/query-card.js?v=20260728"></script>
-	<script src="../js/ai-intake.js?v=20260728"></script>
+	<script src="../js/common.js?v=20260729-3"></script>
+	<script src="../component/sidebar/sidebar.js?v=20260729"></script>
+	<script src="../component/progressbar/progressbar.js?v=20260729-2"></script>
+	<script src="../component/query-card/query-card.js?v=20260729-2"></script>
+	<script src="../component/toast/toast.js?v=20260729"></script>
+	<script src="../js/ai-intake.js?v=20260729-3"></script>
 </body>
 
 </html>

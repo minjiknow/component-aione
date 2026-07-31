@@ -19,13 +19,13 @@
 
 .toggle-title {
     color: var(--text-sub, #656d76);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     font-weight: 600;
 }
 
 .toggle-desc {
     color: var(--text-muted, #8b949e);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     line-height: 1.5;
 }
 

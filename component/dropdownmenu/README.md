@@ -112,7 +112,7 @@
         aria-controls="fileActionMenu"
         aria-label="파일 옵션">
         <img class="icon icon-small dropdown-menu-more-icon"
-            data-icon="more-horizontal"
+            data-icon="more-vertical"
             alt=""
             aria-hidden="true" />
     </button>

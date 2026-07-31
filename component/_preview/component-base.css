@@ -62,7 +62,7 @@ body {
         system-ui,
         -apple-system,
         sans-serif;
-    font-size: 14px;
+    font-size:calc(14px * var(--ui-font-scale, 1));
     color: var(--text);
     background: var(--bg);
 }
@@ -90,7 +90,7 @@ button {
     border-radius: var(--radius-sm);
     background: var(--surface);
     color: var(--text-sub);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     font-weight: 600;
     line-height: 1;
     vertical-align: middle;
@@ -266,7 +266,7 @@ button {
 .choice-group-label {
     margin-bottom: 8px;
     color: var(--text-sub);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     font-weight: 600;
 }
 .choice-list {
@@ -286,7 +286,7 @@ button {
     align-items: flex-start;
     gap: 8px;
     color: var(--text-sub);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     line-height: 1.5;
     cursor: pointer;
 }
@@ -346,7 +346,7 @@ input.checkbox-control-xs[type="checkbox"] {
 }
 .choice-desc {
     color: var(--text-muted);
-    font-size: 11px;
+    font-size:calc(11px * var(--ui-font-scale, 1));
 }
 .toggle-row {
     display: flex;
@@ -365,12 +365,12 @@ input.checkbox-control-xs[type="checkbox"] {
 }
 .toggle-title {
     color: var(--text-sub);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     font-weight: 600;
 }
 .toggle-desc {
     color: var(--text-muted);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     line-height: 1.5;
 }
 .toggle-switch {
@@ -464,7 +464,7 @@ input.checkbox-control-xs[type="checkbox"] {
     border-bottom: 2px solid transparent;
     background: transparent;
     color: var(--text-muted);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     font-weight: 500;
     white-space: nowrap;
     transition: var(--transition);
@@ -492,7 +492,7 @@ input.checkbox-control-xs[type="checkbox"] {
     border-radius: var(--radius-sm);
     background: transparent;
     color: var(--text-muted);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     font-weight: 500;
     transition: all 0.2s ease;
 }
@@ -516,7 +516,7 @@ input.checkbox-control-xs[type="checkbox"] {
     padding: 0 4px;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.2);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     font-weight: 700;
 }
 .tab-button:not(.active, .is-active, [aria-selected="true"]) .tab-count {
@@ -595,7 +595,7 @@ textarea {
     border-radius: var(--radius-sm);
     background: rgba(207, 34, 46, 0.06);
     color: var(--red);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     line-height: 1.5;
 }
 
@@ -651,12 +651,12 @@ textarea {
     flex-direction: column;
 }
 .app-sidebar .brand-name {
-    font-size: 14px;
+    font-size:calc(14px * var(--ui-font-scale, 1));
     font-weight: 700;
     color: var(--text);
 }
 .app-sidebar .brand-sub {
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     color: var(--text-muted);
 }
 .app-sidebar .sidebar-collapse-btn {
@@ -683,7 +683,7 @@ textarea {
 }
 .app-sidebar .nav-group-label {
     display: block;
-    font-size: 10px;
+    font-size:calc(10px * var(--ui-font-scale, 1));
     font-weight: 600;
     text-transform: uppercase;
     color: var(--text);
@@ -697,7 +697,7 @@ textarea {
     width: 100%;
     padding: 8px 12px;
     border-radius: var(--radius-sm);
-    font-size: 14px;
+    font-size:calc(14px * var(--ui-font-scale, 1));
     color: var(--text-sub);
     text-align: left;
     transition: var(--transition);
@@ -754,12 +754,12 @@ textarea {
     flex-direction: column;
 }
 .app-sidebar .user-name {
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     font-weight: 600;
     color: var(--text);
 }
 .app-sidebar .user-dept {
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     color: var(--text-muted);
 }
 .app-sidebar .settings-btn {
@@ -864,12 +864,12 @@ textarea {
     background: var(--text);
 }
 .app-topbar .topbar-title {
-    font-size: 15px;
+    font-size:calc(15px * var(--ui-font-scale, 1));
     font-weight: 700;
     color: var(--text);
 }
 .app-topbar .topbar-sub {
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     color: var(--text-muted);
     margin-left: 8px;
 }
@@ -905,7 +905,7 @@ textarea {
     background: var(--surface);
 }
 .sub-title {
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     font-weight: 700;
     color: var(--text);
 }
@@ -971,7 +971,7 @@ textarea {
     align-items: center;
     justify-content: center;
     color: var(--text-muted);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     text-align: center;
 }
 .panel-component-slot {
@@ -1066,7 +1066,7 @@ body[data-page="answer"] .main-wrap {
     align-items: center;
     gap: var(--three-panel-title-gap);
     color: var(--text);
-    font-size: 13px;
+    font-size:calc(13px * var(--ui-font-scale, 1));
     font-weight: 700;
 }
 .three-panel .panel-title img[data-icon],
@@ -1086,7 +1086,7 @@ body[data-page="answer"] .main-wrap {
     padding: 4px 10px;
     border-radius: var(--radius-sm);
     color: var(--text-muted);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     transition: var(--transition);
 }
 .three-panel .panel-action-btn:hover,
@@ -1182,7 +1182,7 @@ body[data-page="answer"] .main-wrap {
 .support-title {
     margin-bottom: 8px;
     color: var(--text-sub);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.3px;
@@ -1195,7 +1195,7 @@ body[data-page="answer"] .main-wrap {
     position: relative;
     padding: 3px 0 3px 14px;
     color: var(--text-muted);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     line-height: 1.5;
 }
 .support-list li::before {
@@ -1214,7 +1214,7 @@ body[data-page="answer"] .main-wrap {
     border-radius: var(--workspace-primary-button-radius, var(--radius));
     background: var(--primary);
     color: #fff;
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     font-weight: 600;
 }
 .btn-primary:hover {
@@ -1232,7 +1232,7 @@ body[data-page="answer"] .main-wrap {
     background: var(--workspace-toast-background, var(--surface));
     box-shadow: var(--workspace-toast-shadow, 0 4px 20px rgba(0, 0, 0, 0.1));
     color: var(--text);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     font-weight: var(--workspace-toast-font-weight, 400);
     transition: opacity 0.3s;
 }
@@ -1271,7 +1271,7 @@ body[data-page="answer"] .main-wrap {
     justify-content: center;
     margin: 0 auto 14px;
     border-radius: 50%;
-    font-size: 20px;
+    font-size:calc(20px * var(--ui-font-scale, 1));
 }
 .custom-modal-icon.confirm {
     background: rgba(9, 105, 218, 0.08);
@@ -1288,14 +1288,14 @@ body[data-page="answer"] .main-wrap {
 .custom-modal-title {
     margin-bottom: 8px;
     color: var(--text);
-    font-size: 15px;
+    font-size:calc(15px * var(--ui-font-scale, 1));
     font-weight: 700;
     text-align: center;
 }
 .custom-modal-msg {
     margin-bottom: 20px;
     color: var(--text-sub);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     line-height: 1.6;
     text-align: center;
 }
@@ -1309,7 +1309,7 @@ body[data-page="answer"] .main-wrap {
     padding: 8px 20px;
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     font-weight: 600;
 }
 .custom-modal-actions .btn-cancel {
@@ -1351,7 +1351,7 @@ body[data-page="answer"] .main-wrap {
     padding: 4px 8px;
     border-radius: var(--radius-sm);
     color: var(--text-muted);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     transition: var(--transition);
 }
 .drawer-pos-btn:hover {
@@ -1368,13 +1368,13 @@ body[data-page="answer"] .main-wrap {
 .drawer-title {
     margin-bottom: var(--workspace-drawer-title-margin-bottom, 2px);
     color: var(--text);
-    font-size: 15px;
+    font-size:calc(15px * var(--ui-font-scale, 1));
     font-weight: 700;
 }
 .drawer-desc {
     margin-top: var(--workspace-drawer-desc-margin-top, 0);
     color: var(--text-muted);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
 }
 .drawer-close {
     width: 28px;
@@ -1384,7 +1384,7 @@ body[data-page="answer"] .main-wrap {
     justify-content: center;
     border-radius: var(--radius-sm);
     color: var(--text-muted);
-    font-size: 18px;
+    font-size:calc(18px * var(--ui-font-scale, 1));
     transition: var(--transition);
 }
 .drawer-close:hover {

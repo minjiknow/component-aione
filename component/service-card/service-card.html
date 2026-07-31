@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" class="control-preview-root">
+
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,6 +10,7 @@
 	<link rel="stylesheet" href="service-card.css?v=20260728" />
 	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260728-7" />
 </head>
+
 <body class="control-preview-page">
 	<main class="control-preview control-preview-wide">
 		<header class="control-preview-header">
@@ -36,26 +38,23 @@
 		</section>
 	</main>
 
-	<script src="service-card.js?v=20260728"></script>
+	<script src="service-card.js?v=20260729-1"></script>
 	<script>
 		window.AIOneServiceCard.renderList('[data-service-card-active]', [
 			{
-				href: '../../html/ai-intake.html',
+				href: '../../pages/ai-workspace.html',
 				icon: '../../assets/icons/service-question-classification.svg',
 				iconTone: 'blue',
 				title: '국회 질의 분류',
 				description: '질의 업로드 · OCR/파싱 · 질의 분류 · 추천실국 확인'
 			},
 			{
-				href: '../../html/ai-answer.html',
+				href: '../../pages/ai-answer.html',
 				icon: '../../assets/icons/service-answer-draft.svg',
 				iconTone: 'green',
 				title: '국회 답변서 초안 생성',
 				description: '자료 분석 · 유사답변서 추천 · 초안 생성 · 편집'
-			}
-		]);
-
-		window.AIOneServiceCard.renderList('[data-service-card-disabled]', [
+			},
 			{
 				href: '#',
 				icon: '../../assets/icons/service-economic-trends.svg',
@@ -73,6 +72,26 @@
 				disabled: true
 			}
 		]);
+
+		// window.AIOneServiceCard.renderList('[data-service-card-disabled]', [
+		// 	{
+		// 		href: '#',
+		// 		icon: '../../assets/icons/service-economic-trends.svg',
+		// 		iconTone: 'orange',
+		// 		title: '국유재산 업무 관리',
+		// 		description: '국유재산 관리전문 챗봇 · 종합계획 동향분석 · 개발 가능 재산 추천',
+		// 		disabled: true
+		// 	},
+		// 	{
+		// 		href: '#',
+		// 		icon: '../../assets/icons/service-chatbot.svg',
+		// 		iconTone: 'purple',
+		// 		title: '정책 안내서',
+		// 		description: '정책안내 관리전문 챗봇 · 정책분석 관련자료 · 정책 추천',
+		// 		disabled: true
+		// 	}
+		// ]);
 	</script>
 </body>
+
 </html>

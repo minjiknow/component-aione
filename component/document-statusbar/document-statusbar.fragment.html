@@ -1,0 +1,31 @@
+<footer class="document-statusbar" data-component="document-statusbar" data-document-statusbar
+	data-document-target="{{target}}" data-document-scroll-target="{{scrollTarget}}"
+	data-document-page-selector="{{pageSelector}}" data-document-fullscreen-target="{{fullscreenTarget}}"
+	data-document-zoom="{{zoom}}" data-document-min-zoom="{{minZoom}}"
+	data-document-max-zoom="{{maxZoom}}" data-document-zoom-step="{{step}}">
+	<div class="document-statusbar-stats" data-slot="stats">
+		<span class="document-statusbar-stat">
+			글자 수 <strong data-document-character-count>{{characterCount}}</strong>자
+		</span>
+		<span class="document-statusbar-separator" aria-hidden="true">|</span>
+		<span class="document-statusbar-stat">
+			페이지 <strong data-document-page-current>{{page}}</strong>/<strong
+				data-document-page-total>{{pageTotal}}</strong>
+		</span>
+	</div>
+	<div class="document-statusbar-controls" aria-label="문서 확대 축소 및 전체보기">
+		<button type="button" class="icon-button icon-button-sm document-statusbar-button"
+			data-document-statusbar-action="zoom-out" aria-label="문서 축소" title="문서 축소">−</button>
+		<strong class="document-statusbar-zoom" data-document-statusbar-zoom-value>{{zoom}}%</strong>
+		<button type="button" class="icon-button icon-button-sm document-statusbar-button"
+			data-document-statusbar-action="zoom-in" aria-label="문서 확대" title="문서 확대">＋</button>
+		<button type="button" class="icon-button icon-button-sm document-statusbar-button document-statusbar-fullscreen-button"
+			data-document-statusbar-action="fullscreen" aria-label="문서 전체보기" title="문서 전체보기"
+			aria-pressed="false">
+			<img class="icon icon-small document-statusbar-expand-icon"
+				src="../../assets/icons/fullscreen-expand.svg" alt="" aria-hidden="true" />
+			<img class="icon icon-small document-statusbar-shrink-icon"
+				src="../../assets/icons/fullscreen-shrink.svg" alt="" aria-hidden="true" />
+		</button>
+	</div>
+</footer>

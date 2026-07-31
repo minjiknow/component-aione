@@ -13,8 +13,9 @@ AI Intake의 분류 신뢰도를 표시하는 퍼센트 막대를 공통화한 �
 
 ## 색상 기준
 
-- `90% 이상`: Green
-- `90% 미만`: Primary blue
+- `90% 이상`: Green (`is-high`)
+- `75~89%`: Primary blue (`is-medium`)
+- `75% 미만`: Orange (`is-low`)
 
 ```html
 <div class="progressbar-row">

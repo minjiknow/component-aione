@@ -3,38 +3,23 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<script>
-		if (new URLSearchParams(window.location.search).get("view") === "component-catalog") {
-			document.documentElement.classList.add("component-catalog-preview");
-		}
-	</script>
 	<title>AI-ONE 홈</title>
 	<link rel="icon" href="../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
-	<link rel="stylesheet" href="../css/common.css" />
-	<link rel="stylesheet" href="../component/button/button.css" />
-	<link rel="stylesheet" href="../component/input/input.css" />
-	<link rel="stylesheet" href="../component/badge/badge.css" />
-	<link rel="stylesheet" href="../component/service-card/service-card.css" />
-	<link rel="stylesheet" href="../component/sidebar/sidebar.css" />
-	<link rel="stylesheet" href="../css/ai-home-page.css?v=20260728-2" />
-	<script src="../component/component-loader.js?v=20260728-2"></script>
-	<script src="../component/service-card/service-card.js" defer></script>
-	<script src="../js/ai-home-page.js?v=20260728-2" defer></script>
+	<link rel="stylesheet" href="../css/common.css?v=20260730-8" />
+	<link rel="stylesheet" href="../css/ai-home.css?v=20260730-10" />
+	<link rel="stylesheet" href="../component/button/button.css?v=20260730-9" />
+	<link rel="stylesheet" href="../component/input/input.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/badge/badge.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/service-card/service-card.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/sidebar/sidebar.css?v=20260730-6" />
+	<link rel="stylesheet" href="../css/ai-home-page.css?v=20260730-6" />
 </head>
 <body class="ai-home-page" data-page="home">
 	<div class="ai-home-app">
 		<div class="home-sidebar-host" data-component-include="sidebar"></div>
 
 		<main class="ai-home-main">
-			<div class="home-background" aria-hidden="true">
-				<span class="home-shape home-shape-circle home-shape-circle-left"></span>
-				<span class="home-shape home-shape-circle home-shape-circle-right"></span>
-				<span class="home-shape home-shape-square home-shape-square-top"></span>
-				<span class="home-shape home-shape-square home-shape-square-bottom"></span>
-				<span class="home-shape home-shape-dot home-shape-dot-one"></span>
-				<span class="home-shape home-shape-dot home-shape-dot-two"></span>
-				<span class="home-shape home-shape-dot home-shape-dot-three"></span>
-			</div>
+			<div data-ai-one-background="home" aria-hidden="true"></div>
 
 			<div class="home-content">
 				<header class="home-header">
@@ -60,12 +45,12 @@
 
 				<section class="home-history" aria-labelledby="homeHistoryTitle">
 					<div data-component-include="datatable" data-component-max-width="100%"
-						data-component-max-height="316px">
+						data-component-max-height="316px" data-component-hide-actions="true">
 						<template data-slot="title"><span id="homeHistoryTitle">최근 사용 이력</span></template>
 						<template data-slot="more">전체 이력 보기 ›</template>
 						<template data-slot="caption">AI-ONE 최근 사용 이력</template>
 						<template data-slot="rows">
-							<tr data-history-target="../html/ai-answer.html" data-history-title="2025년 청년 고용 정책 관련 답변 초안">
+							<tr data-history-target="ai-answer.html" data-history-title="2025년 청년 고용 정책 관련 답변 초안">
 								<td>
 									<span class="data-table-service">
 										<img class="icon" data-icon="document" alt="" aria-hidden="true" />
@@ -77,22 +62,9 @@
 								<td>2025.05.20 10:24</td>
 								<td><span class="status-dot done">완료</span></td>
 								<td>2025.05.19</td>
-								<td class="data-table-actions">
-									<div class="dropdown-menu-component" data-dropdown-menu>
-										<button type="button" class="data-table-action-trigger" data-dropdown-trigger
-											aria-haspopup="menu" aria-expanded="false" aria-controls="homeHistoryMenu1"
-											aria-label="국회 답변서 초안 작성 메뉴">⋮</button>
-										<div class="dropdown-menu" id="homeHistoryMenu1" role="menu"
-											data-placement="bottom-end" hidden>
-											<button type="button" class="dropdown-menu-item" role="menuitem"
-												data-menu-value="open">열기</button>
-											<button type="button" class="dropdown-menu-item" role="menuitem"
-												data-menu-value="rename">이름 변경</button>
-										</div>
-									</div>
-								</td>
+								<td class="data-table-actions" hidden></td>
 							</tr>
-							<tr data-history-target="../html/ai-answer.html" data-history-title="반도체 산업 지원 관련 질의">
+							<tr data-history-target="ai-answer.html" data-history-title="반도체 산업 지원 관련 질의">
 								<td>
 									<span class="data-table-service">
 										<img class="icon" data-icon="search" alt="" aria-hidden="true" />
@@ -104,20 +76,7 @@
 								<td>2025.05.20 09:15</td>
 								<td><span class="status-dot done">완료</span></td>
 								<td>2025.05.18</td>
-								<td class="data-table-actions">
-									<div class="dropdown-menu-component" data-dropdown-menu>
-										<button type="button" class="data-table-action-trigger" data-dropdown-trigger
-											aria-haspopup="menu" aria-expanded="false" aria-controls="homeHistoryMenu2"
-											aria-label="국회 질의 자료 검색 메뉴">⋮</button>
-										<div class="dropdown-menu" id="homeHistoryMenu2" role="menu"
-											data-placement="bottom-end" hidden>
-											<button type="button" class="dropdown-menu-item" role="menuitem"
-												data-menu-value="open">열기</button>
-											<button type="button" class="dropdown-menu-item" role="menuitem"
-												data-menu-value="rename">이름 변경</button>
-										</div>
-									</div>
-								</td>
+								<td class="data-table-actions" hidden></td>
 							</tr>
 							<tr data-history-title="2025년 4월 경제동향 분석">
 								<td>
@@ -131,22 +90,9 @@
 								<td>2025.05.19 18:40</td>
 								<td><span class="status-dot progress">진행 중</span></td>
 								<td>2025.05.17</td>
-								<td class="data-table-actions">
-									<div class="dropdown-menu-component" data-dropdown-menu>
-										<button type="button" class="data-table-action-trigger" data-dropdown-trigger
-											aria-haspopup="menu" aria-expanded="false" aria-controls="homeHistoryMenu3"
-											aria-label="경제동향 분석 보고서 메뉴">⋮</button>
-										<div class="dropdown-menu" id="homeHistoryMenu3" role="menu"
-											data-placement="bottom-end" hidden>
-											<button type="button" class="dropdown-menu-item" role="menuitem"
-												data-menu-value="open">열기</button>
-											<button type="button" class="dropdown-menu-item" role="menuitem"
-												data-menu-value="rename">이름 변경</button>
-										</div>
-									</div>
-								</td>
+								<td class="data-table-actions" hidden></td>
 							</tr>
-							<tr data-history-target="../html/ai-answer.html" data-history-title="국정 현안 보고자료 202505">
+							<tr data-history-target="ai-answer.html" data-history-title="국정 현안 보고자료 202505">
 								<td>
 									<span class="data-table-service">
 										<img class="icon" data-icon="folder" alt="" aria-hidden="true" />
@@ -158,22 +104,9 @@
 								<td>2025.05.19 14:05</td>
 								<td><span class="status-dot done">완료</span></td>
 								<td>2025.05.16</td>
-								<td class="data-table-actions">
-									<div class="dropdown-menu-component" data-dropdown-menu>
-										<button type="button" class="data-table-action-trigger" data-dropdown-trigger
-											aria-haspopup="menu" aria-expanded="false" aria-controls="homeHistoryMenu4"
-											aria-label="내부자료 자산화 관리 메뉴">⋮</button>
-										<div class="dropdown-menu" id="homeHistoryMenu4" role="menu"
-											data-placement="bottom-end" hidden>
-											<button type="button" class="dropdown-menu-item" role="menuitem"
-												data-menu-value="open">열기</button>
-											<button type="button" class="dropdown-menu-item" role="menuitem"
-												data-menu-value="rename">이름 변경</button>
-										</div>
-									</div>
-								</td>
+								<td class="data-table-actions" hidden></td>
 							</tr>
-							<tr data-history-target="../html/ai-answer.html" data-history-title="디지털 전환 추진 정책 관련 답변 초안">
+							<tr data-history-target="ai-answer.html" data-history-title="디지털 전환 추진 정책 관련 답변 초안">
 								<td>
 									<span class="data-table-service">
 										<img class="icon" data-icon="document" alt="" aria-hidden="true" />
@@ -185,20 +118,7 @@
 								<td>2025.05.19 11:32</td>
 								<td><span class="status-dot done">완료</span></td>
 								<td>2025.05.15</td>
-								<td class="data-table-actions">
-									<div class="dropdown-menu-component" data-dropdown-menu>
-										<button type="button" class="data-table-action-trigger" data-dropdown-trigger
-											aria-haspopup="menu" aria-expanded="false" aria-controls="homeHistoryMenu5"
-											aria-label="디지털 전환 답변 초안 메뉴">⋮</button>
-										<div class="dropdown-menu" id="homeHistoryMenu5" role="menu"
-											data-placement="top-end" hidden>
-											<button type="button" class="dropdown-menu-item" role="menuitem"
-												data-menu-value="open">열기</button>
-											<button type="button" class="dropdown-menu-item" role="menuitem"
-												data-menu-value="rename">이름 변경</button>
-										</div>
-									</div>
-								</td>
+								<td class="data-table-actions" hidden></td>
 							</tr>
 						</template>
 					</div>
@@ -206,18 +126,53 @@
 			</div>
 		</main>
 
+		<div class="history-modal-backdrop" id="homeHistoryModal" data-home-history-modal
+			aria-hidden="true" hidden>
+			<section class="history-modal" role="dialog" aria-modal="true"
+				aria-labelledby="homeHistoryModalTitle">
+				<header class="history-modal-header">
+					<h3 id="homeHistoryModalTitle">전체 사용 이력</h3>
+					<button type="button" class="history-modal-close" data-home-history-close
+						aria-label="전체 사용 이력 닫기">×</button>
+				</header>
+				<div class="history-modal-search">
+					<div class="history-search-box">
+						<label class="sr-only" for="homeHistorySearch">전체 사용 이력 검색</label>
+						<img src="../assets/icons/search.svg" alt="" aria-hidden="true" />
+						<input type="search" id="homeHistorySearch" data-home-history-search
+							placeholder="서비스, 유형, 작업 내용, 상태, 일시 검색"
+							autocomplete="off" />
+						<button type="button" class="history-search-clear" data-home-history-clear
+							aria-label="검색어 지우기" hidden>×</button>
+					</div>
+					<span class="history-search-result" data-home-history-result>총 10건</span>
+				</div>
+				<div class="history-modal-body">
+					<table class="history-table full">
+						<caption class="sr-only">AI-ONE 전체 사용 이력</caption>
+						<thead>
+							<tr>
+								<th scope="col">서비스</th>
+								<th scope="col">유형</th>
+								<th scope="col">작업 내용</th>
+								<th scope="col">작업일시</th>
+								<th scope="col">상태</th>
+								<th scope="col">등록일</th>
+							</tr>
+						</thead>
+						<tbody data-home-history-rows></tbody>
+					</table>
+					<div class="history-search-empty" data-home-history-empty hidden>
+						<img src="../assets/icons/search.svg" alt="" aria-hidden="true" />
+						<strong>검색 결과가 없습니다.</strong>
+						<span>다른 검색어를 입력해 보세요.</span>
+					</div>
+				</div>
+			</section>
+		</div>
+
 		<div data-component-include="toast" data-component-id="homeToast">
 			<template data-slot="message">안내 메시지</template>
-		</div>
-		<div data-component-include="modal"
-			data-component-id="preparingServiceModal"
-			data-component-variant="alert"
-			data-component-label="준비중 안내">
-			<template data-slot="title">준비중</template>
-			<template data-slot="description">이 화면은 프로토타입에 아직 포함되어 있지 않습니다.</template>
-			<template data-slot="actions">
-				<button type="button" class="btn-confirm" data-modal-close>확인</button>
-			</template>
 		</div>
 	</div>
 
@@ -254,42 +209,93 @@
 						<img data-icon="document" alt="" aria-hidden="true" />
 						<span class="nav-text">국회질의분류</span>
 					</a>
-					<button type="button" class="nav-link" data-page="answer"
-						data-modal-open="preparingServiceModal"
+					<a class="nav-link" href="../../pages/ai-answer.html" data-route="answer" data-page="answer"
+						data-tooltip="국회 답변서 초안 생성"
 						aria-label="국회 답변서 초안 생성" title="국회 답변서 초안 생성">
 						<img data-icon="edit" alt="" aria-hidden="true" />
 						<span class="nav-text">국회 답변서 초안 생성</span>
-					</button>
-					<button type="button" class="nav-link" data-page="economy"
+					</a>
+					<button type="button" class="nav-link" data-page="asset"
 						data-modal-open="preparingServiceModal"
-						aria-label="경제동향 분석 보고서 생성" title="경제동향 분석 보고서 생성">
-						<img width="22" height="22" data-icon="economy-trend" alt="" aria-hidden="true" />
-						<span class="nav-text">경제동향 분석 보고서 생성</span>
+						aria-label="국유재산 업무 관리 (준비중)" title="국유재산 업무 관리 (준비중)">
+						<img data-icon="layers" alt="" aria-hidden="true" />
+						<span class="nav-text">국유재산 업무 관리</span>
+						<span class="nav-badge-soon">준비중</span>
+					</button>
+					<button type="button" class="nav-link" data-page="policy"
+						data-modal-open="preparingServiceModal"
+						aria-label="정책 안내서 (준비중)" title="정책 안내서 (준비중)">
+						<img data-icon="library" alt="" aria-hidden="true" />
+						<span class="nav-text">정책 안내서</span>
+						<span class="nav-badge-soon">준비중</span>
 					</button>
 				</div>
 				<div class="nav-group">
 					<button type="button" class="nav-link" data-page="chatbot"
 						data-modal-open="preparingServiceModal"
-						aria-label="AI-ONE 챗봇" title="AI-ONE 챗봇">
+						aria-label="AI-ONE 챗봇 (준비중)" title="AI-ONE 챗봇 (준비중)">
 						<img data-icon="chat" alt="" aria-hidden="true" />
 						<span class="nav-text">AI-ONE 챗봇</span>
+						<span class="nav-badge-soon">준비중</span>
 					</button>
 				</div>
 			</nav>
 
 			<div class="sidebar-footer">
 				<div class="user-card">
-					<button type="button" class="user-avatar logout-btn" aria-label="로그아웃" title="로그아웃">
+					<button type="button" class="user-avatar" data-sidebar-account-toggle aria-label="사용자 메뉴"
+						title="사용자 메뉴" aria-haspopup="menu" aria-expanded="false"
+						aria-controls="sidebarAccountMenu">
 						<img class="icon icon-primary" data-icon="user" alt="" aria-hidden="true" />
 					</button>
 					<div class="user-info"><span class="user-name">박재정 담당자</span><span class="user-dept">재정분석과</span></div>
 					<button type="button" class="icon-button icon-button-ghost settings-btn" id="settingsBtn"
-						aria-label="환경설정" title="환경설정">
+						aria-label="환경설정" title="환경설정" data-sidebar-account-toggle aria-haspopup="menu"
+						aria-expanded="false" aria-controls="sidebarAccountMenu">
 						<img class="icon icon-small" data-icon="settings-alt" alt="" aria-hidden="true" />
 					</button>
+					<div class="user-account-menu" id="sidebarAccountMenu" role="menu" aria-label="사용자 계정 메뉴" hidden>
+						<div class="user-account-summary">
+							<strong>박재정 주무관</strong>
+							<span>재정분석과</span>
+						</div>
+						<button type="button" role="menuitem" data-sidebar-account-action="profile">
+							<img data-icon="user" alt="" aria-hidden="true" />
+							<span>내 정보</span>
+						</button>
+						<button type="button" role="menuitem" data-sidebar-account-action="settings">
+							<img data-icon="settings-alt" alt="" aria-hidden="true" />
+							<span>환경설정</span>
+						</button>
+						<button type="button" class="danger" role="menuitem" data-sidebar-account-action="logout"
+							data-modal-open="sidebarLogoutModal">
+							<img data-icon="logout" alt="" aria-hidden="true" />
+							<span>로그아웃</span>
+						</button>
+					</div>
 				</div>
 			</div>
-		</aside>
+
+			<div data-component-include="modal" data-component-id="preparingServiceModal"
+				data-component-variant="alert" data-component-label="준비중 안내">
+				<template data-slot="title">준비중</template>
+				<template data-slot="description">이 화면은 프로토타입에 아직 포함되어 있지 않습니다.</template>
+				<template data-slot="actions">
+					<button type="button" class="btn-confirm" data-modal-close>확인</button>
+				</template>
+			</div>
+
+			<div data-component-include="modal" data-component-id="sidebarLogoutModal"
+				data-component-variant="logout" data-component-label="로그아웃 확인">
+				<template data-slot="title">로그아웃</template>
+				<template data-slot="description">AI-ONE에서 로그아웃하시겠습니까?</template>
+				<template data-slot="actions">
+					<button type="button" class="btn-cancel" data-modal-close>취소</button>
+					<button type="button" class="btn-confirm danger" data-sidebar-logout-confirm
+						data-modal-close>로그아웃</button>
+				</template>
+			</div>
+			</aside>
 	</template>
 
 	<template data-component-file-fallback="datatable">
@@ -376,8 +382,18 @@
 
 				<div class="modal-variant-panel" data-modal-panel="content">
 					<div class="custom-modal-icon danger" data-modal-icon="default" aria-hidden="true">⚠</div>
-					<div class="custom-modal-icon confirm" data-modal-icon="question" aria-hidden="true">?</div>
+					<div class="custom-modal-icon confirm" data-modal-icon="question" aria-hidden="true">
+						<svg viewBox="0 0 24 24">
+							<path d="M4 11.5 12 4l8 7.5" />
+							<path d="M6 10.5V19h12v-8.5" />
+							<path d="M9 13h6" />
+							<path d="M12 10v6" />
+						</svg>
+					</div>
 					<div class="custom-modal-icon alert" data-modal-icon="alert" aria-hidden="true">!</div>
+					<div class="custom-modal-icon logout" data-modal-icon="logout" aria-hidden="true">
+						<img src="../../assets/icons/logout.svg" alt="" />
+					</div>
 					<div class="custom-modal-title" id="{{id}}-title" data-slot="title">작업을 삭제할까요?</div>
 					<div class="custom-modal-msg" id="{{id}}-description" data-slot="description">
 						삭제한 작업은 다시 복구할 수 없습니다.
@@ -390,5 +406,10 @@
 			</section>
 		</div>
 	</template>
+
+	<script src="../component/component-include-loader.js?v=20260730-12"></script>
+	<script src="../component/service-card/service-card.js?v=20260729-1"></script>
+	<script src="../js/common.js?v=20260730-10"></script>
+	<script src="../js/ai-home-page.js?v=20260730-10"></script>
 </body>
 </html>

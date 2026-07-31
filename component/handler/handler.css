@@ -10,7 +10,8 @@
 }
 
 .split-handler-left,
-.split-handler-right {
+.split-handler-right,
+.split-handler-pane {
     display: flex;
     min-width: 0;
     min-height: 0;
@@ -20,10 +21,11 @@
 }
 
 .split-handler-handle {
-    width: 4px;
+    position: relative;
+    width: 2px;
     margin: var(--split-handler-handle-margin);
     border-radius: 2px;
-    background: var(--surface-el, #f0f3f6);
+    background: rgba(209, 217, 224, 0.38);
     cursor: col-resize;
     flex-shrink: 0;
     touch-action: none;
@@ -57,8 +59,36 @@
     transition: background 0.15s ease;
 }
 
+:is(.split-handler-handle, .panel-resize-handle)::before {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: -4px;
+    bottom: 0;
+    left: -4px;
+    content: "";
+}
+
 :is(.split-handler-handle, .panel-resize-handle):is(:hover, .active) {
     background: var(--primary, #0969da);
+}
+
+.split-handler-handle::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1px;
+    height: 22px;
+    border-radius: 1px;
+    background: rgba(101, 109, 118, 0.58);
+    content: "";
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.15s ease;
+}
+
+.split-handler-handle:is(:hover, .active)::after {
+    opacity: 1;
 }
 
 :is(.split-handler-handle, .panel-resize-handle):focus-visible {

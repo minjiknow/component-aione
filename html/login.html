@@ -7,21 +7,11 @@
 	<title>AI-ONE 로그인</title>
 
 	<link rel="stylesheet" href="../css/login.css" />
-	<link rel="stylesheet" href="../css/common.css" />
+	<link rel="stylesheet" href="../css/common.css?v=20260729-1" />
 </head>
 
 <body>
-	<!-- Aurora Background (Light) -->
-	<div class="aurora-bg">
-		<div class="aurora aurora-1"></div>
-		<div class="aurora aurora-2"></div>
-		<div class="aurora aurora-3"></div>
-		<div class="aurora aurora-4"></div>
-		<div class="aurora-ring ring-1"></div>
-		<div class="aurora-ring ring-2"></div>
-		<div class="aurora-ring ring-3"></div>
-		<div class="light-flare"></div>
-	</div>
+	<div data-ai-one-background="login" aria-hidden="true"></div>
 
 	<!-- Login Card -->
 	<div class="login-wrap">
@@ -89,6 +79,7 @@
 		</div>
 	</div>
 
+	<script src="../js/common.js?v=20260729-1"></script>
 	<script>
 		(function () {
 			const SAVED_ID_KEY = 'ai-one-saved-login-id';

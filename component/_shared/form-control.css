@@ -24,7 +24,7 @@
     display: block;
     margin-bottom: 6px;
     color: var(--text-sub, #656d76);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     font-weight: 600;
     letter-spacing: 0.3px;
 }
@@ -36,7 +36,7 @@
 .field-help {
     margin-top: 6px;
     color: var(--text-muted, #8b949e);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     line-height: 1.5;
 }
 
@@ -58,7 +58,7 @@
     margin-top: 6px;
     margin-left: auto;
     color: var(--text-muted, #8b949e);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     line-height: 1.5;
     white-space: nowrap;
 }

@@ -6,11 +6,16 @@
 	<title>QueryCard 컴포넌트</title>
 	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
 	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
-	<link rel="stylesheet" href="../button/button.css?v=20260728-1" />
+	<link rel="stylesheet" href="../button/button.css?v=20260730-9" />
 	<link rel="stylesheet" href="../chip/chip.css?v=20260728" />
-	<link rel="stylesheet" href="../status-badge/status-badge.css?v=20260728" />
-	<link rel="stylesheet" href="../progressbar/progressbar.css?v=20260728" />
-	<link rel="stylesheet" href="query-card.css?v=20260728" />
+	<link rel="stylesheet" href="../status-badge/status-badge.css?v=20260730-1" />
+	<link rel="stylesheet" href="../progressbar/progressbar.css?v=20260729-2" />
+	<link rel="stylesheet" href="../_shared/form-control.css?v=20260729" />
+	<link rel="stylesheet" href="../input/input.css?v=20260729" />
+	<link rel="stylesheet" href="../select/select.css?v=20260729" />
+	<link rel="stylesheet" href="../textarea/textarea.css?v=20260729" />
+	<link rel="stylesheet" href="../modal/modal.css?v=20260729-1" />
+	<link rel="stylesheet" href="query-card.css?v=20260730-1" />
 	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260728-7" />
 </head>
 <body class="control-preview-page">
@@ -42,9 +47,80 @@
 		</section>
 	</main>
 
-	<script src="../progressbar/progressbar.js?v=20260728"></script>
-	<script src="query-card.js?v=20260728"></script>
+	<div class="custom-modal-backdrop" id="queryCardEditModal" data-modal hidden>
+		<section class="custom-modal modal-medium modal-variant-form" role="dialog" aria-modal="true"
+			data-modal-variant="form" aria-label="질의분류 및 담당실국 수정">
+			<div class="modal-variant-panel" data-modal-panel="content">
+				<div class="custom-modal-title">
+					<span>질의분류 · 담당실국</span>
+					<button type="button" class="query-edit-modal-close" data-modal-close aria-label="닫기">×</button>
+				</div>
+				<div class="custom-modal-msg">
+					<div class="form-group">
+						<label><span>질의명</span>
+							<textarea class="form-textarea" rows="3" placeholder="질의명을 수정하세요"
+								data-query-edit-text></textarea>
+						</label>
+					</div>
+					<div class="form-group">
+						<label><span>소관구분</span>
+							<select class="form-select" data-query-edit-type>
+								<option value="single">단일소관</option>
+								<option value="multi">복수소관</option>
+								<option value="none">비소관</option>
+							</select>
+						</label>
+					</div>
+					<div class="form-group">
+						<label><span>담당실국</span>
+							<select class="form-select" data-query-edit-main-dept>
+								<option value="예산실">예산실</option>
+								<option value="재정정책국">재정정책국</option>
+								<option value="세제실">세제실</option>
+								<option value="공공정책국">공공정책국</option>
+								<option value="국제금융국">국제금융국</option>
+								<option value="경제정책국">경제정책국</option>
+								<option value="산업정책국">산업정책국</option>
+								<option value="고용정책과">고용정책과</option>
+								<option value="해당없음">해당없음</option>
+							</select>
+						</label>
+					</div>
+					<div class="form-group">
+						<label><span>협조실국</span>
+							<input type="text" class="form-input" placeholder="협조실국 입력"
+								data-query-edit-coop-dept />
+						</label>
+					</div>
+					<div class="form-group">
+						<label><span>소관기관</span>
+							<input type="text" class="form-input" readonly aria-readonly="true"
+								data-query-edit-org />
+						</label>
+					</div>
+				</div>
+				<div class="custom-modal-actions">
+					<button type="button" class="btn-cancel" data-modal-close>취소</button>
+					<button type="button" class="btn-confirm" data-query-edit-apply>수정 적용</button>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<script src="../progressbar/progressbar.js?v=20260729-2"></script>
+	<script src="../_shared/layer-controller.js?v=20260729"></script>
+	<script src="../modal/modal.js?v=20260729"></script>
+	<script src="../modal/query-edit-modal.js?v=20260729"></script>
+	<script src="query-card.js?v=20260730-1"></script>
 	<script>
+		document.addEventListener('query-card:edit', event => {
+			window.AIOneQueryEditModal.open(
+				'#queryCardEditModal',
+				event.detail.query,
+				document.activeElement
+			);
+		});
+
 		window.AIOneQueryCard.renderList('[data-query-card-single]', [
 			{
 				id: 1,
@@ -87,7 +163,8 @@
 				mainDept: '국제금융국',
 				coopDept: '대외경제국',
 				reason: '복수 부서 업무영역에 걸친 복합 질의로 판단',
-				confidence: 78
+				confidence: 78,
+				needsReview: true
 			}
 		]);
 

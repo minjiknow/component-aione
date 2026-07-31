@@ -5,16 +5,24 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>국회 답변서 초안 생성 AI — AI-ONE</title>
-	<link rel="stylesheet" href="../css/ai-answer.css?v=20260727-6" />
-	<link rel="stylesheet" href="../css/common.css?v=20260727-4" />
-	<link rel="stylesheet" href="../component/toast/toast.css?v=20260728" />
-	<link rel="stylesheet" href="../component/chat-message/chat-message.css?v=20260728-1" />
+	<link rel="stylesheet" href="../css/common.css?v=20260729" />
+	<link rel="stylesheet" href="../component/button/button.css?v=20260730-9" />
+	<link rel="stylesheet" href="../component/filter-btn/filter-btn.css?v=20260729" />
+	<link rel="stylesheet" href="../component/file-upload/file-upload.css?v=20260729" />
+	<link rel="stylesheet" href="../component/file-list/file-list.css?v=20260729" />
+	<link rel="stylesheet" href="../component/file-item/file-item.css?v=20260729" />
+	<link rel="stylesheet" href="../component/panel/panel.css?v=20260729" />
+	<link rel="stylesheet" href="../component/sidebar/sidebar.css?v=20260729" />
+	<link rel="stylesheet" href="../component/topbar/topbar.css?v=20260729-3" />
+	<link rel="stylesheet" href="../component/toast/toast.css?v=20260729" />
+	<link rel="stylesheet" href="../component/chat-message/chat-message.css?v=20260729" />
+	<link rel="stylesheet" href="../css/ai-answer.css?v=20260729" />
 </head>
 
 <body class="ai-answer-page">
 
 	<!-- ── Sidebar ── -->
-	<aside class="sidebar" id="sidebar">
+	<aside class="sidebar app-sidebar" id="sidebar">
 		<div class="sidebar-top-bar">
 			<div class="sidebar-brand">
 				<a class="brand-logo" href="../pages/ai-home.html" aria-label="AI-ONE 홈">
@@ -115,7 +123,8 @@
 				</a>
 			</div>
 			<div class="nav-group">
-				<a class="nav-link" href="ai-chatbot.html" data-tooltip="AI-ONE 챗봇 (준비중)"><svg viewBox="0 0 24 24">
+				<a class="nav-link" href="ai-chatbot.html" data-soon-target="ai-chatbot.html"
+					data-tooltip="AI-ONE 챗봇 (준비중)"><svg viewBox="0 0 24 24">
 						<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
 					</svg><span class="nav-text">AI-ONE 챗봇</span><span class="nav-badge-soon">준비중</span></a>
 			</div>
@@ -123,8 +132,8 @@
 		<div class="sidebar-footer">
 			<div class="user-card">
 				<div class="user-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true">
-						<circle cx="12" cy="8.5" r="2.7" />
-						<path d="M7.4 18c.5-3.2 2.2-5 4.6-5s4.1 1.8 4.6 5" />
+						<circle cx="12" cy="8" r="3.25" />
+						<path d="M5.5 19c.9-4.1 3.1-6.2 6.5-6.2s5.6 2.1 6.5 6.2" />
 					</svg></div>
 				<div class="user-info"><span class="user-name">박재정 주무관</span>
 					<div class="user-meta-row"><span class="user-dept">재정분석과</span><span
@@ -144,44 +153,31 @@
 	<!-- ── Main ── -->
 	<div class="main-wrap" id="mainWrap">
 		<!-- Topbar (글로벌 헤더) -->
-		<header class="topbar">
+		<header class="topbar app-topbar">
 			<div class="topbar-left">
 				<h1 class="topbar-title">국회 답변서 초안 생성 AI 워크스페이스</h1>
 				<p class="topbar-sub">자료 분석 · 유사답변서 추천 · 초안 생성 · AI 채팅</p>
 			</div>
 			<div class="topbar-right">
-				<div class="font-size-tool" id="fontSizeTool">
-					<button class="topbar-btn icon-btn font-size-btn" id="fontSizeBtn" aria-label="전체 글자 크기 조절"
-						title="전체 글자 크기 조절" aria-haspopup="true" aria-expanded="false">
-						<span class="font-size-icon" aria-hidden="true"><span class="font-size-icon-sm">A</span><span
-								class="font-size-icon-lg">A</span></span>
-					</button>
-					<div class="font-size-popover hidden" id="fontSizePopover" role="dialog" aria-label="전체 글자 크기 설정">
-						<div class="font-size-popover-head">
-							<strong>글자 크기</strong>
-							<span>화면 전체 적용</span>
-						</div>
-						<div class="font-size-control-row">
-							<button class="font-size-step-btn" id="fontSizeDecrease" type="button" aria-label="글자 작게"
-								title="글자 작게">−</button>
-							<span class="font-size-value" id="fontSizeValue" aria-live="polite">100%</span>
-							<button class="font-size-step-btn" id="fontSizeIncrease" type="button" aria-label="글자 크게"
-								title="글자 크게">＋</button>
-						</div>
-						<div class="font-size-range-labels"><span>기본</span><span>크게</span></div>
-						<div class="font-size-direct-row">
-							<label for="fontSizeDirectInput">직접 입력</label>
-							<div class="font-size-direct-control">
-								<input id="fontSizeDirectInput" class="font-size-direct-input" type="number" min="100"
-									max="150" step="1" value="100" inputmode="numeric"
-									aria-label="글자 크기 퍼센트 직접 입력, 100에서 150 사이" />
-								<span class="font-size-direct-unit">%</span>
-								<button class="font-size-apply-btn" id="fontSizeApply" type="button">적용</button>
-							</div>
-						</div>
-						<button class="font-size-reset-btn" id="fontSizeDefault" type="button">기본 크기로</button>
-					</div>
-				</div>
+				<button class="topbar-btn topbar-emphasis-btn new-chat-action" id="newChatBtn" aria-label="새 채팅"
+					title="새 채팅">
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path d="M12 5v14" />
+						<path d="M5 12h14" />
+					</svg>
+					<span>새 채팅</span>
+				</button>
+				<button class="topbar-btn icon-btn chat-list-action" id="chatListToggle" aria-label="채팅 목록"
+					title="채팅 목록">
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path d="M8 6h13" />
+						<path d="M8 12h13" />
+						<path d="M8 18h13" />
+						<circle cx="3.5" cy="6" r=".8" />
+						<circle cx="3.5" cy="12" r=".8" />
+						<circle cx="3.5" cy="18" r=".8" />
+					</svg>
+				</button>
 				<button class="topbar-btn icon-btn" id="panelSwapBtn" aria-label="패널 위치 변경" title="패널 위치 변경">
 					<svg viewBox="0 0 24 24">
 						<path d="M8 7H4m0 0l4 4M4 7l4-4M16 17h4m0 0l-4-4m4 4l-4 4" />
@@ -212,10 +208,10 @@
 		</header>
 
 		<!-- 3 Panel Layout: Left / Center / Right -->
-		<main class="three-panel-layout">
+		<main class="three-panel three-panel-layout">
 
 			<!-- LEFT PANEL: 자료 폴더 -->
-			<section class="panel panel-folder" data-panel="folder">
+			<section class="panel panel-component panel-folder" data-panel="folder">
 				<div class="panel-head">
 					<h2 class="panel-title"><svg viewBox="0 0 24 24">
 							<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
@@ -233,9 +229,9 @@
 				<div class="folder-upload-section">
 					<div class="folder-upload-head"><span>파일 추가</span><span class="selected-refs-count"
 							id="fileCount">3</span></div>
-					<div class="upload-zone" id="uploadZone" data-file-upload-zone role="button" tabindex="0"
+					<div class="upload-zone compact" id="uploadZone" data-file-upload-zone role="button" tabindex="0"
 						aria-label="참조 파일을 드래그하거나 클릭하여 업로드" aria-describedby="uploadHint">
-						<svg viewBox="0 0 24 24">
+						<svg viewBox="0 0 24 24" aria-hidden="true">
 							<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
 							<polyline points="17 8 12 3 7 8" />
 							<line x1="12" y1="3" x2="12" y2="15" />
@@ -249,16 +245,16 @@
 						<p class="upload-guide-title">답변서 초안 생성에 참조할 문서를 첨부해 보세요</p>
 						<p class="upload-guide-desc">첨부 없이도 과거 답변서 기반으로 초안 생성이 가능합니다</p>
 					</div>
-					<ul class="file-list" id="fileList"></ul>
+					<ul class="file-list simple" id="fileList"></ul>
 					<button class="collapsed-add-btn" id="collapsedAddBtn" title="파일 추가" aria-label="파일 추가">
-						<span class="collapsed-add-file-icon" aria-hidden="true">
-							<svg viewBox="0 0 24 24">
-								<path d="M6 2h8l4 4v16H6z" />
-								<path d="M14 2v5h5" />
-							</svg>
-							<span class="collapsed-add-plus">+</span>
-						</span>
+						<svg class="collapsed-upload-icon" viewBox="0 0 24 24" aria-hidden="true">
+							<path d="M12 7v10M7 12h10" />
+						</svg>
 					</button>
+				</div>
+				<div class="collapsed-reference-count" id="collapsedReferenceCount" aria-label="참조소스 파일 0건"
+					title="참조소스 파일 0건">
+					<strong id="collapsedReferenceFileCount">0</strong><span>건</span>
 				</div>
 				<div class="left-panel-resize-handle" id="leftPanelResizeHandle"></div>
 				<div class="selected-refs" id="selectedRefsSection">
@@ -282,7 +278,7 @@
 			<div class="panel-resize-handle" data-resize="0"></div>
 
 			<!-- CENTER PANEL -->
-			<section class="panel panel-center" data-panel="center">
+			<section class="panel panel-component panel-center" data-panel="center">
 				<!-- Center Panel Header (탭) -->
 				<div class="center-header">
 					<span class="center-header-title"><svg viewBox="0 0 24 24" aria-hidden="true">
@@ -331,19 +327,19 @@
 								<div class="preview-body doc-viewer-body" id="previewBody"></div>
 							</div>
 						</div>
-						<div class="draft-status-bar recommend-status-bar" aria-label="관련자료 진행 정보">
+						<div class="draft-status-bar recommend-status-bar">
 							<div class="draft-status-left">
 								<span class="draft-stat">관련자료 <strong id="recommendResultCount">8</strong>건</span>
-								<span class="draft-stat-sep" aria-hidden="true">|</span>
+								<span class="draft-stat-sep">|</span>
 								<span class="draft-stat">글자 수 <strong data-char-count>0</strong>자</span>
-								<span class="draft-stat-sep" aria-hidden="true">|</span>
+								<span class="draft-stat-sep">|</span>
 								<span class="draft-stat">페이지 <strong data-page-num>1</strong>/<strong
 										data-page-total>1</strong></span>
 							</div>
 							<div class="draft-status-right">
 								<button class="draft-zoom-btn" type="button" data-action="zoom-out"
 									aria-label="문서 미리보기 축소">−</button>
-								<span class="draft-zoom-val" data-zoom-val aria-live="polite">100%</span>
+								<span class="draft-zoom-val" data-zoom-val>100%</span>
 								<button class="draft-zoom-btn" type="button" data-action="zoom-in"
 									aria-label="문서 미리보기 확대">+</button>
 								<button class="draft-zoom-btn" type="button" data-action="fullscreen"
@@ -363,14 +359,13 @@
 			<div class="panel-resize-handle" data-resize="1"></div>
 
 			<!-- RIGHT PANEL: AI 채팅 -->
-			<section class="panel panel-chat" data-panel="chat">
+			<section class="panel panel-component panel-chat" data-panel="chat">
 				<div class="panel-head">
 					<h2 class="panel-title"><svg viewBox="0 0 24 24" aria-hidden="true">
 							<path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
 							<path d="M8 10h.01M12 10h.01M16 10h.01" />
 						</svg>AI 채팅</h2>
-					<div class="chat-head-actions"><button class="panel-action-btn" id="newChatBtn">+ 새
-							채팅</button><button class="panel-action-btn" id="chatListToggle">목록</button></div>
+
 				</div>
 				<div class="chat-messages" id="chatMessages" data-chat-message-list data-variant="answer"></div>
 				<div class="chat-input-area">
@@ -473,15 +468,16 @@
 			</div>
 			<div class="report-section">
 				<label class="report-label">파일 첨부 (선택)</label>
-				<div class="upload-zone" id="reportUploadZone" data-file-upload-zone role="button" tabindex="0"
-					aria-label="오류신고 첨부 파일을 드래그하거나 클릭하여 업로드" aria-describedby="reportUploadHint">
-					<svg viewBox="0 0 24 24">
+				<div class="upload-zone compact report-upload-zone" id="reportUploadZone" data-file-upload-zone
+					role="button" tabindex="0" aria-label="오류신고 첨부 파일을 드래그하거나 클릭하여 업로드"
+					aria-describedby="reportUploadHint">
+					<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
 						<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
 						<polyline points="17 8 12 3 7 8" />
 						<line x1="12" y1="3" x2="12" y2="15" />
 					</svg>
 					<p class="upload-text">클릭하거나 파일을 드래그하세요</p>
-					<span class="upload-hint" id="reportUploadHint">스크린샷 등 최대 5개, 각 10MB 이내</span>
+					<span class="upload-hint report-upload-hint" id="reportUploadHint">스크린샷 등 최대 5개, 각 10MB 이내</span>
 					<input type="file" id="reportFileInput" multiple accept=".png,.jpg,.jpeg,.pdf,.txt" hidden />
 				</div>
 				<ul class="report-file-list" id="reportFileList"></ul>
@@ -496,10 +492,11 @@
 	<div class="ai-one-toast" id="toast" data-toast role="status" aria-live="polite" aria-atomic="true" hidden>
 		<span class="ai-one-toast-message" data-toast-message></span>
 	</div>
-	<script src="../js/common.js"></script>
-	<script src="../component/chat-message/chat-message.js?v=20260728-1"></script>
-	<script src="../component/toast/toast.js?v=20260728"></script>
-	<script src="../js/ai-answer.js"></script>
+	<script src="../js/common.js?v=20260730-2"></script>
+	<script src="../component/sidebar/sidebar.js?v=20260729"></script>
+	<script src="../component/chat-message/chat-message.js?v=20260729"></script>
+	<script src="../component/toast/toast.js?v=20260729"></script>
+	<script src="../js/ai-answer.js?v=20260729"></script>
 </body>
 
 </html>

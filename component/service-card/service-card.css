@@ -64,7 +64,7 @@
 .service-title {
     margin-bottom: 10px;
     color: var(--text, #1f2328);
-    font-size: 16px;
+    font-size:calc(16px * var(--ui-font-scale, 1));
     font-weight: 700;
     line-height: 1.25;
     word-break: keep-all;
@@ -73,7 +73,7 @@
 .service-desc {
     flex: 1;
     color: var(--text-muted, #8b949e);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     line-height: 1.6;
 }
 
@@ -128,10 +128,10 @@
 
 @media (max-width: 390px) {
     .service-title {
-        font-size: 13px;
+        font-size:calc(13px * var(--ui-font-scale, 1));
     }
 
     .service-desc {
-        font-size: 10.5px;
+        font-size:calc(10.5px * var(--ui-font-scale, 1));
     }
 }

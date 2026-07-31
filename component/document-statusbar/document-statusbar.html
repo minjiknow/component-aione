@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko" class="control-preview-root">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>DocumentStatusBar 컴포넌트</title>
+	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
+	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
+	<link rel="stylesheet" href="../button/button.css?v=20260730-9" />
+	<link rel="stylesheet" href="document-statusbar.css?v=20260730" />
+	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260728-2" />
+	<style>
+		.document-statusbar-preview-panel {
+			display: flex;
+			min-height: 430px;
+			flex-direction: column;
+			overflow: hidden;
+			border: 1px solid var(--border);
+			border-radius: 10px;
+			background: var(--surface);
+		}
+		.document-statusbar-preview-scroll {
+			min-height: 0;
+			flex: 1;
+			padding: 24px;
+			overflow: auto;
+		}
+		.document-statusbar-preview-document {
+			width: min(100%, 620px);
+			min-height: 520px;
+			margin: 0 auto;
+			padding: 42px;
+			border: 1px solid var(--border);
+			background: var(--surface);
+			box-shadow: var(--shadow);
+			color: var(--text);
+			font-size: 13px;
+			line-height: 1.8;
+		}
+	</style>
+</head>
+<body class="control-preview-page" data-root-path="../..">
+	<main class="control-preview">
+		<header class="control-preview-header">
+			<div>
+				<h1 class="control-preview-title">DocumentStatusBar</h1>
+				<p class="control-preview-desc">문서 통계와 50~200% 확대·축소, 패널 전체보기를 제공합니다.</p>
+			</div>
+			<a class="control-preview-back" href="../index.html#display">컴포넌트 목록</a>
+		</header>
+
+		<section class="control-preview-section" aria-labelledby="document-statusbar-preview-title">
+			<h2 class="control-preview-section-title" id="document-statusbar-preview-title">Default</h2>
+			<div class="document-statusbar-preview-panel">
+				<div class="document-statusbar-preview-scroll">
+					<article class="document-statusbar-preview-document">
+						<h3>질의 원본 문서</h3>
+						<p>문서 하단의 확대 버튼을 누르면 이 문서 안의 글씨와 콘텐츠가 함께 커집니다.</p>
+						<p>전체보기 버튼은 현재 패널을 화면 전체로 확장하고, 다시 누르거나 Esc를 누르면 원래 크기로 돌아갑니다.</p>
+					</article>
+				</div>
+				<footer class="document-statusbar" data-component="document-statusbar" data-document-statusbar
+					data-document-target=".document-statusbar-preview-document"
+					data-document-scroll-target=".document-statusbar-preview-scroll"
+					data-document-fullscreen-target=".document-statusbar-preview-panel"
+					data-document-zoom="100" data-document-min-zoom="50"
+					data-document-max-zoom="200" data-document-zoom-step="10">
+					<div class="document-statusbar-stats">
+						<span class="document-statusbar-stat">글자 수 <strong>293</strong>자</span>
+						<span class="document-statusbar-separator" aria-hidden="true">|</span>
+						<span class="document-statusbar-stat">페이지 <strong>1</strong>/<strong>1</strong></span>
+					</div>
+					<div class="document-statusbar-controls" aria-label="문서 확대 축소 및 전체보기">
+						<button type="button" class="icon-button icon-button-sm document-statusbar-button"
+							data-document-statusbar-action="zoom-out" aria-label="문서 축소" title="문서 축소">−</button>
+						<strong class="document-statusbar-zoom" data-document-statusbar-zoom-value>100%</strong>
+						<button type="button" class="icon-button icon-button-sm document-statusbar-button"
+							data-document-statusbar-action="zoom-in" aria-label="문서 확대" title="문서 확대">＋</button>
+						<button type="button"
+							class="icon-button icon-button-sm document-statusbar-button document-statusbar-fullscreen-button"
+							data-document-statusbar-action="fullscreen" aria-label="문서 전체보기" title="문서 전체보기"
+							aria-pressed="false">
+							<img class="icon icon-small document-statusbar-expand-icon"
+								src="../../assets/icons/fullscreen-expand.svg" alt="" aria-hidden="true" />
+							<img class="icon icon-small document-statusbar-shrink-icon"
+								src="../../assets/icons/fullscreen-shrink.svg" alt="" aria-hidden="true" />
+						</button>
+					</div>
+				</footer>
+			</div>
+		</section>
+	</main>
+
+	<script src="document-statusbar.js?v=20260730"></script>
+	<script src="../_preview/component-preview.js?v=20260727"></script>
+</body>
+</html>

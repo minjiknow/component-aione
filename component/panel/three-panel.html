@@ -1,8 +1,8 @@
 <!-- Three panel layout fragment: left, center, right 슬롯을 모두 전달합니다. -->
-<main class="three-panel" data-component="three-panel">
-	<div data-slot="left"></div>
+<main class="three-panel left-{{leftSize}} right-{{rightSize}}" data-component="three-panel">
+	<div class="three-panel-slot three-panel-side {{leftSize}}" data-slot="left"></div>
 	<div class="panel-resize-handle" data-resize="0" role="separator" aria-label="왼쪽 패널 크기 조절" aria-orientation="vertical" tabindex="0"></div>
-	<div data-slot="center"></div>
+	<div class="three-panel-slot three-panel-center" data-slot="center"></div>
 	<div class="panel-resize-handle" data-resize="1" role="separator" aria-label="오른쪽 패널 크기 조절" aria-orientation="vertical" tabindex="0"></div>
-	<div data-slot="right"></div>
+	<div class="three-panel-slot three-panel-side {{rightSize}}" data-slot="right"></div>
 </main>

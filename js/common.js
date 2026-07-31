@@ -2,11 +2,24 @@
   'use strict';
 
   const STORAGE_KEY = 'ai-one-color-theme';
+  const THEME_SCHEMA_KEY = 'ai-one-color-theme-user-set-v2';
+  const ACCENT_STORAGE_KEY = 'ai-one-accent-color';
   const NOTIFICATION_KEY = 'ai-one-long-task-notification';
   const MENU_COMPLETION_KEY = 'ai-one-menu-completion-state';
   const VALID_THEMES = ['system', 'dark', 'light'];
+  const VALID_ACCENTS = ['default', 'blue', 'green', 'yellow', 'pink', 'orange', 'purple'];
+  const ACCENT_LABELS = {
+    default: '기본값',
+    blue: '블루',
+    green: '그린',
+    yellow: '옐로',
+    pink: '핑크',
+    orange: '오렌지',
+    purple: '퍼플'
+  };
   const systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-  let currentPreference = 'system';
+  let currentPreference = 'light';
+  let currentAccent = 'default';
   let activeMenu = null;
   let activeButton = null;
   let settingsLayerBackdrop = null;
@@ -14,6 +27,123 @@
   let accountLayerConfirmHandler = null;
   let notificationEnabled = readNotificationPreference();
   let menuCompletionState = readMenuCompletionState();
+
+  const BACKGROUND_VARIANTS = {
+    home: [
+      'ai-one-background-home-circle ai-one-background-home-circle-left',
+      'ai-one-background-home-circle ai-one-background-home-circle-right',
+      'ai-one-background-home-square ai-one-background-home-square-top',
+      'ai-one-background-home-square ai-one-background-home-square-bottom',
+      'ai-one-background-home-dot ai-one-background-home-dot-one',
+      'ai-one-background-home-dot ai-one-background-home-dot-two',
+      'ai-one-background-home-dot ai-one-background-home-dot-three'
+    ],
+    login: [
+      'ai-one-background-login-orb ai-one-background-login-orb-one',
+      'ai-one-background-login-orb ai-one-background-login-orb-two',
+      'ai-one-background-login-orb ai-one-background-login-orb-three',
+      'ai-one-background-login-orb ai-one-background-login-orb-four',
+      'ai-one-background-login-ring ai-one-background-login-ring-one',
+      'ai-one-background-login-ring ai-one-background-login-ring-two',
+      'ai-one-background-login-ring ai-one-background-login-ring-three',
+      'ai-one-background-login-flare'
+    ]
+  };
+  const FILE_SECURITY_SCAN_LIMIT = 1024 * 1024;
+  const FILE_SENSITIVE_RULES = [
+    { label: '개인정보 표기', pattern: /(개인정보|민감정보|개인 식별정보|개인식별정보)/i },
+    { label: '주민등록·외국인등록 정보', pattern: /(주민등록(번호)?|주민번호|외국인등록(번호)?|\b\d{6}-?[1-4]\d{6}\b)/i },
+    { label: '여권·면허 정보', pattern: /(여권번호|운전면허(번호)?|면허번호)/i },
+    { label: '금융·인증 정보', pattern: /(계좌번호|신용카드(번호)?|카드번호|비밀번호|인증번호|보안카드)/i },
+    { label: '건강·의료 정보', pattern: /(건강정보|진료기록|진단명|병력|의료정보|장애정보|유전정보|생체정보|지문정보)/i },
+    { label: '민감한 개인 속성', pattern: /(범죄경력|정치적 견해|노동조합|종교정보|성생활|성적 지향)/i },
+    { label: '연락처 정보', pattern: /(\b01[016789]-?\d{3,4}-?\d{4}\b|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/i }
+  ];
+  const FILE_CONFIDENTIAL_RULES = [
+    { label: '대외비', pattern: /(대외\s*비|대외비)/i },
+    { label: '비공개·내부한정', pattern: /(비공개|내부한정|내부용|외부공개금지|외부 공개 금지)/i },
+    { label: '보안·기밀', pattern: /(보안문서|기밀|confidential|secret)/i }
+  ];
+
+  async function inspectUploadFileSecurity(file) {
+    let contentSample = '';
+    try {
+      contentSample = await file.slice(0, FILE_SECURITY_SCAN_LIMIT).text();
+    } catch (error) {
+      contentSample = '';
+    }
+
+    const target = `${file.name || ''}\n${contentSample}`;
+    const sensitiveReasons = FILE_SENSITIVE_RULES
+      .filter(rule => rule.pattern.test(target))
+      .map(rule => rule.label);
+    const confidentialReasons = FILE_CONFIDENTIAL_RULES
+      .filter(rule => rule.pattern.test(target))
+      .map(rule => rule.label);
+
+    return {
+      file,
+      sensitiveReasons: [...new Set(sensitiveReasons)],
+      confidentialReasons: [...new Set(confidentialReasons)],
+      level: sensitiveReasons.length
+        ? 'sensitive'
+        : confidentialReasons.length
+          ? 'confidential'
+          : 'safe'
+    };
+  }
+
+  async function validateUploadFileSecurity(inputFiles) {
+    const files = Array.from(inputFiles || []);
+    const results = await Promise.all(files.map(inspectUploadFileSecurity));
+    return {
+      results,
+      blocked: results.filter(result => result.level === 'sensitive'),
+      confidential: results.filter(result => result.level === 'confidential'),
+      safeFiles: results
+        .filter(result => result.level === 'safe')
+        .map(result => result.file)
+    };
+  }
+
+  window.AIOneUploadSecurity = Object.freeze({
+    inspect: inspectUploadFileSecurity,
+    validate: validateUploadFileSecurity
+  });
+
+  function initAnimatedBackgrounds(root = document) {
+    const backgrounds = [];
+    if (root instanceof Element && root.matches('[data-ai-one-background]')) backgrounds.push(root);
+    root.querySelectorAll?.('[data-ai-one-background]').forEach(background => backgrounds.push(background));
+
+    backgrounds.forEach(background => {
+      if (background.dataset.aiOneBackgroundReady === 'true') return;
+
+      const variant = background.dataset.aiOneBackground;
+      const parts = BACKGROUND_VARIANTS[variant];
+      if (!parts) return;
+
+      background.classList.add('ai-one-background', `ai-one-background-${variant}`);
+      background.setAttribute('aria-hidden', 'true');
+
+      if (!background.querySelector('[data-ai-one-background-part]')) {
+        const fragment = document.createDocumentFragment();
+        parts.forEach(className => {
+          const part = document.createElement('span');
+          part.className = `ai-one-background-part ${className}`;
+          part.dataset.aiOneBackgroundPart = '';
+          fragment.appendChild(part);
+        });
+        background.appendChild(fragment);
+      }
+
+      background.dataset.aiOneBackgroundReady = 'true';
+    });
+  }
+
+  window.AIOneBackground = Object.freeze({
+    init: initAnimatedBackgrounds
+  });
 
   function readMenuCompletionState() {
     try {
@@ -95,8 +225,12 @@
   }
 
   function readNotificationPreference() {
-    try { return localStorage.getItem(NOTIFICATION_KEY) === 'true'; }
-    catch (e) { return false; }
+    try {
+      const saved = localStorage.getItem(NOTIFICATION_KEY);
+      return saved === null ? true : saved === 'true';
+    } catch (e) {
+      return true;
+    }
   }
 
   function saveNotificationPreference(enabled) {
@@ -104,15 +238,29 @@
     try { localStorage.setItem(NOTIFICATION_KEY, String(notificationEnabled)); } catch (e) { /* 현재 화면에만 적용 */ }
     if (!notificationEnabled) clearMenuCompletionState();
     else renderMenuCompletionDots();
+    updateAllNotificationUIs();
     document.dispatchEvent(new CustomEvent('ai-one-notification-change', { detail: { enabled: notificationEnabled } }));
   }
 
   function readPreference() {
     try {
+      if (localStorage.getItem(THEME_SCHEMA_KEY) !== 'ready') {
+        localStorage.setItem(STORAGE_KEY, 'light');
+        return 'light';
+      }
       const saved = localStorage.getItem(STORAGE_KEY);
-      return VALID_THEMES.includes(saved) ? saved : 'system';
+      return VALID_THEMES.includes(saved) ? saved : 'light';
     } catch (e) {
-      return 'system';
+      return 'light';
+    }
+  }
+
+  function readAccentPreference() {
+    try {
+      const saved = localStorage.getItem(ACCENT_STORAGE_KEY);
+      return VALID_ACCENTS.includes(saved) ? saved : 'default';
+    } catch (e) {
+      return 'default';
     }
   }
 
@@ -132,7 +280,7 @@
   }
 
   function applyTheme(preference, persist) {
-    const normalized = VALID_THEMES.includes(preference) ? preference : 'system';
+    const normalized = VALID_THEMES.includes(preference) ? preference : 'light';
     const resolved = resolveTheme(normalized);
     currentPreference = normalized;
 
@@ -141,7 +289,10 @@
     document.documentElement.style.colorScheme = resolved;
 
     if (persist) {
-      try { localStorage.setItem(STORAGE_KEY, normalized); } catch (e) { /* 현재 화면에만 적용 */ }
+      try {
+        localStorage.setItem(STORAGE_KEY, normalized);
+        localStorage.setItem(THEME_SCHEMA_KEY, 'ready');
+      } catch (e) { /* 현재 화면에만 적용 */ }
     }
 
     updateMenuSelection();
@@ -153,6 +304,107 @@
   // 페이지가 그려지기 전에 저장된 테마를 먼저 적용한다.
   currentPreference = readPreference();
   applyTheme(currentPreference, false);
+
+  function updateAccentSelection() {
+    document.querySelectorAll('[data-accent-control]').forEach(control => {
+      control.dataset.accentValue = currentAccent;
+      const label = control.querySelector('[data-accent-label]');
+      const swatch = control.querySelector('.settings-accent-swatch');
+      if (label) label.textContent = ACCENT_LABELS[currentAccent];
+      if (swatch) swatch.dataset.accentValue = currentAccent;
+      control.querySelectorAll('[data-accent-value]').forEach(option => {
+        const isSelected = option.dataset.accentValue === currentAccent;
+        option.setAttribute('aria-selected', String(isSelected));
+      });
+    });
+  }
+
+  function setAccentControlOpen(control, isOpen, focusTarget = 'selected') {
+    if (!control) return;
+    const trigger = control.querySelector('[data-accent-trigger]');
+    const listbox = control.querySelector('[data-accent-listbox]');
+    if (!trigger || !listbox) return;
+
+    if (isOpen) {
+      document.querySelectorAll('[data-accent-control].is-open').forEach(other => {
+        if (other !== control) setAccentControlOpen(other, false);
+      });
+    }
+
+    control.classList.toggle('is-open', isOpen);
+    trigger.setAttribute('aria-expanded', String(isOpen));
+    listbox.hidden = !isOpen;
+    if (!isOpen) return;
+
+    const options = Array.from(listbox.querySelectorAll('[role="option"]'));
+    const focusOption = focusTarget === 'first'
+      ? options[0]
+      : focusTarget === 'last'
+        ? options.at(-1)
+        : options.find(option => option.getAttribute('aria-selected') === 'true');
+    window.requestAnimationFrame(() => focusOption?.focus());
+  }
+
+  function initAccentControl(control) {
+    if (!control || control.dataset.accentReady === 'true') return;
+    const trigger = control.querySelector('[data-accent-trigger]');
+    const listbox = control.querySelector('[data-accent-listbox]');
+    const options = Array.from(listbox?.querySelectorAll('[role="option"]') || []);
+    if (!trigger || !listbox || !options.length) return;
+
+    trigger.addEventListener('click', () => {
+      setAccentControlOpen(control, trigger.getAttribute('aria-expanded') !== 'true');
+    });
+    trigger.addEventListener('keydown', event => {
+      if (!['ArrowDown', 'ArrowUp'].includes(event.key)) return;
+      event.preventDefault();
+      setAccentControlOpen(control, true, event.key === 'ArrowUp' ? 'last' : 'first');
+    });
+
+    options.forEach(option => {
+      option.addEventListener('click', () => {
+        applyAccent(option.dataset.accentValue, true);
+        setAccentControlOpen(control, false);
+        trigger.focus();
+      });
+      option.addEventListener('keydown', event => {
+        const currentIndex = options.indexOf(option);
+        if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
+          event.preventDefault();
+          let nextIndex = currentIndex;
+          if (event.key === 'ArrowDown') nextIndex = (currentIndex + 1) % options.length;
+          if (event.key === 'ArrowUp') nextIndex = (currentIndex - 1 + options.length) % options.length;
+          if (event.key === 'Home') nextIndex = 0;
+          if (event.key === 'End') nextIndex = options.length - 1;
+          options[nextIndex]?.focus();
+        }
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          setAccentControlOpen(control, false);
+          trigger.focus();
+        }
+        if (event.key === 'Tab') setAccentControlOpen(control, false);
+      });
+    });
+
+    control.dataset.accentReady = 'true';
+  }
+
+  function applyAccent(accent, persist) {
+    const normalized = VALID_ACCENTS.includes(accent) ? accent : 'default';
+    currentAccent = normalized;
+    document.documentElement.dataset.accentColor = normalized;
+    if (persist) {
+      try { localStorage.setItem(ACCENT_STORAGE_KEY, normalized); } catch (e) { /* 현재 화면에만 적용 */ }
+    }
+    updateAccentSelection();
+    document.dispatchEvent(new CustomEvent('ai-one-accent-change', {
+      detail: { accent: normalized }
+    }));
+  }
+
+  currentAccent = readAccentPreference();
+  applyAccent(currentAccent, false);
 
   function themeIcon(type) {
     if (type === 'system') {
@@ -167,6 +419,7 @@
   function createThemeMenu() {
     const menu = document.createElement('div');
     menu.className = 'settings-theme-menu hidden';
+    menu.dataset.settingsPanel = '';
     menu.setAttribute('role', 'dialog');
     menu.setAttribute('aria-label', '환경설정');
     menu.innerHTML = `
@@ -195,6 +448,47 @@
         </button>
       </div>
       <div class="settings-divider"></div>
+      <div class="settings-section-title">강조 컬러</div>
+      <div class="settings-accent-control" data-accent-control>
+        <button type="button" class="settings-accent-trigger" data-accent-trigger
+          aria-haspopup="listbox" aria-expanded="false" aria-label="강조 컬러 선택">
+          <span class="settings-accent-swatch" aria-hidden="true"></span>
+          <span data-accent-label>기본값</span>
+          <span class="settings-accent-arrow" aria-hidden="true"></span>
+        </button>
+        <div class="settings-accent-options" data-accent-listbox role="listbox"
+          aria-label="강조 컬러 옵션" hidden>
+          <button type="button" class="settings-accent-option" role="option"
+            data-accent-value="default" aria-selected="true">
+            <span class="settings-accent-option-dot" aria-hidden="true"></span><span>기본값</span><span class="settings-accent-option-check" aria-hidden="true">✓</span>
+          </button>
+          <button type="button" class="settings-accent-option" role="option"
+            data-accent-value="blue" aria-selected="false">
+            <span class="settings-accent-option-dot" aria-hidden="true"></span><span>블루</span><span class="settings-accent-option-check" aria-hidden="true">✓</span>
+          </button>
+          <button type="button" class="settings-accent-option" role="option"
+            data-accent-value="green" aria-selected="false">
+            <span class="settings-accent-option-dot" aria-hidden="true"></span><span>그린</span><span class="settings-accent-option-check" aria-hidden="true">✓</span>
+          </button>
+          <button type="button" class="settings-accent-option" role="option"
+            data-accent-value="yellow" aria-selected="false">
+            <span class="settings-accent-option-dot" aria-hidden="true"></span><span>옐로</span><span class="settings-accent-option-check" aria-hidden="true">✓</span>
+          </button>
+          <button type="button" class="settings-accent-option" role="option"
+            data-accent-value="pink" aria-selected="false">
+            <span class="settings-accent-option-dot" aria-hidden="true"></span><span>핑크</span><span class="settings-accent-option-check" aria-hidden="true">✓</span>
+          </button>
+          <button type="button" class="settings-accent-option" role="option"
+            data-accent-value="orange" aria-selected="false">
+            <span class="settings-accent-option-dot" aria-hidden="true"></span><span>오렌지</span><span class="settings-accent-option-check" aria-hidden="true">✓</span>
+          </button>
+          <button type="button" class="settings-accent-option" role="option"
+            data-accent-value="purple" aria-selected="false">
+            <span class="settings-accent-option-dot" aria-hidden="true"></span><span>퍼플</span><span class="settings-accent-option-check" aria-hidden="true">✓</span>
+          </button>
+        </div>
+      </div>
+      <div class="settings-divider"></div>
       <div class="settings-section-title">알림</div>
       <div class="notification-setting-row">
         <div class="notification-setting-text">
@@ -203,57 +497,73 @@
           <span class="notification-setting-status" aria-live="polite"></span>
         </div>
         <button type="button" class="notification-toggle" role="switch" aria-checked="false" aria-label="응답 완료 알림 설정"><span></span></button>
-      </div>
-      <button type="button" class="notification-test-btn hidden">알림 테스트</button>`;
+      </div>`;
     document.body.appendChild(menu);
 
     menu.querySelector('.settings-theme-close').addEventListener('click', closeMenu);
-    menu.querySelectorAll('.theme-option').forEach(option => {
-      option.addEventListener('click', () => {
-        applyTheme(option.dataset.themeValue, true);
-      });
-    });
-
-    const notificationToggle = menu.querySelector('.notification-toggle');
-    const notificationStatus = menu.querySelector('.notification-setting-status');
-    const notificationTest = menu.querySelector('.notification-test-btn');
-
-    function updateNotificationUI(message) {
-      const isEnabled = notificationEnabled;
-      notificationToggle.classList.toggle('active', isEnabled);
-      notificationToggle.setAttribute('aria-checked', String(isEnabled));
-      notificationTest.classList.toggle('hidden', !isEnabled);
-      notificationStatus.textContent = message || (isEnabled ? '알림이 켜져 있습니다.' : '알림이 꺼져 있습니다.');
-    }
-
-    notificationToggle.addEventListener('click', async () => {
-      if (notificationEnabled) {
-        saveNotificationPreference(false);
-        updateNotificationUI();
-        return;
-      }
-
-      if ('Notification' in window && Notification.permission === 'default') {
-        try { await Notification.requestPermission(); } catch (e) { /* 브라우저 알림 미지원 */ }
-      }
-      if ('Notification' in window && Notification.permission === 'denied') {
-        saveNotificationPreference(false);
-        updateNotificationUI('브라우저 알림 권한이 차단되어 있습니다.');
-        return;
-      }
-      saveNotificationPreference(true);
-      updateNotificationUI();
-      showInAppNotification('알림 설정 완료', '시간이 걸리는 요청의 응답 완료 알림을 받습니다.');
-    });
-
-    notificationTest.addEventListener('click', () => {
-      notifyLongTask('AI-ONE 알림 테스트', '응답 완료 알림이 정상적으로 설정되었습니다.');
-    });
-
-    menu._updateNotificationUI = updateNotificationUI;
-    updateNotificationUI();
+    initSettingsPanels(menu);
     menu.addEventListener('click', event => event.stopPropagation());
     return menu;
+  }
+
+  function updateNotificationUI(panel, message = '') {
+    const toggle = panel?.querySelector('.notification-toggle');
+    const status = panel?.querySelector('.notification-setting-status');
+    if (!toggle || !status) return;
+
+    toggle.classList.toggle('active', notificationEnabled);
+    toggle.setAttribute('aria-checked', String(notificationEnabled));
+    status.textContent = message || (notificationEnabled ? '알림이 켜져 있습니다.' : '알림이 꺼져 있습니다.');
+  }
+
+  function updateAllNotificationUIs(message = '') {
+    document.querySelectorAll('[data-settings-panel]').forEach(panel => updateNotificationUI(panel, message));
+  }
+
+  function initSettingsPanels(root = document) {
+    const panels = [];
+    if (root instanceof Element && root.matches('[data-settings-panel]')) panels.push(root);
+    root.querySelectorAll?.('[data-settings-panel]').forEach(panel => panels.push(panel));
+
+    panels.forEach(panel => {
+      if (panel.dataset.settingsReady !== 'true') {
+        panel.addEventListener('click', event => {
+          if (event.target.closest('[data-accent-control]')) return;
+          panel.querySelectorAll('[data-accent-control].is-open')
+            .forEach(control => setAccentControlOpen(control, false));
+        });
+
+        panel.querySelectorAll('.theme-option').forEach(option => {
+          option.addEventListener('click', () => applyTheme(option.dataset.themeValue, true));
+        });
+
+        panel.querySelectorAll('[data-accent-control]').forEach(initAccentControl);
+
+        panel.querySelector('.notification-toggle')?.addEventListener('click', async () => {
+          if (notificationEnabled) {
+            saveNotificationPreference(false);
+            return;
+          }
+
+          if ('Notification' in window && Notification.permission === 'default') {
+            try { await Notification.requestPermission(); } catch (e) { /* 브라우저 알림 미지원 */ }
+          }
+          if ('Notification' in window && Notification.permission === 'denied') {
+            saveNotificationPreference(false);
+            updateAllNotificationUIs('브라우저 알림 권한이 차단되어 있습니다.');
+            return;
+          }
+
+          saveNotificationPreference(true);
+          showInAppNotification('알림 설정 완료', '시간이 걸리는 요청의 응답 완료 알림을 받습니다.');
+        });
+        panel.dataset.settingsReady = 'true';
+      }
+
+      updateNotificationUI(panel);
+    });
+    updateMenuSelection();
+    updateAccentSelection();
   }
 
 
@@ -357,11 +667,15 @@
       button.setAttribute('aria-expanded', 'true');
     }
     updateMenuSelection();
-    if (activeMenu._updateNotificationUI) activeMenu._updateNotificationUI();
+    initSettingsPanels(activeMenu);
     requestAnimationFrame(() => activeMenu.querySelector('.settings-theme-close')?.focus());
   }
 
   function closeMenu() {
+    if (activeMenu) {
+      activeMenu.querySelectorAll('[data-accent-control].is-open')
+        .forEach(control => setAccentControlOpen(control, false));
+    }
     if (activeMenu) activeMenu.classList.add('hidden');
     if (settingsLayerBackdrop) {
       settingsLayerBackdrop.classList.add('hidden');
@@ -469,7 +783,6 @@
       font: '<span class="accessory-font-symbol" aria-hidden="true"><small>A</small><strong>A</strong></span>',
       swap: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7H4m0 0 4 4M4 7l4-4M16 17h4m0 0-4-4m4 4-4 4"/></svg>',
       layout: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18"/></svg>',
-      reset: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v6h6"/></svg>',
       fullscreen: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>'
     };
     return icons[type] || '';
@@ -513,6 +826,7 @@
   function applyAccessoryFontPercent(percent) {
     const next = Math.min(150, Math.max(100, Math.round(Number(percent) || 100)));
     const scale = next / 100;
+    document.documentElement.style.removeProperty('zoom');
     document.documentElement.style.setProperty('--ui-font-scale', String(scale));
     try { localStorage.setItem(ACCESSORY_FONT_KEY, String(scale)); } catch (e) { /* 현재 화면에만 적용 */ }
 
@@ -541,41 +855,36 @@
     return { anchor: floating, floating: true };
   }
 
-  function sourceControl(id) {
-    return document.getElementById(id);
+  function accessorySourceId(tool, action) {
+    const sourceIds = {
+      swap: tool.dataset.accessorySwapTarget || 'panelSwapBtn',
+      layout: tool.dataset.accessoryLayoutTarget || 'layoutResetBtn'
+    };
+    return sourceIds[action] || '';
   }
 
-  function closeAllAccessoryTools(except) {
-    document.querySelectorAll('.accessory-tool.open').forEach(tool => {
-      if (tool === except) return;
-      tool.classList.remove('open');
-      tool.querySelector('.accessory-trigger')?.classList.remove('active');
-      tool.querySelector('.accessory-trigger')?.setAttribute('aria-expanded', 'false');
-      const closedTrigger = tool.querySelector('.accessory-trigger');
-      if (closedTrigger) { closedTrigger.title = '보조도구 모음'; closedTrigger.setAttribute('aria-label', '보조도구 모음'); }
-      tool.querySelector('.accessory-font-panel')?.classList.add('hidden');
-    });
+  function sourceControl(id) {
+    return id ? document.getElementById(id) : null;
   }
 
   function runAccessoryAction(action, tool) {
     const fontPanel = tool.querySelector('.accessory-font-panel');
 
     if (action === 'font') {
-      fontPanel.classList.toggle('hidden');
+      if (!fontPanel) return;
+      const opening = fontPanel.classList.contains('hidden');
+      fontPanel.classList.toggle('hidden', !opening);
+      tool.querySelector('[data-accessory-action="font"]')?.setAttribute('aria-expanded', String(opening));
       return;
     }
 
-    fontPanel.classList.add('hidden');
+    fontPanel?.classList.add('hidden');
+    tool.querySelector('[data-accessory-action="font"]')?.setAttribute('aria-expanded', 'false');
 
     if (action === 'fullscreen') {
       toggleAccessoryFullscreen();
     } else {
-      const sourceMap = {
-        swap: 'panelSwapBtn',
-        layout: 'layoutResetBtn',
-        reset: 'resetBtn'
-      };
-      const source = sourceControl(sourceMap[action]);
+      const source = sourceControl(accessorySourceId(tool, action));
 
       if (source && !source.disabled) {
         source.click();
@@ -584,32 +893,18 @@
           try { localStorage.removeItem(key); } catch (e) { /* 현재 화면에만 적용 */ }
         });
         window.location.reload();
-      } else if (action === 'reset') {
-        window.location.reload();
       }
     }
 
-    // 기능 실행 후에도 보조도구 레일은 열린 상태를 유지합니다.
-    // 보조도구 트리거를 다시 클릭하거나 ESC를 눌렀을 때만 닫힙니다.
+    // 보조도구 레일은 닫기 버튼을 누르기 전까지 열린 상태를 유지합니다.
   }
 
-  function initAccessoryTools() {
-    if (
-      document.body.classList.contains('login-page')
-      || document.body.classList.contains('button-preview-page')
-      || /(^|\/)login\.html(?:$|\?)/.test(location.pathname + location.search)
-    ) return;
-    if (document.querySelector('[data-accessory-tools]')) return;
-
-    ['fontSizeTool', 'panelSwapBtn', 'layoutResetBtn', 'resetBtn', 'fullscreenBtn'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.classList.add('accessory-source-control');
-    });
-
+  function createAccessoryTool() {
     const { anchor, floating } = findAccessoryAnchor();
     const tool = document.createElement('div');
     tool.className = `accessory-tool${floating ? ' accessory-tool-floating' : ''}`;
     tool.dataset.accessoryTools = 'true';
+    tool.dataset.accessoryGenerated = 'true';
     tool.innerHTML = `
       <button type="button" class="accessory-trigger" aria-label="보조도구 모음" title="보조도구 모음" aria-haspopup="true" aria-expanded="false">
         <span class="accessory-icon-closed">${accessoryIcon('tools')}</span><span class="accessory-icon-open">${accessoryIcon('tools-open')}</span>
@@ -623,9 +918,6 @@
         </button>
         <button type="button" class="accessory-action" data-accessory-action="layout" aria-label="레이아웃 초기화" title="레이아웃 초기화">
           <span class="accessory-action-icon">${accessoryIcon('layout')}</span>
-        </button>
-        <button type="button" class="accessory-action" data-accessory-action="reset" aria-label="초기화" title="초기화">
-          <span class="accessory-action-icon">${accessoryIcon('reset')}</span>
         </button>
         <button type="button" class="accessory-action" data-accessory-action="fullscreen" aria-label="전체화면" title="전체화면">
           <span class="accessory-action-icon">${accessoryIcon('fullscreen')}</span>
@@ -643,31 +935,39 @@
 
     // 보조도구는 우측 상단 액션 영역의 가장 마지막에 배치합니다.
     anchor.appendChild(tool);
+    return tool;
+  }
+
+  function bindAccessoryTool(tool) {
+    if (!tool || tool.dataset.accessoryReady === 'true') return;
 
     const trigger = tool.querySelector('.accessory-trigger');
     const fontPanel = tool.querySelector('.accessory-font-panel');
-    const swapAction = tool.querySelector('[data-accessory-action="swap"]');
-    const layoutAction = tool.querySelector('[data-accessory-action="layout"]');
+    if (!trigger || !fontPanel) return;
+    tool.dataset.accessoryReady = 'true';
 
-    const supportsPanelTools = Boolean(sourceControl('panelSwapBtn'));
-    if (!supportsPanelTools) {
-      [swapAction, layoutAction].forEach(button => {
+    ['swap', 'layout'].forEach(action => {
+      const button = tool.querySelector(`[data-accessory-action="${action}"]`);
+      const source = sourceControl(accessorySourceId(tool, action));
+      if (button && !source) {
         button.classList.add('is-disabled');
         button.setAttribute('aria-disabled', 'true');
         button.title = '패널형 화면에서 사용할 수 있습니다.';
-      });
-    }
+      }
+    });
 
     trigger.addEventListener('click', event => {
       event.stopPropagation();
       const opening = !tool.classList.contains('open');
-      closeAllAccessoryTools(opening ? tool : null);
       tool.classList.toggle('open', opening);
       trigger.classList.toggle('active', opening);
       trigger.setAttribute('aria-expanded', String(opening));
       trigger.title = '보조도구 모음';
       trigger.setAttribute('aria-label', '보조도구 모음');
-      if (!opening) fontPanel.classList.add('hidden');
+      if (!opening) {
+        fontPanel.classList.add('hidden');
+        tool.querySelector('[data-accessory-action="font"]')?.setAttribute('aria-expanded', 'false');
+      }
     });
 
     tool.querySelectorAll('[data-accessory-action]').forEach(button => {
@@ -678,33 +978,221 @@
       });
     });
 
-    tool.querySelector('[data-accessory-font-decrease]').addEventListener('click', event => {
+    tool.querySelector('[data-accessory-font-decrease]')?.addEventListener('click', event => {
       event.stopPropagation();
       applyAccessoryFontPercent(readAccessoryFontPercent() - 10);
     });
-    tool.querySelector('[data-accessory-font-increase]').addEventListener('click', event => {
+    tool.querySelector('[data-accessory-font-increase]')?.addEventListener('click', event => {
       event.stopPropagation();
       applyAccessoryFontPercent(readAccessoryFontPercent() + 10);
     });
-    tool.querySelector('.accessory-font-default').addEventListener('click', event => {
+    tool.querySelector('.accessory-font-default')?.addEventListener('click', event => {
       event.stopPropagation();
       applyAccessoryFontPercent(100);
     });
 
     fontPanel.addEventListener('click', event => event.stopPropagation());
     applyAccessoryFontPercent(readAccessoryFontPercent());
+  }
 
-    // 외부 영역을 클릭해도 보조도구는 접히지 않습니다.
-    // 보조도구 버튼을 다시 누르거나 ESC를 눌렀을 때 숨깁니다.
-    document.addEventListener('keydown', event => {
-      if (event.key === 'Escape') closeAllAccessoryTools(null);
+  function initAccessoryTools() {
+    if (
+      document.body.classList.contains('login-page')
+      || document.body.classList.contains('ai-chatbot-page')
+      || /(^|\/)login\.html(?:$|\?)/.test(location.pathname + location.search)
+    ) return;
+
+    let tools = Array.from(document.querySelectorAll('[data-accessory-tools]'));
+    const declaredTools = tools.filter(tool => tool.dataset.accessoryGenerated !== 'true');
+
+    if (declaredTools.length > 0) {
+      tools
+        .filter(tool => tool.dataset.accessoryGenerated === 'true')
+        .forEach(tool => tool.remove());
+      tools = declaredTools;
+    } else if (tools.length === 0 && !document.body.classList.contains('button-preview-page')) {
+      tools = [createAccessoryTool()];
+    }
+
+    tools.forEach(tool => {
+      ['fontSizeTool', accessorySourceId(tool, 'swap'), accessorySourceId(tool, 'layout'), 'resetBtn', 'fullscreenBtn']
+        .forEach(id => {
+          const element = sourceControl(id);
+          if (element) element.classList.add('accessory-source-control');
+        });
+      bindAccessoryTool(tool);
+    });
+
+  }
+
+  let userProfileTooltipSequence = 0;
+  const userProfileTooltipStates = new WeakMap();
+
+  function hideUserProfileTooltip(card) {
+    const tooltip = userProfileTooltipStates.get(card);
+    if (!tooltip) return;
+
+    tooltip.classList.remove('show');
+    window.setTimeout(() => {
+      if (!tooltip.classList.contains('show')) tooltip.classList.add('hidden');
+    }, 120);
+  }
+
+  function bindUserProfileTooltip(card) {
+    if (!card || card.dataset.profileTooltipReady === 'true' || card.closest('.chatbot-sidebar')) return;
+
+    const avatar = card.querySelector('.user-avatar');
+    if (!avatar) return;
+
+    card.dataset.profileTooltipReady = 'true';
+    const userName = card.querySelector('.user-name, .user-name-sm')?.textContent?.trim() || '박재정 주무관';
+    const userDept = card.querySelector('.user-dept')?.textContent?.trim() || '재정분석과';
+    const userRole = card.querySelector('.user-role-badge')?.textContent?.trim() || '국회담당자';
+    const tooltip = document.createElement('div');
+    tooltip.className = 'user-profile-hover-tooltip hidden';
+    tooltip.setAttribute('role', 'tooltip');
+    tooltip.id = `userProfileTooltip${++userProfileTooltipSequence}`;
+    const title = document.createElement('strong');
+    const name = document.createElement('span');
+    const department = document.createElement('span');
+    const role = document.createElement('em');
+    title.textContent = '담당자 기본정보';
+    name.textContent = userName;
+    department.textContent = userDept;
+    role.textContent = userRole;
+    tooltip.append(title, name, department, role);
+    document.body.appendChild(tooltip);
+    userProfileTooltipStates.set(card, tooltip);
+    avatar.setAttribute('aria-describedby', tooltip.id);
+
+    const showTooltip = () => {
+      const accountMenu = card.querySelector('.user-account-menu');
+      const menuOpen = accountMenu
+        && !accountMenu.hidden
+        && !accountMenu.classList.contains('hidden');
+      if (menuOpen) return;
+
+      const rect = avatar.getBoundingClientRect();
+      tooltip.classList.remove('hidden');
+      tooltip.style.visibility = 'hidden';
+      const width = tooltip.offsetWidth;
+      const height = tooltip.offsetHeight;
+      const left = Math.min(rect.right + 10, window.innerWidth - width - 10);
+      const top = Math.max(
+        10,
+        Math.min(rect.top + rect.height / 2 - height / 2, window.innerHeight - height - 10)
+      );
+      tooltip.style.left = `${Math.max(10, left)}px`;
+      tooltip.style.top = `${top}px`;
+      tooltip.style.visibility = '';
+      window.requestAnimationFrame(() => tooltip.classList.add('show'));
+    };
+
+    card.addEventListener('mouseenter', showTooltip);
+    card.addEventListener('mouseleave', () => hideUserProfileTooltip(card));
+    avatar.addEventListener('focus', showTooltip);
+    avatar.addEventListener('blur', () => hideUserProfileTooltip(card));
+    window.addEventListener('resize', () => hideUserProfileTooltip(card));
+    document.addEventListener('scroll', () => hideUserProfileTooltip(card), true);
+  }
+
+  window.AIOneUserProfileTooltip = Object.freeze({
+    bind: bindUserProfileTooltip,
+    hide: hideUserProfileTooltip
+  });
+
+  function openProfileAccountLayer(card) {
+    const userName = card?.querySelector('.user-name, .user-name-sm')?.textContent?.trim() || '박재정 주무관';
+    const userDept = card?.querySelector('.user-dept')?.textContent?.trim() || '재정분석과';
+    const userRole = card?.querySelector('.user-role-badge')?.textContent?.trim() || '국회담당자';
+
+    openAccountLayer({
+      title: '내 정보',
+      body: `
+        <div class="account-profile-summary">
+          <span class="account-profile-avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></svg>
+          </span>
+          <div><strong>${userName}</strong><span>${userDept}</span></div>
+        </div>
+        <dl class="account-profile-list">
+          <div><dt>이름·직위</dt><dd>${userName}</dd></div>
+          <div><dt>소속 부서</dt><dd>${userDept}</dd></div>
+          <div><dt>사용자 권한</dt><dd><span class="account-role-tag">${userRole}</span></dd></div>
+          <div><dt>로그인 방식</dt><dd>통합 ID · SSO</dd></div>
+        </dl>`,
+      confirmText: '확인',
+      hideCancel: true
     });
   }
 
+  function syncProfileModal(modal, card) {
+    if (!modal) return;
+    const userName = card?.querySelector('.user-name, .user-name-sm')?.textContent?.trim() || '박재정 주무관';
+    const userDept = card?.querySelector('.user-dept')?.textContent?.trim() || '재정분석과';
+    const userRole = card?.querySelector('.user-role-badge')?.textContent?.trim() || '국회담당자';
+
+    modal.querySelectorAll('[data-account-profile-name]').forEach(item => {
+      item.textContent = userName;
+    });
+    modal.querySelectorAll('[data-account-profile-dept]').forEach(item => {
+      item.textContent = userDept;
+    });
+    modal.querySelectorAll('[data-account-profile-role]').forEach(item => {
+      item.textContent = userRole;
+    });
+  }
+
+  function logout() {
+    try { localStorage.removeItem('sidebar-collapsed'); } catch (e) { /* 현재 화면 상태만 정리 */ }
+    window.location.href = new URL('login.html', document.baseURI).href;
+  }
+
+  function openLogoutAccountLayer() {
+    openAccountLayer({
+      title: '로그아웃',
+      body: `
+        <div class="account-logout-message">
+          <span class="account-layer-icon danger" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5"/></svg>
+          </span>
+          <div><strong>AI-ONE에서 로그아웃하시겠습니까?</strong></div>
+        </div>`,
+      confirmText: '로그아웃',
+      cancelText: '취소',
+      danger: true,
+      onConfirm: logout
+    });
+  }
+
+  document.addEventListener('sidebar:account-action', event => {
+    const action = event.detail?.action;
+    const trigger = event.detail?.trigger;
+    const modalTarget = trigger?.getAttribute('data-modal-open');
+    const modal = modalTarget ? document.getElementById(modalTarget) : null;
+
+    if (action === 'settings') {
+      if (modal) initSettingsPanels(modal);
+      else openMenu(trigger);
+    } else if (action === 'profile') {
+      if (modal) syncProfileModal(modal, trigger?.closest('.user-card'));
+      else openProfileAccountLayer(trigger?.closest('.user-card'));
+    } else if (action === 'logout') {
+      if (!trigger?.hasAttribute('data-modal-open')) openLogoutAccountLayer();
+    }
+  });
+
+  document.addEventListener('click', event => {
+    if (!event.target.closest('[data-sidebar-logout-confirm]')) return;
+    logout();
+  });
 
   function initUserAccountMenus() {
     document.querySelectorAll('.sidebar .user-card').forEach((card, index) => {
       if (card.dataset.accountMenuReady === 'true') return;
+      bindUserProfileTooltip(card);
+      if (card.querySelector('[data-sidebar-account-toggle]')) return;
+
       card.dataset.accountMenuReady = 'true';
       const avatar = card.querySelector('.user-avatar');
       const info = card.querySelector('.user-info');
@@ -747,6 +1235,7 @@
       };
       const toggle = event => {
         event.stopPropagation();
+        hideUserProfileTooltip(card);
         setOpen(menu.classList.contains('hidden'));
       };
       triggerParts.forEach(part => {
@@ -765,52 +1254,11 @@
         const action = button.dataset.accountAction;
         setOpen(false);
 
-        const userName = card.querySelector('.user-name, .user-name-sm')?.textContent?.trim() || '박재정 주무관';
-        const userDept = card.querySelector('.user-dept')?.textContent?.trim() || '재정분석과';
-        const userRole = card.querySelector('.user-role-badge')?.textContent?.trim() || '국회담당자';
-
         if (action === 'settings') {
           openMenu(settings || button);
         } else if (action === 'logout') {
-          openAccountLayer({
-            title: '로그아웃',
-            body: `
-              <div class="account-logout-message">
-                <span class="account-layer-icon danger" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5"/></svg>
-                </span>
-                <div>
-                  <strong>AI-ONE에서 로그아웃하시겠습니까?</strong>
-                </div>
-              </div>`,
-            confirmText: '로그아웃',
-            cancelText: '취소',
-            danger: true,
-            onConfirm: () => {
-              localStorage.removeItem('sidebar-collapsed');
-              window.location.href = 'login.html';
-            }
-          });
-        } else if (action === 'profile') {
-          openAccountLayer({
-            title: '내 정보',
-            body: `
-              <div class="account-profile-summary">
-                <span class="account-profile-avatar" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></svg>
-                </span>
-                <div><strong>${userName}</strong><span>${userDept}</span></div>
-              </div>
-              <dl class="account-profile-list">
-                <div><dt>이름·직위</dt><dd>${userName}</dd></div>
-                <div><dt>소속 부서</dt><dd>${userDept}</dd></div>
-                <div><dt>사용자 권한</dt><dd><span class="account-role-tag">${userRole}</span></dd></div>
-                <div><dt>로그인 방식</dt><dd>통합 ID · SSO</dd></div>
-              </dl>`,
-            confirmText: '확인',
-            hideCancel: true
-          });
-        }
+          openLogoutAccountLayer();
+        } else if (action === 'profile') openProfileAccountLayer(card);
       });
     });
 
@@ -833,7 +1281,6 @@
     const update = () => {
       const open = Array.from(document.querySelectorAll(selectors)).some(drawer => !drawer.classList.contains('hidden'));
       document.body.classList.toggle('drawer-layer-open', open);
-      if (open) closeAllAccessoryTools(null);
     };
     const drawers = document.querySelectorAll(selectors);
     drawers.forEach(drawer => new MutationObserver(update).observe(drawer, { attributes: true, attributeFilter: ['class'] }));
@@ -897,6 +1344,7 @@
 
   function initMessageReactionButtons(root = document) {
     root.querySelectorAll('.icon-button-message[data-action="like"], .icon-button-message[data-action="dislike"]').forEach(button => {
+      if (button.closest('[data-chat-message-list]')) return;
       if (button.dataset.reactionButtonReady === 'true') return;
 
       if (!button.hasAttribute('aria-pressed')) button.setAttribute('aria-pressed', 'false');
@@ -960,13 +1408,23 @@
   }
 
   document.addEventListener('app:includes-ready', () => {
+    initAnimatedBackgrounds();
+    initAccessoryTools();
+    initSettingsPanels();
     initFormFields();
     initFilterButtons();
     initMessageReactionButtons();
     initFileUploadZones();
   });
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('component:ready', event => {
+    initAnimatedBackgrounds(event.target);
     initAccessoryTools();
+    initSettingsPanels(event.target);
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    initAnimatedBackgrounds();
+    initAccessoryTools();
+    initSettingsPanels();
     initUserAccountMenus();
     observeDrawerLayering();
     initFormFields();

@@ -1,0 +1,216 @@
+<!-- Shared modal component fragment: scripts are loaded through the component registry. -->
+<div class="custom-modal-backdrop{{backdropClass}}" id="{{id}}" data-component="modal" data-modal hidden>
+	<section class="custom-modal modal-{{size}} modal-variant-{{variant}}{{modalClass}}" role="dialog" aria-modal="true"
+		data-modal-variant="{{variant}}" aria-label="{{label}}">
+	<div class="modal-variant-panel" data-modal-panel="action-menu">
+			<div class="modal-action-menu" role="menu">
+				<button type="button" class="modal-action-item" role="menuitem" data-modal-close>
+					<img class="modal-action-icon" src="../../assets/icons/share.svg" alt="" aria-hidden="true" />
+					대화 공유
+				</button>
+				<button type="button" class="modal-action-item" role="menuitem" data-modal-close>
+					<img class="modal-action-icon" src="../../assets/icons/pin.svg" alt="" aria-hidden="true" />
+					고정
+				</button>
+				<button type="button" class="modal-action-item" role="menuitem" data-modal-close>
+					<img class="modal-action-icon" src="../../assets/icons/edit.svg" alt="" aria-hidden="true" />
+					이름 변경
+				</button>
+				<button type="button" class="modal-action-item danger" role="menuitem" data-modal-close>
+					<img class="modal-action-icon" src="../../assets/icons/delete.svg" alt="" aria-hidden="true" />
+					삭제
+				</button>
+		</div>
+	</div>
+
+	<div class="modal-variant-panel" data-modal-panel="account-profile">
+		<div class="account-modal-head">
+			<div class="custom-modal-title">내 정보</div>
+			<button type="button" class="query-edit-modal-close" data-modal-close aria-label="닫기">×</button>
+		</div>
+		<div class="account-modal-body account-profile-content">
+			<div class="account-profile-summary">
+				<span class="account-profile-avatar" aria-hidden="true">
+					<svg viewBox="0 0 24 24">
+						<circle cx="12" cy="8" r="4"></circle>
+						<path d="M5 21a7 7 0 0 1 14 0"></path>
+					</svg>
+				</span>
+				<div>
+					<strong data-account-profile-name>박재정 주무관</strong>
+					<span data-account-profile-dept>재정분석과</span>
+				</div>
+			</div>
+			<dl class="account-profile-list">
+				<div><dt>이름·직위</dt><dd data-account-profile-name>박재정 주무관</dd></div>
+				<div><dt>소속 부서</dt><dd data-account-profile-dept>재정분석과</dd></div>
+				<div><dt>사용자 권한</dt><dd><span class="account-role-tag" data-account-profile-role>국회담당자</span></dd></div>
+				<div><dt>로그인 방식</dt><dd>통합 ID · SSO</dd></div>
+			</dl>
+		</div>
+		<div class="custom-modal-actions account-modal-actions">
+			<button type="button" class="btn-confirm" data-modal-close>확인</button>
+		</div>
+	</div>
+
+	<div class="modal-variant-panel" data-modal-panel="account-settings">
+		<div class="account-modal-head">
+			<div class="custom-modal-title">환경설정</div>
+			<button type="button" class="query-edit-modal-close" data-modal-close aria-label="닫기">×</button>
+		</div>
+		<div class="account-modal-body account-settings-content" data-settings-panel>
+			<section class="account-settings-section">
+				<div class="settings-section-title">화면 모드</div>
+				<div class="theme-option-list" role="radiogroup" aria-label="화면 모드 선택">
+					<button type="button" class="theme-option" data-theme-value="system" role="radio">
+						<span class="theme-option-icon">
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<rect x="3" y="4" width="18" height="14" rx="2"></rect>
+								<path d="M8 21h8M12 18v3"></path>
+							</svg>
+						</span>
+						<span class="theme-option-text"><strong>시스템</strong><small>기기 설정에 맞춤</small></span>
+						<span class="theme-option-check" aria-hidden="true"></span>
+					</button>
+					<button type="button" class="theme-option" data-theme-value="dark" role="radio">
+						<span class="theme-option-icon">
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.5 6.5 0 0 0 21 12.8z"></path>
+							</svg>
+						</span>
+						<span class="theme-option-text"><strong>다크 모드</strong><small>어두운 화면</small></span>
+						<span class="theme-option-check" aria-hidden="true"></span>
+					</button>
+					<button type="button" class="theme-option" data-theme-value="light" role="radio">
+						<span class="theme-option-icon">
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<circle cx="12" cy="12" r="4"></circle>
+								<path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path>
+							</svg>
+						</span>
+						<span class="theme-option-text"><strong>라이트 모드</strong><small>밝은 화면</small></span>
+						<span class="theme-option-check" aria-hidden="true"></span>
+					</button>
+				</div>
+			</section>
+			<section class="account-settings-section">
+				<div class="settings-section-title">강조 컬러</div>
+				<div class="settings-accent-control" data-accent-control>
+					<button type="button" class="settings-accent-trigger" data-accent-trigger
+						aria-haspopup="listbox" aria-expanded="false" aria-label="강조 컬러 선택">
+						<span class="settings-accent-swatch" aria-hidden="true"></span>
+						<span data-accent-label>기본값</span>
+						<span class="settings-accent-arrow" aria-hidden="true"></span>
+					</button>
+					<div class="settings-accent-options" data-accent-listbox role="listbox"
+						aria-label="강조 컬러 옵션" hidden>
+						<button type="button" class="settings-accent-option" role="option"
+							data-accent-value="default" aria-selected="true">
+							<span class="settings-accent-option-dot" aria-hidden="true"></span><span>기본값</span><span class="settings-accent-option-check" aria-hidden="true">✓</span>
+						</button>
+						<button type="button" class="settings-accent-option" role="option"
+							data-accent-value="blue" aria-selected="false">
+							<span class="settings-accent-option-dot" aria-hidden="true"></span><span>블루</span><span class="settings-accent-option-check" aria-hidden="true">✓</span>
+						</button>
+						<button type="button" class="settings-accent-option" role="option"
+							data-accent-value="green" aria-selected="false">
+							<span class="settings-accent-option-dot" aria-hidden="true"></span><span>그린</span><span class="settings-accent-option-check" aria-hidden="true">✓</span>
+						</button>
+						<button type="button" class="settings-accent-option" role="option"
+							data-accent-value="yellow" aria-selected="false">
+							<span class="settings-accent-option-dot" aria-hidden="true"></span><span>옐로</span><span class="settings-accent-option-check" aria-hidden="true">✓</span>
+						</button>
+						<button type="button" class="settings-accent-option" role="option"
+							data-accent-value="pink" aria-selected="false">
+							<span class="settings-accent-option-dot" aria-hidden="true"></span><span>핑크</span><span class="settings-accent-option-check" aria-hidden="true">✓</span>
+						</button>
+						<button type="button" class="settings-accent-option" role="option"
+							data-accent-value="orange" aria-selected="false">
+							<span class="settings-accent-option-dot" aria-hidden="true"></span><span>오렌지</span><span class="settings-accent-option-check" aria-hidden="true">✓</span>
+						</button>
+						<button type="button" class="settings-accent-option" role="option"
+							data-accent-value="purple" aria-selected="false">
+							<span class="settings-accent-option-dot" aria-hidden="true"></span><span>퍼플</span><span class="settings-accent-option-check" aria-hidden="true">✓</span>
+						</button>
+					</div>
+				</div>
+			</section>
+			<section class="account-settings-section">
+				<div class="settings-section-title">알림</div>
+				<div class="notification-setting-row">
+					<div class="notification-setting-text">
+						<strong>응답 완료 알림</strong>
+						<small>시간이 걸리는 요청에 응답할 때 알림을 받습니다.</small>
+						<span class="notification-setting-status" aria-live="polite"></span>
+					</div>
+					<button type="button" class="notification-toggle" role="switch" aria-checked="false"
+						aria-label="응답 완료 알림 설정"><span></span></button>
+				</div>
+			</section>
+		</div>
+	</div>
+
+	<div class="modal-variant-panel" data-modal-panel="notification-assignee" data-notification-assignee>
+		<div class="notification-modal-head">
+			<div>
+				<div class="custom-modal-title notification-modal-title">실국별 알림 담당자 설정</div>
+				<div class="notification-modal-desc">
+					재정경제부 조직도 기준으로 알림을 받을 실국담당자를 지정합니다. 주관국·협조국 확정 후 지정된 담당자에게 알림이 전송됩니다.
+				</div>
+			</div>
+			<button type="button" class="notification-modal-close" data-modal-close aria-label="닫기">×</button>
+		</div>
+		<div class="notification-process-note">
+			<img src="../../assets/icons/add-circle.svg" alt="" aria-hidden="true" />
+			<span>재정경제부 조직도에서 부총리·차관 소관 조직을 선택한 후 실국별 알림 담당자를 지정합니다. 질의 확정 시 주관국·협조국을 기준으로 수신자가 자동 설정됩니다.</span>
+		</div>
+		<div class="notification-org-layout">
+			<aside class="notification-org-panel" aria-label="조직 선택">
+				<div class="notification-org-panel-title">조직 선택</div>
+				<div class="notification-org-list" data-notification-org-list></div>
+			</aside>
+			<section class="notification-dept-panel" aria-label="실국별 담당자">
+				<div class="notification-dept-toolbar">
+					<label class="drawer-list-search notification-dept-search">
+						<img src="../../assets/icons/search.svg" alt="" aria-hidden="true" />
+						<input type="search" placeholder="실국명 또는 담당자 검색"
+							aria-label="실국명 또는 담당자 검색" autocomplete="off"
+							data-notification-search />
+						<button type="button" class="drawer-search-clear notification-dept-search-clear"
+							data-notification-search-clear aria-label="검색어 지우기" hidden>×</button>
+					</label>
+					<div class="notification-dept-result" data-notification-result></div>
+				</div>
+				<div class="notification-dept-grid" data-notification-dept-grid></div>
+			</section>
+		</div>
+		<div class="notification-dept-feedback" data-notification-feedback aria-live="polite"></div>
+		<div class="custom-modal-actions notification-modal-actions">
+			<button type="button" class="btn-cancel" data-modal-close>취소</button>
+			<button type="button" class="btn-confirm" data-notification-save data-modal-close>설정 저장</button>
+		</div>
+	</div>
+
+	<div class="modal-variant-panel" data-modal-panel="content">
+			<div class="custom-modal-icon danger" data-modal-icon="default" aria-hidden="true">⚠</div>
+			<div class="custom-modal-icon confirm" data-modal-icon="question" aria-hidden="true">
+				<img src="../../assets/icons/home.svg" alt="" />
+			</div>
+			<div class="custom-modal-icon alert" data-modal-icon="alert" aria-hidden="true">!</div>
+			<div class="custom-modal-icon logout" data-modal-icon="logout" aria-hidden="true">
+				<img src="../../assets/icons/logout.svg" alt="" />
+			</div>
+			<div class="custom-modal-icon rename" data-modal-icon="rename" aria-hidden="true">
+				<img src="../../assets/icons/edit.svg" alt="" />
+			</div>
+			<div class="custom-modal-title" id="{{id}}-title" data-slot="title">작업을 삭제할까요?</div>
+			<div class="custom-modal-msg" id="{{id}}-description" data-slot="description">
+				삭제한 작업은 다시 복구할 수 없습니다.
+			</div>
+			<div class="custom-modal-actions" data-slot="actions">
+				<button type="button" class="btn-cancel" data-modal-close>취소</button>
+				<button type="button" class="btn-confirm danger">삭제</button>
+			</div>
+		</div>
+	</section>
+</div>

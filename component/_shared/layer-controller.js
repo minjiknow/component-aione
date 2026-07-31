@@ -85,8 +85,10 @@
     document.addEventListener('keydown', event => {
       const layer = getOpenLayers().at(-1);
       if (!layer) return;
+      if (event.defaultPrevented) return;
 
       if (event.key === 'Escape') {
+        if (event.target.closest?.('[data-dropdown-menu].is-open')) return;
         event.preventDefault();
         setOpen(layer, false);
         return;

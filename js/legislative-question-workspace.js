@@ -6,29 +6,43 @@
 
 	const emptyScripts = [];
 	components.register('sidebar', {
-		fragment: 'sidebar/sidebar.html?v=20260728-2',
-		styles: ['button/button.css', 'sidebar/sidebar.css'],
-		scripts: emptyScripts
+		fragment: 'sidebar/sidebar.html?v=20260730-6',
+		styles: ['button/button.css?v=20260730-9', 'sidebar/sidebar.css?v=20260730-6'],
+		scripts: ['sidebar/sidebar.js?v=20260730-6']
 	});
 	components.register('topbar', {
-		fragment: 'topbar/topbar.html?v=20260728-1',
-		styles: ['button/button.css?v=20260728-2', 'topbar/topbar.css?v=20260728-1'],
+		defaults: {
+			title: 'AI 워크스페이스',
+			subtitle: 'AI 기반 업무 지원'
+		},
+		fragment: 'topbar/topbar.fragment?v=20260730-1',
+		styles: ['button/button.css?v=20260730-9', 'topbar/topbar.css?v=20260730-1'],
 		scripts: emptyScripts
 	});
 	components.register('panel', {
 		fragment: 'panel/panel.html',
-		styles: ['panel/panel.css'],
+		styles: ['panel/panel.css?v=20260729-2'],
 		scripts: emptyScripts
 	});
 	components.register('three-panel', {
-		fragment: 'panel/three-panel.html',
-		styles: ['panel/panel.css'],
-		scripts: emptyScripts
+		fragment: 'panel/three-panel.html?v=20260729-2',
+		defaults: {
+			leftSize: 'medium',
+			rightSize: 'large'
+		},
+		styles: ['panel/panel.css?v=20260729-3', 'handler/handler.css?v=20260730-1'],
+		scripts: ['handler/handler.js?v=20260730-2']
 	});
 	components.register('file-upload', {
 		fragment: 'file-upload/file-upload.html',
-		styles: ['file-upload/file-upload.css'],
+		styles: ['file-upload/file-upload.css?v=20260729-2'],
 		scripts: emptyScripts
+	});
+	components.register('progressbar', {
+		fragment: 'progressbar/progressbar.fragment.html',
+		defaults: { value: '0' },
+		styles: ['progressbar/progressbar.css?v=20260729-2'],
+		scripts: ['progressbar/progressbar.js?v=20260729-2']
 	});
 
 	const iconBaseUrl = new URL('../assets/icons/', document.baseURI);
@@ -72,7 +86,8 @@
 			mainDept: '국제금융국',
 			coopDept: '경제정책국',
 			reason: '복수 부서 업무영역에 걸친 복합 질의로 판단',
-			confidence: 78
+			confidence: 78,
+			needsReview: true
 		},
 		{
 			id: 5,
@@ -88,6 +103,7 @@
 	const panelHandleWidth = 2;
 	const panelStates = new WeakMap();
 	let pendingDeleteFileItem = null;
+	let workspaceInitialFileItems = null;
 
 	function hydrateIcons(root = document) {
 		root.querySelectorAll?.('img[data-icon]').forEach(icon => {
@@ -152,8 +168,9 @@
 		collapseButton?.addEventListener('click', () => {
 			setCollapsed(!sidebar.classList.contains('collapsed'));
 		});
-		brandButton?.addEventListener('click', () => {
+		brandButton?.addEventListener('click', event => {
 			if (sidebar.classList.contains('collapsed')) {
+				event.preventDefault();
 				setCollapsed(false);
 				return;
 			}
@@ -162,12 +179,79 @@
 	}
 
 	function enhanceTopbar(host) {
+		const actions = host.querySelector('.app-topbar-actions');
 		const topbar = host.querySelector('.app-topbar');
-		if (!topbar || topbar.dataset.workspaceReady === 'true') return;
+		if (!actions || !topbar || topbar.dataset.workspaceReady === 'true') return;
 
 		topbar.dataset.workspaceReady = 'true';
-		topbar.querySelector('[data-topbar-title]').textContent = '국회질의분류 AI 워크스페이스';
-		topbar.querySelector('[data-topbar-subtitle]').textContent = '질의 업로드 · OCR/파싱 · 질의 분류 · 추천실국 확인';
+
+		const runListButton = actions.querySelector('#runDrawerBtn');
+		const ruleSettingsButton = actions.querySelector('#ruleManageBtn');
+		const notificationAssigneeButton = actions.querySelector('#notificationAssigneeBtn');
+		if (runListButton) {
+			runListButton.dataset.sidepopOpen = 'workspaceRunListSidepop';
+			runListButton.dataset.sidepopVariant = 'run-list';
+			runListButton.setAttribute('aria-label', '질의분류 목록');
+			runListButton.title = '질의분류 목록';
+		}
+		if (ruleSettingsButton) {
+			ruleSettingsButton.dataset.sidepopOpen = 'workspaceRuleSettingsSidepop';
+			ruleSettingsButton.setAttribute('aria-label', '분류 룰 설정');
+			ruleSettingsButton.title = '분류 룰 설정';
+		}
+		if (notificationAssigneeButton) {
+			notificationAssigneeButton.dataset.modalOpen = 'workspaceNotificationAssigneeModal';
+		}
+
+		const titleButton = topbar.querySelector('[data-workspace-title-button]');
+		const titleText = topbar.querySelector('[data-workspace-title-text]');
+		const titleInput = topbar.querySelector('[data-workspace-title-input]');
+		const memberInput = topbar.querySelector('[data-workspace-member-count]');
+		const closeTitleEditor = shouldSave => {
+			if (!titleButton || !titleText || !titleInput) return;
+			if (titleInput.hidden) return;
+			const nextTitle = titleInput.value.trim();
+			if (shouldSave && nextTitle) {
+				titleText.textContent = nextTitle;
+				titleInput.value = nextTitle;
+				topbar.dispatchEvent(new CustomEvent('workspace:title-change', {
+					bubbles: true,
+					detail: { title: nextTitle }
+				}));
+			} else {
+				titleInput.value = titleText.textContent;
+			}
+			titleInput.hidden = true;
+			titleButton.hidden = false;
+			titleButton.focus();
+		};
+
+		titleButton?.addEventListener('click', () => {
+			titleButton.hidden = true;
+			titleInput.hidden = false;
+			titleInput.focus();
+			titleInput.select();
+		});
+		titleInput?.addEventListener('blur', () => closeTitleEditor(true));
+		titleInput?.addEventListener('keydown', event => {
+			if (event.key === 'Enter') {
+				event.preventDefault();
+				closeTitleEditor(true);
+			}
+			if (event.key === 'Escape') {
+				event.preventDefault();
+				closeTitleEditor(false);
+			}
+		});
+		memberInput?.addEventListener('input', () => {
+			const memberCount = Math.min(999, Math.max(0, Number(memberInput.value) || 0));
+			memberInput.value = String(memberCount);
+			syncUploadSummary();
+			topbar.dispatchEvent(new CustomEvent('workspace:member-count-change', {
+				bubbles: true,
+				detail: { memberCount }
+			}));
+		});
 
 		hydrateIcons(topbar);
 		syncFullscreenButton();
@@ -175,41 +259,182 @@
 
 	function initFileUpload(host) {
 		const zone = host.querySelector('[data-file-upload-zone]');
-		const input = zone?.querySelector('input[type="file"]');
-		if (!zone || !input || zone.dataset.workspaceReady === 'true') return;
+		if (!zone || zone.dataset.workspaceReady === 'true') return;
 
 		zone.dataset.workspaceReady = 'true';
-		const announceFiles = files => {
-			const count = Array.from(files || []).length;
+		zone.addEventListener('app:file-upload', event => {
+			const files = Array.from(event.detail?.files || []);
+			files.forEach(addWorkspaceFileItem);
+			const count = files.length;
+			if (count) {
+				document.body.classList.remove('is-new-workspace');
+				document.querySelectorAll('[data-workspace-empty]').forEach(emptyState => {
+					emptyState.hidden = true;
+				});
+				syncUploadSummary();
+			}
 			if (count) showToast(`${count}개 파일을 업로드 목록에 추가했습니다.`);
-		};
+		});
+	}
 
-		zone.addEventListener('click', event => {
-			if (event.target !== input) input.click();
-		});
-		zone.addEventListener('keydown', event => {
-			if (!['Enter', ' '].includes(event.key)) return;
-			event.preventDefault();
-			input.click();
-		});
-		input.addEventListener('change', () => {
-			announceFiles(input.files);
-			input.value = '';
-		});
-		zone.addEventListener('dragover', event => {
-			event.preventDefault();
-			zone.classList.add('dragover');
-		});
-		zone.addEventListener('dragleave', event => {
-			if (!event.relatedTarget || !zone.contains(event.relatedTarget)) {
-				zone.classList.remove('dragover');
+	function workspaceFileItems(list = document.querySelector('.workspace-file-list')) {
+		return Array.from(list?.querySelectorAll(':scope > li[data-file-idx]') || []);
+	}
+
+	function syncWorkspaceFileIndexes(list = document.querySelector('.workspace-file-list')) {
+		if (!list) return;
+		const items = workspaceFileItems(list);
+		items.forEach((item, index) => {
+			if (!Number.isFinite(Number(item.dataset.fileInitialIndex))) {
+				item.dataset.fileInitialIndex = String(index);
 			}
 		});
-		zone.addEventListener('drop', event => {
-			event.preventDefault();
-			zone.classList.remove('dragover');
-			announceFiles(event.dataTransfer?.files);
+		items
+			.slice()
+			.sort((a, b) => (
+				Number(a.dataset.fileInitialIndex) - Number(b.dataset.fileInitialIndex)
+			))
+			.forEach((item, index) => {
+				const fileIndex = item.querySelector('.file-index');
+				if (fileIndex) fileIndex.textContent = String(items.length - index);
+			});
+	}
+
+	function fileSizeLabel(size) {
+		const bytes = Number(size) || 0;
+		if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))}KB`;
+		return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
+	}
+
+	function fileExtension(fileName) {
+		const extension = String(fileName || '').split('.').pop()?.toLowerCase();
+		return ['pdf', 'hwp', 'docx', 'txt'].includes(extension) ? extension : 'file';
+	}
+
+	function nextWorkspaceFileNumber(list, selector, fallback) {
+		const values = Array.from(list.querySelectorAll(selector))
+			.map(element => Number(element.dataset.fileIdx ?? element.textContent))
+			.filter(Number.isFinite);
+		return values.length ? Math.max(...values) + 1 : fallback;
+	}
+
+	function addWorkspaceFileItem(file) {
+		const list = document.querySelector('.workspace-file-list');
+		if (!list || !file) return;
+
+		const extension = fileExtension(file.name);
+		const dataIndex = nextWorkspaceFileNumber(list, ':scope > li[data-file-idx]', 0);
+		const displayIndex = workspaceFileItems(list).length + 1;
+		const initialIndexes = workspaceFileItems(list)
+			.map(item => Number(item.dataset.fileInitialIndex))
+			.filter(Number.isFinite);
+		const item = document.createElement('li');
+		item.dataset.fileIdx = String(dataIndex);
+		item.dataset.fileInitialIndex = String(initialIndexes.length ? Math.min(...initialIndexes) - 1 : 0);
+
+		const mainButton = document.createElement('button');
+		mainButton.className = 'file-item-main';
+		mainButton.type = 'button';
+
+		const index = document.createElement('span');
+		index.className = 'file-index';
+		index.textContent = String(displayIndex);
+
+		const dot = document.createElement('span');
+		dot.className = `file-type-dot ${extension}`;
+		dot.setAttribute('aria-hidden', 'true');
+
+		const collapsedIcon = document.createElement('span');
+		collapsedIcon.className = `file-icon file-icon-collapsed ${extension}`;
+		collapsedIcon.setAttribute('aria-hidden', 'true');
+		collapsedIcon.textContent = extension === 'file' ? 'FILE' : extension.toUpperCase();
+
+		const info = document.createElement('span');
+		info.className = 'file-info';
+		const name = document.createElement('span');
+		name.className = 'file-name';
+		name.textContent = file.name || `업로드 파일 ${displayIndex}`;
+		const meta = document.createElement('span');
+		meta.className = 'file-meta';
+		meta.textContent = fileSizeLabel(file.size);
+		info.append(name, meta);
+		mainButton.append(index, dot, collapsedIcon, info);
+
+		const side = document.createElement('span');
+		side.className = 'file-item-side';
+		const statusGroup = document.createElement('span');
+		statusGroup.className = 'file-status-group';
+		const status = document.createElement('span');
+		status.className = 'file-status';
+		status.textContent = '분석 대기';
+		statusGroup.append(status);
+		const moreButton = document.createElement('button');
+		moreButton.type = 'button';
+		moreButton.className = 'file-more-btn';
+		moreButton.setAttribute('aria-label', '파일 옵션');
+		const moreIcon = document.createElement('img');
+		moreIcon.className = 'icon icon-small';
+		moreIcon.dataset.icon = 'more-horizontal';
+		moreIcon.alt = '';
+		moreIcon.setAttribute('aria-hidden', 'true');
+		moreButton.append(moreIcon);
+		side.append(statusGroup, moreButton);
+
+		item.append(mainButton, side);
+		list.append(item);
+		initFileActionMenus(list);
+		sortFileItems(list);
+		hydrateIcons(item);
+	}
+
+	function syncUploadSummary() {
+		const list = document.querySelector('.workspace-file-list');
+		if (!list) return;
+
+		const items = workspaceFileItems(list);
+		syncWorkspaceFileIndexes(list);
+		const fileCount = items.length;
+		const queryCount = items.reduce((sum, item) => {
+			const value = Number(item.querySelector('.query-count')?.textContent.match(/\d+/)?.[0]);
+			return sum + (Number.isFinite(value) ? value : 0);
+		}, 0);
+		const memberInput = document.querySelector('[data-workspace-member-count]');
+		const memberCount = Math.min(999, Math.max(0, Number(memberInput?.value) || 0));
+
+		document.querySelectorAll('.upload-summary-file-count').forEach(element => {
+			element.textContent = String(fileCount);
 		});
+		document.querySelectorAll('.upload-summary-member-count').forEach(element => {
+			element.textContent = String(memberCount);
+		});
+
+		const summary = document.querySelector('[data-upload-summary-message]');
+		if (summary) {
+			summary.textContent = queryCount > 0
+				? `${queryCount}건 질의 확인`
+				: fileCount > 0
+					? '질의 분석 대기'
+					: '입수 대기';
+		}
+
+		const footer = document.querySelector('.upload-summary-footer');
+		footer?.setAttribute('aria-label', `입수 현황: 파일 ${fileCount}, 의원 ${memberCount}`);
+		const emptyList = document.querySelector('.workspace-file-empty-list');
+		if (emptyList) emptyList.hidden = fileCount > 0;
+		list.classList.toggle('hidden', fileCount === 0);
+	}
+
+	function observeWorkspaceFileList(root = document) {
+		const list = root.querySelector?.('.workspace-file-list')
+			|| (root.matches?.('.workspace-file-list') ? root : null);
+		if (!list || list.dataset.summaryReady === 'true') return;
+
+		if (!workspaceInitialFileItems) {
+			workspaceInitialFileItems = workspaceFileItems(list).map(item => item.cloneNode(true));
+		}
+		new MutationObserver(syncUploadSummary).observe(list, { childList: true });
+		list.dataset.summaryReady = 'true';
+		syncUploadSummary();
 	}
 
 	function getPanelSlots(container) {
@@ -262,6 +487,75 @@
 
 		container.style.gridTemplateColumns = createPanelColumns(panels, widths);
 		syncPanelHandleAria(container);
+	}
+
+	function syncPanelCollapsedState(panel, isCollapsed) {
+		const panelComponent = panel.querySelector('.panel-component');
+		const collapseButton = panel.querySelector('[data-panel-action="collapse"]');
+		const fileListSection = panel.querySelector('.file-list-section');
+		panel.classList.toggle('panel-collapsed', isCollapsed);
+		panelComponent?.classList.toggle('panel-collapsed', isCollapsed);
+		fileListSection?.classList.toggle('is-collapsed', isCollapsed);
+		if (!collapseButton) return;
+
+		const actionLabel = isCollapsed ? '업로드 패널 펼치기' : '업로드 패널 접기';
+		collapseButton.setAttribute('aria-expanded', String(!isCollapsed));
+		collapseButton.setAttribute('aria-label', actionLabel);
+		collapseButton.title = actionLabel;
+	}
+
+	function setPanelCollapsed(panel, isCollapsed, container) {
+		const panels = getPanelSlots(container);
+		if (!panels.includes(panel)) return;
+
+		const widths = readPanelWidths(container);
+		const currentWidth = widths.get(panel);
+		if (!Number.isFinite(currentWidth)) return;
+
+		if (isCollapsed) {
+			panel.dataset.panelExpandedWidth = String(currentWidth);
+		} else {
+			panel.querySelector('.panel-component')?.classList.remove('panel-collapsed');
+			panel.classList.remove('panel-collapsed');
+		}
+
+		const expandedWidth = Number(panel.dataset.panelExpandedWidth);
+		const nextWidth = isCollapsed
+			? 44
+			: (Number.isFinite(expandedWidth) ? expandedWidth : currentWidth);
+		const flexiblePanel = panels.find(item => item !== panel && item.dataset.slot === 'center');
+		const widthDifference = currentWidth - nextWidth;
+		widths.set(panel, nextWidth);
+
+		if (flexiblePanel) {
+			const flexibleWidth = widths.get(flexiblePanel);
+			const nextFlexibleWidth = flexibleWidth + widthDifference;
+			if (nextFlexibleWidth >= panelMinWidth) widths.set(flexiblePanel, nextFlexibleWidth);
+		}
+
+		applyPanelWidths(container, widths);
+		syncPanelCollapsedState(panel, isCollapsed);
+		if (!isCollapsed) delete panel.dataset.panelExpandedWidth;
+	}
+
+	function bindPanelCollapse(container) {
+		getPanelSlots(container).forEach(panel => {
+			const collapseButton = panel.querySelector('[data-panel-action="collapse"]');
+			if (collapseButton && collapseButton.dataset.panelCollapseReady !== 'true') {
+				collapseButton.dataset.panelCollapseReady = 'true';
+				collapseButton.addEventListener('click', () => {
+					setPanelCollapsed(panel, !panel.classList.contains('panel-collapsed'), container);
+				});
+			}
+
+			const addButton = panel.querySelector('[data-file-list-add]');
+			if (addButton && addButton.dataset.fileListAddReady !== 'true') {
+				addButton.dataset.fileListAddReady = 'true';
+				addButton.addEventListener('click', () => {
+					panel.querySelector('input[type="file"]')?.click();
+				});
+			}
+		});
 	}
 
 	function rebuildPanelOrder(container, panels) {
@@ -332,77 +626,17 @@
 		state.initialOrder.forEach(panel => {
 			panel.classList.remove('drag-over');
 			panel.style.removeProperty('opacity');
-			panel.querySelector('.panel-component')?.classList.remove('panel-collapsed');
+			syncPanelCollapsedState(panel, false);
+			delete panel.dataset.panelExpandedWidth;
 		});
 		rebuildPanelOrder(container, state.initialOrder);
 		container.style.removeProperty('grid-template-columns');
+		document.querySelectorAll('[data-component="split-handler"]').forEach(split => {
+			window.AIOneSplitHandler?.reset(split);
+		});
+		document.querySelector('.comparison-meta')?.style.removeProperty('grid-template-columns');
 		window.requestAnimationFrame(() => syncPanelHandleAria(container));
 		return true;
-	}
-
-	function bindPanelResize(container) {
-		container.addEventListener('mousedown', event => {
-			const handle = event.target.closest('.panel-resize-handle');
-			if (!handle || handle.parentElement !== container) return;
-
-			const handleIndex = getPanelHandles(container).indexOf(handle);
-			const panels = getPanelSlots(container);
-			const leftPanel = panels[handleIndex];
-			const rightPanel = panels[handleIndex + 1];
-			if (handleIndex < 0 || !leftPanel || !rightPanel) return;
-
-			event.preventDefault();
-			const startX = event.clientX;
-			const startWidths = readPanelWidths(container);
-			const startLeftWidth = startWidths.get(leftPanel);
-			const adjacentWidth = startLeftWidth + startWidths.get(rightPanel);
-			const minimum = Math.min(panelMinWidth, Math.floor(adjacentWidth / 2));
-			handle.classList.add('active');
-			document.body.style.cursor = 'col-resize';
-			document.body.style.userSelect = 'none';
-
-			const onMouseMove = moveEvent => {
-				const requestedLeftWidth = startLeftWidth + moveEvent.clientX - startX;
-				const leftWidth = Math.min(Math.max(Math.round(requestedLeftWidth), minimum), adjacentWidth - minimum);
-				const widths = new Map(startWidths);
-				widths.set(leftPanel, leftWidth);
-				widths.set(rightPanel, adjacentWidth - leftWidth);
-				applyPanelWidths(container, widths);
-			};
-
-			const onMouseUp = () => {
-				handle.classList.remove('active');
-				document.body.style.cursor = '';
-				document.body.style.userSelect = '';
-				document.removeEventListener('mousemove', onMouseMove);
-				document.removeEventListener('mouseup', onMouseUp);
-			};
-
-			document.addEventListener('mousemove', onMouseMove);
-			document.addEventListener('mouseup', onMouseUp);
-		});
-
-		container.addEventListener('keydown', event => {
-			const handle = event.target.closest('.panel-resize-handle');
-			if (!handle || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
-
-			const handleIndex = getPanelHandles(container).indexOf(handle);
-			const panels = getPanelSlots(container);
-			const leftPanel = panels[handleIndex];
-			const rightPanel = panels[handleIndex + 1];
-			if (handleIndex < 0 || !leftPanel || !rightPanel) return;
-
-			event.preventDefault();
-			const widths = readPanelWidths(container);
-			const leftWidth = widths.get(leftPanel);
-			const adjacentWidth = leftWidth + widths.get(rightPanel);
-			const minimum = Math.min(panelMinWidth, Math.floor(adjacentWidth / 2));
-			const difference = (event.key === 'ArrowRight' ? 1 : -1) * (event.shiftKey ? 32 : 16);
-			const nextLeftWidth = Math.min(Math.max(leftWidth + difference, minimum), adjacentWidth - minimum);
-			widths.set(leftPanel, nextLeftWidth);
-			widths.set(rightPanel, adjacentWidth - nextLeftWidth);
-			applyPanelWidths(container, widths);
-		});
 	}
 
 	function bindPanelDragDrop(container) {
@@ -540,20 +774,23 @@
 		});
 		panelStates.set(container, { initialOrder: panels.slice() });
 		container.dataset.workspacePanelsReady = 'true';
-		bindPanelResize(container);
+		bindPanelCollapse(container);
 		bindPanelDragDrop(container);
 		bindPanelHeaderSwitch(container);
 		syncPanelHandleAria(container);
 	}
 
 	function sortFileItems(list) {
+		if (!list) return;
 		const items = Array.from(list.querySelectorAll(':scope > li[data-file-idx]'));
+		const direction = list.dataset.sortOrder === 'oldest' ? -1 : 1;
 		items
 			.sort((a, b) => (
 				Number(b.classList.contains('pinned')) - Number(a.classList.contains('pinned'))
-				|| Number(a.dataset.fileInitialIndex) - Number(b.dataset.fileInitialIndex)
+				|| direction * (Number(a.dataset.fileInitialIndex) - Number(b.dataset.fileInitialIndex))
 			))
 			.forEach(item => list.append(item));
+		syncWorkspaceFileIndexes(list);
 	}
 
 	function syncPinnedFileItem(item, isPinned) {
@@ -631,12 +868,7 @@
 		const wasActive = item.classList.contains('active');
 		item.remove();
 		if (wasActive) list?.querySelector('li[data-file-idx]')?.classList.add('active');
-
-		const summaryCount = document.querySelector('.upload-summary-value strong');
-		const currentCount = Number(summaryCount?.textContent);
-		if (summaryCount && Number.isFinite(currentCount)) {
-			summaryCount.textContent = String(Math.max(0, currentCount - 1));
-		}
+		syncUploadSummary();
 		showToast('파일이 삭제되었습니다.');
 	}
 
@@ -689,6 +921,19 @@
 		const selectedIndex = questions.findIndex(question => question.classList.contains('is-selected'));
 		const nextIndex = Math.min(questions.length - 1, Math.max(0, selectedIndex + direction));
 		if (nextIndex !== selectedIndex) selectQuestion(questions[nextIndex]);
+	}
+
+	function focusSelectedSourceQuestion() {
+		const selectedQuestion = document.querySelector(`${questionSelector}.is-selected`);
+		if (!selectedQuestion) return;
+
+		selectedQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
+		selectedQuestion.focus({ preventScroll: true });
+	}
+
+	function resetWorkspaceDocumentZoom() {
+		const statusbar = document.querySelector('.comparison-panel-host [data-document-statusbar]');
+		window.AIOneDocumentStatusBar?.setZoom(statusbar, 100);
 	}
 
 	async function copyResult(type) {
@@ -745,6 +990,14 @@
 
 	function setWorkspaceEmptyState(isEmpty) {
 		document.body.classList.toggle('is-new-workspace', isEmpty);
+		const fileList = document.querySelector('.workspace-file-list');
+		if (fileList && isEmpty) {
+			fileList.replaceChildren();
+		} else if (fileList && workspaceFileItems(fileList).length === 0 && workspaceInitialFileItems) {
+			fileList.replaceChildren(...workspaceInitialFileItems.map(item => item.cloneNode(true)));
+			initFileActionMenus(fileList);
+			hydrateIcons(fileList);
+		}
 		document.querySelectorAll('[data-workspace-empty]').forEach(emptyState => {
 			emptyState.hidden = !isEmpty;
 		});
@@ -752,8 +1005,7 @@
 		const fileInput = document.getElementById('workspaceFileInput');
 		if (fileInput) fileInput.value = '';
 
-		const fileCount = document.querySelector('.upload-summary-value strong');
-		if (fileCount) fileCount.textContent = isEmpty ? '0' : '24';
+		syncUploadSummary();
 
 		const filterCounts = { all: 5, single: 2, multi: 2, none: 1 };
 		document.querySelectorAll('.filter-btn[data-filter]').forEach(button => {
@@ -778,8 +1030,7 @@
 		const pageCount = document.querySelector('[data-page-count]');
 		if (pageCount) pageCount.textContent = '1/1';
 
-		const zoomValue = document.querySelector('.zoom-control > strong');
-		if (zoomValue) zoomValue.textContent = '100%';
+		resetWorkspaceDocumentZoom();
 
 		setQuestionConfirmationState(false);
 		filterQuestions('all');
@@ -811,10 +1062,14 @@
 		if (name === 'topbar') enhanceTopbar(event.target);
 		if (name === 'file-upload') initFileUpload(event.target);
 		if (name === 'progressbar') enhanceProgressbar(event.target);
-		if (name === 'panel') initFileActionMenus(event.target);
+		if (name === 'panel') {
+			initFileActionMenus(event.target);
+			observeWorkspaceFileList(event.target);
+		}
 		if (name === 'three-panel') {
 			initWorkspacePanels(event.target);
 			initFileActionMenus(event.target);
+			observeWorkspaceFileList(event.target);
 			renderQuestionCards(event.target);
 		}
 	});
@@ -826,8 +1081,42 @@
 		if (question) selectQuestion(question);
 	});
 
-	document.addEventListener('query-card:edit', () => {
-		showToast('선택한 질의 수정 화면을 준비했습니다.');
+	document.addEventListener('query-card:edit', event => {
+		window.AIOneQueryEditModal?.open(
+			'#workspaceQueryEditModal',
+			event.detail?.query,
+			document.activeElement
+		);
+	});
+
+	document.addEventListener('query-edit-modal:apply', event => {
+		const values = event.detail || {};
+		const query = workspaceQuestionCards.find(item => String(item.id) === String(values.id));
+		if (!query) return;
+
+		Object.assign(query, {
+			type: values.type,
+			text: values.text,
+			mainDept: values.mainDept,
+			coopDept: values.coopDept,
+			org: values.org
+		});
+
+		const originalQuestion = document.querySelector(
+			`${questionSelector}[data-question-index="${query.id}"]`
+		);
+		if (originalQuestion) {
+			originalQuestion.dataset.original = query.text;
+			originalQuestion.dataset.department = [query.mainDept, query.coopDept]
+				.filter(Boolean)
+				.join(' · ') || query.org || '해당없음';
+			const questionText = originalQuestion.querySelector('strong');
+			if (questionText) questionText.textContent = query.text;
+		}
+
+		renderQuestionCards();
+		if (originalQuestion) selectQuestion(originalQuestion);
+		showToast('질의분류와 담당실국을 수정했습니다.');
 	});
 
 	document.addEventListener('dropdownmenu:select', event => {
@@ -848,6 +1137,29 @@
 	});
 
 	document.addEventListener('click', event => {
+		const ruleActionButton = event.target.closest('[data-rule-action]');
+		if (ruleActionButton) {
+			const messages = {
+				add: '새 분류 룰 입력 영역을 준비했습니다.',
+				save: '분류 룰을 저장했습니다.',
+				apply: '분류 룰을 적용해 재분류했습니다.'
+			};
+			showToast(messages[ruleActionButton.dataset.ruleAction] || '분류 룰 작업을 완료했습니다.');
+			return;
+		}
+
+		const fileSortButton = event.target.closest('.file-list-sort');
+		if (fileSortButton) {
+			const list = fileSortButton.closest('.file-list-section')?.querySelector('.workspace-file-list');
+			if (!list) return;
+			list.dataset.sortOrder = list.dataset.sortOrder === 'oldest' ? 'latest' : 'oldest';
+			sortFileItems(list);
+			const label = list.dataset.sortOrder === 'oldest' ? '오래된순' : '최신순';
+			fileSortButton.querySelector('[data-file-sort-label]').textContent = label;
+			fileSortButton.setAttribute('aria-label', `파일 목록 정렬: ${label}`);
+			return;
+		}
+
 		const deleteConfirmButton = event.target.closest('[data-workspace-confirm="delete-file"]');
 		if (deleteConfirmButton) {
 			deletePendingFile();
@@ -857,7 +1169,7 @@
 		const questionConfirmButton = event.target.closest('[data-workspace-confirm="question-classification"]');
 		if (questionConfirmButton) {
 			showToast('질의 및 추천 실국을 확정했습니다.');
-			window.setTimeout(() => setQuestionConfirmationState(true, true), 0);
+			setQuestionConfirmationState(true, true);
 			return;
 		}
 
@@ -886,6 +1198,11 @@
 			return;
 		}
 
+		if (event.target.closest('.source-location-card')) {
+			focusSelectedSourceQuestion();
+			return;
+		}
+
 		const fileButton = event.target.closest('.workspace-file-list .file-item-main');
 		if (fileButton) {
 			document.querySelectorAll('.workspace-file-list li').forEach(item => {
@@ -910,6 +1227,8 @@
 			'[data-workspace-action], #runDrawerBtn, #ruleManageBtn, #panelSwapBtn, #layoutResetBtn, #resetBtn, #fullscreenBtn'
 		);
 		if (!actionButton) return;
+
+		if (['runDrawerBtn', 'ruleManageBtn'].includes(actionButton.id)) return;
 
 		if (actionButton.id === 'layoutResetBtn') {
 			if (resetPanelLayout()) showToast('레이아웃이 기본값으로 초기화되었습니다.');
@@ -939,15 +1258,32 @@
 		const messages = {
 			download: '질의목록 다운로드를 준비했습니다.',
 			edit: '선택한 질의 수정 화면을 준비했습니다.',
-			runDrawerBtn: '실행 목록을 열었습니다.',
-			ruleManageBtn: '룰 설정을 열었습니다.'
+			reclassify: 'AI 재분류를 실행했습니다.',
+			'save-assignee': '실국별 알림 담당자 설정을 저장했습니다.'
 		};
 		showToast(messages[actionButton.dataset.workspaceAction || actionButton.id] || '기능을 선택했습니다.');
+	});
+
+	document.addEventListener('notification-assignee:save', event => {
+		const modal = document.getElementById('workspaceNotificationAssigneeModal');
+		if (!modal?.contains(event.target)) return;
+		showToast('실국별 알림 담당자 설정을 저장했습니다.');
+	});
+
+	document.addEventListener('split-handler:resize', event => {
+		if (!event.target.matches?.('.comparison-body')) return;
+		const { leftWidth, rightWidth } = event.detail || {};
+		if (!Number.isFinite(leftWidth) || !Number.isFinite(rightWidth)) return;
+		document.querySelector('.comparison-meta')?.style.setProperty(
+			'grid-template-columns',
+			`${leftWidth}px ${rightWidth}px`
+		);
 	});
 
 	document.addEventListener('DOMContentLoaded', () => {
 		hydrateIcons();
 		initFileActionMenus();
+		observeWorkspaceFileList();
 		document.addEventListener('fullscreenchange', syncFullscreenButton);
 	});
 })();

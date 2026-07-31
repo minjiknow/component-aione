@@ -1,8 +1,8 @@
 <!-- Sidebar component fragment: 화면당 한 번만 포함하는 singleton 컴포넌트입니다. -->
 <aside class="sidebar app-sidebar" id="sidebar">
 	<div class="sidebar-top-bar">
-		<a class="sidebar-brand" id="sidebarBrandButton" href="../../pages/ai-home.html"
-			aria-label="AI-ONE 홈" title="AI-ONE 홈">
+		<a class="sidebar-brand" id="sidebarBrandButton" href="../../pages/ai-home.html" aria-label="AI-ONE 홈"
+			title="AI-ONE 홈">
 			<span class="brand-logo">
 				<img class="brand-symbol" alt="AI-ONE" data-icon="ai-one-logo" />
 			</span>
@@ -30,38 +30,100 @@
 				<img data-icon="document" alt="" aria-hidden="true" />
 				<span class="nav-text">국회질의분류</span>
 			</a>
-			<button type="button" class="nav-link" data-page="answer"
-				data-modal-open="preparingServiceModal"
+			<a class="nav-link" href="../../pages/ai-answer.html" data-route="answer" data-page="answer"
+				data-tooltip="국회 답변서 초안 생성"
 				aria-label="국회 답변서 초안 생성" title="국회 답변서 초안 생성">
 				<img data-icon="edit" alt="" aria-hidden="true" />
 				<span class="nav-text">국회 답변서 초안 생성</span>
-			</button>
-			<button type="button" class="nav-link" data-page="economy"
+			</a>
+			<button type="button" class="nav-link" data-page="asset"
 				data-modal-open="preparingServiceModal"
-				aria-label="경제동향 분석 보고서 생성" title="경제동향 분석 보고서 생성">
-				<img width="22" height="22" data-icon="economy-trend" alt="" aria-hidden="true" />
-				<span class="nav-text">경제동향 분석 보고서 생성</span>
+				aria-label="국유재산 업무 관리 (준비중)" title="국유재산 업무 관리 (준비중)">
+				<img data-icon="layers" alt="" aria-hidden="true" />
+				<span class="nav-text">국유재산 업무 관리</span>
+				<span class="nav-badge-soon">준비중</span>
+			</button>
+			<button type="button" class="nav-link" data-page="policy"
+				data-modal-open="preparingServiceModal"
+				aria-label="정책 안내서 (준비중)" title="정책 안내서 (준비중)">
+				<img data-icon="library" alt="" aria-hidden="true" />
+				<span class="nav-text">정책 안내서</span>
+				<span class="nav-badge-soon">준비중</span>
 			</button>
 		</div>
 		<div class="nav-group">
 			<button type="button" class="nav-link" data-page="chatbot"
 				data-modal-open="preparingServiceModal"
-				aria-label="AI-ONE 챗봇" title="AI-ONE 챗봇">
+				aria-label="AI-ONE 챗봇 (준비중)" title="AI-ONE 챗봇 (준비중)">
 				<img data-icon="chat" alt="" aria-hidden="true" />
 				<span class="nav-text">AI-ONE 챗봇</span>
+				<span class="nav-badge-soon">준비중</span>
 			</button>
 		</div>
 	</nav>
 
 	<div class="sidebar-footer">
 		<div class="user-card">
-			<button type="button" class="user-avatar logout-btn" aria-label="로그아웃" title="로그아웃">
+			<button type="button" class="user-avatar" data-sidebar-account-toggle aria-label="사용자 메뉴"
+				title="사용자 메뉴" aria-haspopup="menu" aria-expanded="false" aria-controls="sidebarAccountMenu">
 				<img class="icon icon-primary" data-icon="user" alt="" aria-hidden="true" />
 			</button>
-			<div class="user-info"><span class="user-name">박재정 담당자</span><span class="user-dept">재정분석과</span></div>
-			<button type="button" class="icon-button icon-button-ghost settings-btn" id="settingsBtn" aria-label="환경설정" title="환경설정">
+			<div class="user-info">
+				<span class="user-name">박재정 담당자</span>
+				<span class="user-dept">재정분석과</span>
+			</div>
+			<button type="button" class="icon-button icon-button-ghost settings-btn" id="settingsBtn"
+				aria-label="환경설정" title="환경설정" data-sidebar-account-toggle aria-haspopup="menu"
+				aria-expanded="false" aria-controls="sidebarAccountMenu">
 				<img class="icon icon-small" data-icon="settings-alt" alt="" aria-hidden="true" />
 			</button>
+			<div class="user-account-menu" id="sidebarAccountMenu" role="menu" aria-label="사용자 계정 메뉴" hidden>
+				<div class="user-account-summary">
+					<strong>박재정 주무관</strong>
+					<span>재정분석과</span>
+				</div>
+				<button type="button" role="menuitem" data-sidebar-account-action="profile"
+					data-modal-open="sidebarProfileModal">
+					<img data-icon="user" alt="" aria-hidden="true" />
+					<span>내 정보</span>
+				</button>
+				<button type="button" role="menuitem" data-sidebar-account-action="settings"
+					data-modal-open="sidebarSettingsModal">
+					<img data-icon="settings-alt" alt="" aria-hidden="true" />
+					<span>환경설정</span>
+				</button>
+				<button type="button" class="danger" role="menuitem" data-sidebar-account-action="logout"
+					data-modal-open="sidebarLogoutModal">
+					<img data-icon="logout" alt="" aria-hidden="true" />
+					<span>로그아웃</span>
+				</button>
+			</div>
 		</div>
+	</div>
+
+	<div data-component-include="modal" data-component-id="sidebarProfileModal"
+		data-component-variant="account-profile" data-component-label="내 정보"></div>
+
+	<div data-component-include="modal" data-component-id="sidebarSettingsModal"
+		data-component-variant="account-settings" data-component-label="환경설정"></div>
+
+	<div data-component-include="modal" data-component-id="preparingServiceModal"
+		data-component-variant="alert" data-component-label="준비중 안내">
+		<template data-slot="title">준비중</template>
+		<template data-slot="description">이 화면은 프로토타입에 아직 포함되어 있지 않습니다.</template>
+		<template data-slot="actions">
+			<button type="button" class="btn-confirm" data-modal-close>확인</button>
+		</template>
+	</div>
+
+	<div data-component-include="modal" data-component-id="sidebarLogoutModal"
+		data-component-variant="logout" data-component-label="로그아웃 확인">
+		<template data-slot="title">로그아웃</template>
+		<template data-slot="description">AI-ONE에서 로그아웃하시겠습니까?</template>
+		<template data-slot="actions">
+			<button type="button" class="btn-cancel" data-modal-close>취소</button>
+			<button type="button" class="btn-confirm danger" data-sidebar-logout-confirm
+				data-modal-close>로그아웃</button>
+		</template>
 	</div>
 </aside>

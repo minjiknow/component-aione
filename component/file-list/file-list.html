@@ -6,10 +6,10 @@
 	<title>FileList 컴포넌트</title>
 	<link rel="icon" href="../../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
 	<link rel="stylesheet" href="../_preview/component-base.css?v=20260727" />
-	<link rel="stylesheet" href="file-list.css?v=20260728-2" />
-	<link rel="stylesheet" href="../file-item/file-item.css?v=20260728-2" />
+	<link rel="stylesheet" href="file-list.css?v=20260729-6" />
+	<link rel="stylesheet" href="../file-item/file-item.css?v=20260729-3" />
 	<link rel="stylesheet" href="../dropdownmenu/dropdownmenu.css?v=20260728-3" />
-	<link rel="stylesheet" href="../modal/modal.css?v=20260728-7" />
+	<link rel="stylesheet" href="../modal/modal.css?v=20260729-1" />
 	<link rel="stylesheet" href="../_preview/component-preview.css?v=20260727" />
 </head>
 <body class="control-preview-page">
@@ -27,16 +27,23 @@
 			<div class="file-list-section">
 				<div class="file-list-header">
 					<div class="file-list-heading"><span class="file-list-title">질의 업로드 목록</span></div>
-					<div class="upload-summary-inline" aria-label="업로드 현황"><span class="upload-summary-label">파일수/의원수</span><span class="upload-summary-value"><strong class="upload-summary-file-count match">2</strong> / <span class="upload-summary-member-count">2</span></span></div>
+					<button type="button" class="file-list-sort" aria-label="파일 목록 정렬: 최신순"><span
+							data-file-sort-label>최신순</span>
+						<img src="../../assets/icons/chevron-down.svg" alt="" aria-hidden="true" /></button>
 				</div>
+				<button type="button" class="file-list-collapsed-add" aria-label="질의 파일 추가" title="질의 파일 추가">
+					<img src="../../assets/icons/plus.svg" alt="" aria-hidden="true" />
+				</button>
 				<ul class="file-list">
 					<li class="active" data-file-idx="0">
 						<button class="file-item-main" type="button" aria-label="예결위 질의서 박소연의원 파일 보기">
-							<div class="file-icon pdf">PDF</div>
+							<span class="file-index">24</span>
+							<span class="file-type-dot pdf" aria-hidden="true"></span>
+							<span class="file-icon file-icon-collapsed pdf" aria-hidden="true">PDF</span>
 							<div class="file-info"><span class="file-name">예결위_질의서_박소연의원.pdf</span><span class="file-meta">1.3MB</span></div>
 						</button>
 						<div class="file-item-side">
-							<span class="file-status-group final"><span class="file-status parsed">청킹 완료</span><span class="file-status query-count final">질의 9건</span></span>
+							<span class="file-status query-count final">질의9건</span>
 							<div class="file-action-wrap dropdown-menu-component" data-dropdown-menu>
 								<button class="file-more-btn" type="button" data-dropdown-trigger aria-haspopup="menu"
 									aria-label="파일 옵션" aria-expanded="false" aria-controls="fileListMenu0" title="파일 옵션"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button>
@@ -50,7 +57,9 @@
 					</li>
 					<li data-file-idx="1">
 						<button class="file-item-main" type="button" aria-label="예결위 질의요지서 정예진의원 파일 보기">
-							<div class="file-icon docx">DOCX</div>
+							<span class="file-index">23</span>
+							<span class="file-type-dot docx" aria-hidden="true"></span>
+							<span class="file-icon file-icon-collapsed docx" aria-hidden="true">DOCX</span>
 							<div class="file-info"><span class="file-name">예결위_질의요지서_정예진의원.docx</span><span class="file-meta">1.4MB</span></div>
 						</button>
 						<div class="file-item-side">
@@ -67,6 +76,57 @@
 						</div>
 					</li>
 				</ul>
+				<div class="upload-summary-footer" aria-label="입수 현황">
+					<span class="upload-summary-footer-copy"><strong>입수 현황</strong><em>24건 질의 확인</em></span>
+					<span class="upload-summary-footer-count">
+						<span class="upload-summary-label">파일</span>
+						<strong class="upload-summary-file-count">24</strong>
+						<span class="upload-summary-divider">/</span>
+						<span class="upload-summary-label">의원</span>
+						<strong class="upload-summary-member-count">2</strong>
+					</span>
+				</div>
+			</div>
+		</section>
+
+		<section class="control-preview-section" aria-labelledby="file-list-collapsed-title">
+			<h2 class="control-preview-section-title" id="file-list-collapsed-title">접힘 목록</h2>
+			<div class="file-list-section is-collapsed" aria-label="접힌 질의 업로드 목록">
+				<button type="button" class="file-list-collapsed-add" aria-label="질의 파일 추가" title="질의 파일 추가">
+					<img src="../../assets/icons/plus.svg" alt="" aria-hidden="true" />
+				</button>
+				<ul class="file-list">
+					<li class="active">
+						<button class="file-item-main" type="button" aria-label="예결위 질의서 박소연의원 PDF 파일 보기">
+							<span class="file-icon file-icon-collapsed pdf" aria-hidden="true">PDF</span>
+						</button>
+					</li>
+					<li>
+						<button class="file-item-main" type="button" aria-label="예결위 질의요지서 정예진의원 DOCX 파일 보기">
+							<span class="file-icon file-icon-collapsed docx" aria-hidden="true">DOCX</span>
+						</button>
+					</li>
+					<li>
+						<button class="file-item-main" type="button" aria-label="예결위 추가질의서 이수진의원 HWP 파일 보기">
+							<span class="file-icon file-icon-collapsed hwp" aria-hidden="true">HWP</span>
+						</button>
+					</li>
+					<li>
+						<button class="file-item-main" type="button" aria-label="예결위 자료요구서 신예린의원 TXT 파일 보기">
+							<span class="file-icon file-icon-collapsed txt" aria-hidden="true">TXT</span>
+						</button>
+					</li>
+				</ul>
+				<div class="upload-summary-footer" aria-label="입수 현황: 파일 24, 의원 2">
+					<span class="upload-summary-footer-copy"><strong>입수 현황</strong><em>24건 질의 확인</em></span>
+					<span class="upload-summary-footer-count">
+						<span class="upload-summary-label">파일</span>
+						<strong class="upload-summary-file-count">24</strong>
+						<span class="upload-summary-divider">/</span>
+						<span class="upload-summary-label">의원</span>
+						<strong class="upload-summary-member-count">2</strong>
+					</span>
+				</div>
 			</div>
 		</section>
 
@@ -93,7 +153,7 @@
 		<section class="custom-modal modal-medium" role="dialog" aria-modal="true"
 			aria-labelledby="fileListDeleteModalTitle" aria-describedby="fileListDeleteModalDescription">
 			<div class="custom-modal-icon danger" aria-hidden="true">⚠</div>
-			<div class="custom-modal-title" id="fileListDeleteModalTitle">파일을 삭제할까요?</div>
+			<div class="custom-modal-title" id="fileListDeleteModalTitle">파일 삭제</div>
 			<div class="custom-modal-msg" id="fileListDeleteModalDescription">
 				<strong data-file-delete-name>선택한 파일</strong><br />
 				질의 업로드 목록에서 삭제하시겠습니까?
@@ -108,6 +168,6 @@
 	<script src="../dropdownmenu/dropdownmenu.js?v=20260728-2"></script>
 	<script src="../_shared/layer-controller.js?v=20260728-2"></script>
 	<script src="../modal/modal.js?v=20260728-4"></script>
-	<script src="../file-item/file-item.js?v=20260728-1"></script>
+	<script src="../file-item/file-item.js?v=20260729-2"></script>
 </body>
 </html>

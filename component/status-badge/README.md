@@ -6,12 +6,13 @@
 - 필수 JS: 없음
 - 검수 페이지: `component/status-badge/status-badge.html`
 - 기본 클래스: `.status-badge`
-- 상태: `.badge-sample`, `.badge-done`
+- 상태: `.badge-sample`, `.badge-done`, `.badge-review`
 - 변경 대상: 상태 문구와 실제 상태에 맞는 modifier
 
 ```html
 <span class="status-badge badge-sample">샘플 검토</span>
 <span class="status-badge badge-done">처리 완료</span>
+<span class="status-badge badge-review">검토필요</span>
 ```
 
 기본 클래스와 상태 modifier를 항상 함께 사용합니다. 상태는 텍스트로도 전달해 색상만으로 의미를 구분하지 않습니다.

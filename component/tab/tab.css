@@ -21,7 +21,7 @@
     border-bottom: 2px solid transparent;
     background: transparent;
     color: var(--text-muted, #8b949e);
-    font-size: 12px;
+    font-size:calc(12px * var(--ui-font-scale, 1));
     font-weight: 500;
     white-space: nowrap;
 }
@@ -42,14 +42,26 @@
 }
 
 .tab-button {
-    padding: 6px 16px;
+    min-height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0 16px;
     border: 0;
     border-radius: var(--radius-sm, 6px);
     background: transparent;
     color: var(--text-muted, #8b949e);
-    font-size: 12px;
+    font: inherit;
+    font-size: calc(12px * var(--ui-font-scale, 1));
     font-weight: 500;
-    transition: all 0.2s ease;
+    line-height: 1.4;
+    white-space: nowrap;
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .tab-button:hover:not(.active, .is-active, [aria-selected="true"], :disabled, [aria-disabled="true"]) {
@@ -64,23 +76,59 @@
     box-shadow: 0 1px 3px rgba(9, 105, 218, 0.3);
 }
 
-.tab-count {
+.tab-button :is(.tab-count, .filter-count) {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     min-width: 16px;
     height: 16px;
-    margin-left: 4px;
     padding: 0 4px;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.2);
-    font-size: 12px;
+    color: currentColor;
+    font-size: calc(9px * var(--ui-font-scale, 1));
     font-weight: 700;
+    line-height: 1;
 }
 
-.tab-button:not(.active, .is-active, [aria-selected="true"]) .tab-count {
+.tab-button:not(.active, .is-active, [aria-selected="true"]) :is(.tab-count, .filter-count) {
     background: var(--surface-el, #f0f3f6);
     color: var(--text-muted, #8b949e);
+}
+
+.tab-button-list[data-tab-button-variant="soft"] {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.tab-button-list[data-tab-button-variant="soft"] .tab-button {
+    padding: 0 14px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: var(--text-sub, #656d76);
+    box-shadow: none;
+}
+
+.tab-button-list[data-tab-button-variant="soft"] .tab-button:hover:not(.active, .is-active, [aria-selected="true"], :disabled, [aria-disabled="true"]) {
+    background: rgba(9, 105, 218, 0.04);
+    color: var(--primary, #0969da);
+}
+
+.tab-button-list[data-tab-button-variant="soft"] .tab-button:is(.active, .is-active, [aria-selected="true"]) {
+    border-color: rgba(9, 105, 218, 0.24);
+    background: rgba(9, 105, 218, 0.07);
+    color: var(--primary, #0969da);
+    box-shadow: none;
+}
+
+.tab-button-list[data-tab-button-variant="soft"] .tab-button :is(.tab-count, .filter-count) {
+    min-width: 16px;
+    padding: 0;
+    background: transparent;
+    color: currentColor;
 }
 
 :is(.tab, .tab-button):focus-visible {

@@ -3,85 +3,78 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>AI 워크스페이스 — 국회질의분류</title>
+	<title>국회질의분류 AI 워크스페이스 — AI-ONE</title>
 	<link rel="icon" href="../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
-	<link rel="stylesheet" href="../css/common.css" />
-	<link rel="stylesheet" href="../component/button/button.css?v=20260728-2" />
-	<link rel="stylesheet" href="../component/chip/chip.css" />
-	<link rel="stylesheet" href="../component/status-badge/status-badge.css" />
-	<link rel="stylesheet" href="../component/count-badge/count-badge.css" />
-	<link rel="stylesheet" href="../component/filter-btn/filter-btn.css" />
-	<link rel="stylesheet" href="../component/file-list/file-list.css" />
-	<link rel="stylesheet" href="../component/file-item/file-item.css" />
-	<link rel="stylesheet" href="../component/dropdownmenu/dropdownmenu.css" />
-	<link rel="stylesheet" href="../component/modal/modal.css" />
-	<link rel="stylesheet" href="../component/panel/panel.css" />
-	<link rel="stylesheet" href="../component/sidebar/sidebar.css" />
-	<link rel="stylesheet" href="../component/topbar/topbar.css?v=20260728-1" />
-	<link rel="stylesheet" href="../component/file-upload/file-upload.css" />
-	<link rel="stylesheet" href="../component/progressbar/progressbar.css" />
-	<link rel="stylesheet" href="../component/query-card/query-card.css" />
-	<link rel="stylesheet" href="../component/toast/toast.css" />
-	<link rel="stylesheet" href="../css/legislative-question-workspace.css?v=20260728-2" />
-	<script src="../component/component-loader.js?v=20260728-2"></script>
+	<link rel="stylesheet" href="../css/common.css?v=20260730-8" />
+	<link rel="stylesheet" href="../component/button/button.css?v=20260730-9" />
+	<link rel="stylesheet" href="../component/chip/chip.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/count-badge/count-badge.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/dropdownmenu/dropdownmenu.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/filter-btn/filter-btn.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/file-list/file-list.css?v=20260731-1" />
+	<link rel="stylesheet" href="../component/file-item/file-item.css?v=20260731-1" />
+	<link rel="stylesheet" href="../component/file-upload/file-upload.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/handler/handler.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/modal/modal.css?v=20260730-10" />
+	<link rel="stylesheet" href="../component/panel/panel.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/progressbar/progressbar.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/query-card/query-card.css?v=20260730-7" />
+	<link rel="stylesheet" href="../component/sidebar/sidebar.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/sidepop/sidepop.css?v=20260730-10" />
+	<link rel="stylesheet" href="../component/status-badge/status-badge.css?v=20260730-7" />
+	<link rel="stylesheet" href="../component/toast/toast.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/topbar/topbar.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/_shared/form-control.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/input/input.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/radio/radio.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/select/select.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/textarea/textarea.css?v=20260730-6" />
+	<link rel="stylesheet" href="../component/toggle/toggle.css?v=20260730-6" />
+	<link rel="stylesheet" href="../css/ai-workspace.css?v=20260730-10" />
+	<script src="../component/component-include-loader.js?v=20260730-12"></script>
 	<script src="../component/dropdownmenu/dropdownmenu.js" defer></script>
-	<script src="../component/progressbar/progressbar.js" defer></script>
-	<script src="../component/query-card/query-card.js" defer></script>
-	<script src="../js/legislative-question-workspace.js?v=20260728-3" defer></script>
+	<script src="../component/progressbar/progressbar.js?v=20260729-2" defer></script>
+	<script src="../component/query-card/query-card.js?v=20260730-1" defer></script>
+	<script src="../component/modal/query-edit-modal.js?v=20260729" defer></script>
+	<script src="../js/common.js?v=20260730-10" defer></script>
+	<script src="../js/legislative-question-workspace.js?v=20260730-7" defer></script>
 </head>
 <body class="question-workspace-page" data-page="intake">
 	<div class="workspace-app">
 		<div data-component-include="sidebar"></div>
 
 		<div class="workspace-shell">
-			<div data-component-include="topbar"></div>
-
-			<div data-component-include="three-panel">
-				<template data-slot="right">
-					<div class="workspace-panel-host question-panel-host" data-component-include="panel">
-						<template data-slot="content">
-							<header class="panel-head">
-								<h2 class="panel-title">
-									<img class="icon icon-small" data-icon="list" alt="" aria-hidden="true" />
-									질의목록 · 추천실국
-								</h2>
-							</header>
-
-							<div class="question-toolbar">
-								<div class="question-actions" data-question-confirm-actions>
-									<span class="question-action-state" data-question-confirm-state="draft">
-										<button type="button" class="button button-sm button-outline">AI재분류</button>
-										<button type="button" class="button button-sm button-primary"
-											data-modal-open="workspaceQuestionConfirmModal">확정</button>
-									</span>
-									<span class="question-action-state" data-question-confirm-state="confirmed" hidden>
-										<button type="button" class="button button-sm button-primary"
-											data-modal-open="workspaceDepartmentNotificationModal">실국알림</button>
-										<button type="button" class="button button-sm button-danger"
-											data-question-confirm-cancel>확정 취소</button>
-									</span>
-								</div>
-								<button type="button" class="icon-button icon-button-ghost icon-button-sm" aria-label="질의목록 다운로드" title="질의목록 다운로드" data-workspace-action="download">
-									<img class="icon icon-small" data-icon="download" alt="" aria-hidden="true" />
-								</button>
-							</div>
-
-							<div class="filter-bar" role="toolbar" aria-label="질의 분류 필터">
-								<button type="button" class="filter-btn active" aria-pressed="true" data-filter="all">전체 <span class="filter-count">5</span></button>
-								<button type="button" class="filter-btn" aria-pressed="false" data-filter="single">단일소관 <span class="filter-count">2</span></button>
-								<button type="button" class="filter-btn" aria-pressed="false" data-filter="multi">복수소관 <span class="filter-count">2</span></button>
-								<button type="button" class="filter-btn" aria-pressed="false" data-filter="none">비소관 <span class="filter-count">1</span></button>
-							</div>
-
-							<div class="question-list" aria-label="추출된 질의 목록" data-query-card-list></div>
-							<div class="workspace-empty-state" data-workspace-empty="questions" hidden>
-								<img class="icon" data-icon="list" alt="" aria-hidden="true" />
-								<p>질의 분류 결과가 여기에 표시됩니다.</p>
-							</div>
-						</template>
+			<div data-component-include="topbar"
+				data-component-title="국회질의분류 AI 워크스페이스"
+				data-component-subtitle="질의 업로드 · OCR/파싱 · 질의 분류 · 추천실국 확인"
+				data-component-primary-action-label="새 질의분류"
+				data-component-primary-action-page="intake"
+				data-component-primary-action-name="new-question">
+				<template data-slot="workspace">
+					<div class="workspace-topbar-context" aria-label="현재 질의분류 작업 정보">
+						<div class="workspace-topbar-title">
+							<button type="button" class="workspace-topbar-title-button" data-workspace-title-button
+								aria-label="작업 제목 수정" title="클릭하여 제목 수정">
+								<span data-workspace-title-text>제목없는 국회질의</span>
+								<img class="icon icon-small workspace-topbar-title-edit" data-icon="edit-compact"
+									alt="" aria-hidden="true" />
+							</button>
+							<input class="workspace-topbar-title-input" data-workspace-title-input type="text"
+								value="제목없는 국회질의" maxlength="60" aria-label="작업 제목 입력" hidden />
+						</div>
+						<label class="workspace-topbar-member-count">
+							<span>의원수</span>
+							<input data-workspace-member-count type="number" min="0" max="999" step="1" value="0"
+								inputmode="numeric" aria-label="의원수" />
+							<em>명</em>
+						</label>
 					</div>
 				</template>
+			</div>
 
+			<div data-component-include="three-panel"
+				data-component-left-size="medium"
+				data-component-right-size="large">
 				<template data-slot="left">
 					<div class="workspace-panel-host upload-panel-host" data-component-include="panel">
 						<template data-slot="content">
@@ -90,92 +83,175 @@
 									<img class="icon icon-small" data-icon="upload" alt="" aria-hidden="true" />
 									질의 업로드
 								</h2>
-								<button type="button" class="icon-button icon-button-ghost icon-button-sm" aria-label="업로드 패널 접기" title="업로드 패널 접기">
+								<button type="button"
+									class="icon-button icon-button-ghost icon-button-sm panel-collapse-btn"
+									data-panel-action="collapse" aria-expanded="true"
+									aria-label="업로드 패널 접기" title="업로드 패널 접기">
 									<img class="icon icon-small" data-icon="panel-collapse" alt="" aria-hidden="true" />
 								</button>
 							</header>
 
 							<div data-component-include="file-upload">
 								<template data-slot="title">여기에 파일을 드래그하거나<br />클릭하여 업로드</template>
-								<template data-slot="content">OCR/파싱 → 질의 추출 → 추천실국 분류</template>
+								<template data-slot="content">OCR/파싱 → 질의 추출 → 추천실국 분류 (업로드마다 실행)</template>
 								<template data-slot="input">
-									<input type="file" id="workspaceFileInput" name="questionFiles" accept=".pdf,.hwp,.docx,.txt" multiple />
+									<input type="file" id="workspaceFileInput" name="questionFiles"
+										accept=".pdf,.hwp,.docx,.txt" multiple />
 								</template>
 							</div>
 
-							<section class="workspace-file-section file-list-section" aria-labelledby="workspace-file-title">
+							<section class="workspace-file-section file-list-section"
+								aria-labelledby="workspaceFileTitle">
 								<div class="file-list-header">
 									<div class="file-list-heading">
-										<h3 class="file-list-title" id="workspace-file-title">질의 업로드 목록</h3>
+										<h3 class="file-list-title" id="workspaceFileTitle">질의 업로드 목록</h3>
 									</div>
-									<div class="upload-summary-inline" aria-label="업로드 현황">
-										<span class="upload-summary-label">파일수/의원수</span>
-										<span class="upload-summary-value"><strong>24</strong>/0</span>
-									</div>
+									<button type="button" class="file-list-sort" aria-label="파일 목록 정렬: 최신순">
+										<span data-file-sort-label>최신순</span>
+										<img src="../assets/icons/chevron-down.svg" alt="" aria-hidden="true" />
+									</button>
 								</div>
-								<ul class="file-list workspace-file-list">
+								<button type="button" class="file-list-collapsed-add"
+									data-file-list-add aria-label="질의 파일 추가" title="질의 파일 추가">
+									<img src="../assets/icons/plus.svg" alt="" aria-hidden="true" />
+								</button>
+								<ul class="file-list workspace-file-list" data-sort-order="latest">
 									<li class="active" data-file-idx="0">
 										<button class="file-item-main" type="button">
-											<span class="file-icon pdf">PDF</span>
-											<span class="file-info"><span class="file-name">재경위_질의서_김민석의원.pdf</span><span class="file-meta">2.4MB</span></span>
+											<span class="file-index">6</span>
+											<span class="file-type-dot pdf" aria-hidden="true"></span>
+											<span class="file-icon file-icon-collapsed pdf" aria-hidden="true">PDF</span>
+											<span class="file-info">
+												<span class="file-name">재경위_질의서_김민석의원.pdf</span>
+												<span class="file-meta">2.4MB</span>
+											</span>
 										</button>
-										<span class="file-item-side"><span class="file-status-group final"><span class="file-status parsed">청킹 완료</span><span class="file-status query-count final">질의 5건</span></span><button type="button" class="file-more-btn" aria-label="파일 옵션"><img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" /></button></span>
+										<span class="file-item-side">
+											<span class="file-status-group final">
+												<span class="file-status query-count final">질의 5건</span>
+											</span>
+											<button type="button" class="file-more-btn" aria-label="파일 옵션">
+												<img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" />
+											</button>
+										</span>
 									</li>
 									<li data-file-idx="1">
 										<button class="file-item-main" type="button">
-											<span class="file-icon hwp">HWP</span>
-											<span class="file-info"><span class="file-name">재경위_질의요지서_이수진의원.hwp</span><span class="file-meta">1.1MB</span></span>
+											<span class="file-index">5</span>
+											<span class="file-type-dot hwp" aria-hidden="true"></span>
+											<span class="file-icon file-icon-collapsed hwp" aria-hidden="true">HWP</span>
+											<span class="file-info">
+												<span class="file-name">재경위_질의요지서_이수진의원.hwp</span>
+												<span class="file-meta">1.1MB</span>
+											</span>
 										</button>
-										<span class="file-item-side"><span class="file-status-group final"><span class="file-status parsed">청킹 완료</span><span class="file-status query-count final">질의 3건</span></span><button type="button" class="file-more-btn" aria-label="파일 옵션"><img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" /></button></span>
+										<span class="file-item-side">
+											<span class="file-status-group final">
+												<span class="file-status query-count final">질의 3건</span>
+											</span>
+											<button type="button" class="file-more-btn" aria-label="파일 옵션">
+												<img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" />
+											</button>
+										</span>
 									</li>
 									<li data-file-idx="2">
 										<button class="file-item-main" type="button">
-											<span class="file-icon pdf">PDF</span>
-											<span class="file-info"><span class="file-name">재경위_추가질의서_박성호의원.pdf</span><span class="file-meta">0.9MB</span></span>
+											<span class="file-index">4</span>
+											<span class="file-type-dot pdf" aria-hidden="true"></span>
+											<span class="file-icon file-icon-collapsed pdf" aria-hidden="true">PDF</span>
+											<span class="file-info">
+												<span class="file-name">재경위_추가질의서_박성호의원.pdf</span>
+												<span class="file-meta">0.9MB</span>
+											</span>
 										</button>
-										<span class="file-item-side"><span class="file-status-group final"><span class="file-status parsed">청킹 완료</span><span class="file-status query-count final">질의 3건</span></span><button type="button" class="file-more-btn" aria-label="파일 옵션"><img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" /></button></span>
+										<span class="file-item-side">
+											<span class="file-status-group final">
+												<span class="file-status query-count final">질의 3건</span>
+											</span>
+											<button type="button" class="file-more-btn" aria-label="파일 옵션">
+												<img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" />
+											</button>
+										</span>
 									</li>
 									<li data-file-idx="3">
 										<button class="file-item-main" type="button">
-											<span class="file-icon docx">DOCX</span>
-											<span class="file-info"><span class="file-name">재경위_자료요구서_최예린의원.docx</span><span class="file-meta">1.5MB</span></span>
+											<span class="file-index">3</span>
+											<span class="file-type-dot docx" aria-hidden="true"></span>
+											<span class="file-icon file-icon-collapsed docx" aria-hidden="true">DOCX</span>
+											<span class="file-info">
+												<span class="file-name">재경위_자료요구서_최예린의원.docx</span>
+												<span class="file-meta">1.5MB</span>
+											</span>
 										</button>
-										<span class="file-item-side"><span class="file-status-group final"><span class="file-status parsed">청킹 완료</span><span class="file-status query-count final">질의 4건</span></span><button type="button" class="file-more-btn" aria-label="파일 옵션"><img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" /></button></span>
+										<span class="file-item-side">
+											<span class="file-status-group final">
+												<span class="file-status query-count final">질의 4건</span>
+											</span>
+											<button type="button" class="file-more-btn" aria-label="파일 옵션">
+												<img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" />
+											</button>
+										</span>
 									</li>
 									<li data-file-idx="4">
 										<button class="file-item-main" type="button">
-											<span class="file-icon txt">TXT</span>
-											<span class="file-info"><span class="file-name">재경위_국정감사질의_정유진의원.txt</span><span class="file-meta">0.6MB</span></span>
+											<span class="file-index">2</span>
+											<span class="file-type-dot txt" aria-hidden="true"></span>
+											<span class="file-icon file-icon-collapsed txt" aria-hidden="true">TXT</span>
+											<span class="file-info">
+												<span class="file-name">재경위_국정감사질의_정유진의원.txt</span>
+												<span class="file-meta">0.6MB</span>
+											</span>
 										</button>
-										<span class="file-item-side"><span class="file-status-group final"><span class="file-status parsed">청킹 완료</span><span class="file-status query-count final">질의 3건</span></span><button type="button" class="file-more-btn" aria-label="파일 옵션"><img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" /></button></span>
+										<span class="file-item-side">
+											<span class="file-status-group final">
+												<span class="file-status query-count final">질의 3건</span>
+											</span>
+											<button type="button" class="file-more-btn" aria-label="파일 옵션">
+												<img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" />
+											</button>
+										</span>
 									</li>
 									<li data-file-idx="5">
 										<button class="file-item-main" type="button">
-											<span class="file-icon pdf">PDF</span>
-											<span class="file-info"><span class="file-name">재경위_질의서_정우석의원.pdf</span><span class="file-meta">1.8MB</span></span>
+											<span class="file-index">1</span>
+											<span class="file-type-dot pdf" aria-hidden="true"></span>
+											<span class="file-icon file-icon-collapsed pdf" aria-hidden="true">PDF</span>
+											<span class="file-info">
+												<span class="file-name">재경위_질의서_정우석의원.pdf</span>
+												<span class="file-meta">1.8MB</span>
+											</span>
 										</button>
-										<span class="file-item-side"><span class="file-status-group final"><span class="file-status parsed">청킹 완료</span><span class="file-status query-count final">질의 6건</span></span><button type="button" class="file-more-btn" aria-label="파일 옵션"><img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" /></button></span>
-									</li>
-									<li data-file-idx="6">
-										<button class="file-item-main" type="button">
-											<span class="file-icon hwp">HWP</span>
-											<span class="file-info"><span class="file-name">재경위_질의요지서_한지민의원.hwp</span><span class="file-meta">1.2MB</span></span>
-										</button>
-										<span class="file-item-side"><span class="file-status-group final"><span class="file-status parsed">청킹 완료</span><span class="file-status query-count final">질의 4건</span></span><button type="button" class="file-more-btn" aria-label="파일 옵션"><img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" /></button></span>
-									</li>
-									<li data-file-idx="7">
-										<button class="file-item-main" type="button">
-											<span class="file-icon pdf">PDF</span>
-											<span class="file-info"><span class="file-name">재경위_추가질의서_윤소희의원.pdf</span><span class="file-meta">0.8MB</span></span>
-										</button>
-										<span class="file-item-side"><span class="file-status-group final"><span class="file-status parsed">청킹 완료</span><span class="file-status query-count final">질의 3건</span></span><button type="button" class="file-more-btn" aria-label="파일 옵션"><img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" /></button></span>
+										<span class="file-item-side">
+											<span class="file-status-group final">
+												<span class="file-status query-count final">질의 6건</span>
+											</span>
+											<button type="button" class="file-more-btn" aria-label="파일 옵션">
+												<img class="icon icon-small" data-icon="more-horizontal" alt="" aria-hidden="true" />
+											</button>
+										</span>
 									</li>
 								</ul>
 								<ul class="file-list workspace-file-empty-list" data-workspace-empty="files" hidden>
 									<li class="file-list-empty">
-										<div><strong>질의 업로드 목록이 없습니다.</strong><span>질의 파일을 업로드하면 이 영역에 목록이 표시됩니다.</span></div>
+										<div>
+											<strong>질의 업로드 목록이 없습니다.</strong>
+											<span>질의 파일을 업로드하면 이 영역에 목록이 표시됩니다.</span>
+										</div>
 									</li>
 								</ul>
+								<div class="upload-summary-footer" aria-label="입수 현황">
+									<span class="upload-summary-footer-copy">
+										<strong>입수 현황</strong>
+										<em data-upload-summary-message>24건 질의 확인</em>
+									</span>
+									<span class="upload-summary-footer-count">
+										<span class="upload-summary-label">파일</span>
+										<strong class="upload-summary-file-count">6</strong>
+										<span class="upload-summary-divider">/</span>
+										<span class="upload-summary-label">의원</span>
+										<strong class="upload-summary-member-count">0</strong>
+									</span>
+								</div>
 							</section>
 						</template>
 					</div>
@@ -198,9 +274,12 @@
 								<span>질의 추출 결과 <strong>문장 1 / 5 선택됨</strong></span>
 							</div>
 
-							<div class="comparison-body">
-								<div class="document-column">
-									<p class="comparison-guide">문서 본문의 영역을 클릭하면 오른쪽 질의 추출결과에서 상세 정보를 확인할 수 있습니다.</p>
+							<div class="comparison-body split-handler" data-component="split-handler"
+								data-split-min="300">
+								<div class="document-column split-handler-left">
+									<p class="comparison-guide">
+										문서 본문의 영역을 클릭하면 오른쪽 질의 추출결과에서 상세 정보를 확인할 수 있습니다.
+									</p>
 									<section class="document-stage" aria-label="질의 원본 미리보기">
 										<div class="workspace-empty-state" data-workspace-empty="original" hidden>
 											<img class="icon" data-icon="document" alt="" aria-hidden="true" />
@@ -208,70 +287,127 @@
 										</div>
 										<article class="document-paper">
 											<h3 class="document-title">질 의 요 지 서</h3>
-											<div class="document-meta-row"><span>2026. 03. 15</span><strong>재정경제기획위원회</strong></div>
+											<div class="document-meta-row">
+												<span>2026. 03. 15</span>
+												<strong>재정경제기획위원회</strong>
+											</div>
 											<dl class="document-info">
 												<div><dt>질의의원명</dt><dd>나성은 (인)</dd></div>
 												<div><dt>교섭단체명</dt><dd>국민의힘</dd></div>
 											</dl>
 											<div class="document-question-list">
-												<button type="button" class="document-question is-selected" data-question-index="1" data-original="2026년도 예산편성지침 중 인건비 산정기준 변경사항에 대한 구체적 안내 요청" data-summary="2026년도 예산편성지침에서 인건비 산정기준 변경 내용과 적용 방법에 대한 구체적 안내 요청" data-department="경제정책국 · 거시경제심의관/종합정책과" data-confidence="94">
-													<span>1</span><strong>2026년도 예산편성지침 중 인건비 산정기준 변경사항에 대한 구체적 안내 요청</strong>
+												<button type="button" class="document-question is-selected"
+													data-question-index="1"
+													data-original="2026년도 예산편성지침 중 인건비 산정기준 변경사항에 대한 구체적 안내 요청"
+													data-summary="2026년도 예산편성지침에서 인건비 산정기준 변경 내용과 적용 방법에 대한 구체적 안내 요청"
+													data-department="경제정책국 · 거시경제심의관/종합정책과"
+													data-confidence="94">
+													<span>1</span>
+													<strong>2026년도 예산편성지침 중 인건비 산정기준 변경사항에 대한 구체적 안내 요청</strong>
 												</button>
-												<button type="button" class="document-question" data-question-index="2" data-original="지방자치단체 재정자립도 산정 시 세외수입 항목 포함 여부 및 관련 법령 해석" data-summary="재정자립도 산정 기준과 세외수입 포함 여부에 대한 법령 해석 요청" data-department="경제정책국 · 세제실" data-confidence="82">
-													<span>2</span><strong>지방자치단체 재정자립도 산정 시 세외수입 항목 포함 여부 및 관련 법령 해석</strong>
+												<button type="button" class="document-question"
+													data-question-index="2"
+													data-original="지방자치단체 재정자립도 산정 시 세외수입 항목 포함 여부 및 관련 법령 해석"
+													data-summary="재정자립도 산정 기준과 세외수입 포함 여부에 대한 법령 해석 요청"
+													data-department="경제정책국 · 세제실"
+													data-confidence="82">
+													<span>2</span>
+													<strong>지방자치단체 재정자립도 산정 시 세외수입 항목 포함 여부 및 관련 법령 해석</strong>
 												</button>
-												<button type="button" class="document-question" data-question-index="3" data-original="공공기관 경영평가 시 비계량지표 평가방법론 개선 관련 의견 조회" data-summary="비계량지표 평가방법론 개선안에 대한 부처 의견 요청" data-department="공공정책국" data-confidence="91">
-													<span>3</span><strong>공공기관 경영평가 시 비계량지표 평가방법론 개선 관련 의견 조회</strong>
+												<button type="button" class="document-question"
+													data-question-index="3"
+													data-original="공공기관 경영평가 시 비계량지표 평가방법론 개선 관련 의견 조회"
+													data-summary="비계량지표 평가방법론 개선안에 대한 부처 의견 요청"
+													data-department="공공정책국"
+													data-confidence="91">
+													<span>3</span>
+													<strong>공공기관 경영평가 시 비계량지표 평가방법론 개선 관련 의견 조회</strong>
 												</button>
-												<button type="button" class="document-question" data-question-index="4" data-original="외국환거래법 개정에 따른 해외직접투자 신고절차 변경 안내 요청" data-summary="해외직접투자 신고절차 변경사항과 시행일 안내 요청" data-department="국제금융국 · 경제정책국" data-confidence="78">
-													<span>4</span><strong>외국환거래법 개정에 따른 해외직접투자 신고절차 변경 안내 요청</strong>
+												<button type="button" class="document-question"
+													data-question-index="4"
+													data-original="외국환거래법 개정에 따른 해외직접투자 신고절차 변경 안내 요청"
+													data-summary="해외직접투자 신고절차 변경사항과 시행일 안내 요청"
+													data-department="국제금융국 · 경제정책국"
+													data-confidence="78">
+													<span>4</span>
+													<strong>외국환거래법 개정에 따른 해외직접투자 신고절차 변경 안내 요청</strong>
 												</button>
-												<button type="button" class="document-question" data-question-index="5" data-original="최근 기상이변으로 인한 농작물 피해 현황 자료 요청의 건" data-summary="기상이변에 따른 농작물 피해 현황과 지원 실적 자료 요청" data-department="비소관 · 농림축산식품부 이관" data-confidence="87">
-													<span>5</span><strong>최근 기상이변으로 인한 농작물 피해 현황 자료 요청의 건</strong>
+												<button type="button" class="document-question"
+													data-question-index="5"
+													data-original="최근 기상이변으로 인한 농작물 피해 현황 자료 요청의 건"
+													data-summary="기상이변에 따른 농작물 피해 현황과 지원 실적 자료 요청"
+													data-department="비소관 · 농림축산식품부 이관"
+													data-confidence="87">
+													<span>5</span>
+													<strong>최근 기상이변으로 인한 농작물 피해 현황 자료 요청의 건</strong>
 												</button>
 											</div>
 										</article>
 									</section>
 								</div>
 
-								<aside class="result-inspector" aria-label="선택한 질의 추출 결과">
+								<div class="comparison-split-handle split-handler-handle" role="separator"
+									aria-label="질의 원본과 추출 결과 너비 조절"
+									aria-orientation="vertical" tabindex="0"></div>
+
+								<aside class="result-inspector split-handler-right" aria-label="선택한 질의 추출 결과">
 									<div class="workspace-empty-state" data-workspace-empty="result" hidden>
 										<img class="icon" data-icon="document" alt="" aria-hidden="true" />
 										<p>문서를 업로드하면 질의 추출 결과가 표시됩니다.</p>
 									</div>
-									<section class="source-location-card">
+									<button type="button" class="source-location-card" aria-label="원본 문서의 연결 위치로 이동">
 										<div class="source-location-title">
-											<span class="source-location-icon"><img class="icon icon-small" data-icon="document" alt="" aria-hidden="true" /></span>
+											<span class="source-location-icon">
+												<svg viewBox="0 0 24 24" aria-hidden="true">
+													<path d="M10 13a5 5 0 0 0 7.07.07l2-2A5 5 0 0 0 12 4l-1.15 1.15" />
+													<path d="M14 11a5 5 0 0 0-7.07-.07l-2 2A5 5 0 0 0 12 20l1.15-1.15" />
+												</svg>
+											</span>
 											<strong>원문 연결 위치</strong>
 											<small>1페이지 · 문단 1</small>
 										</div>
 										<p>“2026년도 예산편성지침 중 인건비 산정기준 변경사항에 대한 구체적 안내 요청”</p>
-									</section>
+									</button>
 
 									<section class="result-group">
 										<h3>선택한 문장 (OCR 원문)</h3>
 										<div class="result-box original">
-											<p data-result-original>2026년도 예산편성지침 중 인건비 산정기준 변경사항에 대한 구체적 안내 요청</p>
-											<button type="button" class="copy-button" data-copy-target="original"><img class="icon icon-small" data-icon="copy" alt="" aria-hidden="true" />복사</button>
+											<p data-result-original>
+												2026년도 예산편성지침 중 인건비 산정기준 변경사항에 대한 구체적 안내 요청
+											</p>
+											<button type="button" class="copy-button" data-copy-target="original">
+												<img class="icon icon-small" data-icon="copy" alt="" aria-hidden="true" />
+												복사
+											</button>
 										</div>
 									</section>
 
 									<section class="result-group">
 										<h3>AI 질의 요약(질의 요지)</h3>
 										<div class="result-box summary">
-											<p data-result-summary>2026년도 예산편성지침에서 인건비 산정기준 변경 내용과 적용 방법에 대한 구체적 안내 요청</p>
-											<button type="button" class="copy-button" data-copy-target="summary"><img class="icon icon-small" data-icon="copy" alt="" aria-hidden="true" />복사</button>
+											<p data-result-summary>
+												2026년도 예산편성지침에서 인건비 산정기준 변경 내용과 적용 방법에 대한 구체적 안내 요청
+											</p>
+											<button type="button" class="copy-button" data-copy-target="summary">
+												<img class="icon icon-small" data-icon="copy" alt="" aria-hidden="true" />
+												복사
+											</button>
 										</div>
 									</section>
 
 									<section class="result-group">
 										<h3>분류 결과</h3>
-										<div class="result-tags"><span class="status-badge scope-badge single">단일소관</span><span class="result-owner">주관: 경제정책국</span></div>
+										<div class="result-tags">
+											<span class="status-badge scope-badge single">단일소관</span>
+											<span class="result-owner">주관: 경제정책국</span>
+										</div>
 									</section>
 
 									<section class="result-group">
 										<h3>추천 실국</h3>
-										<div class="department-result" data-result-department>경제정책국 · 거시경제심의관/종합정책과</div>
+										<div class="department-result" data-result-department>
+											경제정책국 · 거시경제심의관/종합정책과
+										</div>
 									</section>
 
 									<section class="result-group rationale">
@@ -279,36 +415,97 @@
 										<p>과거 답변 이력 기반 ‘경제정책국’ 단일소관 판정</p>
 									</section>
 
-									<div class="inspector-confidence" data-component-include="progressbar" data-component-value="94">
+									<div class="inspector-confidence" data-component-include="progressbar"
+										data-component-value="94">
 										<template data-slot="label">신뢰도</template>
 									</div>
 
 									<div class="result-pagination">
-										<button type="button" class="button button-outline" data-question-move="-1" disabled>‹ 이전</button>
-										<button type="button" class="button button-outline" data-question-move="1">다음 ›</button>
+										<button type="button" class="button button-outline"
+											data-question-move="-1" disabled>‹ 이전</button>
+										<button type="button" class="button button-outline"
+											data-question-move="1">다음 ›</button>
 									</div>
 								</aside>
 							</div>
 
-							<footer class="comparison-footer">
-								<div>글자 수: <strong data-character-count>293</strong><span class="footer-divider"></span>페이지 <strong data-page-count>1/1</strong></div>
-								<div class="zoom-control" aria-label="문서 확대 축소">
-									<button type="button" class="icon-button icon-button-sm" aria-label="축소">−</button>
-									<strong>100%</strong>
-									<button type="button" class="icon-button icon-button-sm" aria-label="확대">+</button>
-									<button type="button" class="icon-button icon-button-sm" aria-label="맞춤 보기"><img class="icon icon-small" data-icon="fullscreen-expand" alt="" aria-hidden="true" /></button>
+							<div data-component-include="document-statusbar"
+								data-component-target=".comparison-panel-host .document-paper"
+								data-component-scroll-target=".comparison-panel-host .document-stage"
+								data-component-fullscreen-target=".comparison-panel-host .panel-component"
+								data-component-zoom="100" data-component-min-zoom="50"
+								data-component-max-zoom="200" data-component-step="10">
+								<template data-slot="stats">
+									<span class="document-statusbar-stat">
+										글자 수 <strong data-character-count>293</strong>자
+									</span>
+									<span class="document-statusbar-separator" aria-hidden="true">|</span>
+									<span class="document-statusbar-stat">
+										페이지 <strong data-page-count>1/1</strong>
+									</span>
+								</template>
+							</div>
+						</template>
+					</div>
+				</template>
+
+				<template data-slot="right">
+					<div class="workspace-panel-host question-panel-host" data-component-include="panel">
+						<template data-slot="content">
+							<header class="panel-head">
+								<h2 class="panel-title">
+									<img class="icon icon-small" data-icon="list" alt="" aria-hidden="true" />
+									질의목록 · 추천실국
+								</h2>
+							</header>
+
+							<div class="question-toolbar">
+								<div class="question-actions" data-question-confirm-actions>
+									<span class="question-action-state" data-question-confirm-state="draft">
+										<button type="button" class="button button-sm button-outline"
+											data-workspace-action="reclassify">AI재분류</button>
+										<button type="button" class="button button-sm button-primary"
+											data-modal-open="workspaceQuestionConfirmModal">확정</button>
+									</span>
+									<span class="question-action-state" data-question-confirm-state="confirmed" hidden>
+										<button type="button" class="button button-sm button-primary"
+											data-modal-open="workspaceDepartmentNotificationModal">실국알림</button>
+										<button type="button" class="button button-sm button-danger"
+											data-question-confirm-cancel>확정 취소</button>
+									</span>
 								</div>
-							</footer>
+								<button type="button" class="icon-button icon-button-ghost icon-button-sm"
+									aria-label="질의목록 다운로드" title="질의목록 다운로드"
+									data-workspace-action="download">
+									<img class="icon icon-small" data-icon="download" alt="" aria-hidden="true" />
+								</button>
+							</div>
+
+							<div class="filter-bar" role="toolbar" aria-label="질의 분류 필터">
+								<button type="button" class="filter-btn active" aria-pressed="true"
+									data-filter="all">전체 <span class="filter-count">5</span></button>
+								<button type="button" class="filter-btn" aria-pressed="false"
+									data-filter="single">단일소관 <span class="filter-count">2</span></button>
+								<button type="button" class="filter-btn" aria-pressed="false"
+									data-filter="multi">복수소관 <span class="filter-count">2</span></button>
+								<button type="button" class="filter-btn" aria-pressed="false"
+									data-filter="none">비소관 <span class="filter-count">1</span></button>
+							</div>
+
+							<div class="question-list" aria-label="추출된 질의 목록"
+								data-query-card-list></div>
+							<div class="workspace-empty-state" data-workspace-empty="questions" hidden>
+								<img class="icon" data-icon="list" alt="" aria-hidden="true" />
+								<p>질의 분류 결과가 여기에 표시됩니다.</p>
+							</div>
 						</template>
 					</div>
 				</template>
 			</div>
 		</div>
 
-		<div data-component-include="modal"
-			data-component-id="workspaceQuestionConfirmModal"
-			data-component-variant="confirm"
-			data-component-label="질의 확정 확인">
+		<div data-component-include="modal" data-component-id="workspaceQuestionConfirmModal"
+			data-component-variant="confirm" data-component-label="질의 확정 확인">
 			<template data-slot="title">질의 확정</template>
 			<template data-slot="description">질의 및 실국을 확정하시겠습니까?</template>
 			<template data-slot="actions">
@@ -318,10 +515,8 @@
 			</template>
 		</div>
 
-		<div data-component-include="modal"
-			data-component-id="workspaceDepartmentNotificationModal"
-			data-component-variant="confirm"
-			data-component-label="실국 알림 전송 확인">
+		<div data-component-include="modal" data-component-id="workspaceDepartmentNotificationModal"
+			data-component-variant="confirm" data-component-label="실국 알림 전송 확인">
 			<template data-slot="title">알림 전송</template>
 			<template data-slot="description">실국담당자에게 알림을 전송하시겠습니까?</template>
 			<template data-slot="actions">
@@ -331,29 +526,254 @@
 			</template>
 		</div>
 
-		<div data-component-include="modal"
-			data-component-id="preparingServiceModal"
-			data-component-variant="alert"
-			data-component-label="준비중 안내">
-			<template data-slot="title">준비중</template>
-			<template data-slot="description">이 화면은 프로토타입에 아직 포함되어 있지 않습니다.</template>
-			<template data-slot="actions">
-				<button type="button" class="btn-confirm" data-modal-close>확인</button>
-			</template>
-		</div>
+		<div data-component-include="modal" data-component-id="workspaceNotificationAssigneeModal"
+			data-component-variant="notification-assignee"
+			data-component-label="실국별 알림 담당자 설정"></div>
 
-		<div data-component-include="modal"
-			data-component-id="workspaceFileDeleteModal"
+		<div data-component-include="modal" data-component-id="workspaceFileDeleteModal"
 			data-component-label="파일 삭제 확인">
 			<template data-slot="title">파일 삭제</template>
 			<template data-slot="description">
-				<strong class="workspace-delete-file-name" data-delete-file-name></strong><br />
+				<strong class="file-delete-name workspace-delete-file-name"
+					data-delete-file-name></strong><br />
 				질의 업로드 목록에서 삭제하시겠습니까?
 			</template>
 			<template data-slot="actions">
 				<button type="button" class="btn-cancel" data-modal-close>취소</button>
 				<button type="button" class="btn-confirm danger"
 					data-workspace-confirm="delete-file" data-modal-close>삭제</button>
+			</template>
+		</div>
+
+		<div data-component-include="modal" data-component-id="workspaceQueryEditModal"
+			data-component-variant="form" data-component-size="medium"
+			data-component-label="질의분류 및 담당실국 수정">
+			<template data-slot="title">질의분류 · 담당실국</template>
+			<template data-slot="description">
+				<div class="form-group">
+					<label><span>질의명</span>
+						<textarea class="form-textarea" rows="3" placeholder="질의명을 수정하세요"
+							data-query-edit-text></textarea>
+					</label>
+				</div>
+				<div class="form-group">
+					<label><span>소관구분</span>
+						<select class="form-select" data-query-edit-type>
+							<option value="single">단일소관</option>
+							<option value="multi">복수소관</option>
+							<option value="none">비소관</option>
+						</select>
+					</label>
+				</div>
+				<div class="form-group">
+					<label><span>담당실국</span>
+						<select class="form-select" data-query-edit-main-dept>
+							<option value="예산실">예산실</option>
+							<option value="재정정책국">재정정책국</option>
+							<option value="세제실">세제실</option>
+							<option value="공공정책국">공공정책국</option>
+							<option value="국제금융국">국제금융국</option>
+							<option value="경제정책국">경제정책국</option>
+							<option value="산업정책국">산업정책국</option>
+							<option value="고용정책과">고용정책과</option>
+							<option value="해당없음">해당없음</option>
+						</select>
+					</label>
+				</div>
+				<div class="form-group">
+					<label><span>협조실국</span>
+						<input type="text" class="form-input" placeholder="협조실국 입력"
+							data-query-edit-coop-dept />
+					</label>
+				</div>
+				<div class="form-group">
+					<label><span>소관기관</span>
+						<input type="text" class="form-input" readonly aria-readonly="true"
+							data-query-edit-org />
+					</label>
+				</div>
+			</template>
+			<template data-slot="actions">
+				<button type="button" class="btn-cancel" data-modal-close>취소</button>
+				<button type="button" class="btn-confirm" data-query-edit-apply>수정 적용</button>
+			</template>
+		</div>
+
+		<div data-component-include="modal" data-component-id="workspaceRunRenameModal"
+			data-component-variant="rename" data-component-label="실행 건 제목 변경">
+			<template data-slot="title">실행 건 제목 변경</template>
+			<template data-slot="description">
+				<p class="modal-rename-helper">목록에서 구분하기 쉬운 제목으로 변경할 수 있습니다.</p>
+				<label class="modal-rename-field" for="workspaceRunRenameInput">
+					<span class="modal-rename-label">실행 건 제목</span>
+					<input type="text" class="form-input" id="workspaceRunRenameInput"
+						maxlength="60" autocomplete="off" data-sidepop-rename-input />
+				</label>
+				<p class="modal-rename-error" data-sidepop-rename-error hidden>실행 건 제목을 입력해 주세요.</p>
+			</template>
+			<template data-slot="actions">
+				<button type="button" class="btn-cancel" data-modal-close>취소</button>
+				<button type="button" class="btn-confirm" data-sidepop-rename-confirm>저장</button>
+			</template>
+		</div>
+
+		<div data-component-include="modal" data-component-id="workspaceRunDeleteModal"
+			data-component-label="질의 목록 삭제 확인">
+			<template data-slot="title">실행 건 삭제</template>
+			<template data-slot="description">
+				<strong class="file-delete-name workspace-delete-file-name"
+					data-sidepop-delete-title></strong><br />
+				실행 건과 목록 이력을 삭제하시겠습니까?
+			</template>
+			<template data-slot="actions">
+				<button type="button" class="btn-cancel" data-modal-close>취소</button>
+				<button type="button" class="btn-confirm danger" data-sidepop-delete-confirm>삭제</button>
+			</template>
+		</div>
+
+		<div data-component-include="sidepop" data-component-id="workspaceRunListSidepop"
+			data-component-size="small" data-component-variant="run-list"
+			data-component-run-list-title="질의분류 목록"
+			data-component-rename-modal="workspaceRunRenameModal"
+			data-component-delete-modal="workspaceRunDeleteModal"></div>
+
+		<div data-component-include="sidepop" data-component-id="workspaceRuleSettingsSidepop"
+			data-component-size="medium" data-component-variant="rule-settings">
+			<template data-slot="title">분류 룰 설정</template>
+			<template data-slot="description">
+				키워드·제외어·우선순위를 기준으로 AI 추천 실국을 자동 보정합니다.
+			</template>
+			<template data-slot="body">
+					<div class="rule-drawer-left">
+						<div class="rule-list" aria-label="분류 룰 목록">
+							<div class="rule-item active">
+								<div class="rule-item-head">
+									<span class="rule-item-keywords">에너지</span>
+									<span class="rule-item-status on">사용</span>
+								</div>
+								<div class="rule-item-body">"에너지" 단독 이슈 → 혁신성장실</div>
+							</div>
+							<div class="rule-item">
+								<div class="rule-item-head">
+									<span class="rule-item-keywords">친환경 에너지, 미래산업, 구조개혁</span>
+									<span class="rule-item-status on">사용</span>
+								</div>
+								<div class="rule-item-body">복합 키워드 포함 시 → 산업정책국</div>
+							</div>
+							<div class="rule-item">
+								<div class="rule-item-head">
+									<span class="rule-item-keywords">청년, 일자리</span>
+									<span class="rule-item-status on">사용</span>
+								</div>
+								<div class="rule-item-body">"청년" + "일자리" 조합 → 고용정책과</div>
+							</div>
+							<div class="rule-item disabled">
+								<div class="rule-item-head">
+									<span class="rule-item-keywords">청년, 주거</span>
+									<span class="rule-item-status off">미사용</span>
+								</div>
+								<div class="rule-item-body">"청년" + "주거" 조합 → 국토정책국</div>
+							</div>
+						</div>
+					</div>
+					<div class="rule-drawer-right">
+						<section class="rule-detail-section">
+							<h3 class="rule-detail-title">룰 기본 정보</h3>
+							<div class="form-group">
+								<label for="workspaceRuleName">룰명</label>
+								<input type="text" id="workspaceRuleName" class="form-input"
+									value="세제 키워드 룰" />
+							</div>
+							<div class="form-row">
+								<div class="form-group flex1">
+									<label for="workspaceRuleDepartment">추천 실국</label>
+									<select id="workspaceRuleDepartment" class="form-select">
+										<option>세제실</option>
+										<option>예산실</option>
+										<option>재정정책국</option>
+										<option>경제정책국</option>
+										<option>산업정책국</option>
+									</select>
+								</div>
+								<div class="form-group rule-priority-field">
+									<label for="workspaceRulePriority">우선순위</label>
+									<input type="number" id="workspaceRulePriority" class="form-input"
+										value="1" min="1" max="10" />
+								</div>
+							</div>
+							<div class="form-group">
+								<span class="field-label">룰 사용 여부</span>
+								<div class="toggle-row">
+									<span class="toggle-desc">OFF 처리 시 재실행 대상에서 제외됩니다.</span>
+									<label class="toggle-switch">
+										<input type="checkbox" checked aria-label="룰 사용" />
+										<span class="toggle-slider"></span>
+									</label>
+								</div>
+							</div>
+						</section>
+
+						<section class="rule-detail-section">
+							<h3 class="rule-detail-title">적용 조건</h3>
+							<div class="form-group">
+								<label for="workspaceIncludeKeywords">포함 키워드</label>
+								<input type="text" id="workspaceIncludeKeywords" class="form-input"
+									value="법인세, 소득세, 세액공제, 조세감면" />
+							</div>
+							<div class="form-group">
+								<label for="workspaceExcludeKeywords">제외 키워드</label>
+								<input type="text" id="workspaceExcludeKeywords" class="form-input"
+									value="지방세, 관세" />
+							</div>
+							<div class="form-row">
+								<div class="form-group flex1">
+									<label for="workspaceRuleCondition">조건 방식</label>
+									<select id="workspaceRuleCondition" class="form-select">
+										<option>일부 포함</option>
+										<option>모두 포함</option>
+										<option>정확히 일치</option>
+									</select>
+								</div>
+								<div class="form-group flex1">
+									<label for="workspaceRuleScope">적용 범위</label>
+									<select id="workspaceRuleScope" class="form-select">
+										<option>현재 실행 건</option>
+										<option>전체 적용</option>
+									</select>
+								</div>
+							</div>
+						</section>
+
+						<section class="rule-detail-section">
+							<h3 class="rule-detail-title">AI 충돌 시 처리</h3>
+							<div class="form-group">
+								<label class="radio-label">
+									<input type="radio" name="workspaceRuleConflict" value="rule" checked />
+									수동 룰 우선
+								</label>
+								<label class="radio-label">
+									<input type="radio" name="workspaceRuleConflict" value="both" />
+									양쪽 모두 표시 (검토 필요)
+								</label>
+							</div>
+						</section>
+
+						<section class="rule-detail-section">
+							<h3 class="rule-detail-title">설명 및 운영 메모</h3>
+							<textarea class="form-textarea" rows="4"
+								placeholder="세목, 세액공제, 조세감면 등 세제 관련 키워드가 포함된 질의는 세제실로 우선 보정합니다."></textarea>
+						</section>
+				</div>
+			</template>
+			<template data-slot="footer">
+				<span class="rule-drawer-hint">
+					저장 후 '룰 적용 재실행'을 누르면 결과 목록에 반영됩니다.
+				</span>
+				<button type="button" class="button button-ghost" data-rule-action="add">+ 룰 추가</button>
+				<button type="button" class="button button-primary" data-rule-action="save">저장</button>
+				<button type="button" class="button button-dark" data-rule-action="apply">
+					↻ 룰 적용 재실행
+				</button>
 			</template>
 		</div>
 

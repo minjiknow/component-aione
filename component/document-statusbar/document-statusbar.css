@@ -1,0 +1,137 @@
+@charset "utf-8";
+
+[data-component-include="document-statusbar"] {
+	display: block;
+	min-width: 0;
+	flex: 0 0 auto;
+}
+
+.document-statusbar {
+	display: flex;
+	width: 100%;
+	min-width: 0;
+	min-height: 43px;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 8px 14px;
+	border-top: 1px solid var(--border, #d1d9e0);
+	background: var(--bg, #f6f8fa);
+	color: var(--text-muted, #8b949e);
+	font-size: calc(11px * var(--ui-font-scale, 1));
+}
+
+.document-statusbar-stats,
+.document-statusbar-controls {
+	display: flex;
+	min-width: 0;
+	align-items: center;
+}
+
+.document-statusbar-stats {
+	gap: 6px;
+}
+
+.document-statusbar-stat {
+	color: var(--text-muted, #8b949e);
+	white-space: nowrap;
+}
+
+.document-statusbar-stat strong {
+	color: var(--text, #1f2328);
+	font-weight: 700;
+}
+
+.document-statusbar-separator {
+	margin: 0 2px;
+	color: var(--border, #d1d9e0);
+}
+
+.document-statusbar-controls {
+	flex: 0 0 auto;
+	gap: 4px;
+}
+
+.document-statusbar-button {
+	width: 26px;
+	height: 26px;
+	min-width: 26px;
+	padding: 0;
+	border-color: var(--border, #d1d9e0);
+	background: var(--surface, #fff);
+	color: var(--text-sub, #656d76);
+	font-size: calc(14px * var(--ui-font-scale, 1));
+}
+
+.document-statusbar-button:hover:not(:disabled) {
+	border-color: var(--text-muted, #8b949e);
+	background: var(--surface-el, #f0f3f6);
+	color: var(--text, #1f2328);
+}
+
+.document-statusbar-button:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.document-statusbar-button .icon {
+	width: 14px;
+	height: 14px;
+	filter: var(--icon-filter-text);
+}
+
+.document-statusbar-zoom {
+	min-width: 42px;
+	color: var(--text, #1f2328);
+	font-size: calc(11px * var(--ui-font-scale, 1));
+	font-weight: 700;
+	text-align: center;
+}
+
+.document-statusbar .document-statusbar-fullscreen-button:not([aria-pressed="true"]) .document-statusbar-shrink-icon {
+	display: none;
+}
+
+.document-statusbar .document-statusbar-fullscreen-button[aria-pressed="true"] .document-statusbar-expand-icon {
+	display: none;
+}
+
+.document-statusbar .document-statusbar-fullscreen-button[aria-pressed="true"] .document-statusbar-shrink-icon {
+	display: block;
+}
+
+.document-statusbar-fullscreen {
+	position: fixed !important;
+	inset: 0 !important;
+	z-index: 9998 !important;
+	display: flex !important;
+	width: auto !important;
+	height: auto !important;
+	min-width: 0 !important;
+	max-width: none !important;
+	min-height: 0 !important;
+	flex-direction: column !important;
+	overflow: hidden !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background: var(--surface, #fff) !important;
+}
+
+body:has(.document-statusbar-fullscreen) {
+	overflow: hidden;
+}
+
+@media (max-width: 700px) {
+	.document-statusbar {
+		align-items: stretch;
+		flex-direction: column;
+		gap: 7px;
+		padding: 8px 10px;
+	}
+
+	.document-statusbar-stats,
+	.document-statusbar-controls {
+		width: 100%;
+		justify-content: space-between;
+	}
+}

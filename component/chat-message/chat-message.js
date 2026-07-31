@@ -5,6 +5,8 @@
   const retryTimers = new WeakMap();
   const copyTimers = new WeakMap();
   const aiAvatarSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>';
+  const answerAvatarUrl = new URL('../../assets/icons/ai-search.svg', document.currentScript?.src || document.baseURI).href;
+  const answerAvatar = `<img src="${answerAvatarUrl}" alt="" aria-hidden="true" />`;
 
   function createPending({
     variant = 'answer',
@@ -21,7 +23,7 @@
 
     if (variant === 'answer') {
       message.classList.add('chat-typing');
-      message.innerHTML = `<div class="typing-avatar">${aiAvatarSvg}</div>
+      message.innerHTML = `<div class="typing-avatar">${answerAvatar}</div>
         <div class="typing-content" role="status">
           <div class="typing-text-wrap">
             <span class="typing-title"></span>

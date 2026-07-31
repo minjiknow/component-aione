@@ -38,7 +38,7 @@ Topbar의 주요 시작 액션을 파란색 틴트 배경과 테두리로 강조
 
 ```html
 <button type="button" class="button button-soft-primary">
-    <img class="icon icon-small" data-icon="document-add" alt="" aria-hidden="true" />
+    <img class="icon icon-small" data-icon="plus" alt="" aria-hidden="true" />
     <span>새 질의분류</span>
 </button>
 ```
@@ -81,12 +81,12 @@ Button 카탈로그의 기본 버튼 영역은 `.button` 또는 `.icon-button`�
 </button>
 ```
 
-테두리가 없는 버튼은 `icon-button-ghost`, 주요 액션은 `icon-button-primary`, 삭제 액션은 `icon-button-danger`를 조합합니다. 실행 목록은 Green 계열 `icon-button-accent`, 룰 설정은 `icon-button-purple`, 실국별 알림 담당자 설정은 `icon-button-cyan`을 사용합니다. 같은 색상 역할은 텍스트가 있는 일반 버튼에서도 `button-accent`, `button-purple`, `button-cyan`으로 조합할 수 있습니다.
+테두리가 없는 버튼은 `icon-button-ghost`, 주요 액션은 `icon-button-primary`, 삭제 액션은 `icon-button-danger`를 조합합니다. AI Workspace Topbar의 질의분류 목록과 룰 설정은 `icon-button-purple`, 실국별 알림 담당자 설정은 `icon-button-workspace`를 사용합니다. `icon-button-accent`, `icon-button-cyan`은 다른 화면의 Green/Cyan 의미색이 필요한 액션에만 사용합니다.
 
 ```html
-<button type="button" class="icon-button icon-button-cyan"
+<button type="button" class="icon-button icon-button-workspace"
     aria-label="실국별 알림 담당자 설정" title="실국별 알림 담당자 설정">
-    <img class="icon icon-large" data-icon="notification-assignee" alt="" aria-hidden="true" />
+    <img class="icon icon-primary" data-icon="notification-assignee" alt="" aria-hidden="true" />
 </button>
 ```
 
@@ -95,6 +95,10 @@ Button 카탈로그의 기본 버튼 영역은 `.button` 또는 `.icon-button`�
     <img class="icon icon-small" data-icon="panel-collapse" alt="" aria-hidden="true" />
 </button>
 ```
+
+Topbar의 보조도구는 단독 아이콘 버튼을 임의로 나열하지 않고 `component/topbar/topbar.fragment`의 `.accessory-tool` 묶음을 사용합니다. 기본 상태에는 격자＋ 트리거만 노출하고, 펼침 상태에서는 트리거 왼쪽에 전체 글자크기·패널 위치 변경·레이아웃 초기화·전체화면 순서로 표시합니다. 트리거는 펼치면 파란 X 상태가 되며 `aria-expanded`도 함께 변경됩니다.
+
+상세 Icon Button 카탈로그의 **Topbar 보조도구** 영역에서 네 기능을 직접 검수할 수 있고, **기본 32×32px** 영역에도 `전체 글자크기` 단독 사용 사례를 제공합니다. 글자크기와 전체화면은 `js/common.js`가 처리합니다. 전체 글자크기는 `--ui-font-scale`을 100~150%로 변경하며, 공통·페이지·컴포넌트 CSS의 모든 고정 글자 크기가 이 값을 사용합니다. 패널 자체의 폭·높이·간격은 확대하지 않습니다. 패널 위치 변경과 레이아웃 초기화는 `data-accessory-swap-target`, `data-accessory-layout-target`으로 페이지가 소유한 기존 버튼 이벤트에 연결합니다.
 
 좋아요와 싫어요는 기존 메시지 버튼 클래스와 SVG 아이콘을 그대로 사용합니다. 선택 상태의 상호 배타 처리와 `aria-pressed` 동기화는 `ChatMessage`가 소유하므로 메시지 목록에 `component/chat-message/chat-message.js`를 함께 로드합니다.
 
@@ -116,6 +120,24 @@ Button 카탈로그의 기본 버튼 영역은 `.button` 또는 `.icon-button`�
     <img class="icon icon-brand" data-icon="ai-one-logo" alt="" aria-hidden="true" />
 </button>
 ```
+
+## 아이콘 버튼 상태 계약
+
+아이콘 버튼의 호버 상태는 역할 변형의 의미색을 유지합니다. 공통 회색 호버가 의미색 변형을 덮어쓰지 않도록 역할 변형의 호버 규칙과 아이콘 필터를 `button.css`에서 함께 관리합니다.
+
+| 변형 | 호버 상태 |
+|---|---|
+| `.icon-button`, `.icon-button-ghost` | 중립 배경·테두리와 본문색 아이콘 |
+| `.icon-button-primary` | 진한 Primary 배경과 흰색 아이콘 |
+| `.icon-button-accent` | Green 테두리·틴트 배경과 Green 아이콘 |
+| `.icon-button-purple` | Purple 테두리·틴트 배경과 Purple 아이콘 |
+| `.icon-button-workspace` | Primary 테두리·틴트 배경과 Primary 아이콘 |
+| `.icon-button-cyan` | Cyan 테두리·틴트 배경과 Cyan 아이콘 |
+| `.icon-button-danger` | Red 테두리·틴트 배경과 Red 아이콘 |
+| `.icon-button-message` 좋아요·싫어요 선택 상태 | 투명 배경을 유지하고 Primary 아이콘 표시 |
+| `.brand-icon-button` | 일반 아이콘 버튼 호버를 적용하지 않음 |
+
+`document-statusbar-button`, `accessory-trigger`처럼 특정 컴포넌트가 별도 규격과 상호작용을 소유한 경우에는 해당 컴포넌트 CSS의 호버 규칙을 유지합니다. 공용 역할 변형의 의미색만 페이지 CSS에서 다시 정의하지 않습니다.
 
 ## 크기 체계
 

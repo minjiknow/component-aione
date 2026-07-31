@@ -1,13 +1,13 @@
 # FileItem 컴포넌트
 
-`FileList` 안에서 업로드 파일 하나를 표시하는 행입니다. 기본형은 AI Intake가 생성하는 `.file-item-main`, `.file-item-side`, `.file-status` 구조를 사용하고, `simple` 변형은 AI Answer의 dot·제목·상태 Badge 구조를 그대로 사용합니다.
+`FileList` 안에서 업로드 파일 하나를 표시하는 행입니다. 국회질의분류 기본형은 순번 원형, 파일 형식 색상점, 파일명·용량, 질의 건수와 옵션 메뉴를 사용합니다. `simple` 변형은 AI Answer의 dot·제목·상태 Badge 구조를 그대로 사용합니다.
 
 - 필수 CSS: `component/file-list/file-list.css`, `component/file-item/file-item.css`, `component/dropdownmenu/dropdownmenu.css`, `component/modal/modal.css`
 - 필수 JS: `component/dropdownmenu/dropdownmenu.js`, `component/_shared/layer-controller.js`, `component/modal/modal.js`, `component/file-item/file-item.js`
 - 검수 페이지: `component/file-item/file-item.html`
 - 행: `.file-list li`
 - 파일 선택 영역: `.file-item-main`
-- 파일 정보: `.file-icon`, `.file-info`, `.file-name`, `.file-meta`
+- 파일 정보: `.file-index`, `.file-type-dot`, `.file-info`, `.file-name`, `.file-meta`
 - 상태와 메뉴: `.file-item-side`, `.file-status-group`, `.file-action-wrap`
 - 상태: `.active`, `.pinned`, `.processing`
 - Simple 행: `.file-item-simple`
@@ -17,22 +17,27 @@
     <ul class="file-list">
         <li class="active" data-file-idx="0">
             <button class="file-item-main" type="button" aria-label="파일 보기">
-                <div class="file-icon pdf">PDF</div>
+                <span class="file-index">24</span>
+                <span class="file-type-dot pdf" aria-hidden="true"></span>
+                <span class="file-icon file-icon-collapsed pdf"
+                    aria-hidden="true">PDF</span>
                 <div class="file-info">
                     <span class="file-name">예결위_질의서_박소연의원.pdf</span>
                     <span class="file-meta">1.3MB</span>
                 </div>
             </button>
             <div class="file-item-side">
-                <span class="file-status-group final">
-                    <span class="file-status parsed">청킹 완료</span>
-                    <span class="file-status query-count final">질의 9건</span>
-                </span>
+                <span class="file-status query-count final">질의9건</span>
                 <div class="file-action-wrap dropdown-menu-component" data-dropdown-menu>
                     <button class="file-more-btn" type="button" data-dropdown-trigger
                         aria-haspopup="menu" aria-label="파일 옵션"
                         aria-expanded="false" aria-controls="fileActionMenu"
-                        title="파일 옵션">...</button>
+                        title="파일 옵션">
+                        <img class="icon icon-small"
+                            data-icon="more-vertical"
+                            alt=""
+                            aria-hidden="true" />
+                    </button>
                     <div class="dropdown-menu dropdown-menu-compact"
                         id="fileActionMenu" role="menu"
                         data-placement="bottom-end" hidden>
@@ -49,7 +54,7 @@
 </div>
 ```
 
-FileItem을 단독 목록으로 사용하지 않고 항상 `.file-list` 안에 배치합니다. 확장자와 처리 단계는 기존 클래스 조합만 사용합니다.
+FileItem을 단독 목록으로 사용하지 않고 항상 `.file-list` 안에 배치합니다. `.file-type-dot`과 `.file-icon-collapsed`에는 같은 `pdf`, `hwp`, `docx`, `txt` 형식 클래스를 사용합니다. 접힘 아이콘은 기본형에서는 숨겨지고 상위 FileList가 `.is-collapsed`일 때만 표시됩니다. 처리 중에는 `processing`을 추가합니다.
 
 ## 선택·고정·삭제 동작
 
