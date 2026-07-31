@@ -54,7 +54,7 @@
 
 ## Tab Button
 
-`html/ai-answer.html`의 `.top-tab`에서 사용하던 라운드, hover, 활성 색상을 유지하며 버튼의 최소 높이는 `30px`로 명시합니다. 구조와 동작은 기본 Tab과 같고 탭 목록과 버튼 클래스만 변경합니다. 탭별 건수는 별도 스타일을 복제하지 않고 `CountBadge`의 `.filter-count`를 조합합니다.
+`pages/ai-answer.html`의 상단 작업 탭과 같은 라운드, hover, 활성 색상을 사용하며 버튼의 최소 높이는 `30px`로 명시합니다. 탭 목록은 항목 너비만큼만 차지하고, 좁은 화면에서는 최대 너비 안에서 가로 스크롤됩니다. 구조와 동작은 기본 Tab과 같고 탭 목록과 버튼 클래스만 변경합니다. 탭별 건수는 별도 스타일을 복제하지 않고 `CountBadge`의 `.filter-count`를 조합합니다.
 
 ```html
 <div class="tabs" data-tabs>
@@ -70,7 +70,14 @@
             aria-controls="answerTabPanelDraft" data-tab-value="draft"
             tabindex="-1">
             답변서 초안
-            <span class="filter-count" aria-label="3건">3</span>
+            <span class="filter-count" aria-label="1건">1</span>
+        </button>
+        <button type="button" class="tab-button"
+            id="answerTabCompare" role="tab" aria-selected="false"
+            aria-controls="answerTabPanelCompare" data-tab-value="compare"
+            tabindex="-1">
+            답변서 비교
+            <span class="filter-count" aria-label="1건">1</span>
         </button>
     </div>
 
@@ -83,6 +90,11 @@
         id="answerTabPanelDraft" role="tabpanel"
         aria-labelledby="answerTabDraft" tabindex="0" hidden>
         답변서 초안 내용
+    </section>
+    <section class="tab-panel"
+        id="answerTabPanelCompare" role="tabpanel"
+        aria-labelledby="answerTabCompare" tabindex="0" hidden>
+        답변서 비교 내용
     </section>
 </div>
 ```
