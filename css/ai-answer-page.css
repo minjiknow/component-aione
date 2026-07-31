@@ -314,13 +314,23 @@
 }
 
 .answer-reference-filters .filter-btn {
-	--filter-color: var(--primary, #0969da);
-	--filter-bg: rgba(9, 105, 218, 0.08);
 	min-width: 54px;
 	padding: 4px 9px;
+	border-color: transparent;
+	background: transparent;
+	color: var(--text-muted, #8b949e);
+}
+
+.answer-reference-filters .filter-btn:hover:not(.active):not([aria-pressed="true"]) {
+	border-color: var(--border, #d1d9e0);
+	background: transparent;
+	color: var(--text-sub, #656d76);
+}
+
+.answer-reference-filters .filter-btn:is(.active, [aria-pressed="true"]) {
 	border-color: rgba(9, 105, 218, 0.2);
-	background: var(--filter-bg);
-	color: var(--filter-color);
+	background: rgba(9, 105, 218, 0.08);
+	color: var(--primary, #0969da);
 }
 
 .answer-reference-filters .filter-btn span {
